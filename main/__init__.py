@@ -1,0 +1,5 @@
+from .signals import add_logged_in_user_sponsor_id_to_session, remove_logged_in_user_sponsor_id_from_session
+from django.contrib.auth.signals import user_logged_in, user_logged_out
+
+user_logged_out.connect(remove_logged_in_user_sponsor_id_from_session)
+user_logged_in.connect(add_logged_in_user_sponsor_id_to_session)
