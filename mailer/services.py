@@ -1,6 +1,25 @@
 from njanginetwork.celery import app
 from django.core.mail import EmailMultiAlternatives
+from django.template import loader
+from main.context_processors import SiteInformation
 
+
+def send_email(user, subject, message, introduction=None, to_email=None):
+    template_name = 'mailer/email.html'
+    html_mail = loader.render_to_string(
+        template_name=template_name,
+        context={
+            'subject': subject,
+            'message': message,
+            'introduction': introduction,
+            'site_info': SiteInformation(),
+            'user': user,
+        }
+    )
+    msg = EmailMultiAlternatives(subject=subject, body=html_mail, to=[to_email, ])
+    msg.attach_alternative(html_mail, "text/html")
+    msg.send()
+    return True
 
 
 @app.task
