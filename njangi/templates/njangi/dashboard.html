@@ -1,10 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    This is the dashbord for {{ user.username }}
-</body>
-</html>
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags tz %}
+
+
+{% block content %}
+{% localtime on %}
+<!-- General statistics-->
+<div class="row-one">
+    <div class="col-md-4 widget">
+        <div class="stats-left ">
+            <h5>{% trans 'total'|capfirst %}</h5>
+            <h5>{% trans 'network members'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ site_info.total_users|intword }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-mdl">
+        <div class="stats-left">
+            <h5>{% trans 'my'|capfirst %}</h5>
+            <h5>{% trans 'network members'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ user_node.get_descendant_count|intcomma  }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-last">
+        <div class="stats-left">
+            <h5>{% trans "today's"|capfirst %}</h5>
+            <h5>{% trans 'new members'|capfirst %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ site_info.today_users }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<div class="row">
+    <div class="clearfix"> </div>
+</div>
+<div class="row-two">
+    <div class="col-md-4 widget">
+        <div class="stats-left ">
+            <h5>{% trans 'wallet'|capfirst %}</h5>
+            <h5>{% trans 'balance'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ wallet_balance }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-mdl">
+        <div class="stats-left">
+            <h5>{% trans 'total'|capfirst %}</h5>
+            <h5>{% trans 'contributed'|capfirst %}</h5>
+        </div>
+        <div class="stats-right">
+            <h6>{{ total_contributed|intcomma }}</h6>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-last">
+        <div class="stats-left">
+            <h5>{% trans 'total'|capfirst %}</h5>
+            <h5>{% trans 'received'|capfirst %}</h5>
+        </div>
+        <div class="stats-right">
+            <h6>{{ total_received|intcomma }}</h6>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<!--End General statistics-->
+
+<div class="row">
+    <div class="tables">
+        <div class="table-responsive bs-example widget-shadow">
+            <h4>{% trans 'njangi levels'|title %}</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{% trans 'level'|capfirst %}</th>
+                        <th>{% trans 'contribution'|capfirst %}</th>
+                        <th>{% trans 'last contribution'|title %}</th>
+                        <th>{% trans 'next contribution'|title %}</th>
+                        <th>{% trans 'recipient'|capfirst %}</th>
+                        <th>{% trans 'amount'|capfirst %}</th>
+                        <th>{% trans 'total contribution'|title %}</th>
+                        <th>{% trans 'total received'|title %}</th>
+                        <th>{% trans 'status'|capfirst %}</th>
+                        <th>{% trans 'action'|capfirst %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user_level in user_levels %}
+                    <tr>
+                        <th scope="row">{{ user_level.level }}</th>
+                        <td>{% level_contribution user_level.level %}</td>
+                        <td><h6>{{ user_level.last_payment|date:'Y-M-d H:i' }}</h6></td>
+                        <td><h6>{{ user_level.next_payment|date:'Y-M-d H:i'}}</h6></td>
+                        <td>{{ user_level.recipient.get_username }}</td>
+                        <td>{{ user_level.amount|intcomma }}</td>
+                        <td>{{ user_level.total_sent |intcomma }}</td>
+                        <td>{{ user_level.total_received |intcomma }}</td>
+                        {% if user_level.is_active %}
+                            <td><span class="label label-success">{% trans 'active'|capfirst %}</span></td>
+                        {% else %}
+                            <td><span class="label label-danger">{% trans 'inactive'|capfirst %}</span></td>
+                        {% endif %}
+                        <td><h5><a href="{% url 'njangi:contribution_checkout' level=user_level.level %}"><span class="label label-info">{% trans 'contribute'|capfirst %}</span></a></h5></td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+{% endlocaltime %}
+{% endblock %}

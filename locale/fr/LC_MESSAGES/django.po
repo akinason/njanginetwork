@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-11 01:14+0100\n"
+"POT-Creation-Date: 2017-12-25 22:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1196,6 +1196,14 @@ msgstr ""
 msgid "Error running spellchecker"
 msgstr ""
 
+#: main/context_processors.py:9
+msgid "NNetwork"
+msgstr ""
+
+#: main/context_processors.py:10
+msgid "Njangi Network"
+msgstr ""
+
 #: main/forms.py:9
 msgid "Password must be greater than 5 characters"
 msgstr ""
@@ -1220,74 +1228,401 @@ msgstr ""
 msgid "Password does not match"
 msgstr ""
 
-#: main/models.py:28
+#: main/models.py:44
 msgid "username"
 msgstr ""
 
-#: main/models.py:31
+#: main/models.py:47
 msgid "*"
 msgstr ""
 
-#: main/models.py:34
+#: main/models.py:50
 msgid "A user with that username already exists."
 msgstr ""
 
-#: main/models.py:37
+#: main/models.py:53
 msgid "first name"
 msgstr ""
 
-#: main/models.py:38
+#: main/models.py:54
 msgid "last name"
 msgstr ""
 
-#: main/models.py:39
+#: main/models.py:55
 msgid "gender"
 msgstr ""
 
-#: main/models.py:40
+#: main/models.py:56
 msgid "MTN number"
 msgstr ""
 
-#: main/models.py:41
+#: main/models.py:57
 msgid "sponsor"
 msgstr ""
 
-#: main/models.py:45
+#: main/models.py:61
 msgid "email address"
 msgstr ""
 
-#: main/models.py:46
+#: main/models.py:62
 msgid "staff status"
 msgstr ""
 
-#: main/models.py:47
+#: main/models.py:63 njangi/templates/njangi/dashboard.html:106
 msgid "active"
 msgstr ""
 
-#: main/models.py:49
+#: main/models.py:65
 msgid "country"
-msgstr ""
+msgstr "payie"
 
-#: main/models.py:50
+#: main/models.py:66
 msgid "date joined"
 msgstr ""
 
-#: main/models.py:51
+#: main/models.py:67
 msgid "Orange Number"
 msgstr ""
 
-#: main/models.py:52
+#: main/models.py:68
 msgid "Express Union Number"
 msgstr ""
 
-#: main/models.py:54
+#: main/models.py:70
 msgid "profile picture"
 msgstr ""
 
-#: njanginetwork/settings.py:138
+#: main/models.py:73 njangi/templates/njangi/dashboard.html:84
+#: templates/base_dashboard.html:196
+msgid "level"
+msgstr "nivau"
+
+#: main/templates/registration/password_change_form.html:9
+msgid "Please correct the error below."
+msgstr ""
+
+#: main/templates/registration/password_change_form.html:9
+msgid "Please correct the errors below."
+msgstr ""
+
+#: main/templates/registration/password_change_form.html:14
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: main/templates/registration/password_change_form.html:42
+msgid "Change my password"
+msgstr ""
+
+#: njangi/models.py:25
+msgid "MTN"
+msgstr ""
+
+#: njangi/models.py:26
+msgid "Orange"
+msgstr ""
+
+#: njangi/models.py:27
+msgid "MTN Wallet"
+msgstr ""
+
+#: njangi/models.py:28
+msgid "Orange Wallet"
+msgstr ""
+
+#: njangi/models.py:68 purse/models.py:117
+msgid "user"
+msgstr ""
+
+#: njangi/models.py:69
+msgid "njangi level"
+msgstr ""
+
+#: njangi/models.py:71
+msgid "last payment date"
+msgstr ""
+
+#: njangi/models.py:72
+msgid "next payment date"
+msgstr ""
+
+#: njangi/models.py:73 njangi/templates/njangi/dashboard.html:87
+msgid "recipient"
+msgstr ""
+
+#: njangi/models.py:90
+msgid "child user"
+msgstr ""
+
+#: njangi/models.py:92
+msgid "parent user"
+msgstr ""
+
+#: njangi/models.py:93
+msgid "position side"
+msgstr ""
+
+#: njangi/tasks.py:43 njangi/tasks.py:94
+#, python-format
+msgid "withdrawal through %(nsp)s mobile money."
+msgstr ""
+
+#: njangi/tasks.py:187
+#, python-format
+msgid "level %(level)s contribution from %(sender)s to %(recipient)s."
+msgstr ""
+
+#: njangi/tasks.py:343
+#, python-format
+msgid "wallet load through %s mobile money"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:10
+#: njangi/templates/njangi/dashboard.html:55
+#: njangi/templates/njangi/dashboard.html:65
+msgid "total"
+msgstr "totale"
+
+#: njangi/templates/njangi/dashboard.html:11
+#: njangi/templates/njangi/dashboard.html:21
+msgid "network members"
+msgstr "membre resau"
+
+#: njangi/templates/njangi/dashboard.html:20
+msgid "my"
+msgstr "me"
+
+#: njangi/templates/njangi/dashboard.html:30
+msgid "today's"
+msgstr "aujoudui"
+
+#: njangi/templates/njangi/dashboard.html:31
+msgid "new members"
+msgstr "nuvau membre"
+
+#: njangi/templates/njangi/dashboard.html:45 templates/base_dashboard.html:53
+msgid "wallet"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:46
+msgid "balance"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:56
+msgid "contributed"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:66
+msgid "received"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:80
+msgid "njangi levels"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:85
+msgid "contribution"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:86
+msgid "last contribution"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:88 purse/models.py:114
+msgid "amount"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:89
+msgid "total contribution"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:90
+msgid "total received"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:91
+msgid "status"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:92
+msgid "action"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:108
+msgid "inactive"
+msgstr ""
+
+#: njangi/templates/njangi/dashboard.html:110 templates/base_dashboard.html:68
+msgid "contribute"
+msgstr ""
+
+#: njanginetwork/settings.py:145
 msgid "English"
 msgstr ""
 
-#: njanginetwork/settings.py:139
+#: njanginetwork/settings.py:146
 msgid "French"
+msgstr ""
+
+#: purse/models.py:17
+msgid "wallet_load"
+msgstr ""
+
+#: purse/models.py:18
+msgid "contribution_received"
+msgstr ""
+
+#: purse/models.py:19
+msgid "contribution_paid"
+msgstr ""
+
+#: purse/models.py:20
+msgid "funds_transfer"
+msgstr ""
+
+#: purse/models.py:21
+msgid "transfer_received"
+msgstr ""
+
+#: purse/models.py:22
+msgid "charge"
+msgstr ""
+
+#: purse/models.py:23
+msgid "funds_withdrawal"
+msgstr ""
+
+#: purse/models.py:24
+msgid "purchase"
+msgstr ""
+
+#: purse/models.py:52
+msgid "operation failed."
+msgstr ""
+
+#: purse/models.py:53
+#, python-format
+msgid ""
+"%(user)s's wallet load by %(nsp)s, amount: %(amount)s , fees: %(charge)s, "
+"ref: %(reference)s "
+msgstr ""
+
+#: purse/models.py:55
+msgid "operation successful"
+msgstr ""
+
+#: purse/models.py:56
+msgid "insufficient balance"
+msgstr ""
+
+#: purse/models.py:57
+#, python-format
+msgid "provide %(nsp)s phone number and/or verify your %(nsp)s phone number"
+msgstr ""
+
+#: purse/models.py:58
+#, python-format
+msgid "you have %(nsp)s payments pending reception. please "
+msgstr ""
+
+#: purse/models.py:60
+msgid "transaction pending processing"
+msgstr ""
+
+#: purse/models.py:111
+msgid "description"
+msgstr ""
+
+#: purse/models.py:112
+msgid "transaction information"
+msgstr ""
+
+#: purse/models.py:113
+msgid "reference"
+msgstr ""
+
+#: purse/models.py:115
+msgid "fees"
+msgstr ""
+
+#: purse/models.py:116
+msgid "transaction status"
+msgstr ""
+
+#: purse/models.py:118
+msgid "transaction code"
+msgstr ""
+
+#: purse/models.py:119
+msgid "fund sender"
+msgstr ""
+
+#: purse/models.py:122
+msgid "third party reference"
+msgstr ""
+
+#: purse/models.py:123
+msgid "network service provider"
+msgstr ""
+
+#: purse/models.py:124
+msgid "phone number"
+msgstr ""
+
+#: purse/models.py:170 purse/models.py:223 purse/models.py:267
+#, python-format
+msgid " through %(nsp)s"
+msgstr ""
+
+#: templates/base_dashboard.html:5 templates/base_dashboard.html:47
+msgid "dashboard"
+msgstr ""
+
+#: templates/base_dashboard.html:50
+msgid "genealogy"
+msgstr ""
+
+#: templates/base_dashboard.html:56
+msgid "summary"
+msgstr ""
+
+#: templates/base_dashboard.html:59
+msgid "account statement"
+msgstr ""
+
+#: templates/base_dashboard.html:62
+msgid "load"
+msgstr ""
+
+#: templates/base_dashboard.html:65
+msgid "withdraw"
+msgstr ""
+
+#: templates/base_dashboard.html:74
+msgid "settings"
+msgstr ""
+
+#: templates/base_dashboard.html:77
+msgid "network tools"
+msgstr ""
+
+#: templates/base_dashboard.html:80
+msgid "new registration"
+msgstr ""
+
+#: templates/base_dashboard.html:83
+msgid "profile"
+msgstr ""
+
+#: templates/base_dashboard.html:86
+msgid "upgrade"
+msgstr ""
+
+#: templates/base_dashboard.html:89
+msgid "change password"
+msgstr ""
+
+#: templates/base_dashboard.html:92
+msgid "logout"
 msgstr ""

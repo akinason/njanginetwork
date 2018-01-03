@@ -1,0 +1,24 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags %}
+
+{% block content %}
+<!--<div class="row-one">-->
+<div class="forms">
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>{% trans 'network promotion tools'|title %}</h4>
+        </div>
+        <div class="form-body">
+            <form>
+                <div class="form-group">
+                    <label for="referral_link">{% trans 'promotion link'|title %}</label>
+                    <input type="url" class="form-control" id="referral_link" value="{{ protocol }}{{ site_info.website }}/signup/?rid={{ user.sponsor_id }}">
+                    <p class="help-block">{% trans 'Share this link to your loved ones so they can signup under your network.' %}</p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!--</div>-->
+{% endblock %}

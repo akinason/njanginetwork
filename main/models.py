@@ -1,13 +1,13 @@
 import uuid
 import random
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser, UserManager as DefaultUserManager
 from django.contrib.auth.validators import ASCIIUsernameValidator, UnicodeUsernameValidator
 from django.utils import six, timezone
 from django.utils.translation import ugettext_lazy as _
 from django_countries.fields import CountryField
 from njanginetwork import settings
-from tinymce.models import HTMLField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 GENDER_TYPES = (
@@ -15,7 +15,23 @@ GENDER_TYPES = (
     ('female', 'Female'),
 )
 
-TEL_MAX_LENGTH = 9
+TEL_MAX_LENGTH = 13
+
+
+class UserManager(DefaultUserManager):
+    def create_admin(self, username, first_name, last_name, gender, tel1):
+        user = self.model(
+                username=username, first_name=first_name, last_name=last_name, gender=gender, tel1=tel1
+            )
+        user.is_admin = True
+        user.sponsor = user.pk
+        user.is_staff = True
+        user.set_unique_random_sponsor_id()
+        user.set_unique_random_tel1_code()
+        user.set_unique_random_tel2_code()
+        user.set_unique_random_tel3_code()
+        user.save()
+        return user
 
 
 class User(AbstractUser):
@@ -37,23 +53,26 @@ class User(AbstractUser):
     first_name = models.CharField(_('first name'), max_length=30, blank=False, help_text='*')
     last_name = models.CharField(_('last name'), max_length=50, blank=False, help_text='*')
     gender = models.CharField(_('gender'), choices=GENDER_TYPES, max_length=6, help_text='*')
-    tel1 = models.CharField(_('MTN number'), max_length=TEL_MAX_LENGTH, help_text='*')
-    sponsor = models.PositiveIntegerField(_('sponsor'), blank=False, null=False)
+    tel1 = PhoneNumberField(_('MTN number'), help_text='*')
+    sponsor = models.PositiveIntegerField(_('sponsor'), blank=True, null=True, db_index=True)
 
     # Non Required fields. **********************
 
     email = models.EmailField(_('email address'), blank=True, null=True)
-    is_staff = models.BooleanField( _('staff status'),default=False)
-    is_active = models.BooleanField(_('active'), default=True)
+    is_staff = models.BooleanField(_('staff status'), default=False)
+    is_active = models.BooleanField(_('is active'), default=True)
     is_admin = models.BooleanField(default=False)
     country = CountryField(_('country'), max_length=3, default='CM')
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
-    tel2 = models.CharField(_('Orange Number'), max_length=TEL_MAX_LENGTH, blank=True)
-    tel3 = models.CharField(_('Express Union Number'), max_length=TEL_MAX_LENGTH, blank=True)
+    tel2 = PhoneNumberField(_('Orange number'), help_text='*', blank=True, null=True)
+    tel3 = PhoneNumberField(_('Nexttel number'), help_text=_('optional'), blank=True, null=True)
+
     profile_picture = models.ImageField(
         _('profile picture'), upload_to=settings.PROFILE_PICTURE_PATH, blank=True, null=True
     )
     sponsor_id = models.PositiveIntegerField(blank=True, null=True, unique=True)
+    level = models.PositiveIntegerField(_('level'), default=0)
+    allow_automatic_contribution = models.BooleanField(_('allow automatic contributions'), default=False)
 
     # Verification Fields.
     tel1_verification_uuid = models.IntegerField(blank=True, null=True, unique=True)
@@ -98,3 +117,9 @@ class User(AbstractUser):
             if not User.objects.filter(sponsor_id=code).exists():
                 self.sponsor_id = code
                 break
+
+    def status(self):
+        if self.is_active:
+            return _('active')
+        else:
+            return _('inactive')

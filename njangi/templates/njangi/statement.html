@@ -1,0 +1,71 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="tables">
+        <div class="table-responsive bs-example widget-shadow">
+            <h4>{% trans 'wallet statement'|title %} | {{ nsp|title }} | {% trans 'balance'|title %}: {{ balance|intcomma}}</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{% trans 'date'|capfirst %}</th>
+                        <th>{% trans 'description'|capfirst %}</th>
+                        <th>{% trans 'amount'|title %}</th>
+                        <th>{% trans 'charge'|title %}</th>
+                        <th>{% trans 'status'|capfirst %}</th>
+                        <th>{% trans 'information'|capfirst %}</th>
+                        <th>{% trans 'reference'|title %}</th>
+                        <th>{% trans 'transaction code '|title %}</th>
+                        <th>{% trans 'sender'|capfirst %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for transaction in transaction_list %}
+                    <tr>
+                        <th scope="row"><h6>{{ transaction.created_on|date:'Y-M-d H:i' }}</h6></th>
+                        <td><h6>{{ transaction.description  }}</h6></td>
+                        <td><h6>{{ transaction.amount|intcomma }}</h6></td>
+                        <td><h6>{{ transaction.charge|intcomma }}</h6></td>
+                        {% if transaction.status == 'complete' %}
+                        <td><h5><span class="label label-success">{{ transaction.status }}</span></h5></td>
+                        {% else %}
+                        <td><h5><span class="label label-danger">{{ transaction.status }}</span></h5></td>
+                        {% endif %}
+                        <td><h6>{{ transaction.information }}</h6></td>
+                        <td><h6>{{ transaction.reference }}</h6></td>
+                        <td><h6>{{ transaction.trans_code }}</h6></td>
+                        <td><h6>{{ transaction.sender.get_username }}</h6></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if is_paginated and transaction_list %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'njangi:statement' nsp=nsp %}?page={{ page_obj.previous_page_number }}">{% trans 'previous'|title %}</a>
+                    {% endif %}
+                    <span class="page-current">
+                        {% trans 'page'|title %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'njangi:statement' nsp=nsp %}?page={{ page_obj.next_page_number }}">{% trans 'next'|title %}</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

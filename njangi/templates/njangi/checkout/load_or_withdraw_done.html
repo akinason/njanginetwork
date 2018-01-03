@@ -1,0 +1,19 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div class=" form-grids row form-grids-right">
+    <div class="widget-shadow " data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>{% trans 'confirmation!!'|capfirst %}</h4>
+        </div>
+        <div class="form-body">
+            <form class="form-horizontal">
+                <h4>{{ message|safe }}</h4><br>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

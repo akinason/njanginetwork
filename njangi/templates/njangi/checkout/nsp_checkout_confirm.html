@@ -1,0 +1,60 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags %}
+
+{% block content %}
+<div class="form">
+    <div class="grid_3 grid_5 widget-shadow">
+        <h3>{% trans 'Confirmation'|capfirst %} | {{ nsp|title }} {% trans 'mobile money'|title %}</h3>
+        <div class="well">
+            <form class="form-horizontal" action="{% url 'njangi:nsp_contribution_confirmation' level=level nsp=nsp %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="nsp" class="form-control hidden" id="nsp" value="{{ nsp }}" hidden>
+                <div class="form-group">
+                    <label for="level" class="col-sm-4">{% trans 'level'|capfirst %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="level" class="form-control" id="level" value="{{ level }}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="recipient" class="col-sm-4">{% trans 'recipient'|title %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="recipient" class="form-control" id="recipient" value="{{ recipient.get_username }}" readonly>
+                        <input type="text" name="recipient_id" class="form-control hidden" id="recipient_id" value="{{ recipient.id }}" hidden>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="amount" class="col-sm-4">{% trans 'amount'|capfirst %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="amount" class="form-control" id="amount" value="{{ amount }}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="processing_fee" class="col-sm-4">{% trans 'processing fee'|title %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="processing_fee" class="form-control" id="processing_fee" value="{{ processing_fee }}" readonly>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="total" class="col-sm-4">{% trans 'total'|title %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="total" class="form-control" id="total" value="{{ total }}" readonly>
+                    </div>
+                </div>
+                <label><h5>{{ message|safe }}</h5></label>
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                            <p><button type="submit" name="submit" class="btn btn-primary " data-toggle="modal" >{% trans 'Confirm'|title %}</button></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="{% url 'njangi:dashboard' %}" >
+                            <button type="button" class="btn btn-primary " data-toggle="modal">{% trans 'Cancel'|title %}</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

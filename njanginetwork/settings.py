@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,7 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tinymce',
     'main.apps.MainConfig',
+    'mptt',
     'njangi.apps.NjangiConfig',
+    'purse.apps.PurseConfig',
+    'django.contrib.admin',
+    'mailer.apps.MailerConfig',
+    'django.contrib.humanize',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -65,15 +70,17 @@ ROOT_URLCONF = 'njanginetwork.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                # 'django.core.context_processors.i18n',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
+                'njangi.context_processors.njangi_context_processors',
+                'main.context_processors.main_context_processors',
             ],
         },
     },
@@ -102,6 +109,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
 # Authentication user model
 AUTH_USER_MODEL = 'main.User'
 
@@ -125,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_REDIRECT_URL = reverse_lazy('njangi:dashboard')
-
+LOGIN_URL = '/login'
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -138,6 +146,9 @@ LANGUAGES = (
    ('en', _('English')),
    ('fr', _('French')),
 )
+
+PHONENUMBER_DB_FORMAT = 'E164'
+PHONENUMBER_DEFAULT_REGION = 'CM'
 
 LANGUAGE_CODE = 'en-us'
 
@@ -154,11 +165,36 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 PROFILE_PICTURE_PATH = 'media/main/profile/%Y/%m/%d/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = ()
+STATICFILES_DIRS = (BASE_DIR + '/static/',)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# Email Configurations.
+DEFAULT_FROM_EMAIL = 'support@njangi.network'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'lansvert@gmail.com'
+EMAIL_HOST_PASSWORD = 'panama245@XM'
+EMAIL_PORT = 587
+
+
+# MTN Mobile Money API configuration by webshinobis.com
+# APIs return JSON response. params = {status, message, amount, phoneNumber, transactionId, transactionDate}
+MOMO_CHECKOUT_URL = 'http://api.webshinobis.com/api/v1/momo/checkout'
+MOMO_PAYMENT_URL = 'http://api.webshinobis.com/api/v1/momo/pay'
+MOMO_AUTH_EMAIL = 'fenn25.fn@gmail.com'
+MOMO_AUTH_PASSWORD = 'secret'
+
+# REDIS related settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar',]

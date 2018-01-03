@@ -1,0 +1,46 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags %}
+
+{% block content %}
+<div class="form">
+    <div class="grid_3 grid_5 widget-shadow">
+        <h3>{% trans 'Confirmation'|capfirst %} | {{ nsp|title }} {{ action|title }}</h3>
+        <div class="well">
+            <form class="form-horizontal" action="{% url 'njangi:load_or_withdraw_confirm' nsp=nsp action=action amount=amount %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="nsp" class="form-control hidden" id="nsp" value="{{ nsp }}" hidden>
+                 <div class="form-group">
+                    <label for="amount" class="col-sm-4">{% trans 'amount'|capfirst %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="amount" class="form-control" id="amount" value="{{ amount }}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="processing_fee" class="col-sm-4">{% trans 'processing fee'|title %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="processing_fee" class="form-control" id="processing_fee" value="{{ processing_fee }}" readonly>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="total" class="col-sm-4">{% trans 'total'|title %}</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="total" class="form-control" id="total" value="{{ total }}" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                            <p><button type="submit" name="submit" class="btn btn-primary " data-toggle="modal" >{% trans 'Confirm'|title %}</button></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="{% url 'njangi:dashboard' %}" >
+                            <button type="button" class="btn btn-primary " data-toggle="modal">{% trans 'Cancel'|title %}</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

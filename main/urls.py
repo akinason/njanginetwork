@@ -1,13 +1,20 @@
 from django.conf.urls import url
-from .views import SignupView, IndexView, change_password
+from .views import SignupView, IndexView, PasswordResetView, PasswordResetConfirmView, PasswordResetCompleteView, \
+    PasswordChangeView, PasswordChangeDoneView, LoginView, LogoutView, ProfileChangeView
 from django.contrib.auth import views as auth_views
 
 app_name = 'main'
-urlpatterns =[
+urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
-    url(r'login/$', auth_views.login,
-        {'template_name': 'main/login.html', 'redirect_authenticated_user': True}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-    url(r'signup/$', SignupView.as_view(), name='signup'),
-    url(r'^password/$', change_password, name='change_password'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^signup/$', SignupView.as_view(), name='signup'),
+    url(r'^dashboard/password/$', PasswordChangeView.as_view(), name='password_change'),
+    url(r'^dashboard/password/done/$', PasswordChangeDoneView.as_view(), name='password_change_done'),
+    url(r'^password_reset/$', PasswordResetView.as_view(), name='password_reset'),
+    url(r'^password_reset/done/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    url(r'^reset/done/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    url(r'^dashboard/profile_change/$', ProfileChangeView.as_view(), name='profile_change'),
 ]

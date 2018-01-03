@@ -20,8 +20,9 @@ from njanginetwork import settings
 
 urlpatterns = [
     url(r'^', include('main.urls')),
-    url(r'dashboard/', include('njangi.urls')),
-    path('admin/', admin.site.urls),
+    url(r'^dashboard/', include('njangi.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 
 ]
 

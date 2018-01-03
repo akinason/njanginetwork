@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+{% load static i18n humanize njangi_tags %}
+<html>
+<head>
+<title>{% trans 'dashboard'|capfirst %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content=" " />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Bootstrap Core CSS -->
+<link href="{% static 'njangi_network/css/bootstrap.css' %}" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="{% static 'njangi_network/css/style.css' %}" rel='stylesheet' type='text/css' />
+<!-- font CSS -->
+<!-- font-awesome icons -->
+<link href="{% static 'njangi_network/css/font-awesome.css' %}" rel="stylesheet">
+<!-- //font-awesome icons -->
+ <!-- js-->
+<script src="{% static 'njangi_network/js/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static 'js/modernizr.custom.js' %}"></script>
+<!--webfonts-->
+<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<!--//webfonts-->
+<!--animate-->
+<link href="{% static 'njangi_network/css/animate.css' %}" rel="stylesheet" type="text/css" media="all">
+<script src="{% static 'njangi_network/js/wow.min.js' %}"></script>
+	<script>
+		 new WOW().init();
+	</script>
+<!--//end-animate-->
+
+<!-- Metis Menu -->
+<script src="{% static 'njangi_network/js/metisMenu.min.js' %}"></script>
+<script src="{% static 'njangi_network/js/custom.js' %}"></script>
+<link href="{% static 'njangi_network/css/custom.css' %}" rel="stylesheet">
+<!--//Metis Menu -->
+</head>
+
+<body class="cbp-spmenu-push">
+	<div class="main-content">
+		<!--left-fixed -navigation-->
+		<div class=" sidebar" role="navigation">
+            <div class="navbar-collapse">
+				<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+					<ul class="nav" id="side-menu">
+						<li>
+							<a href="{% url 'njangi:dashboard' %}" class="active"><i class="fa fa-home nav_icon"></i>{% trans 'dashboard'|capfirst %}</a>
+						</li>
+                        <li>
+							<a href="index.html" class="active"><i class="fa fa-table nav_icon"></i>{% trans 'genealogy'|capfirst %}</a>
+						</li>
+						<li class="">
+							<a href="#"><i class="fa fa-th-large nav_icon"></i> {% trans 'wallet'|capfirst %}<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<!--<a href="media.html">{% trans 'account statement'|title %}</a>-->
+                                    <a href="#"><i class="fa fa-th-large nav_icon"></i> {% trans 'account statement'|title %}<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level collapse">
+                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.mtn %}">{% trans 'MTN Statement' %}</a></li>
+                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.orange %}">{% trans 'Orange Statement'|title %}</a></li>
+                                    </ul>
+								</li>
+                                <li>
+									<a href="{% url 'njangi:load_or_withdraw_choice' action='load' %}">{% trans 'load'|capfirst %}</a>
+								</li>
+                                <li>
+                                    <a href="{% url 'njangi:load_or_withdraw_choice' action='withdraw' %}">{% trans 'withdraw'|capfirst %}</a>
+								</li>
+							</ul>
+							<!-- /nav-second-level -->
+						</li>
+                        <li>
+							<a href="#"><i class="fa fa-cogs nav_icon"></i>{% trans 'settings'|capfirst %} <span class="nav-badge">{{ wallet.balance }}</span> <span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+                                <li>
+									<a href="{% url 'njangi:network_tools' %}">{% trans 'network tools'|title %}</a>
+								</li>
+								<li>
+									<a href="{% url 'njangi:new_registration' %}">{% trans 'new registration'|title %}</a>
+								</li>
+                                <li>
+									<a href="{% url 'main:profile_change' %}">{% trans 'profile'|capfirst %}</a>
+								</li>
+                                <!--<li>-->
+                                    <!--<a href="">{% trans 'upgrade'|capfirst %}</a>-->
+								<!--</li>-->
+                                <li>
+									<a href="{% url 'main:password_change' %}">{% trans 'change password'|title %}</a>
+								</li>
+                                <li>
+									<a href="{% url 'main:logout' %}">{% trans 'logout'|title %}</a>
+								</li>
+							</ul>
+
+							<!-- /nav-second-level -->
+						</li>
+					</ul>
+					<!-- //sidebar-collapse -->
+				</nav>
+			</div>
+		</div>
+		<!--left-fixed -navigation-->
+
+		<!-- header-starts -->
+		<div class="sticky-header header-section ">
+			<div class="header-left">
+				<!--toggle button start-->
+				<button id="showLeftPush"><i class="fa fa-bars"></i></button>
+				<!--toggle button end-->
+				<!--logo -->
+				<div class="logo">
+					<a href="{% url 'njangi:dashboard' %}">
+						<h1>{{ site_info.name }}</h1>
+						<span>{{ site_info.accronym }}</span>
+					</a>
+				</div>
+				<!--//logo-->
+
+				<div class="clearfix"> </div>
+			</div>
+			<div class="header-right">
+				<div class="profile_details_left"><!--notifications of menu start -->
+					<ul class="nofitications-dropdown">
+						<li class="dropdown head-dpdn">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">3</span></a>
+							<ul class="dropdown-menu">
+								<li>
+									<div class="notification_header">
+										<h3>You have 3 new notification</h3>
+									</div>
+								</li>
+								<li><a href="#">
+									<div class="user_img"><img src="images/2.png" alt=""></div>
+								   <div class="notification_desc">
+									<p>Lorem ipsum dolor amet</p>
+									<p><span>1 hour ago</span></p>
+									</div>
+								  <div class="clearfix"></div>
+								 </a></li>
+								 <li class="odd"><a href="#">
+									<div class="user_img"><img src="images/1.png" alt=""></div>
+								   <div class="notification_desc">
+									<p>Lorem ipsum dolor amet </p>
+									<p><span>1 hour ago</span></p>
+									</div>
+								   <div class="clearfix"></div>
+								 </a></li>
+								 <li><a href="#">
+									<div class="user_img"><img src="images/3.png" alt=""></div>
+								   <div class="notification_desc">
+									<p>Lorem ipsum dolor amet </p>
+									<p><span>1 hour ago</span></p>
+									</div>
+								   <div class="clearfix"></div>
+								 </a></li>
+								 <li>
+									<div class="notification_bottom">
+										<a href="#">See all notifications</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+                        <!--<li class="dropdown head-dpdn">-->
+                            <!--<div class="form-group">-->
+                                <!--<form action="{% url 'set_language' %}" method="post" class="form-inline">{% csrf_token %}-->
+                                    <!--<input name="next" type="hidden" value="{{ redirect_to }}" />-->
+                                    <!--<select name="language" class="form-control1">-->
+                                        <!--{% get_current_language as LANGUAGE_CODE %}-->
+                                        <!--{% get_available_languages as LANGUAGES %}-->
+                                        <!--{% get_language_info_list for LANGUAGES as languages %}-->
+                                        <!--{% for language in languages %}-->
+                                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>-->
+                                                <!--{{ language.name_local|title }} ({{ language.code }})-->
+                                            <!--</option>-->
+                                        <!--{% endfor %}-->
+                                    <!--</select>-->
+                                    <!--<input type="submit" value="Go" class="btn btn-default " />-->
+                                <!--</form>-->
+                            <!--</div>-->
+                        <!--</li>-->
+					</ul>
+					<div class="clearfix"> </div>
+				</div>
+
+				<!--notification menu end -->
+				<div class="profile_details">
+					<ul>
+						<li class="dropdown profile_details_drop">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<div class="profile_img">
+									<span class="prfil-img"><img src="images/a.png" alt=""> </span>
+									<div class="user-name">
+										<p>{{ user.get_username|capfirst }} ({{ user.status|capfirst }})</p>
+										<span>{% trans 'level'|capfirst %} {{ user.level }}</span>
+									</div>
+									<i class="fa fa-angle-down lnr"></i>
+									<i class="fa fa-angle-up lnr"></i>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+							<ul class="dropdown-menu drp-mnu">
+								<!--<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>-->
+								<li> <a href="{% url 'main:profile_change' %}"><i class="fa fa-user"></i> Profile</a> </li>
+								<li> <a href="{% url 'main:logout' %}"><i class="fa fa-sign-out"></i> Logout</a> </li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+		<!-- //header-ends -->
+        <div id="page-wrapper">
+            <div class="main-page">
+        {% block content %}
+
+        {% endblock %} <!--End block content -->
+            </div>
+        </div>
+
+		<div class="footer">
+		   <p>&copy; {% now 'Y' %}  All Rights Reserved <a href="{{ protocol }}://{{ site_info.website }}" target="_blank">{{ site_info.name }}</a></p>
+		</div>
+        <!--//footer-->
+	</div>
+	<!-- Classie -->
+		<script src="{% static 'njangi_network/js/classie.js' %}"></script>
+		<script>
+			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+				showLeftPush = document.getElementById( 'showLeftPush' ),
+				body = document.body;
+
+			showLeftPush.onclick = function() {
+				classie.toggle( this, 'active' );
+				classie.toggle( body, 'cbp-spmenu-push-toright' );
+				classie.toggle( menuLeft, 'cbp-spmenu-open' );
+				disableOther( 'showLeftPush' );
+			};
+
+
+			function disableOther( button ) {
+				if( button !== 'showLeftPush' ) {
+					classie.toggle( showLeftPush, 'disabled' );
+				}
+			}
+		</script>
+	<!--scrolling js-->
+	<script src="{% static 'njangi_network/js/jquery.nicescroll.js' %}"></script>
+	<script src="{% static 'njangi_network/js/scripts.js' %}"></script>
+	<!--//scrolling js-->
+	<!-- Bootstrap Core JavaScript -->
+   <script src="{% static 'njangi_network/js/bootstrap.js' %}"> </script>
+</body>
+</html>

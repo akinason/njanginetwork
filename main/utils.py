@@ -1,8 +1,18 @@
+import random
 from django.contrib.auth import get_user_model
 
 
+def get_admin_users():
+    admins = get_user_model().objects.filter(is_admin=True)
+    admin_list = []
+    for admin in admins:
+        admin_list.append(admin)
+    random.shuffle(admin_list)
+    return admin_list
+
+
 def add_admin_sponsor_id_to_session(request):
-    admin = get_user_model().objects.filter(is_admin=True).order_by('username')[:1].get()
+    admin = get_admin_users()[0]
     request.session['sponsor_id'] = admin.sponsor_id
     return admin.sponsor_id
 
@@ -10,7 +20,7 @@ def add_admin_sponsor_id_to_session(request):
 def add_sponsor_id_to_session(request):
     """
     Adds the sponsor id to session gotten from the request.
-    :param request:
+    :param: request
     :return: sponsor_id
     """
     if request.user.is_authenticated:
@@ -53,3 +63,4 @@ def get_sponsor_id_from_session(request):
 
 def get_sponsor(request):
     return get_user_model().objects.filter(sponsor_id=get_sponsor_id_from_session(request)).get()
+
