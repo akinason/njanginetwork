@@ -426,11 +426,11 @@ def process_contribution_response(response, user, recipient, level, recipient_am
         # Send a confirmation sms and/or email to sender.
         mailer_services.send_wallet_contribution_paid_email.delay(sender_id=user.id, recipient_id=recipient.id,
                                                                   amount=recipient_amount,
-                                                                  processing_fee=processing_fee, nsp=nsp
+                                                                  processing_fee=processing_fee, nsp=nsp, level=level
                                                                   )
         mailer_services.send_wallet_contribution_paid_sms.delay(sender_id=user.id, recipient_id=recipient.id,
                                                                 amount=recipient_amount, processing_fee=processing_fee,
-                                                                nsp=nsp
+                                                                nsp=nsp, level=level
                                                                 )
 
         # send sms or email to recipient notifying him/her of amount received in the wallet.

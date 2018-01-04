@@ -24,3 +24,8 @@ def upgrade_to(user_id):
         return new_level
     except get_user_model().DoesNotExist():
         return 0
+
+
+@register.simple_tag(name='replace_underscore')
+def replace_underscore(value):
+    return value.replace('_', ' ')

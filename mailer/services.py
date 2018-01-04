@@ -2,9 +2,17 @@ from njanginetwork.celery import app
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 from main.context_processors import SiteInformation
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model as UserModel
+from purse.models import WalletManager
+
+wallet = WalletManager()
 
 
 def send_email(user, subject, message, introduction=None, to_email=None):
+    if not introduction:
+        introduction = ''
+
     template_name = 'mailer/email.html'
     html_mail = loader.render_to_string(
         template_name=template_name,
@@ -16,25 +24,80 @@ def send_email(user, subject, message, introduction=None, to_email=None):
             'user': user,
         }
     )
-    msg = EmailMultiAlternatives(subject=subject, body=html_mail, to=[to_email, ])
-    msg.attach_alternative(html_mail, "text/html")
-    msg.send()
-    return True
+
+    if to_email or user.email:
+        recipient_email = ''
+        if to_email:
+            recipient_email = to_email
+        else:
+            recipient_email = user.email
+
+        msg = EmailMultiAlternatives(subject=subject, body=html_mail, to=[recipient_email, ])
+        msg.attach_alternative(html_mail, "text/html")
+        msg.send()
+        return True
+    else:
+        return False
 
 
 @app.task
 def send_wallet_load_success_email(user_id, amount, processing_fee, nsp):
-    pass
+    subject = _('Wallet Load Successful')
+    balance = 0
+    try:
+        user = UserModel().objects.get(pk=user_id)
+        balance = wallet.balance(user=user, nsp=nsp)
+    except UserModel().DoesNotExist:
+        user = UserModel().objects.none()
+
+    params = {
+        'amount': amount, 'processing_fee': processing_fee, 'nsp': nsp.replace('_', ' ').upper(),
+        'balance': balance
+    }
+    message = _('You have successfully reloaded your %(nsp)s wallet with the sum of %(amount)s XOF. '
+                'Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF.') % params
+    send_email(user=user, subject=subject, message=message)
 
 
 @app.task
 def send_wallet_load_failed_email(user_id, amount, processing_fee, nsp):
-    pass
+    subject = _('Wallet Load Failed')
+    balance = 0
+    try:
+        user = UserModel().objects.get(pk=user_id)
+        balance = wallet.balance(user=user, nsp=nsp)
+    except UserModel().DoesNotExist:
+        user = UserModel().objects.none()
+
+    params = {
+        'amount': amount, 'processing_fee': processing_fee, 'nsp': nsp.replace('_', ' ').upper(),
+        'balance': balance
+    }
+    message = _('Your request to reload your %(nsp)s wallet with the sum of %(amount)s XOF failed. '
+                'Processing fees: %(processing_fee)s XOF. Wallet balance %(balance)s XOF.') % params
+    send_email(user=user, subject=subject, message=message)
 
 
 @app.task
-def send_wallet_contribution_paid_email(sender_id, recipient_id, amount, processing_fee, nsp):
-    pass
+def send_wallet_contribution_paid_email(sender_id, recipient_id, amount, processing_fee, nsp, level):
+    subject = _('Contribution Payment Successful')
+    try:
+        sender = UserModel().objects.get(pk=sender_id)
+    except UserModel().DoesNotExist:
+        sender = UserModel().objects.none()
+
+    try:
+        recipient = UserModel().objects.get(pk=recipient_id)
+    except UserModel().DoesNotExist:
+        recipient = UserModel().objects.none()
+
+    params = {
+        'amount': amount, 'processing_fee': processing_fee, 'nsp': nsp.replace('_', ' ').upper(), 'level': level,
+        'recipient': recipient.get_username()
+    }
+    message = _('Your level %(level)s contribution to %(recipient)s of %(amount)s XOF through %(nsp)s was successful.'
+                'Processing fees: %(processing_fee)s XOF. ') % params
+    send_email(user=sender, subject=subject, message=message)
 
 
 @app.task
@@ -44,7 +107,21 @@ def send_wallet_contribution_received_email(sender_id, recipient_id, amount, pro
 
 @app.task
 def send_wallet_withdrawal_email(user_id, amount, processing_fee, nsp):
-    pass
+    subject = _('Withdrawal Successful')
+    balance = 0
+    try:
+        user = UserModel().objects.get(pk=user_id)
+        balance = wallet.balance(user=user, nsp=nsp)
+    except UserModel().DoesNotExist:
+        user = UserModel().objects.none()
+
+    params = {
+        'amount': amount, 'processing_fee': processing_fee, 'nsp': nsp.replace('_', ' ').upper(),
+        'balance': balance
+    }
+    message = _('You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s wallet '
+                'Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF.') % params
+    send_email(user=user, subject=subject, message=message)
 
 
 @app.task
@@ -108,7 +185,7 @@ def send_wallet_load_failed_sms(user_id, amount, processing_fee, nsp):
     pass
 
 @app.task
-def send_wallet_contribution_paid_sms(sender_id, recipient_id, amount, processing_fee, nsp):
+def send_wallet_contribution_paid_sms(sender_id, recipient_id, amount, processing_fee, nsp, level):
     pass
 
 

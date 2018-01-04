@@ -176,8 +176,8 @@ MEDIA_URL = '/media/'
 DEFAULT_FROM_EMAIL = 'support@njangi.network'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'lansvert@gmail.com'
-EMAIL_HOST_PASSWORD = 'panama245@XM'
+EMAIL_HOST_USER = 'njanginetwork@gmail.com'
+EMAIL_HOST_PASSWORD = 'scoolings245'
 EMAIL_PORT = 587
 
 

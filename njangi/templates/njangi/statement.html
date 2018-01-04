@@ -6,7 +6,7 @@
 <div class="row">
     <div class="tables">
         <div class="table-responsive bs-example widget-shadow">
-            <h4>{% trans 'wallet statement'|title %} | {{ nsp|title }} | {% trans 'balance'|title %}: {{ balance|intcomma}}</h4>
+            <h4>{% trans 'wallet statement'|title %} | {{ nsp|upper }} | {% trans 'balance'|title %}: {{ balance|intcomma}}</h4>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -25,7 +25,7 @@
                 {% for transaction in transaction_list %}
                     <tr>
                         <th scope="row"><h6>{{ transaction.created_on|date:'Y-M-d H:i' }}</h6></th>
-                        <td><h6>{{ transaction.description  }}</h6></td>
+                        <td><h6>{{ transaction.description }}</h6></td>
                         <td><h6>{{ transaction.amount|intcomma }}</h6></td>
                         <td><h6>{{ transaction.charge|intcomma }}</h6></td>
                         {% if transaction.status == 'complete' %}
