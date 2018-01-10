@@ -1,71 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9641330f-b173-4631-bd00-116f65e2fccd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/templates/main/contact.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/website.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/base_website.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/njanginetwork.iml" afterPath="$PROJECT_DIR$/.idea/njanginetwork.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.po" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mailer/services.py" afterPath="$PROJECT_DIR$/mailer/services.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mailer/templates/mailer/email.html" afterPath="$PROJECT_DIR$/mailer/templates/mailer/email.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/admin.py" afterPath="$PROJECT_DIR$/main/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/context_processors.py" afterPath="$PROJECT_DIR$/main/context_processors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/core.py" afterPath="$PROJECT_DIR$/main/core.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/forms.py" afterPath="$PROJECT_DIR$/main/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/models.py" afterPath="$PROJECT_DIR$/main/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/main/index.html" afterPath="$PROJECT_DIR$/main/templates/main/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/main/login.html" afterPath="$PROJECT_DIR$/main/templates/main/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/main/signup.html" afterPath="$PROJECT_DIR$/main/templates/main/signup.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/registration/password_reset_complete.html" afterPath="$PROJECT_DIR$/main/templates/registration/password_reset_complete.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/registration/password_reset_confirm.html" afterPath="$PROJECT_DIR$/main/templates/registration/password_reset_confirm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/registration/password_reset_done.html" afterPath="$PROJECT_DIR$/main/templates/registration/password_reset_done.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/registration/password_reset_form.html" afterPath="$PROJECT_DIR$/main/templates/registration/password_reset_form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/urls.py" afterPath="$PROJECT_DIR$/main/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views.py" afterPath="$PROJECT_DIR$/main/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njangi/signals.py" afterPath="$PROJECT_DIR$/njangi/signals.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njangi/tasks.py" afterPath="$PROJECT_DIR$/njangi/tasks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njanginetwork/__init__.py" afterPath="$PROJECT_DIR$/njanginetwork/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njanginetwork/settings.py" afterPath="$PROJECT_DIR$/njanginetwork/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/purse/models.py" afterPath="$PROJECT_DIR$/purse/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/purse/tests.py" afterPath="$PROJECT_DIR$/purse/tests.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/purse/tests.txt" afterPath="$PROJECT_DIR$/purse/tests.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base_dashboard.html" afterPath="$PROJECT_DIR$/templates/base_dashboard.html" />
-    </list>
+    <list default="true" id="9641330f-b173-4631-bd00-116f65e2fccd" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -532,7 +468,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31888545" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24960877" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40402478" sideWeight="0.87323946" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.8993808" sideWeight="0.87323946" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
