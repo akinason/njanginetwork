@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 12:06+0100\n"
+"POT-Creation-Date: 2018-01-10 16:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1196,11 +1196,11 @@ msgstr ""
 msgid "Error running spellchecker"
 msgstr ""
 
-#: mailer/services.py:61
+#: mailer/services.py:66
 msgid "Wallet Load Successful"
 msgstr ""
 
-#: mailer/services.py:73
+#: mailer/services.py:78
 #, python-format
 msgid ""
 "You have successfully reloaded your %(nsp)s wallet with the sum of "
@@ -1208,11 +1208,11 @@ msgid ""
 "%(balance)s XOF."
 msgstr ""
 
-#: mailer/services.py:80
+#: mailer/services.py:85
 msgid "Wallet Load Failed"
 msgstr ""
 
-#: mailer/services.py:92
+#: mailer/services.py:97
 #, python-format
 msgid ""
 "Your request to reload your %(nsp)s wallet with the sum of %(amount)s XOF "
@@ -1220,45 +1220,45 @@ msgid ""
 "XOF."
 msgstr ""
 
-#: mailer/services.py:99
+#: mailer/services.py:104
 msgid "Contribution Payment Successful"
 msgstr ""
 
-#: mailer/services.py:114
+#: mailer/services.py:119
 #, python-format
 msgid ""
 "Your level %(level)s contribution to %(recipient)s of %(amount)s XOF through "
 "%(nsp)s was successful.Processing fees: %(processing_fee)s XOF. "
 msgstr ""
 
-#: mailer/services.py:121
+#: mailer/services.py:126
 #, python-format
 msgid "Level %s Contribution Received"
 msgstr ""
 
-#: mailer/services.py:136
+#: mailer/services.py:141
 #, python-format
 msgid ""
 "You have received %(amount)s as level %(level)s contribution from %(sender)s "
 "through%(nsp)s."
 msgstr ""
 
-#: mailer/services.py:143
+#: mailer/services.py:148
 msgid "Withdrawal Successful"
 msgstr ""
 
-#: mailer/services.py:155
+#: mailer/services.py:160
 #, python-format
 msgid ""
 "You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s "
 "wallet Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF."
 msgstr ""
 
-#: mailer/services.py:162
+#: mailer/services.py:167
 msgid "Contribution Auto Withdrawal Successful"
 msgstr ""
 
-#: mailer/services.py:179
+#: mailer/services.py:184
 #, python-format
 msgid ""
 "You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s "
@@ -1266,48 +1266,49 @@ msgid ""
 "Contribution from  %(sender)s"
 msgstr ""
 
-#: mailer/services.py:187
+#: mailer/services.py:192
 msgid "Withdrawal Failed"
 msgstr ""
 
-#: mailer/services.py:196
-msgid "Your withdrawal request failed. Status: %(status), Reason: %(reason)s"
+#: mailer/services.py:202
+#, python-format
+msgid "Your withdrawal request failed. Status: %(status)s, Reason: %(reason)s"
 msgstr ""
 
-#: mailer/services.py:202
+#: mailer/services.py:208
 msgid "Phone Number Verification Needed"
 msgstr ""
 
-#: mailer/services.py:211
+#: mailer/services.py:217
 #, python-format
 msgid ""
 "Your %(nsp)s phone number is not verified. Please verify it else you will "
 "not be able to receive any contributions."
 msgstr ""
 
-#: mailer/services.py:218
+#: mailer/services.py:224
 #, python-format
 msgid "Level %(level)s contribution failed"
 msgstr ""
 
-#: mailer/services.py:227 mailer/services.py:243
+#: mailer/services.py:233 mailer/services.py:249
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s XOF through %(nsp)s failed. "
 "We will automatically do a retry for a while for you."
 msgstr ""
 
-#: mailer/services.py:234
+#: mailer/services.py:240
 #, python-format
 msgid "Level %(level)s wallet contribution failed"
 msgstr ""
 
-#: mailer/services.py:250
+#: mailer/services.py:256
 #, python-format
 msgid "Level %(level)s contribution due reminder"
 msgstr ""
 
-#: mailer/services.py:260
+#: mailer/services.py:266
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s XOF is due in %(duration)s. "
@@ -1315,7 +1316,7 @@ msgid ""
 "contributing.."
 msgstr ""
 
-#: mailer/services.py:265
+#: mailer/services.py:271
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s XOF is has been due for "
@@ -1323,12 +1324,12 @@ msgid ""
 "level."
 msgstr ""
 
-#: mailer/services.py:273
+#: mailer/services.py:279
 #, python-format
 msgid "Level %(level)s deactivation notice"
 msgstr ""
 
-#: mailer/services.py:283
+#: mailer/services.py:289
 #, python-format
 msgid ""
 "You have been deactivated in level %(level)s. You cannot receive "
@@ -1336,31 +1337,31 @@ msgid ""
 "of %(amount)s XOF."
 msgstr ""
 
-#: mailer/services.py:291
+#: mailer/services.py:297
 #, python-format
 msgid "Level %(level)s auto wallet contribution failed"
 msgstr ""
 
-#: mailer/services.py:300
+#: mailer/services.py:306
 #, python-format
 msgid ""
 "We could not process your level %(level)s contribution of %(amount)s XOF. "
 "Please ensure you have sufficient balance."
 msgstr ""
 
-#: mailer/services.py:307
+#: mailer/services.py:313
 #, python-format
 msgid "Level %(level)s contribution pending"
 msgstr ""
 
-#: mailer/services.py:316
+#: mailer/services.py:322
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s through %(nsp)s is pending "
 "processing. We will notify you as soon as we complete the process."
 msgstr ""
 
-#: mailer/services.py:323
+#: mailer/services.py:329
 msgid "New Failed Operation"
 msgstr ""
 
@@ -1400,11 +1401,11 @@ msgstr ""
 msgid "contact us"
 msgstr ""
 
-#: main/context_processors.py:9
+#: main/context_processors.py:10
 msgid "NNetwork"
 msgstr ""
 
-#: main/context_processors.py:10
+#: main/context_processors.py:11
 msgid "Njangi Network"
 msgstr ""
 
@@ -1947,26 +1948,26 @@ msgstr ""
 msgid "position side"
 msgstr ""
 
-#: njangi/signals.py:89 njangi/tasks.py:469
+#: njangi/signals.py:89 njangi/tasks.py:476
 #, python-format
 msgid "wallet load through %s mobile money"
 msgstr ""
 
-#: njangi/tasks.py:51 njangi/tasks.py:125
+#: njangi/tasks.py:53 njangi/tasks.py:129
 #, python-format
 msgid "withdrawal through %(nsp)s mobile money."
 msgstr ""
 
-#: njangi/tasks.py:255
+#: njangi/tasks.py:261
 #, python-format
 msgid "level %(level)s contribution from %(sender)s to %(recipient)s."
 msgstr ""
 
-#: njangi/tasks.py:579
+#: njangi/tasks.py:586
 msgid "days"
 msgstr ""
 
-#: njangi/tasks.py:579
+#: njangi/tasks.py:586
 msgid "hour(s)"
 msgstr ""
 
