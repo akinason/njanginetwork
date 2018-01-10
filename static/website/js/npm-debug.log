@@ -1,0 +1,101 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '[-g]',
+1 verbose cli   'minifier' ]
+2 info using npm@3.5.2
+3 info using node@v4.2.6
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData [-g]
+8 silly fetchPackageMetaData minifier
+9 silly fetchOtherPackageData [-g]
+10 silly cache add args [ '[-g]', null ]
+11 verbose cache add spec [-g]
+12 silly fetchNamedPackageData minifier
+13 silly mapToRegistry name minifier
+14 silly mapToRegistry using default registry
+15 silly mapToRegistry registry https://registry.npmjs.org/
+16 silly mapToRegistry uri https://registry.npmjs.org/minifier
+17 silly cache add parsed spec Result {
+17 silly cache add   raw: '[-g]',
+17 silly cache add   scope: null,
+17 silly cache add   name: null,
+17 silly cache add   rawSpec: '[-g]',
+17 silly cache add   spec: '/home/kinason/Documents/templates/shards-master/js/[-g]',
+17 silly cache add   type: 'local' }
+18 verbose request uri https://registry.npmjs.org/minifier
+19 verbose request no auth needed
+20 info attempt registry request try #1 at 11:37:18 PM
+21 verbose request id 5777acc53785bea4
+22 http request GET https://registry.npmjs.org/minifier
+23 error addLocal Could not install /home/kinason/Documents/templates/shards-master/js/[-g]
+24 silly fetchPackageMetaData Error: ENOENT: no such file or directory, open '/home/kinason/Documents/templates/shards-master/js/[-g]'
+24 silly fetchPackageMetaData     at Error (native)
+24 silly fetchPackageMetaData  error for [-g] { [Error: ENOENT: no such file or directory, open '/home/kinason/Documents/templates/shards-master/js/[-g]']
+24 silly fetchPackageMetaData   errno: -2,
+24 silly fetchPackageMetaData   code: 'ENOENT',
+24 silly fetchPackageMetaData   syscall: 'open',
+24 silly fetchPackageMetaData   path: '/home/kinason/Documents/templates/shards-master/js/[-g]' }
+25 http 200 https://registry.npmjs.org/minifier
+26 verbose headers { 'content-type': 'application/json; charset=UTF-8',
+26 verbose headers   server: 'UploadServer',
+26 verbose headers   'cache-control': 'max-age=300',
+26 verbose headers   'last-modified': 'Mon, 11 Dec 2017 10:49:17 GMT',
+26 verbose headers   etag: '"5a2e62ad-64d2"',
+26 verbose headers   'content-encoding': 'gzip',
+26 verbose headers   'content-length': '5012',
+26 verbose headers   'accept-ranges': 'bytes',
+26 verbose headers   date: 'Sun, 07 Jan 2018 22:37:20 GMT',
+26 verbose headers   via: '1.1 varnish',
+26 verbose headers   age: '5267',
+26 verbose headers   connection: 'keep-alive',
+26 verbose headers   'x-served-by': 'cache-lhr6340-LHR',
+26 verbose headers   'x-cache': 'HIT',
+26 verbose headers   'x-cache-hits': '1',
+26 verbose headers   'x-timer': 'S1515364640.203893,VS0,VE1',
+26 verbose headers   vary: 'Accept-Encoding, Accept' }
+27 silly get cb [ 200,
+27 silly get   { 'content-type': 'application/json; charset=UTF-8',
+27 silly get     server: 'UploadServer',
+27 silly get     'cache-control': 'max-age=300',
+27 silly get     'last-modified': 'Mon, 11 Dec 2017 10:49:17 GMT',
+27 silly get     etag: '"5a2e62ad-64d2"',
+27 silly get     'content-encoding': 'gzip',
+27 silly get     'content-length': '5012',
+27 silly get     'accept-ranges': 'bytes',
+27 silly get     date: 'Sun, 07 Jan 2018 22:37:20 GMT',
+27 silly get     via: '1.1 varnish',
+27 silly get     age: '5267',
+27 silly get     connection: 'keep-alive',
+27 silly get     'x-served-by': 'cache-lhr6340-LHR',
+27 silly get     'x-cache': 'HIT',
+27 silly get     'x-cache-hits': '1',
+27 silly get     'x-timer': 'S1515364640.203893,VS0,VE1',
+27 silly get     vary: 'Accept-Encoding, Accept' } ]
+28 verbose get saving minifier to /home/kinason/.npm/registry.npmjs.org/minifier/.cache.json
+29 verbose makeDirectory /home/kinason/.npm creation not in flight; initializing
+30 silly makeDirectory /home/kinason/.npm uid: 1000 gid: 1000
+31 silly rollbackFailedOptional Starting
+32 silly rollbackFailedOptional Finishing
+33 silly runTopLevelLifecycles Starting
+34 silly runTopLevelLifecycles Finishing
+35 silly install printInstalled
+36 verbose stack Error: ENOENT: no such file or directory, open '/home/kinason/Documents/templates/shards-master/js/[-g]'
+36 verbose stack     at Error (native)
+37 verbose cwd /home/kinason/Documents/templates/shards-master/js
+38 error Linux 4.10.0-42-generic
+39 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "[-g]" "minifier"
+40 error node v4.2.6
+41 error npm  v3.5.2
+42 error path /home/kinason/Documents/templates/shards-master/js/[-g]
+43 error code ENOENT
+44 error errno -2
+45 error syscall open
+46 error enoent ENOENT: no such file or directory, open '/home/kinason/Documents/templates/shards-master/js/[-g]'
+47 error enoent ENOENT: no such file or directory, open '/home/kinason/Documents/templates/shards-master/js/[-g]'
+47 error enoent This is most likely not a problem with npm itself
+47 error enoent and is related to npm not being able to find a file.
+48 verbose exit [ -2, true ]

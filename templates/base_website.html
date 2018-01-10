@@ -1,0 +1,95 @@
+<!doctype html>
+{% load static i18n humanize njangi_tags main_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<html class="no-js" lang="{{ LANGUAGE_CODE }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% trans 'Welcome to Njangi Network' %}</title>
+    <meta name="description" content="The best online platform for contributing to Njangi Network Members using Mobile Money Services">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'website/css/shards.min.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'website/css/shards-demo.css' %}">-->
+</head>
+<body>
+
+
+<div class="page-content">
+
+    <!-- Navigation bar -->
+    <div id="navigation-bar">
+        <div class="example">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+                <img src="{% static 'website/images/demo/shards-logo.svg' %}" alt="{% trans 'njangi network'|capfirst %}" class="mr-2" height="30px">
+                <a class="navbar-brand" href="{% url 'main:index' %}">Njangi</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown-1"
+                        aria-controls="navbarNavDropdown-1"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown-1">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'main:index' %}">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <ul class="navbar-nav">
+                            <a href="{% url 'njangi:dashboard' %}" class="btn btn-primary">{% trans "dashboard"|title %}</a>
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav">
+                            <a href="{% url 'main:login' %}" class="btn btn-primary">{% trans "login"|title %}</a>
+                        </ul>
+                    {% endif %}
+                    <ul class="navbar-nav">
+
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+
+                        {% for language in languages %}
+                          <form action="{% url 'set_language' %}" method="post" id="form_{{ language.code }}" style="display:inline!important;">
+                          {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}" />
+                            <input name="language" type="hidden" value="{{ language.code }}" />
+                          </form>
+                          <button class="btn btn-primary" type="submit" form="form_{{ language.code }}" value="Submit">{{ language.code|upper }}</button>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div> <!-- End Navigation bar -->
+
+    <!--  Content -->
+    {% block content %} {% endblock %}
+
+
+    <footer class="main-footer py-5 bg-dark">
+        <p class="text-muted text-center small p-0 mb-4">
+            &copy; Copyright {{ site_info.current_date|date:'Y' }} — {{ site_info.name }}<br>
+            {{ site_info.name |title }} | {% trans "template design by"|capfirst %} <a href="https://designrevision.com/" target="_blank">designrevision</a>
+        </p>
+    </footer>
+</div>
+
+</div>
+
+<script>(function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=1662270373824826"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script src="{% static 'website/js/shards.min.js' %}"></script>
+<!--<script src="{% static 'website/js/demo.min.js' %}"></script>-->
+
+</body>
+</html>

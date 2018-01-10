@@ -34,6 +34,8 @@ def process_payout_(
     :param amount: Amount requested for withdrawal.
     :param nsp: Network Service Provider.
     :param processing_fee: The withdrawal processing fee.
+    :param is_failed_operation
+    :param failed_operation_id
     :return:
     """
     try:
@@ -60,18 +62,18 @@ def process_payout_(
                                                               thirdparty_reference=response['transactionId'],
                                                               information=information, force_withdraw=True
                                                               )
-                            mailer_services.send_wallet_withdrawal_email(
+                            mailer_services.send_wallet_withdrawal_email.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
-                            mailer_services.send_wallet_withdrawal_sms(
+                            mailer_services.send_wallet_withdrawal_sms.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
                             return wallet_response  # Inner wallet response
                         else:
-                            mailer_services.send_wallet_withdrawal_email(
+                            mailer_services.send_wallet_withdrawal_email.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
-                            mailer_services.send_wallet_withdrawal_sms(
+                            mailer_services.send_wallet_withdrawal_sms.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
                             return wallet_response  # Outer wallet response
@@ -80,9 +82,9 @@ def process_payout_(
                             # Send a notification mail to the recipient
                             status = trans_status.failed()
                             message = trans_message.failed_message()
-                            mailer_services.send_wallet_withdrawal_failed_email(user_id=recipient.id, message=message,
+                            mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
                                                                                 status=status)
-                            mailer_services.send_wallet_withdrawal_failed_sms(user_id=recipient.id, message=message,
+                            mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
                                                                               status=status)
                             response = {
                                'status': status,
@@ -110,8 +112,10 @@ def process_payout_(
                         )
                     message = trans_message.provide_contact_and_receive_payments() % {'nsp': nsp.upper()}
                     status = trans_status.pending()
-                    mailer_services.send_wallet_withdrawal_failed_email(user_id=recipient.id, message=message, status=status)
-                    mailer_services.send_wallet_withdrawal_failed_sms(user_id=recipient.id, message=message, status=status)
+                    mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
+                                                                              status=status)
+                    mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
+                                                                            status=status)
                     response = {
                         'status': status,
                         'message': message,
@@ -135,18 +139,18 @@ def process_payout_(
                                                               thirdparty_reference=response['transactionId'],
                                                               information=information, force_withdraw=True
                                                               )
-                            mailer_services.send_wallet_withdrawal_email(
+                            mailer_services.send_wallet_withdrawal_email.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
-                            mailer_services.send_wallet_withdrawal_sms(
+                            mailer_services.send_wallet_withdrawal_sms.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
                             return wallet_response  # Inner wallet response
                         else:
-                            mailer_services.send_wallet_withdrawal_email(
+                            mailer_services.send_wallet_withdrawal_email.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
-                            mailer_services.send_wallet_withdrawal_sms(
+                            mailer_services.send_wallet_withdrawal_sms.delay(
                                 user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
                             )
                             return wallet_response  # Outer wallet response
@@ -155,10 +159,12 @@ def process_payout_(
                             # Send a notification mail to the recipient
                             status = trans_status.failed()
                             message = trans_message.failed_message()
-                            mailer_services.send_wallet_withdrawal_failed_email(user_id=recipient.id, message=message,
-                                                                                status=status)
-                            mailer_services.send_wallet_withdrawal_failed_sms(user_id=recipient.id, message=message,
-                                                                              status=status)
+                            mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id,
+                                                                                      message=message,
+                                                                                      status=status)
+                            mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id,
+                                                                                    message=message,
+                                                                                    status=status)
                             response = {
                                'status': status,
                                'message': message
@@ -185,8 +191,8 @@ def process_payout_(
                         )
                     message = trans_message.provide_contact_and_receive_payments() % {'nsp': nsp}
                     status = trans_status.pending()
-                    mailer_services.send_wallet_withdrawal_failed_email(user_id=recipient_id, message=message, status=status)
-                    mailer_services.send_wallet_withdrawal_failed_sms(user_id=recipient_id, message=message, status=status)
+                    mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient_id, message=message, status=status)
+                    mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message, status=status)
                     response = {
                         'status': status,
                         'message': message
@@ -196,8 +202,8 @@ def process_payout_(
             else:
                 status = trans_status.failed()
                 message = trans_message.insufficient_balance_message()
-                mailer_services.send_wallet_withdrawal_failed_email(user_id=recipient.id, message=message, status=status)
-                mailer_services.send_wallet_withdrawal_failed_sms(user_id=recipient.id, message=message, status=status)
+                mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message, status=status)
+                mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message, status=status)
                 response = {
                     'status': status,
                     'message': message
@@ -207,8 +213,8 @@ def process_payout_(
         else:  # if the balance is insufficient
             status = trans_status.failed()
             message = trans_message.insufficient_balance_message()
-            mailer_services.send_wallet_withdrawal_failed_email(user_id=recipient.id, message=message, status=status)
-            mailer_services.send_wallet_withdrawal_failed_sms(user_id=recipient_id, message=message, status=status)
+            mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message, status=status)
+            mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message, status=status)
             response = {
                 'status': status,
                 'message': message
@@ -268,8 +274,8 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
             sender_tel = user.tel2.national_number
             api_response = api_services.request_orange_money_deposit(sender_tel, amount=loading_amount)
         else:
-            mailer_services.send_nsp_contribution_failed_email(user_id=user.id, nsp=nsp, level=level, amount=amount)
-            mailer_services.send_nsp_contribution_failed_sms(user_id=user.id, nsp=nsp, level=level, amount=amount)
+            mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
+            mailer_services.send_nsp_contribution_failed_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
             return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
         if api_response and api_response['status'] == trans_status.success():
             response = wallet.load_and_contribute(
@@ -287,18 +293,19 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
                                               )
                 return {'status': trans_status.success(), 'message': trans_message.success_message()}
             else:
+
                 FailedOperations.objects.create(
                     user=user, recipient=recipient, level=level, amount=amount, nsp=nsp, sender_tel=sender_tel,
                     processing_fee=processing_fee, transaction_id=api_response['transactionId'],
                     status=trans_status.pending(), operation_type=fot.contribution(),
                     message=response['message'], response_status=response['status']
                 )
-                mailer_services.send_nsp_contribution_pending_email(user_id=user.id, nsp=nsp, level=level, amount=amount)
-                mailer_services.send_nsp_contribution_pending_sms(user_id=user.id, nsp=nsp, level=level, amount=amount)
+                mailer_services.send_nsp_contribution_pending_email.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
+                mailer_services.send_nsp_contribution_pending_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
                 return {'status': trans_status.pending(), 'message': trans_message.failed_message()}
         else:
-            mailer_services.send_nsp_contribution_failed_email(user_id=user.id, nsp=nsp, level=level, amount=amount)
-            mailer_services.send_nsp_contribution_failed_sms(user_id=user.id, nsp=nsp, level=level, amount=amount)
+            mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
+            mailer_services.send_nsp_contribution_failed_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
             return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
     elif nsp == service_provider.mtn_wallet():
         # then processing will be done in the mtn wallet
@@ -324,10 +331,10 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
                 status=trans_status.pending(), operation_type=fot.contribution(), message=response['message'],
                 response_status=response['status']
             )
-            mailer_services.send_wallet_contribution_failed_email(
+            mailer_services.send_wallet_contribution_failed_email.delay(
                 user_id=user.id, nsp=service_provider.mtn_wallet(), level=level, amount=amount
             )
-            mailer_services.send_wallet_contribution_failed_sms(
+            mailer_services.send_wallet_contribution_failed_sms.delay(
                 user_id=user.id, nsp=service_provider.mtn_wallet(), level=level, amount=amount
             )
             return {'status': trans_status.pending(), 'message': trans_message.failed_message()}
@@ -356,10 +363,10 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
                 processing_fee=processing_fee, transaction_id=thirdparty_reference, status=trans_status.pending(),
                 operation_type=fot.contribution(), message=response['message'], response_status=response['status']
             )
-            mailer_services.send_wallet_contribution_failed_email(
+            mailer_services.send_wallet_contribution_failed_email.delay(
                 user_id=user.id, nsp=service_provider.orange_wallet(), level=level, amount=amount
             )
-            mailer_services.send_wallet_contribution_failed_sms(
+            mailer_services.send_wallet_contribution_failed_sms.delay(
                 user_id=user.id, nsp=service_provider.orange_wallet(), level=level, amount=amount
             )
 
@@ -426,21 +433,23 @@ def process_contribution_response(response, user, recipient, level, recipient_am
         # Send a confirmation sms and/or email to sender.
         mailer_services.send_wallet_contribution_paid_email.delay(sender_id=user.id, recipient_id=recipient.id,
                                                                   amount=recipient_amount,
-                                                                  processing_fee=processing_fee, nsp=nsp, level=level
+                                                                  processing_fee=processing_fee, nsp=nsp, level=level,
                                                                   )
         mailer_services.send_wallet_contribution_paid_sms.delay(sender_id=user.id, recipient_id=recipient.id,
                                                                 amount=recipient_amount, processing_fee=processing_fee,
-                                                                nsp=nsp, level=level
+                                                                nsp=nsp, level=level,
                                                                 )
 
         # send sms or email to recipient notifying him/her of amount received in the wallet.
         mailer_services.send_wallet_contribution_received_email.delay(sender_id=user.id, recipient_id=recipient.id,
                                                                       nsp=nsp,
-                                                                      amount=recipient_amount, processing_fee=0.00
+                                                                      amount=recipient_amount, processing_fee=0.00,
+                                                                      level=level
                                                                       )
         mailer_services.send_wallet_contribution_received_sms.delay(sender_id=user.id, recipient_id=recipient.id,
                                                                     nsp=nsp,
-                                                                    amount=recipient_amount, processing_fee=0.00
+                                                                    amount=recipient_amount, processing_fee=0.00,
+                                                                    level=level
                                                                     )
 
         # process payout to the recipient. Delay it and let Celery take over.
@@ -487,23 +496,23 @@ def process_wallet_load(user_id, amount, nsp, charge=0.00):
                     return response
                 elif load_response['status'] == trans_status.success():
                     # inform the user by sms/mail of the successful operation.
-                    mailer_services.send_wallet_load_success_email(user_id=user.id, amount=amount,
-                                                                   processing_fee=charge, nsp=nsp)
-                    mailer_services.send_wallet_load_success_sms(user_id=user.id, amount=amount, processing_fee=charge,
-                                                                 nsp=nsp)
+                    mailer_services.send_wallet_load_success_email.delay(user_id=user.id, amount=amount,
+                                                                         processing_fee=charge, nsp=nsp)
+                    mailer_services.send_wallet_load_success_sms.delay(user_id=user.id, amount=amount,
+                                                                       processing_fee=charge, nsp=nsp)
                     return load_response
             else:
                 # Inform the user of a failed operation.
-                mailer_services.send_wallet_load_failed_email(user_id=user.id, amount=amount,
-                                                              processing_fee=charge, nsp=nsp)
-                mailer_services.send_wallet_load_failed_sms(user_id=user.id, amount=amount, processing_fee=charge,
-                                                            nsp=nsp)
+                mailer_services.send_wallet_load_failed_email.delay(user_id=user.id, amount=amount,
+                                                                    processing_fee=charge, nsp=nsp)
+                mailer_services.send_wallet_load_failed_sms.delay(user_id=user.id, amount=amount, processing_fee=charge,
+                                                                  nsp=nsp)
                 response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
                 return response
         else:
             """Inform of unverified MTN Number"""
             mailer_services.send_unverified_phone_number_mail(user_id=user_id, nsp=nsp)
-            mailer_services.send_unverified_phone_number_sms(user_id=user_id, nsp=nsp)
+            mailer_services.send_unverified_phone_number_sms.delay(user_id=user_id, nsp=nsp)
             response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
             return response
 
@@ -528,31 +537,31 @@ def process_wallet_load(user_id, amount, nsp, charge=0.00):
                     return response
                 elif load_response['status'] == trans_status.success():
                     # inform the user by sms/mail of the successful operation.
-                    mailer_services.send_wallet_load_success_email(user_id=user.id, amount=amount,
-                                                                   processing_fee=charge, nsp=nsp)
-                    mailer_services.send_wallet_load_success_sms(user_id=user.id, amount=amount, processing_fee=charge,
-                                                                 nsp=nsp)
+                    mailer_services.send_wallet_load_success_email.delay(user_id=user.id, amount=amount,
+                                                                         processing_fee=charge, nsp=nsp)
+                    mailer_services.send_wallet_load_success_sms.delay(user_id=user.id, amount=amount,
+                                                                       processing_fee=charge, nsp=nsp)
                     return load_response
             else:
                 # Inform the user of a failed operation.
-                mailer_services.send_wallet_load_failed_email(user_id=user.id, amount=amount,
-                                                              processing_fee=charge, nsp=nsp)
-                mailer_services.send_wallet_load_failed_sms(user_id=user.id, amount=amount, processing_fee=charge,
-                                                            nsp=nsp)
+                mailer_services.send_wallet_load_failed_email.delay(user_id=user.id, amount=amount,
+                                                                    processing_fee=charge, nsp=nsp)
+                mailer_services.send_wallet_load_failed_sms.delay(user_id=user.id, amount=amount, processing_fee=charge,
+                                                                  nsp=nsp)
                 response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
                 return response
         else:
             """Inform of unverified MTN Number"""
             mailer_services.send_unverified_phone_number_mail(user_id=user_id, nsp=nsp)
-            mailer_services.send_unverified_phone_number_sms(user_id=user_id, nsp=nsp)
+            mailer_services.send_unverified_phone_number_sms.delay(user_id=user_id, nsp=nsp)
             response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
             return response
     else:
         """inform of invalid nsp"""
-        mailer_services.send_wallet_load_failed_email(user_id=user.id, amount=amount,
-                                                      processing_fee=charge, nsp=nsp)
-        mailer_services.send_wallet_load_failed_sms(user_id=user.id, amount=amount, processing_fee=charge,
-                                                    nsp=nsp)
+        mailer_services.send_wallet_load_failed_email.delay(user_id=user.id, amount=amount,
+                                                            processing_fee=charge, nsp=nsp)
+        mailer_services.send_wallet_load_failed_sms.delay(user_id=user.id, amount=amount, processing_fee=charge,
+                                                          nsp=nsp)
         response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
         return response
 
@@ -560,7 +569,7 @@ def process_wallet_load(user_id, amount, nsp, charge=0.00):
 @app.task
 def send_contribution_due_reminder():
     """
-    Sends reminders to users, from 5 days to the date of their next level due contribution.
+    Sends reminders to users, from 3 days to the date of their next level due contribution.
     """
     queryset = LevelModel.objects.filter(
         is_active=True
@@ -641,10 +650,10 @@ def process_automatic_contributions():
                 nsp = _nsp.mtn_wallet()
                 sender_tel = obj.user.tel1
             else:  # Insufficient funds, send them failed mails/sms
-                mailer_services.send_auto_wallet_contribution_failed_email(
+                mailer_services.send_auto_wallet_contribution_failed_email.delay(
                     user_id=obj.user.id, level=level, amount=amount
                 )
-                mailer_services.send_auto_wallet_contribution_failed_email(
+                mailer_services.send_auto_wallet_contribution_failed_email.delay(
                     user_id=obj.user.id, level=level, amount=amount
                 )
 
@@ -666,10 +675,10 @@ def process_automatic_contributions():
                             user_id=obj.user.id, level=level, amount=amount
                         )
                 else:
-                    mailer_services.send_auto_wallet_contribution_failed_email(
+                    mailer_services.send_auto_wallet_contribution_failed_email.delay(
                         user_id=obj.user.id, level=level, amount=amount
                     )
-                    mailer_services.send_auto_wallet_contribution_failed_email(
+                    mailer_services.send_auto_wallet_contribution_failed_email.delay(
                         user_id=obj.user.id, level=level, amount=amount
                     )
             else:

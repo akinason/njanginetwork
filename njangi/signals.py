@@ -20,11 +20,12 @@ TRANSStatus = TransactionStatus()
 
 
 @receiver(post_save, sender=FailedOperations)
-def email_admin(sender, instance, **kwargs):
+def email_admin(sender, instance, created, **kwargs):
     """
     Send an email to admin each time a new record is added to the FailedOperations model.
     """
-    mailer_services.send_failed_operation_admin_email(instance_id=instance.id)
+    if created:
+        mailer_services.send_failed_operation_admin_email(instance_id=instance.id)
 
 
 @receiver(post_save, sender=FailedOperations)
@@ -38,7 +39,7 @@ def process_failed_withdrawals(sender, instance, **kwargs):
     transaction = instance
     if transaction.status == TRANSStatus.provide_contact() and transaction.operation_type == fot.withdrawal():
 
-        if transaction.attempts >= 10:
+        if transaction.attempts >= 4:
             return False
         else:
             response = process_payout_(
@@ -67,15 +68,16 @@ def process_failed_wallet_load_after_success_api_response(sender, instance, **kw
     transaction = instance
     if transaction.status == TRANSStatus.pending() and transaction.operation_type == fot.account_load_api_processed():
 
-        # If the user does not have tel1 or a verified tel1 then just increase the attempts to solve the problem.
-        if transaction.attempts >= 10:
+        if transaction.attempts >= 4:
             return False
         if transaction.nsp == service_provider.mtn() and not transaction.user.tel1 and not \
                 transaction.user.tel1_is_verified:
+            # If the user does not have tel1 or a verified tel1 then just increase the attempts to solve the problem.
             transaction.attempts += 1
             transaction.save()
         elif transaction.nsp == service_provider.orange() and not transaction.user.tel2 and not \
                 transaction.user.tel2_is_verified:
+            # If the user does not have tel2 or a verified tel2 then just increase the attempts to solve the problem.
             transaction.attempts += 1
             transaction.save()
         else:
@@ -117,4 +119,6 @@ def process_failed_wallet_load_after_success_api_response(sender, instance, **kw
 #     successful in loading the user's wallet and contributing + processing the payout to the recipient.
 #     Their status in the FailedOperations Model is 'pending' and operation_type is 'contribution'
 #     """
-#
+
+#     This function attempts to process the contribution all over without making call to the the API except when paying
+#     out to the recipient.

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import SignupForm, ProfileChangeForm
+from .forms import SignupForm, ProfileChangeForm, ContactForm
 from django.views import generic
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
@@ -10,14 +10,38 @@ from django.contrib.auth.views import LoginView as DefaultLoginView, PasswordRes
     PasswordChangeDoneView as DefaultPasswordChangeDoneView, LogoutView as DefaultLogoutView
 from njangi.core import add_user_to_njangi_tree, create_user_levels
 from django.contrib.auth.mixins import LoginRequiredMixin
+from main import website
+from main.models import LevelModel
+from mailer import services as mailer_services
+from njanginetwork import settings
+from django.utils.translation import ugettext_lazy as _
+from django.contrib import messages
 
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.FormView):
     template_name = 'main/index.html'
+    form_class = SignupForm
+
+    def get_form_kwargs(self):
+        """
+       Returns the keyword arguments for instantiating the form.
+       """
+        kwargs = super(IndexView, self).get_form_kwargs()
+        if self.request.method in ('GET', 'POST', 'PUT'):
+            kwargs.update({'sponsor': get_sponsor(self.request).pk})
+        return kwargs
 
     def get(self, request, *args, **kwargs):
         add_sponsor_id_to_session(request)
         return super(IndexView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['the_problem'] = website.the_problem()
+        context['njangi_network'] = website.njangi_network()
+        context['the_model'] = website.the_model()
+        context['njangi_levels'] = LevelModel.objects.all().order_by('level')
+        return context
 
 
 class SignupView(generic.CreateView):
@@ -83,7 +107,7 @@ class PasswordResetConfirmView(DefaultPasswordConfirmView):
 
 
 class PasswordResetCompleteView(DefaultPasswordResetCompleteView):
-    template_name = 'registration/password_reset_complete'
+    template_name = 'registration/password_reset_complete.html'
 
 
 class PasswordChangeView(DefaultPasswordChangeView):
@@ -93,3 +117,29 @@ class PasswordChangeView(DefaultPasswordChangeView):
 
 class PasswordChangeDoneView(DefaultPasswordChangeDoneView):
     template_name = 'registration/password_change_done.html'
+
+
+class ContactView(generic.FormView):
+    template_name = 'main/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('main:contact')
+
+    def form_valid(self, form):
+        name = self.request.POST.get('contact_name')
+        email = self.request.POST.get('contact_email')
+        content = self.request.POST.get('message')
+
+        mailer_services.send_email.delay(
+            subject='Contact From:' + str(name),
+            message=content,
+            reply_to=email,
+            to_email=settings.CONTACT_EMAIL,
+        )
+
+        messages.add_message(
+            request=self.request, level=messages.SUCCESS, message=_(
+                "Thanks for contacting, we will get back to you as soon as possible."
+            )
+        )
+        return super(ContactView, self).form_valid(form)
+

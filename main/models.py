@@ -123,3 +123,15 @@ class User(AbstractUser):
             return _('active')
         else:
             return _('inactive')
+
+
+class LevelModel(models.Model):
+    level = models.PositiveIntegerField(verbose_name=_('level'))
+    downlines = models.PositiveIntegerField(_('downlines'))
+    cumm_downlines = models.PositiveIntegerField(_('cumm. downlines'))
+    contribution = models.DecimalField(_('contribution'), max_digits=10, decimal_places=2)
+    receipts = models.DecimalField(_('receipts'), max_digits=10, decimal_places=2)
+    cumm_receipts = models.DecimalField(_("cumm. receipts"), max_digits=10, decimal_places=2)
+    cumm_contribution = models.DecimalField(_('cumm. contribution'), max_digits=10, decimal_places=2)
+    monthly_profit = models.DecimalField(_('monthly profit'), max_digits=10, decimal_places=2)
+    upgrade_after = models.PositiveIntegerField(_('upgrade after'), default=0)

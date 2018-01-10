@@ -173,12 +173,15 @@ MEDIA_URL = '/media/'
 
 
 # Email Configurations.
-DEFAULT_FROM_EMAIL = 'support@njangi.network'
+DEFAULT_FROM_EMAIL = 'admin@gloxon.info'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'njanginetwork@gmail.com'
-EMAIL_HOST_PASSWORD = 'scoolings245'
+EMAIL_HOST = 'mail.privateemail.com'
+EMAIL_HOST_USER = 'admin@gloxon.info'
+EMAIL_HOST_PASSWORD = '?wLKb8$cV8%Z8'
 EMAIL_PORT = 587
+ADMIN_EMAIL = 'admin@gloxon.info'
+CONTACT_EMAIL = 'njanginetwork@gmail.com'
+SUPPORT_EMAIL = 'njanginetwork@gmail.com'
 
 
 # MTN Mobile Money API configuration by webshinobis.com

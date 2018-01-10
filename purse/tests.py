@@ -153,7 +153,7 @@ class WalletManagerTest(TestCase):
         sender_charge = 150.00
         recipient_charge = 100.00
         thirdparty_reference = 20153684
-        sender_tel = 675397307  # Wrong Tel length
+        sender_tel = 67397307  # Wrong Tel length
         recipient_tel = 67558866025
         information = 'Level 2 contribution.'
         file = open(os.path.join(settings.BASE_DIR, 'purse', 'tests.txt'), 'w')
@@ -310,8 +310,8 @@ class WalletManagerTest(TestCase):
         sender_charge = 150.00
         recipient_charge = 100.00
         thirdparty_reference = 20153684
-        sender_tel = 67539730701
-        recipient_tel = 67558866012
+        sender_tel = 6753973070125225562
+        recipient_tel = 6755886601225556
         information = 'Funds transfer'
         file = open(os.path.join(settings.BASE_DIR, 'purse', 'tests.txt'), 'w')
 

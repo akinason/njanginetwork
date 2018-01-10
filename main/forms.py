@@ -117,3 +117,13 @@ class ProfileChangeForm(forms.ModelForm):
                 instance.email_is_verified = True
             instance.save()
         return instance
+
+
+class ContactForm(forms.Form):
+    contact_name = forms.CharField(label=_('full name'), required=True, max_length=50)
+    contact_email = forms.EmailField(label=_('email'), required=True)
+    message = forms.CharField(
+        label=_('message'),
+        required=True,
+        widget=forms.Textarea
+    )

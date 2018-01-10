@@ -84,6 +84,7 @@ class FailedOperationTypes:
     _contribution = 'contribution'
     _account_load_api_processed = 'account_load_api_processed'
     _withdrawal = 'withdrawal'
+    _contribution_api_processed = 'contribution_api_processed'
 
     def contribution(self):
         # Used when a contribution operation fails.
@@ -97,3 +98,8 @@ class FailedOperationTypes:
     def withdrawal(self):
         # Used when a withdrawal request fails.
         return self._withdrawal
+
+    def contribution_api_processed(self):
+        # Used when contribution has been processed by the API at the level of the contributor but pending
+        # Loading to the user's wallet, recipients wallet and payout to recipient.
+        return self._contribution_api_processed

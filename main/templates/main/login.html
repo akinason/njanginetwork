@@ -1,18 +1,58 @@
+{% extends "base_website.html" %}
+{% load static i18n humanize njangi_tags main_tags %}
 
+{% block content %}
+    <!--  Content -->
+    <div id="signup" class="bg-white">
+        <div class="section-title col-lg-8 col-md-10 ml-auto mr-auto py-5">
+            <h3 class="text-left mb-4">{% trans 'Login'|title %} 🦄</h3>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" content="text/html">
-    <title>Title</title>
-</head>
-<body>
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
-</body>
+        </div>
+        <div class="example col-lg-8 col-md-10 ml-auto mr-auto">
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <form  action="{% url 'main:login' %}" method="post">{% csrf_token %}
+                         <div class="row">
+                            <div class="form-group col-md-6" align="left">
+                               {% if form.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <i class="fa fa-exclamation-circle"></i> {% trans "The username and password you entered do not match." %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
 
-</html>
+                        <div class="row">
+                            <div class="form-group col-md-6" align="left">
+                                <label for="{{ form.username.id_for_label }}" class="col-form-label">{{ form.username.label }}</label>
+                                {{ form.username|addcss:'form-control' }}<br>
+                                {{ form.username.help_text |safe }}
+                                <span class="help-block with-errors">{{ form.username.errors|safe }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-6" align="left">
+                                <label for="{{ form.password.id_for_label }}" class="col-form-label">{{ form.password.label }}</label>
+                                {{ form.password|addcss:'form-control' }}<br>
+                                {{ form.password.help_text|safe }}
+                                <span class="help-block with-errors">{{ form.password.errors|safe }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                <input class="btn btn-primary btn-pill d-flex ml-auto mr-auto" type="submit" value="{% trans 'login'|title %}">
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                {% trans "forgotten your password?"|title %}<a href="{% url 'main:password_reset' %}"> {% trans "reset"|title %}</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Content -->
+{% endblock %}

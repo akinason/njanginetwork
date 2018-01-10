@@ -1,6 +1,6 @@
 import decimal
 from django.db import models, IntegrityError, transaction
-from django.db.models import Sum, F, Value as V
+from django.db.models import Sum, F, Value as V, Q
 from django.db.models.functions import Coalesce
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
@@ -157,7 +157,7 @@ class WalletManager:
 
         modified_charge = abs(charge) * -1
 
-        wallet = self.model.objects.create( user=user, amount=amount, charge=modified_charge, nsp=nsp )
+        wallet = self.model.objects.create(user=user, amount=amount, charge=modified_charge, nsp=nsp)
         if tel:
             wallet.tel = tel
         if thirdparty_reference:
@@ -288,8 +288,11 @@ class WalletManager:
         return response
 
     def balance(self, user, nsp):
+        trans_status = WalletTransStatus()
         # returns the wallet balance of the specified user.
-        wallet = self.model.objects.filter(user=user, nsp=nsp).aggregate(
+        wallet = self.model.objects.filter(user=user, nsp=nsp).filter(
+            Q(status=trans_status.complete()) | Q(status=trans_status.success())
+        ).aggregate(
             balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
         )
         balance = D(wallet['balance'])

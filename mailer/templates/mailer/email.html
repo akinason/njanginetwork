@@ -1,39 +1,3 @@
-<!--
-==================== Respmail ====================
-Respmail is a response HTML email designed to work
-on all major devices and responsive for smartphones
-that support media queries.
-
-** NOTE **
-This template comes with a lot of standard features
-that has been thoroughly tested on major platforms
-and devices, it is extremely flexible to use and
-can be easily customized by removing any row that
-you do not need.
-
-it is gauranteed to work 95% without any major flaws,
-any changes or adjustments should thoroughly be
-tested and reviewed to match with the general
-structure.
-
-** Profile **
-Licensed under MIT (https://github.com/charlesmudy/responsive-html-email-template/blob/master/LICENSE)
-Designed by Shina Charles Memud
-Respmail v1.2 (http://charlesmudy.com/respmail/)
-
-** Quick modification **
-We are using width of 500 for the whole content,
-you can change it any size you want (e.g. 600).
-The fastest and safest way is to use find & replace
-Sizes: [
-		wrapper   : '500',
-		columns   : '210',
-		x-columns : [
-						left : '90',
-						right: '350'
-				]
-		}
-	-->
 
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 	{% load static i18n humanize njangi_tags tz %}
@@ -236,16 +200,7 @@ Sizes: [
 															<!-- CONTENT TABLE // -->
 															<table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
 																<tr>
-																	<!--
-																		The "invisibleIntroduction" is the text used for short preview
-																		of the email before the user opens it (50 characters max). Sometimes,
-																		you do not want to show this message depending on your design but this
-																		text is highly recommended.
 
-																		You do not have to worry if it is hidden, the next <td> will automatically
-																		center and apply to the width 100% and also shrink to 50% if the first <td>
-																		is visible.
-																	-->
 																	<td align="left" valign="middle" id="invisibleIntroduction" class="flexibleContainerBox" style="display:none !important; mso-hide:all;">
 																		<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:100%;">
 																			<tr>
