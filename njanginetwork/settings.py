@@ -104,7 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'njangi',
         'USER': 'viicha',
-        'PASSWORD': 'xlmtsworld',
+        'PASSWORD': 'viicha',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -173,15 +173,15 @@ MEDIA_URL = '/media/'
 
 
 # Email Configurations.
-DEFAULT_FROM_EMAIL = 'admin@gloxon.info'
+DEFAULT_FROM_EMAIL = 'contact@njanginetwork.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'mail.privateemail.com'
-EMAIL_HOST_USER = 'admin@gloxon.info'
-EMAIL_HOST_PASSWORD = '?wLKb8$cV8%Z8'
+EMAIL_HOST_USER = 'contact@njanginetwork.com'
+EMAIL_HOST_PASSWORD = '*45H0KRs$1.F.'
 EMAIL_PORT = 587
-ADMIN_EMAIL = 'admin@gloxon.info'
-CONTACT_EMAIL = 'njanginetwork@gmail.com'
-SUPPORT_EMAIL = 'njanginetwork@gmail.com'
+ADMIN_EMAIL = 'admin@njanginetwork.com'
+CONTACT_EMAIL = 'contact@njanginetwork.com'
+SUPPORT_EMAIL = 'contact@njanginetwork.com'
 
 
 # MTN Mobile Money API configuration by webshinobis.com
@@ -197,6 +197,15 @@ REDIS_PORT = '6379'
 BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+#*******************************
+# Twilio Configurations
+#*******************************
+
+TWILIO_ACCOUNT_SID ='AC31b924ed5ed23f93f3a66ae17ad86690'
+TWILIO_AUTH_TOKEN = 'b0f9c38904c0ad7fb8a126e75e3b019f'
+TWILIO_PHONE_NUMBER = '+14154293468'
+TWILIO_VERIFIED_NUMBER = '+237675397307'
 
 
 if DEBUG:

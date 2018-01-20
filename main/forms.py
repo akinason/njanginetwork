@@ -5,6 +5,7 @@ from django.forms.widgets import HiddenInput
 from main.models import TEL_MAX_LENGTH
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field import widgets as phonenumber_widgets
+from mailer import services
 
 
 class SignupForm(forms.ModelForm):
@@ -71,6 +72,8 @@ class SignupForm(forms.ModelForm):
             if instance.email:
                 instance.email_is_verified = True
             instance.save()
+            services.send_signup_welcome_email(user_id=instance.id)
+            services.send_signup_welcome_sms(user_id=instance.id)
         return instance
 
 
@@ -99,7 +102,8 @@ class ProfileChangeForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'tel1', 'tel2', 'tel3', 'first_name', 'last_name', 'gender', 'email']
+        fields = ['username', 'tel1', 'tel2', 'tel3', 'first_name', 'last_name', 'gender', 'email',
+                  'allow_automatic_contribution']
 
     def send_email(self):
         pass

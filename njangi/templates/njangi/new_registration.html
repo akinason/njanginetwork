@@ -38,7 +38,7 @@
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <span class="help-block with-errors">{{ form.gender.errors }}</span>
                     <label for="{{ form.gender.id_for_label }}" class="col-sm-2 control-label">{{ form.gender.label }}</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-2">
                         {{ form.gender|addcss:'form-control' }}
                     </div>
                     <div class="col-sm-2">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
 
-                 <h4>{% trans 'login information'|title %}</h4><br>
+                 <p><br><h4>{% trans 'login information'|title %}</h4><br></p>
 
                 <div class="form-group fieldWrapper has-feedback">
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>

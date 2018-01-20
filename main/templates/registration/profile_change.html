@@ -14,8 +14,8 @@
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.username.errors|safe }}</span>
-                        <label for="{{ form.username.id_for_label }}" class="col-sm-2 control-label">{{ form.username.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.username.id_for_label }}" class="col-sm-3 control-label">{{ form.username.label }}</label>
+                        <div class="col-sm-6">
                             {{ form.username|addcss:'form-control' }}
                         </div>
                         <div class="col-sm-2">
@@ -25,8 +25,8 @@
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.first_name.errors|safe }}</span>
-                        <label for="{{ form.first_name.id_for_label }}" class="col-sm-2 control-label">{{ form.first_name.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.first_name.id_for_label }}" class="col-sm-3 control-label">{{ form.first_name.label }}</label>
+                        <div class="col-sm-6">
                             {{ form.first_name|addcss:'form-control' }}
                         </div>
                         <div class="col-sm-2">
@@ -36,8 +36,8 @@
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.last_name.errors|safe }}</span>
-                        <label for="{{ form.last_name.id_for_label }}" class="col-sm-2 control-label">{{ form.last_name.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.last_name.id_for_label }}" class="col-sm-3 control-label">{{ form.last_name.label }}</label>
+                        <div class="col-sm-6">
                             {{ form.last_name|addcss:'form-control' }}
                         </div>
                         <div class="col-sm-2">
@@ -47,8 +47,8 @@
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.gender.errors }}</span>
-                        <label for="{{ form.gender.id_for_label }}" class="col-sm-2 control-label">{{ form.gender.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.gender.id_for_label }}" class="col-sm-3 control-label">{{ form.gender.label }}</label>
+                        <div class="col-sm-2">
                             {{ form.gender|addcss:'form-control' }}
                         </div>
                         <div class="col-sm-2">
@@ -58,49 +58,104 @@
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.tel1.errors }}</span>
-                        <label for="{{ form.tel1.id_for_label }}" class="col-sm-2 control-label">{{ form.tel1.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.tel1.id_for_label }}" class="col-sm-3 control-label">{{ form.tel1.label }}</label>
+                        <div class="col-sm-4">
                             {{ form.tel1|addcss:'form-control' }}
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
+                            {% if user.tel1 %}
+                                {% if user.tel1_is_verified %}
+                                    <span class="label label-success">{% trans 'verified' %} </span>
+                                {% else %}
+                                    <span class="label label-danger">{% trans 'unverified' %} </span>
+                                    <!--<a href="#" >{% trans 'verify' %}</a>-->
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-1">
                             <p class="help-block">{{ form.tel1.help_text }}</p>
                         </div>
+
                     </div>
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.tel2.errors|safe }}</span>
-                        <label for="{{ form.tel2.id_for_label }}" class="col-sm-2 control-label">{{ form.tel2.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.tel2.id_for_label }}" class="col-sm-3 control-label">{{ form.tel2.label }}</label>
+                        <div class="col-sm-4">
                             {{ form.tel2|addcss:'form-control' }}
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
+                            {% if user.tel2 %}
+                                {% if user.tel2_is_verified %}
+                                    <span class="label label-success">{% trans 'verified' %} </span>
+                                {% else %}
+                                    <span class="label label-danger">{% trans 'unverified' %} </span>
+                                    <!--<a href="#" >{% trans 'verify' %}</a>-->
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-1">
                             <p class="help-block">{{ form.tel2.help_text }}</p>
                         </div>
+
                     </div>
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.tel3.errors }}</span>
-                        <label for="{{ form.tel3.id_for_label }}" class="col-sm-2 control-label">{{ form.tel3.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.tel3.id_for_label }}" class="col-sm-3 control-label">{{ form.tel3.label }}</label>
+                        <div class="col-sm-4">
                             {{ form.tel3|addcss:'form-control' }}
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
+                            {% if user.tel3 %}
+                                {% if user.tel3_is_verified %}
+                                    <span class="label label-success">{% trans 'verified' %} </span>
+                                {% else %}
+                                    <span class="label label-danger">{% trans 'unverified' %} </span>
+                                    <!--<a href="#" >{% trans 'verify' %}</a>-->
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-1">
                             <p class="help-block">{{ form.tel2.help_text }}</p>
                         </div>
+
                     </div>
                     <div class="form-group fieldWrapper has-feedback">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block with-errors">{{ form.email.errors }}</span>
-                        <label for="{{ form.email.id_for_label }}" class="col-sm-2 control-label">{{ form.email.label }}</label>
-                        <div class="col-sm-8">
+                        <label for="{{ form.email.id_for_label }}" class="col-sm-3 control-label">{{ form.email.label }}</label>
+                        <div class="col-sm-4">
                             {{ form.email|addcss:'form-control' }}
+                        </div>
+                        <div class="col-sm-1">
+                            {% if user.email %}
+                                {% if user.email_is_verified %}
+                                    <span class="label label-success">{% trans 'verified' %} </span>
+                                {% else %}
+                                    <span class="label label-danger">{% trans 'unverified' %} </span>
+                                    <!--<a href="#" >{% trans 'verify' %}</a>-->
+                                {% endif %}
+                            {% endif %}
                         </div>
                         <div class="col-sm-2">
                             <p class="help-block">{{ form.email.help_text }}</p>
                         </div>
+
+                    </div>
+                    <div class="form-group fieldWrapper has-feedback">
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <span class="help-block with-errors">{{ form.allow_automatic_contribution.errors }}</span>
+                        <label for="{{ form.allow_automatic_contribution.id_for_label }}" class="col-sm-3 control-label">{{ form.allow_automatic_contribution.label }}</label>
+                        <div class="col-sm-2">
+                            {{ form.allow_automatic_contribution|addcss:'form-control' }}
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">{{ form.allow_automatic_contribution.help_text }}</p>
+                        </div>
                     </div>
 
-                    <div class="col-sm-offset-2">
+                    <div class="col-sm-offset-3">
                       <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>

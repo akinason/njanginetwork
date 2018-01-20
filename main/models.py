@@ -17,6 +17,11 @@ GENDER_TYPES = (
 
 TEL_MAX_LENGTH = 13
 
+TRUE_FALSE_CHOICES = (
+    (1, _('Yes')),
+    (0, _('No')),
+)
+
 
 class UserManager(DefaultUserManager):
     def create_admin(self, username, first_name, last_name, gender, tel1):
@@ -54,17 +59,22 @@ class User(AbstractUser):
     last_name = models.CharField(_('last name'), max_length=50, blank=False, help_text='*')
     gender = models.CharField(_('gender'), choices=GENDER_TYPES, max_length=6, help_text='*')
     tel1 = PhoneNumberField(_('MTN number'), help_text='*')
+    tel2 = PhoneNumberField(_('Orange number'), help_text='*', blank=True, null=True)
     sponsor = models.PositiveIntegerField(_('sponsor'), blank=True, null=True, db_index=True)
+    email = models.EmailField(
+        _('email address'), unique=True, blank=True,
+        error_messages={
+            'unique': _("Email already exist."),
+        }
+    )
 
     # Non Required fields. **********************
 
-    email = models.EmailField(_('email address'), blank=True, null=True)
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('is active'), default=True)
     is_admin = models.BooleanField(default=False)
     country = CountryField(_('country'), max_length=3, default='CM')
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
-    tel2 = PhoneNumberField(_('Orange number'), help_text='*', blank=True, null=True)
     tel3 = PhoneNumberField(_('Nexttel number'), help_text=_('optional'), blank=True, null=True)
 
     profile_picture = models.ImageField(
@@ -72,7 +82,9 @@ class User(AbstractUser):
     )
     sponsor_id = models.PositiveIntegerField(blank=True, null=True, unique=True)
     level = models.PositiveIntegerField(_('level'), default=0)
-    allow_automatic_contribution = models.BooleanField(_('allow automatic contributions'), default=False)
+    allow_automatic_contribution = models.BooleanField(
+        _('allow automatic contributions'), default=False, choices=TRUE_FALSE_CHOICES
+    )
 
     # Verification Fields.
     tel1_verification_uuid = models.IntegerField(blank=True, null=True, unique=True)
@@ -89,6 +101,11 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'gender', 'tel1', 'sponsor']
+
+    def clean(self):
+        if self.email == "":
+            self.email = None
+        super(User, self).clean()
 
     def set_unique_random_tel1_code(self):
         while True:

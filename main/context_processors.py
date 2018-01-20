@@ -1,9 +1,9 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model as UserModel
-from datetime import datetime, timedelta, time
+from datetime import datetime
 from django.utils import timezone
-from njangi.context_processors import get_user_node
-from django.views import generic
+from django.contrib.sites.shortcuts import get_current_site
+from main.utils import get_sponsor
 
 
 class SiteInformation:
@@ -15,8 +15,11 @@ class SiteInformation:
 
     today = timezone.now().date()
 
-    _today_users = UserModel().objects.filter(date_joined__date=today).count()
+    _today_users = UserModel().objects.filter(date_joined__date=today, is_admin=False).count()
     _current_date = datetime.now()
+
+    def __init__(self, request):
+        self.request = request
 
     def accronym(self):
         return self._accronym
@@ -25,7 +28,7 @@ class SiteInformation:
         return self._name
 
     def website(self):
-        return self._website
+        return get_current_site(self.request)
 
     def total_users(self):
         return self._total_users
@@ -42,6 +45,7 @@ class SiteInformation:
 
 def main_context_processors(request):
     context = {
-        'site_info': SiteInformation(),
+        'site_info': SiteInformation(request),
+        'sponsor': get_sponsor(request)
     }
     return context

@@ -52,12 +52,12 @@ def request_orange_money_payout(phone_number, amount):
 
 
 def request_orange_money_deposit(phone_number, amount):
-    # url = settings.MOMO_CHECKOUT_URL
-    # email = settings.MOMO_AUTH_EMAIL
-    # password = settings.MOMO_AUTH_PASSWORD
-    # params = {'email': email, 'password': password, 'amount': amount, 'phone': phone_number}
-    # r = requests.post(url=url, data=params)
-    # response = r.json()
+    url = settings.MOMO_CHECKOUT_URL
+    email = settings.MOMO_AUTH_EMAIL
+    password = settings.MOMO_AUTH_PASSWORD
+    params = {'email': email, 'password': password, 'amount': amount, 'phone': phone_number}
+    r = requests.post(url=url, data=params)
+    response = r.json()
     response = {'status': 'success', 'message': 'operation successful', 'transactionId': 256582,
                 'transactionDate': timezone.now(), 'phoneNumber': 675588556, 'amount': 5000
                 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 16:49+0100\n"
+"POT-Creation-Date: 2018-01-12 12:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -601,10 +601,12 @@ msgid "Unknown"
 msgstr ""
 
 #: env/lib/python3.5/site-packages/django/forms/widgets.py:707
+#: main/models.py:21
 msgid "Yes"
 msgstr ""
 
 #: env/lib/python3.5/site-packages/django/forms/widgets.py:708
+#: main/models.py:22
 msgid "No"
 msgstr ""
 
@@ -1401,11 +1403,11 @@ msgstr ""
 msgid "contact us"
 msgstr ""
 
-#: main/context_processors.py:10
+#: main/context_processors.py:9
 msgid "NNetwork"
 msgstr ""
 
-#: main/context_processors.py:11
+#: main/context_processors.py:10
 msgid "Njangi Network"
 msgstr ""
 
@@ -1453,87 +1455,91 @@ msgstr ""
 msgid "Password does not match"
 msgstr ""
 
-#: main/forms.py:123
+#: main/forms.py:124
 msgid "full name"
 msgstr ""
 
-#: main/forms.py:124
+#: main/forms.py:125
 msgid "email"
 msgstr ""
 
-#: main/forms.py:126
+#: main/forms.py:127
 msgid "message"
 msgstr ""
 
-#: main/models.py:44
+#: main/models.py:49
 msgid "username"
 msgstr ""
 
-#: main/models.py:47
+#: main/models.py:52
 msgid "*"
 msgstr ""
 
-#: main/models.py:50
+#: main/models.py:55
 msgid "A user with that username already exists."
 msgstr ""
 
-#: main/models.py:53
+#: main/models.py:58
 msgid "first name"
 msgstr ""
 
-#: main/models.py:54
+#: main/models.py:59
 msgid "last name"
 msgstr ""
 
-#: main/models.py:55
+#: main/models.py:60
 msgid "gender"
 msgstr ""
 
-#: main/models.py:56
+#: main/models.py:61
 msgid "MTN number"
 msgstr ""
 
-#: main/models.py:57
+#: main/models.py:62
 msgid "sponsor"
 msgstr ""
 
-#: main/models.py:61
+#: main/models.py:67
 msgid "email address"
 msgstr ""
 
-#: main/models.py:62
+#: main/models.py:69
+msgid "email already exist."
+msgstr ""
+
+#: main/models.py:72
 msgid "staff status"
 msgstr ""
 
-#: main/models.py:63
+#: main/models.py:73
 msgid "is active"
 msgstr ""
 
-#: main/models.py:65
+#: main/models.py:75
 msgid "country"
 msgstr ""
 
-#: main/models.py:66
+#: main/models.py:76
 msgid "date joined"
 msgstr ""
 
-#: main/models.py:67
+#: main/models.py:77
 msgid "Orange number"
 msgstr ""
 
-#: main/models.py:68
+#: main/models.py:78
 msgid "Nexttel number"
 msgstr ""
 
-#: main/models.py:68
+#: main/models.py:78
 msgid "optional"
 msgstr ""
 
-#: main/models.py:71
+#: main/models.py:81
 msgid "profile picture"
 msgstr ""
 
-#: main/models.py:74 main/models.py:129 main/templates/main/index.html:155
+#: main/models.py:84 main/models.py:141 main/templates/main/index.html:159
 #: njangi/forms.py:6
 #: njangi/templates/njangi/checkout/contribution_checkout.html:12
 #: njangi/templates/njangi/checkout/nsp_checkout_confirm.html:13
@@ -1541,48 +1547,48 @@ msgstr ""
 msgid "level"
 msgstr ""
 
-#: main/models.py:75
+#: main/models.py:86
 msgid "allow automatic contributions"
 msgstr ""
 
-#: main/models.py:123 njangi/templates/njangi/dashboard.html:109
+#: main/models.py:135 njangi/templates/njangi/dashboard.html:109
 msgid "active"
 msgstr ""
 
-#: main/models.py:125 njangi/templates/njangi/dashboard.html:111
+#: main/models.py:137 njangi/templates/njangi/dashboard.html:111
 msgid "inactive"
 msgstr ""
 
-#: main/models.py:130 main/templates/main/index.html:156
+#: main/models.py:142 main/templates/main/index.html:160
 msgid "downlines"
 msgstr ""
 
-#: main/models.py:131 main/templates/main/index.html:157
+#: main/models.py:143 main/templates/main/index.html:161
 msgid "cumm. downlines"
 msgstr ""
 
-#: main/models.py:132 main/templates/main/index.html:158
+#: main/models.py:144 main/templates/main/index.html:162
 #: njangi/templates/njangi/dashboard.html:86
 msgid "contribution"
 msgstr ""
 
-#: main/models.py:133 main/templates/main/index.html:159
+#: main/models.py:145 main/templates/main/index.html:163
 msgid "receipts"
 msgstr ""
 
-#: main/models.py:134 main/templates/main/index.html:160
+#: main/models.py:146 main/templates/main/index.html:164
 msgid "cumm. receipts"
 msgstr ""
 
-#: main/models.py:135
+#: main/models.py:147
 msgid "cumm. contribution"
 msgstr ""
 
-#: main/models.py:136 main/templates/main/index.html:162
+#: main/models.py:148 main/templates/main/index.html:166
 msgid "monthly profit"
 msgstr ""
 
-#: main/models.py:137 main/templates/main/index.html:163
+#: main/models.py:149 main/templates/main/index.html:167
 msgid "upgrade after"
 msgstr ""
 
@@ -1590,8 +1596,8 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
-#: main/templates/main/contact.html:51 main/templates/main/index.html:262
-#: main/templates/main/signup.html:82
+#: main/templates/main/contact.html:51 main/templates/main/index.html:266
+#: main/templates/main/signup.html:86
 #: main/templates/registration/password_reset_confirm.html:32
 #: main/templates/registration/password_reset_form.html:26
 #: njangi/templates/njangi/checkout/load_withdraw_checkout.html:21
@@ -1610,113 +1616,113 @@ msgstr ""
 msgid "Signup Now"
 msgstr ""
 
-#: main/templates/main/index.html:32
-msgid "login Now"
-msgstr ""
-
-#: main/templates/main/index.html:33
-msgid "Learn More"
-msgstr ""
-
-#: main/templates/main/index.html:50 main/templates/main/index.html:76
-#: main/templates/main/index.html:134
-#: main/templates/registration/password_reset_complete.html:10
-#: templates/base_website.html:27
-msgid "njangi network"
-msgstr ""
-
-#: main/templates/main/index.html:60
-msgid "home"
-msgstr ""
-
-#: main/templates/main/index.html:65 main/templates/main/index.html:189
-#: main/templates/main/signup.html:8
-msgid "signup"
-msgstr ""
-
-#: main/templates/main/index.html:71
-msgid "about"
-msgstr ""
-
-#: main/templates/main/index.html:75 main/templates/main/index.html:128
-msgid "the problem"
-msgstr ""
-
-#: main/templates/main/index.html:77 main/templates/main/index.html:140
-msgid "the model"
-msgstr ""
-
-#: main/templates/main/index.html:82
-msgid "contact"
-msgstr ""
-
-#: main/templates/main/index.html:85
-msgid "faq"
-msgstr ""
-
-#: main/templates/main/index.html:90
+#: main/templates/main/index.html:33 main/templates/main/index.html:94
 #: main/templates/registration/password_reset_complete.html:28
 #: templates/base_dashboard.html:5 templates/base_dashboard.html:47
 #: templates/base_website.html:44
 msgid "dashboard"
 msgstr ""
 
-#: main/templates/main/index.html:94 main/templates/main/login.html:46
-#: main/templates/main/signup.html:85
+#: main/templates/main/index.html:35
+msgid "login Now"
+msgstr ""
+
+#: main/templates/main/index.html:37
+msgid "Learn More"
+msgstr ""
+
+#: main/templates/main/index.html:54 main/templates/main/index.html:80
+#: main/templates/main/index.html:138
+#: main/templates/registration/password_reset_complete.html:10
+#: templates/base_website.html:27
+msgid "njangi network"
+msgstr ""
+
+#: main/templates/main/index.html:64
+msgid "home"
+msgstr ""
+
+#: main/templates/main/index.html:69 main/templates/main/index.html:193
+#: main/templates/main/signup.html:8
+msgid "signup"
+msgstr ""
+
+#: main/templates/main/index.html:75
+msgid "about"
+msgstr ""
+
+#: main/templates/main/index.html:79 main/templates/main/index.html:132
+msgid "the problem"
+msgstr ""
+
+#: main/templates/main/index.html:81 main/templates/main/index.html:144
+msgid "the model"
+msgstr ""
+
+#: main/templates/main/index.html:86
+msgid "contact"
+msgstr ""
+
+#: main/templates/main/index.html:89
+msgid "faq"
+msgstr ""
+
+#: main/templates/main/index.html:98 main/templates/main/login.html:46
+#: main/templates/main/signup.html:89
 #: main/templates/registration/password_reset_complete.html:32
 #: templates/base_website.html:48
 msgid "login"
 msgstr ""
 
-#: main/templates/main/index.html:122
+#: main/templates/main/index.html:126
 msgid "about njangi network"
 msgstr ""
 
-#: main/templates/main/index.html:161
+#: main/templates/main/index.html:165
 msgid "cumm contribution"
 msgstr ""
 
-#: main/templates/main/index.html:190 main/templates/main/signup.html:9
+#: main/templates/main/index.html:194 main/templates/main/signup.html:11
 msgid ""
 "Signup and enjoy the awesomeness of the njangi network. Fast, Reliable, "
 "Trusted ..."
 msgstr ""
 
-#: main/templates/main/index.html:275
+#: main/templates/main/index.html:279
 msgid "Read the Docs"
 msgstr ""
 
-#: main/templates/main/index.html:276
+#: main/templates/main/index.html:280
 msgid ""
 "Make sure you check out the documentation and learn more about how the "
 "system works and how to collaborate in it."
 msgstr ""
 
-#: main/templates/main/index.html:278
+#: main/templates/main/index.html:282
 msgid "Documentation"
 msgstr ""
 
-#: main/templates/main/index.html:292
+#: main/templates/main/index.html:296
 msgid "get involved!!"
 msgstr ""
 
-#: main/templates/main/index.html:293
+#: main/templates/main/index.html:297
 msgid "What are you waiting for?"
 msgstr ""
 
-#: main/templates/main/index.html:293
+#: main/templates/main/index.html:297
 msgid "Go ahead and signup!"
 msgstr ""
 
-#: main/templates/main/index.html:294
+#: main/templates/main/index.html:298
 msgid "Can't wait to see you collaborating in the network! If you like"
 msgstr ""
 
-#: main/templates/main/index.html:294
+#: main/templates/main/index.html:298
 msgid "make sure you share it with your friends too!"
 msgstr ""
 
-#: main/templates/main/index.html:326 templates/base_website.html:78
+#: main/templates/main/index.html:330 templates/base_website.html:78
 msgid "template design by"
 msgstr ""
 
@@ -1728,15 +1734,23 @@ msgstr ""
 msgid "The username and password you entered do not match."
 msgstr ""
 
-#: main/templates/main/login.html:50 main/templates/main/signup.html:88
+#: main/templates/main/login.html:50 main/templates/main/signup.html:92
 msgid "forgotten your password?"
 msgstr ""
 
-#: main/templates/main/login.html:50 main/templates/main/signup.html:88
+#: main/templates/main/login.html:50 main/templates/main/signup.html:92
 msgid "reset"
 msgstr ""
 
-#: main/templates/main/signup.html:85
+#: main/templates/main/signup.html:10
+msgid "welcome to "
+msgstr ""
+
+#: main/templates/main/signup.html:10
+msgid "'s network"
+msgstr ""
+
+#: main/templates/main/signup.html:89
 msgid "already have an account?"
 msgstr ""
 
@@ -1809,11 +1823,32 @@ msgstr ""
 msgid "personal information"
 msgstr ""
 
+#: main/templates/registration/profile_change.html:68
+#: main/templates/registration/profile_change.html:90
+#: main/templates/registration/profile_change.html:112
+#: main/templates/registration/profile_change.html:134
+msgid "verified"
+msgstr ""
+
+#: main/templates/registration/profile_change.html:70
+#: main/templates/registration/profile_change.html:92
 #: main/templates/registration/profile_change.html:114
+#: main/templates/registration/profile_change.html:136
+msgid "unverified"
+msgstr ""
+
+#: main/templates/registration/profile_change.html:71
+#: main/templates/registration/profile_change.html:93
+#: main/templates/registration/profile_change.html:115
+#: main/templates/registration/profile_change.html:137
+msgid "verify"
+msgstr ""
+
+#: main/templates/registration/profile_change.html:169
 msgid "language settings"
 msgstr ""
 
-#: main/templates/registration/profile_change.html:135
+#: main/templates/registration/profile_change.html:190
 msgid "set"
 msgstr ""
 
@@ -2378,6 +2413,10 @@ msgstr ""
 
 #: templates/base_dashboard.html:94 templates/base_dashboard.html:208
 msgid "website"
+msgstr ""
+
+#: templates/base_dashboard.html:165
+msgid "language"
 msgstr ""
 
 #: templates/base_dashboard.html:206

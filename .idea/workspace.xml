@@ -2,7 +2,722 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9641330f-b173-4631-bd00-116f65e2fccd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/fontawesome-webfont.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/fontawesome-webfont.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/fontawesome-webfont.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/glyphicons-halflings-regular.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/glyphicons-halflings-regular.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/glyphicons-halflings-regular.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/img/favicon.ico" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/img/grid.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/fonts/glyphicons-halflings-regular.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/fonts/glyphicons-halflings-regular.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/fonts/glyphicons-halflings-regular.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/img/glyphicons-halflings-white.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/img/glyphicons-halflings.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/img/grid.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/bin/pyjwt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/DESCRIPTION.rst" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/INSTALLER" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/METADATA" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/RECORD" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/WHEEL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/entry_points.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/metadata.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PyJWT-1.5.3.dist-info/top_level.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PySocks-1.6.8-py3.5.egg-info/PKG-INFO" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PySocks-1.6.8-py3.5.egg-info/SOURCES.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PySocks-1.6.8-py3.5.egg-info/dependency_links.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PySocks-1.6.8-py3.5.egg-info/installed-files.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/PySocks-1.6.8-py3.5.egg-info/top_level.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms-2.1.0.dist-info/DESCRIPTION.rst" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms-2.1.0.dist-info/INSTALLER" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms-2.1.0.dist-info/METADATA" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms-2.1.0.dist-info/RECORD" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms-2.1.0.dist-info/WHEEL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms-2.1.0.dist-info/metadata.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms-2.1.0.dist-info/top_level.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/admin.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/decorators.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/migrations/0001_initial.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/migrations/0002_auto_20170120_0334.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/migrations/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/models.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/serializers.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/tests.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/urls.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/utils.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio-0.8.0.dist-info/DESCRIPTION.rst" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio-0.8.0.dist-info/INSTALLER" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio-0.8.0.dist-info/METADATA" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio-0.8.0.dist-info/RECORD" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio-0.8.0.dist-info/WHEEL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio-0.8.0.dist-info/metadata.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio-0.8.0.dist-info/top_level.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/admin.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/client.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/decorators.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/exceptions.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/migrations/0001_initial.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/migrations/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/models.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/request.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/settings.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/south_migrations/0001_initial.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/south_migrations/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/utils.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/DESCRIPTION.rst" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/INSTALLER" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/LICENSE.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/METADATA" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/RECORD" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/WHEEL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/metadata.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/djangorestframework-3.7.7.dist-info/top_level.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/__main__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/algorithms.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/api_jws.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/api_jwt.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/compat.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/contrib/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/contrib/algorithms/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/contrib/algorithms/py_ecdsa.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/contrib/algorithms/pycrypto.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/exceptions.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/jwt/utils.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/apps.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authentication.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/admin.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/apps.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/management/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/management/commands/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/management/commands/drf_create_token.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/migrations/0001_initial.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/migrations/0002_auto_20160226_1747.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/migrations/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/models.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/serializers.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/authtoken/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/checks.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/compat.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/decorators.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/documentation.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/exceptions.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/fields.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/filters.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/generics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ach/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ar/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/be/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ca/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ca_ES/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/cs/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/da/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/de/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/el/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/el_GR/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/en/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/en_AU/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/en_CA/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/en_US/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/es/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/et/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/fa/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/fa_IR/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/fi/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/fr/LC_MESSAGES/django.po" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/fr_CA/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/gl/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/gl_ES/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/he_IL/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/hu/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/id/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/it/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ja/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ko_KR/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/lv/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/mk/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/nb/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/nl/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/nn/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/no/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/pl/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/pt/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/pt_BR/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/pt_PT/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ro/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/ru/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/sk/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/sl/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/sv/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/tr/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/tr_TR/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/uk/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/vi/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/zh_CN/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/zh_Hans/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/zh_Hant/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/locale/zh_TW/LC_MESSAGES/django.mo" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/metadata.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/mixins.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/models.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/negotiation.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/pagination.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/parsers.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/permissions.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/relations.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/renderers.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/request.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/response.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/reverse.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/routers.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/schemas/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/schemas/generators.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/schemas/inspectors.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/schemas/utils.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/schemas/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/serializers.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/settings.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/css/bootstrap-tweaks.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/css/bootstrap.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/css/default.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/css/prettify.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/css/base.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/css/bootstrap-theme.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/css/bootstrap.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/css/font-awesome-4.0.3.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/css/highlight.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/css/jquery.json-view.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/fontawesome-webfont.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/fonts/glyphicons-halflings-regular.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/js/api.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/js/bootstrap.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/js/highlight.pack.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/js/jquery-1.10.2.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/docs/js/jquery.json-view.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/fonts/glyphicons-halflings-regular.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/js/ajax-form.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/js/bootstrap.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/js/coreapi-0.1.1.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/js/csrf.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/js/default.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/js/jquery-1.12.4.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/static/rest_framework/js/prettify-min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/status.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/admin.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/admin/detail.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/admin/dict_value.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/admin/list.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/admin/list_value.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/admin/simple_list_value.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/api.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/base.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/auth/basic.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/auth/session.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/auth/token.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/document.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/error.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/interact.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/langs/javascript-intro.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/langs/javascript.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/langs/python-intro.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/langs/python.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/langs/shell-intro.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/langs/shell.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/link.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/docs/sidebar.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/filters/base.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/filters/ordering.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/filters/search.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/checkbox.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/checkbox_multiple.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/fieldset.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/form.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/input.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/list_fieldset.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/radio.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/select.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/select_multiple.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/horizontal/textarea.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/checkbox.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/checkbox_multiple.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/fieldset.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/form.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/input.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/list_fieldset.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/radio.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/select.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/select_multiple.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/inline/textarea.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/login.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/login_base.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/pagination/numbers.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/pagination/previous_and_next.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/raw_data_form.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/schema.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/checkbox.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/checkbox_multiple.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/fieldset.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/form.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/input.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/list_fieldset.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/radio.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/select.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/select_multiple.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templates/rest_framework/vertical/textarea.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templatetags/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/templatetags/rest_framework.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/test.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/throttling.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/urlpatterns.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/urls.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/breadcrumbs.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/encoders.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/field_mapping.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/formatting.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/html.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/humanize_datetime.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/json.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/mediatypes.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/model_meta.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/representation.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/serializer_helpers.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/utils/urls.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/validators.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/versioning.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/rest_framework/viewsets.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six-1.11.0.dist-info/DESCRIPTION.rst" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six-1.11.0.dist-info/INSTALLER" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six-1.11.0.dist-info/METADATA" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six-1.11.0.dist-info/RECORD" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six-1.11.0.dist-info/WHEEL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six-1.11.0.dist-info/metadata.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six-1.11.0.dist-info/top_level.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/six.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/socks.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/sockshandler.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/settings.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/client.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/decorators.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/models.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/request.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/urls.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/utils.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/test_app/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/test_project/urls.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio-6.10.0.dist-info/DESCRIPTION.rst" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio-6.10.0.dist-info/INSTALLER" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio-6.10.0.dist-info/METADATA" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio-6.10.0.dist-info/RECORD" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio-6.10.0.dist-info/WHEEL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio-6.10.0.dist-info/metadata.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio-6.10.0.dist-info/top_level.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/deserialize.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/domain.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/exceptions.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/instance_context.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/instance_resource.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/list_resource.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/obsolete.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/page.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/serialize.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/values.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/base/version.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/compat.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/http/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/http/http_client.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/http/request.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/http/response.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/http/validation_client.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/access_token/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/access_token/grants.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/client/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/compat.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/taskrouter/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/taskrouter/capabilities.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/jwt/validation/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/request_validator.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/accounts/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/accounts/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/accounts/v1/credential/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/accounts/v1/credential/aws.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/accounts/v1/credential/public_key.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/address/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/address/dependent_phone_number.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/application.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/authorized_connect_app.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/local.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/machine_to_machine.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/mobile.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/national.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/shared_cost.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/toll_free.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/available_phone_number/voip.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/call/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/call/feedback.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/call/feedback_summary.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/call/notification.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/call/recording.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/conference/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/conference/participant.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/connect_app.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/incoming_phone_number/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/incoming_phone_number/assigned_add_on/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/incoming_phone_number/assigned_add_on/assigned_add_on_extension.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/incoming_phone_number/local.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/incoming_phone_number/mobile.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/incoming_phone_number/toll_free.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/key.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/message/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/message/feedback.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/message/media.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/new_key.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/new_signing_key.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/notification.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/outgoing_caller_id.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/queue/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/queue/member.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/recording/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/recording/add_on_result/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/recording/add_on_result/payload/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/recording/transcription.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/short_code.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/signing_key.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/credential_list/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/credential_list/credential.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/domain/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/domain/credential_list_mapping.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/domain/ip_access_control_list_mapping.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/ip_access_control_list/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/sip/ip_access_control_list/ip_address.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/token.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/transcription.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/all_time.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/daily.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/last_month.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/monthly.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/this_month.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/today.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/yearly.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/record/yesterday.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/usage/trigger.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/api/v2010/account/validation_request.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/credential.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/channel/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/channel/invite.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/channel/member.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/channel/message.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/role.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/user/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v1/service/user/user_channel.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/credential.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/binding.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/channel/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/channel/invite.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/channel/member.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/channel/message.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/role.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/user/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/user/user_binding.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/chat/v2/service/user/user_channel.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/fax/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/fax/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/fax/v1/fax/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/fax/v1/fax/fax_media.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/credential.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/channel/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/channel/invite.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/channel/member.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/channel/message.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/role.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/user/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v1/service/user/user_channel.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/credential.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/binding.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/channel/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/channel/invite.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/channel/member.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/channel/message.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/role.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/user/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/user/user_binding.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/ip_messaging/v2/service/user/user_channel.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/lookups/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/lookups/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/lookups/v1/phone_number.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/messaging/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/messaging/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/messaging/v1/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/messaging/v1/service/alpha_sender.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/messaging/v1/service/phone_number.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/messaging/v1/service/short_code.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/monitor/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/monitor/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/monitor/v1/alert.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/monitor/v1/event.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/credential.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/service/binding.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/service/notification.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/service/segment.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/service/user/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/service/user/segment_memberships.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/notify/v1/service/user/user_binding.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/acc_security/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/acc_security/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/acc_security/service/verification.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/acc_security/service/verification_check.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/bulk_exports/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/bulk_exports/export/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/bulk_exports/export/day.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/bulk_exports/export_configuration.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/deployed_devices/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/deployed_devices/fleet/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/deployed_devices/fleet/certificate.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/deployed_devices/fleet/deployment.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/deployed_devices/fleet/device.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/deployed_devices/fleet/key.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/hosted_numbers/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/hosted_numbers/authorization_document.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/hosted_numbers/hosted_number_order.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/marketplace/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/marketplace/available_add_on/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/marketplace/available_add_on/available_add_on_extension.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/marketplace/installed_add_on/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/marketplace/installed_add_on/installed_add_on_extension.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/service/phone_number.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/service/session/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/service/session/interaction.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/service/session/participant/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/service/session/participant/message_interaction.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/proxy/service/short_code.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/studio/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/studio/flow/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/studio/flow/engagement/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/studio/flow/engagement/step.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/document/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/document/document_permission.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/sync_list/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/sync_list/sync_list_item.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/sync_list/sync_list_permission.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/sync_map/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/sync_map/sync_map_item.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/sync/service/sync_map/sync_map_permission.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/field_type/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/field_type/field_value.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/intent/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/intent/field.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/intent/sample.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/model_build.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/understand/service/query.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/wireless/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/wireless/command.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/wireless/rate_plan.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/wireless/sim/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/preview/wireless/sim/usage.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/messaging/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/messaging/country.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/phone_number/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/phone_number/country.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/voice/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/voice/country.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/pricing/v1/voice/number.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/service/phone_number.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/service/session/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/service/session/interaction.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/service/session/participant/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/service/session/participant/message_interaction.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/proxy/v1/service/short_code.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/document/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/document/document_permission.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_list/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_list/sync_list_item.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_list/sync_list_permission.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_map/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_map/sync_map_item.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_map/sync_map_permission.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_stream/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/sync/v1/service/sync_stream/stream_message.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/activity.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/event.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task/reservation.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task_channel.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task_queue/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task_queue/task_queue_cumulative_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task_queue/task_queue_real_time_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task_queue/task_queue_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/task_queue/task_queues_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/worker/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/worker/reservation.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/worker/worker_channel.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/worker/worker_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/worker/workers_cumulative_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/worker/workers_real_time_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/worker/workers_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/workflow/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/workflow/workflow_cumulative_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/workflow/workflow_real_time_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/workflow/workflow_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/workspace_cumulative_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/workspace_real_time_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/taskrouter/v1/workspace/workspace_statistics.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/trunking/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/trunking/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/trunking/v1/trunk/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/trunking/v1/trunk/credential_list.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/trunking/v1/trunk/ip_access_control_list.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/trunking/v1/trunk/origination_url.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/trunking/v1/trunk/phone_number.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/video/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/video/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/video/v1/recording/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/video/v1/room/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/video/v1/room/recording/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/video/v1/room/room_participant/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/video/v1/room/room_participant/room_participant_published_track.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/wireless/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/wireless/v1/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/wireless/v1/command.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/wireless/v1/rate_plan.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/wireless/v1/sim/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/wireless/v1/sim/data_session.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/rest/wireless/v1/sim/usage_record.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/twiml/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/twiml/fax_response.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/twiml/messaging_response.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/twiml/voice_response.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mailer/service.log" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mailer/urls.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0018_auto_20180111_2013.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0019_auto_20180111_2026.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0020_auto_20180111_2030.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0021_auto_20180113_0025.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0022_auto_20180113_0027.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/migrations/0023_auto_20180116_2300.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/mailer/utils.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/debug_toolbar/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/conf/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admin/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/admindocs/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/contenttypes/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/flatpages/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/gis/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/humanize/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/postgres/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/redirects/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sessions/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/sites/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_countries/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/mptt/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/env/lib/python3.5/site-packages/phonenumber_field/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mailer/services.py" afterPath="$PROJECT_DIR$/mailer/services.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mailer/views.py" afterPath="$PROJECT_DIR$/mailer/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/context_processors.py" afterPath="$PROJECT_DIR$/main/context_processors.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/forms.py" afterPath="$PROJECT_DIR$/main/forms.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/models.py" afterPath="$PROJECT_DIR$/main/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/main/index.html" afterPath="$PROJECT_DIR$/main/templates/main/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/main/signup.html" afterPath="$PROJECT_DIR$/main/templates/main/signup.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/registration/profile_change.html" afterPath="$PROJECT_DIR$/main/templates/registration/profile_change.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njangi/tasks.py" afterPath="$PROJECT_DIR$/njangi/tasks.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njangi/templates/njangi/new_registration.html" afterPath="$PROJECT_DIR$/njangi/templates/njangi/new_registration.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njanginetwork/settings.py" afterPath="$PROJECT_DIR$/njanginetwork/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/njanginetwork/urls.py" afterPath="$PROJECT_DIR$/njanginetwork/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/purse/services.py" afterPath="$PROJECT_DIR$/purse/services.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base_dashboard.html" afterPath="$PROJECT_DIR$/templates/base_dashboard.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,99 +735,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tasks.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/njangi/tasks.py">
+      <file leaf-file-name="services.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mailer/services.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-262">
-              <caret line="86" column="83" lean-forward="false" selection-start-line="86" selection-start-column="83" selection-end-line="86" selection-end-column="83" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/njanginetwork/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="106" column="31" lean-forward="false" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/purse/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="155" column="23" lean-forward="false" selection-start-line="155" selection-start-column="23" selection-end-line="155" selection-end-column="23" />
+            <state relative-caret-position="144">
+              <caret line="50" column="0" lean-forward="true" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/purse/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1499">
-              <caret line="159" column="100" lean-forward="false" selection-start-line="159" selection-start-column="100" selection-end-line="159" selection-end-column="100" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="context_processors.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/context_processors.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#55#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mailer/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="signals.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/signals.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="signals.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/njangi/signals.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="44" column="33" lean-forward="false" selection-start-line="44" selection-start-column="33" selection-end-line="44" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#61#0" expanded="true" />
+                <element signature="e#0#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,16 +759,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>admin_kinason</find>
-      <find>statement</find>
-      <find>wallet</find>
-      <find>withdraw</find>
-      <find>fot</find>
-      <find>genea</find>
-      <find>balance</find>
-      <find>services.re</find>
-      <find>process_payout.d</find>
-      <find>peration_type</find>
       <find>send_wallet_contribution_paid_sms</find>
       <find>send_wallet_contribution_paid_email</find>
       <find>send_wallet_contribution_received_email</find>
@@ -160,6 +779,16 @@
       <find>.dal</find>
       <find>send_wallet_withdrawal_failed_email</find>
       <find>.dalay</find>
+      <find>website</find>
+      <find>sponsor</find>
+      <find>SiteInforma</find>
+      <find>Hello</find>
+      <find>mailer/ser</find>
+      <find>hello</find>
+      <find>open</find>
+      <find>send_wallet_load_success_sms</find>
+      <find>sms</find>
+      <find>send_email(</find>
     </findStrings>
     <replaceStrings>
       <replace>amount</replace>
@@ -173,6 +802,7 @@
       <replace>sms.delay(</replace>
       <replace>username</replace>
       <replace>.delay</replace>
+      <replace>return send_email(</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -181,18 +811,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/njangi/templates/njangi/network_tools.html" />
-        <option value="$PROJECT_DIR$/njangi/templates/njangi/dashboard.html" />
-        <option value="$PROJECT_DIR$/njangi/statement.html" />
-        <option value="$PROJECT_DIR$/njangi/templates/statement.html" />
-        <option value="$PROJECT_DIR$/njangi/context_processors.py" />
-        <option value="$PROJECT_DIR$/njangi/forms.py" />
-        <option value="$PROJECT_DIR$/njangi/templates/njangi/checkout/load_or_withdraw_wallet_choice.html" />
-        <option value="$PROJECT_DIR$/njangi/templates/njangi/checkout/load_or_withdraw_confirm.html" />
-        <option value="$PROJECT_DIR$/njangi/urls.py" />
-        <option value="$PROJECT_DIR$/njangi/templates/njangi/checkout/load_or_withdraw_done.html" />
-        <option value="$PROJECT_DIR$/purse/services.py" />
-        <option value="$PROJECT_DIR$/njangi/templates/njangi/checkout/load_withdraw_checkout.html" />
         <option value="$PROJECT_DIR$/njangi/views.py" />
         <option value="$PROJECT_DIR$/njanginetwork/celery.py" />
         <option value="$PROJECT_DIR$/njangi/core.py" />
@@ -206,40 +824,51 @@
         <option value="$PROJECT_DIR$/njanginetwork/__init__.py" />
         <option value="$PROJECT_DIR$/main/website.py" />
         <option value="$PROJECT_DIR$/main/admin.py" />
-        <option value="$PROJECT_DIR$/main/models.py" />
         <option value="$PROJECT_DIR$/static/website/css/shards.css" />
-        <option value="$PROJECT_DIR$/njangi/templates/njangi/new_registration.html" />
-        <option value="$PROJECT_DIR$/templates/base_dashboard.html" />
         <option value="$PROJECT_DIR$/static/website/js/demo.js" />
-        <option value="$PROJECT_DIR$/main/templates/main/signup.html" />
         <option value="$PROJECT_DIR$/main/templates/registration/password_reset_complete.html" />
         <option value="$PROJECT_DIR$/main/templates/registration/password_reset_confirm.html" />
         <option value="$PROJECT_DIR$/main/templates/registration/password_reset_done.html" />
         <option value="$PROJECT_DIR$/main/templates/registration/password_reset_form.html" />
         <option value="$PROJECT_DIR$/main/urls.py" />
-        <option value="$PROJECT_DIR$/main/forms.py" />
         <option value="$PROJECT_DIR$/main/templates/main/login.html" />
-        <option value="$PROJECT_DIR$/main/templates/main/index.html" />
         <option value="$PROJECT_DIR$/templates/base_website.html" />
         <option value="$PROJECT_DIR$/main/templates/main/contact.html" />
         <option value="$PROJECT_DIR$/main/views.py" />
         <option value="$PROJECT_DIR$/main/core.py" />
         <option value="$PROJECT_DIR$/njangi/signals.py" />
-        <option value="$PROJECT_DIR$/mailer/services.py" />
-        <option value="$PROJECT_DIR$/njangi/tasks.py" />
         <option value="$PROJECT_DIR$/purse/tests.py" />
         <option value="$PROJECT_DIR$/purse/models.py" />
+        <option value="$PROJECT_DIR$/templates/base_dashboard.html" />
+        <option value="$PROJECT_DIR$/main/templates/main/signup.html" />
+        <option value="$PROJECT_DIR$/main/templates/main/index.html" />
+        <option value="$PROJECT_DIR$/main/templates/registration/profile_change.html" />
         <option value="$PROJECT_DIR$/main/context_processors.py" />
+        <option value="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/models.py" />
+        <option value="$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/migrations/0001_initial.py" />
         <option value="$PROJECT_DIR$/mailer/utils.py" />
+        <option value="$PROJECT_DIR$/mailer/views.py" />
+        <option value="$PROJECT_DIR$/mailer/urls.py" />
+        <option value="$PROJECT_DIR$/mailer/test_sms.py" />
+        <option value="$PROJECT_DIR$/mailer/sms.py" />
+        <option value="$PROJECT_DIR$/njangi/templates/njangi/new_registration.html" />
+        <option value="$PROJECT_DIR$/mailer/test_mail.py" />
+        <option value="$PROJECT_DIR$/njangi/mail.py" />
+        <option value="$PROJECT_DIR$/main/models.py" />
         <option value="$PROJECT_DIR$/njanginetwork/settings.py" />
+        <option value="$PROJECT_DIR$/njanginetwork/urls.py" />
+        <option value="$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.po" />
+        <option value="$PROJECT_DIR$/njangi/tasks.py" />
+        <option value="$PROJECT_DIR$/purse/services.py" />
+        <option value="$PROJECT_DIR$/main/forms.py" />
+        <option value="$PROJECT_DIR$/mailer/services.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1301" />
-    <option name="height" value="744" />
+    <option name="y" value="28" />
+    <option name="width" value="1366" />
+    <option name="height" value="706" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -256,8 +885,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -280,7 +909,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="njanginetwork" />
+              <option name="myItemId" value="mailer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -300,11 +929,11 @@
       <recent name="$PROJECT_DIR$/static/njangi_network" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/main/" />
       <recent name="$PROJECT_DIR$/static/website/images" />
       <recent name="$PROJECT_DIR$/mailer/templates/mailer" />
       <recent name="$PROJECT_DIR$/njangi/templates/njangi" />
       <recent name="$PROJECT_DIR$/purse" />
-      <recent name="$PROJECT_DIR$/main/templates/main" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -477,20 +1106,20 @@
     </todo-panel>
     <todo-panel id="all">
       <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
+      <flatten-packages value="true" />
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
+    <frame x="0" y="28" width="1366" height="706" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14710484" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27399382" sideWeight="0.12676056" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31888545" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24960254" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37306502" sideWeight="0.87323946" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17883755" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282313" sideWeight="0.50271106" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922536" sideWeight="0.4972889" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3173759" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2488263" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32446808" sideWeight="0.67622" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -532,406 +1161,350 @@
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="12" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/njangi/urls.py">
+    <entry file="file://$PROJECT_DIR$/njangi/core.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="19" column="35" lean-forward="false" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/njangi/templates/njangi/dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="4" lean-forward="false" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/js/demo.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/njangi/templates/njangi/new_registration.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="33" column="46" lean-forward="false" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/registration/password_change_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/registration/password_reset_subject.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django/views/generic/edit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="34" column="8" lean-forward="false" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/registration/profile_change.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/js/demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/registration/password_reset_complete.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#form#0;n#ul#3;n#div#0;n#nav#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/registration/password_reset_confirm.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="35" column="22" lean-forward="true" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/registration/password_reset_done.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="21" lean-forward="true" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/registration/password_reset_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="11" lean-forward="true" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
-          <folding />
+        <state relative-caret-position="1224">
+          <caret line="83" column="21" lean-forward="true" selection-start-line="83" selection-start-column="21" selection-end-line="83" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/templates/main/signup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="95" column="14" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="95" selection-end-column="14" />
-          <folding />
+        <state relative-caret-position="-510">
+          <caret line="7" column="71" lean-forward="false" selection-start-line="7" selection-start-column="71" selection-end-line="7" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/twilio/twiml/messaging_response.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-648">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/decorators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="59" lean-forward="true" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="108">
+          <caret line="6" column="15" lean-forward="false" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/forms.py">
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/migrations/0001_initial.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="147">
+          <caret line="34" column="14" lean-forward="false" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/common/avatar-2.jpeg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/common/avatar-1.jpeg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/common/card-2.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/common/card-3.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/app-promo/badge-apple-store.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/app-promo/features-background.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/app-promo/iphone-app-mockup.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/app-promo/badge-google-play-store.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/agency-landing/welcome-cover.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/main/login.html">
+    <entry file="file://$PROJECT_DIR$/main/context_processors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-          <folding>
-            <element signature="e#1019#1026#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="18">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/agency-landing/shards-logo-white.svg">
+    <entry file="file://$PROJECT_DIR$/main/templates/registration/profile_change.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="12" lean-forward="true" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/demo/shards-agency-landing-page-demo.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/demo/shards-app-demo-page-demo.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/demo/shards-logo-black.svg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/website/images/demo/stock-photos/1.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/main/contact.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="17" lean-forward="true" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base_website.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="78" column="8" lean-forward="false" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="8" />
-          <folding>
-            <element signature="e#3954#3960#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="18">
+          <caret line="136" column="57" lean-forward="false" selection-start-line="136" selection-start-column="57" selection-end-line="136" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
+        <state relative-caret-position="2394">
           <caret line="133" column="28" lean-forward="true" selection-start-line="133" selection-start-column="28" selection-end-line="133" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/njangi/core.py">
+    <entry file="file://$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.mo">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-639">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1400">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/dj_twilio_sms/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base_dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="192" column="57" lean-forward="false" selection-start-line="192" selection-start-column="57" selection-end-line="192" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/request.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-577">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/test_sms.py" />
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="135" column="0" lean-forward="false" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="57" column="49" lean-forward="true" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django_twilio/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="30" column="26" lean-forward="true" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/sms.py" />
+    <entry file="file://$PROJECT_DIR$/njangi/templates/njangi/new_registration.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/test_mail.py" />
+    <entry file="file://$PROJECT_DIR$/njangi/mail.py" />
+    <entry file="file://$PROJECT_DIR$/env/bin/activate">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/bin/activate.csh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-256">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/bin/celery">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/bin/coverage">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/bin/django-admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/bin/django-admin">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/env/lib/python3.5/site-packages/django/contrib/auth/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="335" column="8" lean-forward="false" selection-start-line="335" selection-start-column="8" selection-end-line="335" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="954">
+          <caret line="62" column="56" lean-forward="false" selection-start-line="62" selection-start-column="56" selection-end-line="62" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/utils.py" />
+    <entry file="file://$PROJECT_DIR$/mailer/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/njanginetwork/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/locale/fr/LC_MESSAGES/django.po">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="1394" column="73" lean-forward="true" selection-start-line="1394" selection-start-column="73" selection-end-line="1394" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/njangi/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5990">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/service.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="62" column="27" lean-forward="true" selection-start-line="62" selection-start-column="27" selection-end-line="62" selection-end-column="27" />
           <folding>
-            <element signature="e#0#94#0" expanded="false" />
+            <element signature="e#0#46#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/core.py">
+    <entry file="file://$PROJECT_DIR$/templates/base_website.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="100" column="4" lean-forward="true" selection-start-line="100" selection-start-column="4" selection-end-line="100" selection-end-column="4" />
+        <state relative-caret-position="738">
+          <caret line="41" column="29" lean-forward="false" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/templates/main/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="286" column="34" lean-forward="false" selection-start-line="286" selection-start-column="27" selection-end-line="286" selection-end-column="34" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#1;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="234">
+          <caret line="189" column="0" lean-forward="true" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/purse/services.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-464">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/njangi/signals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="44" column="33" lean-forward="false" selection-start-line="44" selection-start-column="33" selection-end-line="44" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-864">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/signals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/njangi/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-262">
-          <caret line="86" column="83" lean-forward="false" selection-start-line="86" selection-start-column="83" selection-end-line="86" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/purse/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="155" column="23" lean-forward="false" selection-start-line="155" selection-start-column="23" selection-end-line="155" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/purse/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1499">
-          <caret line="159" column="100" lean-forward="false" selection-start-line="159" selection-start-column="100" selection-end-line="159" selection-end-column="100" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/context_processors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mailer/services.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="196" column="0" lean-forward="false" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mailer/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="182">
+          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/njanginetwork/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="106" column="31" lean-forward="false" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
+        <state relative-caret-position="178">
+          <caret line="191" column="29" lean-forward="true" selection-start-line="191" selection-start-column="29" selection-end-line="191" selection-end-column="29" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/service.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="60" lean-forward="false" selection-start-line="0" selection-start-column="60" selection-end-line="0" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/purse/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="47" column="11" lean-forward="false" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="74" />
+          <folding>
+            <element signature="e#0#13#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/njangi/tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="514" column="16" lean-forward="false" selection-start-line="514" selection-start-column="16" selection-end-line="514" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mailer/services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="50" column="0" lean-forward="true" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

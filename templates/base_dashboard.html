@@ -93,7 +93,7 @@
 								<li>
 									<a href="{% url 'main:index' %}">{% trans 'website'|title %}</a>
 								</li>
-							</ul>
+
 
 							<!-- /nav-second-level -->
 						</li>
@@ -122,70 +122,70 @@
 				<div class="clearfix"> </div>
 			</div>
 			<div class="header-right">
-				<div class="profile_details_left"><!--notifications of menu start -->
-					<ul class="nofitications-dropdown">
-						<li class="dropdown head-dpdn">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">3</span></a>
-							<ul class="dropdown-menu">
-								<li>
-									<div class="notification_header">
-										<h3>You have 3 new notification</h3>
-									</div>
-								</li>
-								<li><a href="#">
-									<div class="user_img"><img src="images/2.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet</p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								  <div class="clearfix"></div>
-								 </a></li>
-								 <li class="odd"><a href="#">
-									<div class="user_img"><img src="images/1.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet </p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								   <div class="clearfix"></div>
-								 </a></li>
-								 <li><a href="#">
-									<div class="user_img"><img src="images/3.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet </p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								   <div class="clearfix"></div>
-								 </a></li>
-								 <li>
-									<div class="notification_bottom">
-										<a href="#">See all notifications</a>
-									</div>
-								</li>
-							</ul>
-						</li>
-                        <!--<li class="dropdown head-dpdn">-->
-                            <!--<div class="form-group">-->
-                                <!--<form action="{% url 'set_language' %}" method="post" class="form-inline">{% csrf_token %}-->
-                                    <!--<input name="next" type="hidden" value="{{ redirect_to }}" />-->
-                                    <!--<select name="language" class="form-control1">-->
-                                        <!--{% get_current_language as LANGUAGE_CODE %}-->
-                                        <!--{% get_available_languages as LANGUAGES %}-->
-                                        <!--{% get_language_info_list for LANGUAGES as languages %}-->
-                                        <!--{% for language in languages %}-->
-                                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>-->
-                                                <!--{{ language.name_local|title }} ({{ language.code }})-->
-                                            <!--</option>-->
-                                        <!--{% endfor %}-->
-                                    <!--</select>-->
-                                    <!--<input type="submit" value="Go" class="btn btn-default " />-->
-                                <!--</form>-->
-                            <!--</div>-->
-                        <!--</li>-->
-					</ul>
-					<div class="clearfix"> </div>
-				</div>
+				<!--<div class="profile_details_left">&lt;!&ndash;notifications of menu start &ndash;&gt;-->
+					<!--<ul class="nofitications-dropdown">-->
+						<!--<li class="dropdown head-dpdn">-->
+							<!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">3</span></a>-->
+							<!--<ul class="dropdown-menu">-->
+								<!--<li>-->
+									<!--<div class="notification_header">-->
+										<!--<h3>You have 3 new notification</h3>-->
+									<!--</div>-->
+								<!--</li>-->
+								<!--<li><a href="#">-->
+									<!--<div class="user_img"><img src="images/2.png" alt=""></div>-->
+								   <!--<div class="notification_desc">-->
+									<!--<p>Lorem ipsum dolor amet</p>-->
+									<!--<p><span>1 hour ago</span></p>-->
+									<!--</div>-->
+								  <!--<div class="clearfix"></div>-->
+								 <!--</a></li>-->
+								 <!---->
+								 <!--<li>-->
+									<!--<div class="notification_bottom">-->
+										<!--<a href="#">See all notifications</a>-->
+									<!--</div>-->
+								<!--</li>-->
+							<!--</ul>-->
+						<!--</li>-->
+					<!--</ul>-->
+					<!--<div class="clearfix"> </div>-->
+				<!--</div>-->
 
 				<!--notification menu end -->
+				<div class="profile_details">
+					{% get_current_language as LANGUAGE_CODE %}
+					{% get_available_languages as LANGUAGES %}
+					{% get_language_info_list for LANGUAGES as languages %}
+					<ul>
+						<li class="dropdown profile_details_drop">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<div class="profile_img">
+									<div class="user-name">
+										<p>{% trans 'language'|title %} ({{ LANGUAGE_CODE|capfirst }})</p>
+									</div>
+									<i class="fa fa-angle-down lnr"></i>
+									<i class="fa fa-angle-up lnr"></i>
+									<div class="clearfix"></div>
+								</div>
+							</a>
+							<ul class="dropdown-menu drp-mnu">
+
+								{% for language in languages %}
+									<li>
+									  <form action="{% url 'set_language' %}" method="post" id="form_{{ language.code }}" style="display:inline!important;">
+									  {% csrf_token %}
+										<input name="next" type="hidden" value="{{ redirect_to }}" />
+										<input name="language" type="hidden" value="{{ language.code }}" />
+									  </form>
+										<button class="btn btn-default" type="submit" form="form_{{ language.code }}" value="Submit">{{ language.name_local|title }}</button>
+									</li>
+								{% endfor %}
+
+							</ul>
+						</li>
+					</ul>
+				</div>
 				<div class="profile_details">
 					<ul>
 						<li class="dropdown profile_details_drop">
@@ -206,6 +206,8 @@
 								<li> <a href="{% url 'main:profile_change' %}"><i class="fa fa-user"></i> {% trans "Profile"|title %}</a> </li>
 								<li> <a href="{% url 'main:logout' %}"><i class="fa fa-sign-out"></i>{% trans "logout"|title %}</a> </li>
 								<li><a href="{% url 'main:index' %}"><i class="fa fa-sign-out"></i>{% trans "website"|title %}</a></li>
+
+
 							</ul>
 						</li>
 					</ul>

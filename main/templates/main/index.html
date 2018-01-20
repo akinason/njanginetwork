@@ -29,7 +29,11 @@
         <p class="slide-in">{% trans "Collaborating together to alleviate poverty" %}</p>
         <div class="action-links slide-in">
           <a href="{% url 'main:signup' %}"  class="btn btn-primary btn-pill align-self-center mr-2"><i class="fa fa-signup mr-1"></i> {% trans "Signup Now"|title %}</a>
-            <a href="{% url 'main:login' %}"  class="btn btn-primary btn-pill align-self-center mr-2"><i class="fa fa-signup mr-1"></i> {% trans "login Now"|title %}</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'njangi:dashboard' %}"  class="btn btn-primary btn-pill align-self-center mr-2"><i class="fa fa-signup mr-1"></i> {% trans "dashboard"|title %}</a>
+            {% else %}
+                 <a href="{% url 'main:login' %}"  class="btn btn-primary btn-pill align-self-center mr-2"><i class="fa fa-signup mr-1"></i> {% trans "login Now"|title %}</a>
+            {% endif %}
           <a href="#" data-scroll-to="#navigation-bar" id="scroll-to-content" class="btn btn-outline-light btn-pill align-self-center">{% trans "Learn More"|title %}</a>
         </div>
     </div>
