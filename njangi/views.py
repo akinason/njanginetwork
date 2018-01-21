@@ -9,6 +9,7 @@ from main.forms import SignupForm
 from .forms import ContributionConfirmForm, LoadWithdrawForm
 from main.utils import get_sponsor
 from main.core import NSP
+from mailer import services as mailer_services
 from njangi.core import add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, \
     get_level_contribution_amount
 from django.urls import reverse_lazy, reverse
@@ -75,6 +76,8 @@ class DashboardSignupView(generic.CreateView):
         sponsor = get_sponsor(self.request)
         add_user_to_njangi_tree(user=user, sponsor=sponsor)
         create_user_levels(user)
+        mailer_services.send_signup_welcome_sms(user_id=user.id)
+        mailer_services.send_signup_welcome_email(user_id=user.id)
         return super(DashboardSignupView, self).form_valid(form)
 
 

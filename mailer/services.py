@@ -387,14 +387,11 @@ def send_signup_welcome_email(user_id):
     except UserModel().DoesNotExist:
         return False
 
-    params = {
-        'username': user.username if user.username else _('Member')
-    }
     message = _(
                 "Welcome to the network. Please be fast to do your first contribution so you don't "
-                "miss to receive from your network. <br>"
+                "miss to receive from your network."
                 "Thanks for Collaborating!"
-                ) % params
+                ) 
     try:
         if user.email:
             return send_email(user=user, subject=subject, message=message)

@@ -72,8 +72,6 @@ class SignupForm(forms.ModelForm):
             if instance.email:
                 instance.email_is_verified = True
             instance.save()
-            services.send_signup_welcome_email(user_id=instance.id)
-            services.send_signup_welcome_sms(user_id=instance.id)
         return instance
 
 
