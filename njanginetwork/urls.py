@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^dashboard/', include('njangi.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^mailer/', include('mailer.urls')),
 ]
 
 if settings.DEBUG:
