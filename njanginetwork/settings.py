@@ -130,6 +130,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'main.validators.ValidatePassword',
+    },
 ]
 
 LOGIN_REDIRECT_URL = reverse_lazy('njangi:dashboard')

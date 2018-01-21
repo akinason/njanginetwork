@@ -2,7 +2,7 @@
 {% load static i18n humanize njangi_tags main_tags %}
 
 {% block content %}
-<!--  Content -->
+
 <div id="signup" class="bg-white">
     <div class="section-title col-lg-8 col-md-10 ml-auto mr-auto py-5">
         <h2 class="text-center mb-4">{% trans 'signup'|title %} 🦄</h2>
@@ -10,12 +10,29 @@
             {% trans "welcome to " %}{{ sponsor.username }}{% trans "'s network" %}<br>
             {% trans 'Signup and enjoy the awesomeness of the njangi network. Fast, Reliable, Trusted ...' %}
         </p>
-
     </div>
     <div class="example col-lg-8 col-md-10 ml-auto mr-auto">
         <div class="row mb-5">
             <div class="col-md-12">
                 <form  action="{% url 'main:signup' %}" method="post">{% csrf_token %}
+                    {% if form.erros %}
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                <h5>{% trans "Please fix the following errors" %}</h5>
+                                <ul>
+                                    {% for field in form %}
+                                      {% if field.errors %}
+                                        {% for error in field.errors %}
+                                          <li><a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a></li>
+                                        {% endfor %}
+                                      {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="{{ form.first_name.id_for_label }}" class="col-form-label">{{ form.first_name.label }}</label>

@@ -5,7 +5,7 @@ from django.forms.widgets import HiddenInput
 from main.models import TEL_MAX_LENGTH
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field import widgets as phonenumber_widgets
-from mailer import services
+from main import validators as main_validators
 
 
 class SignupForm(forms.ModelForm):
@@ -29,12 +29,12 @@ class SignupForm(forms.ModelForm):
 
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': _('Password'), 'class': 'form-control'}), label=_('Password'),
-        help_text=_('* min 5'), min_length=5
+        help_text=_('* min 8'), min_length=8, validators=[main_validators.validate_password]
     )
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': _('Confirm Password')}), label=_('Confirm Password'),
         error_messages={'no_match': _('Password does not match')},
-        help_text=_('* min 5'), min_length=5
+        help_text=_('* min 8'), min_length=8
     )
 
     def __init__(self, *args, **kwargs):
