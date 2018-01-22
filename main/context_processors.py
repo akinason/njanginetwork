@@ -28,7 +28,7 @@ class SiteInformation:
         return self._name
 
     def website(self):
-        return get_current_site(self.request)
+        return 'http://%s' % get_current_site(self.request)
 
     def total_users(self):
         return self._total_users

@@ -117,10 +117,11 @@ def process_payout_(
                         )
                     message = trans_message.provide_contact_and_receive_payments() % {'nsp': nsp.upper()}
                     status = trans_status.pending()
-                    mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
-                                                                              status=status)
-                    mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
-                                                                            status=status)
+                    if not is_failed_operation:
+                        mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
+                                                                                  status=status)
+                        mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
+                                                                                status=status)
                     response = {
                         'status': status,
                         'message': message,
@@ -165,12 +166,13 @@ def process_payout_(
                             # Send a notification mail to the recipient
                             status = trans_status.failed()
                             message = trans_message.failed_message()
-                            mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id,
-                                                                                      message=message,
-                                                                                      status=status)
-                            mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id,
-                                                                                    message=message,
-                                                                                    status=status)
+                            if not is_failed_operation:
+                                mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id,
+                                                                                          message=message,
+                                                                                          status=status)
+                                mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id,
+                                                                                        message=message,
+                                                                                        status=status)
                             response = {
                                'status': status,
                                'message': message
@@ -197,9 +199,10 @@ def process_payout_(
                         )
                     message = trans_message.provide_contact_and_receive_payments() % {'nsp': nsp}
                     status = trans_status.pending()
-                    mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient_id, message=message,
-                                                                              status=status)
-                    mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message,
+                    if not is_failed_operation:
+                        mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient_id, message=message,
+                                                                                  status=status)
+                        mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message,
                                                                             status=status)
                     response = {
                         'status': status,
@@ -210,9 +213,10 @@ def process_payout_(
             else:
                 status = trans_status.failed()
                 message = trans_message.insufficient_balance_message()
-                mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
-                                                                          status=status)
-                mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
+                if not is_failed_operation:
+                    mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
+                                                                              status=status)
+                    mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
                                                                         status=status)
                 response = {
                     'status': status,
@@ -223,10 +227,11 @@ def process_payout_(
         else:  # if the balance is insufficient
             status = trans_status.failed()
             message = trans_message.insufficient_balance_message()
-            mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
-                                                                      status=status)
-            mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message,
-                                                                    status=status)
+            if not is_failed_operation:
+                mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
+                                                                          status=status)
+                mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message,
+                                                                        status=status)
             response = {
                 'status': status,
                 'message': message
@@ -465,7 +470,7 @@ def process_contribution_response(response, user, recipient, level, recipient_am
                                                                     )
 
         # process payout to the recipient. Delay it and let Celery take over.
-        process_payout.delay(recipient_id=recipient.id, amount=recipient_amount, nsp=nsp)
+        process_payout.delay(recipient_id=recipient.id, amount=recipient_amount, nsp=nsp, is_contribution=True)
 
         process_response = {
             'status': trans_status.success(),

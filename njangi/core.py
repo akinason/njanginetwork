@@ -1,4 +1,6 @@
-from .models import NjangiTree, LevelModel, NjangiTreeSide, NJANGI_LEVELS, LEVEL_CONTRIBUTIONS
+from .models import NjangiTree, LevelModel, NjangiTreeSide, NJANGI_LEVELS, LEVEL_CONTRIBUTIONS, \
+    NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP, \
+    NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
 from django.contrib.auth import get_user_model as UserModel
 from django.db.models import Q
 from main.utils import get_admin_users
@@ -7,7 +9,7 @@ import random
 from mailer import services as mailer_services
 
 tree_side = NjangiTreeSide()
-
+_nsp = NSP()
 
 def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
     tree_node = NjangiTree.objects.create(
@@ -233,3 +235,14 @@ def recipient_can_receive_level_contribution(recipient, level, amount):
             except LevelModel.DoesNotExist:
                 return False
 
+
+def get_processing_fee_rate(level, nsp):
+    rate = NSP_CONTRIBUTION_PROCESSING_FEE_RATE
+    try:
+        if nsp == _nsp.orange() or nsp == _nsp.mtn():
+            rate = NSP_CONTRIBUTION_PROCESSING_FEE_RATES[int(level)]
+        else:
+            rate = WALLET_CONTRIBUTION_PROCESSING_FEE_RATES[int(level)]
+        return rate
+    except KeyError:
+        return rate

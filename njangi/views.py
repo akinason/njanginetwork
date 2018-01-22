@@ -11,10 +11,11 @@ from main.utils import get_sponsor
 from main.core import NSP
 from mailer import services as mailer_services
 from njangi.core import add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, \
-    get_level_contribution_amount
+    get_level_contribution_amount, get_processing_fee_rate
 from django.urls import reverse_lazy, reverse
 from njangi.models import NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, \
-    NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE
+    NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE, \
+    NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
 from purse.models import MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER
 from django.utils.translation import ugettext_lazy as _
 from njangi.tasks import process_contribution, process_payout, process_wallet_load
@@ -31,6 +32,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
+        # user_level_plus_one = self.request.user.level + 1
         user_levels = LevelModel.objects.filter(user=self.request.user)
         contribution_status = LevelModel.objects.filter(user=self.request.user).aggregate(
             total_contributed=Coalesce(Sum(F('total_sent')), V(0.00)),
@@ -114,9 +116,8 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
         amount = get_level_contribution_amount(level)
         recipient = get_upline_to_pay_upgrade_contribution(user_id=self.request.user.id, level=level)
         nsp = kwargs['nsp']
-        processing_fee = amount * NSP_CONTRIBUTION_PROCESSING_FEE_RATE
-        if nsp == _nsp.mtn_wallet() or nsp == _nsp.orange_wallet():
-            processing_fee = amount * WALLET_CONTRIBUTION_PROCESSING_FEE_RATE
+        processing_fee = amount * get_processing_fee_rate(level=level, nsp=nsp)
+
         total = amount + processing_fee
         message = ''
         tel = ''
