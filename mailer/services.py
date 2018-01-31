@@ -19,24 +19,26 @@ wallet = WalletManager()
 
 @app.task
 def send_sms(to_number, body):
-    # try:
-    #     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-    #     client.messages.create(
-    #         to=settings.TWILIO_VERIFIED_NUMBER,
-    #         from_=settings.TWILIO_PHONE_NUMBER,
-    #         body=body
-    #     )
-    #     return True
-    # except Exception as e:
-    #     path = os.path.join(settings.BASE_DIR, 'mailer', 'service.log')
-    #     file = open(path, 'w')
-    #     file.write("\n" + str(e))s
-    #     file.close()
-    #     return False
-    # response = send_1s2u_sms(to_number, body)
-    response = True
+    response = send_1s2u_sms(to_number, body)
     return response
 
+@app.task 
+def send_twilio_sms(to_number, body):
+    _to_number = str(to_number).replace(" ", "").replace("+", "")
+    if len(_to_number) <= 9:
+        _to_number = '237%s' % _to_number
+
+    to_number_ = int(_to_number)
+    try:
+        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+        client.messages.create(
+            to=_to_number,
+            from_=settings.TWILIO_PHONE_NUMBER,
+            body=body
+        )
+        return True
+    except Exception as e:
+        return False
 
 @app.task
 def send_1s2u_sms(to_number, body):

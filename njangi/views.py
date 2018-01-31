@@ -173,12 +173,16 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                     'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
                 })
         elif nsp == _nsp.orange():
-            if request.user.tel2 and request.user.tel2_is_verified:
-                sender_tel = request.user.tel2.national_number
-            else:
-                return render(request, 'njangi/error.html', context={
-                    'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
+            return render(request, 'njangi/error.html', context={
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
                 })
+
+            # if request.user.tel2 and request.user.tel2_is_verified:
+            #     sender_tel = request.user.tel2.national_number
+            # else:
+            #     return render(request, 'njangi/error.html', context={
+            #         'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
+            #     })
         elif nsp == _nsp.mtn_wallet():
             if wallet.balance(user=self.request.user, nsp=_nsp.mtn()) < total:
                 return render(request, 'njangi/error.html', context={
@@ -186,15 +190,18 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                     'status': 'warning'
                 })
         elif nsp == _nsp.orange_wallet():
-            if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
-                return render(request, 'njangi/error.html', context={
-                    'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
-                    'status': 'warning'
-                })
-        else:
             return render(request, 'njangi/error.html', context={
-                'message': _('Invalid request.'), 'status': 'warning'
-            })
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                })
+        #     if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
+        #         return render(request, 'njangi/error.html', context={
+        #             'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
+        #             'status': 'warning'
+        #         })
+        # else:
+        #     return render(request, 'njangi/error.html', context={
+        #         'message': _('Invalid request.'), 'status': 'warning'
+        #     })
 
         response = process_contribution(user_id=request.user.id, recipient_id=recipient.id, level=level,
                                         amount=amount, nsp=nsp, sender_tel=sender_tel, processing_fee=processing_fee)
@@ -213,12 +220,15 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                     'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
                 })
         elif nsp == _nsp.orange():
-            if request.user.tel2 and request.user.tel2_is_verified:
-                sender_tel = request.user.tel2.national_number
-            else:
-                return render(request, 'njangi/error.html', context={
-                    'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
+            return render(request, 'njangi/error.html', context={
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
                 })
+            # if request.user.tel2 and request.user.tel2_is_verified:
+            #     sender_tel = request.user.tel2.national_number
+            # else:
+            #     return render(request, 'njangi/error.html', context={
+            #         'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
+            #     })
         elif nsp == _nsp.mtn_wallet():
             if wallet.balance(user=self.request.user, nsp=_nsp.mtn()) < total:
                 return render(request, 'njangi/error.html', context={
@@ -226,11 +236,14 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                     'status': 'warning'
                 })
         elif nsp == _nsp.orange_wallet():
-            if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
-                return render(request, 'njangi/error.html', context={
-                    'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
-                    'status': 'warning'
+            return render(request, 'njangi/error.html', context={
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
                 })
+            # if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
+            #     return render(request, 'njangi/error.html', context={
+            #         'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
+            #         'status': 'warning'
+            #     })
         else:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid request.'), 'status': 'warning'
@@ -313,6 +326,15 @@ class WalletLoadAndWithdrawView(LoginRequiredMixin, generic.TemplateView):
                 'message': _('Unknown Network service provider %(nsp)s.') % {'nsp': nsp},
                 'status': 'warning'
             })
+
+        # This code should be eliminated onces the orange money API is itegrated.
+        # **********Code start***********
+        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
+            return render(request, 'njangi/error.html', context={
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                })
+        #************End of code*********
+
         elif amount < 0:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid Amount %(amount)s. Amounts must be greater than zero.') % {'amount': amount},
@@ -342,6 +364,15 @@ class WalletLoadAndWithdrawView(LoginRequiredMixin, generic.TemplateView):
                 'message': _('Unknown Network service provider %(nsp)s.') % {'nsp': nsp},
                 'status': 'warning'
             })
+
+        # This code should be eliminated onces the orange money API is itegrated.
+        # **********Code start***********
+        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
+            return render(request, 'njangi/error.html', context={
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                })
+        #************End of code*********
+
         elif action not in ['load', 'withdraw']:
                 return render(request, 'njangi/error.html', context={
                     'message': _('Invalid action %(action)s.') % {'action': action},
@@ -400,6 +431,15 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
                 'message': _('Unknown Network service provider %(nsp)s.') % {'nsp': nsp},
                 'status': 'warning'
             })
+
+        # This code should be eliminated onces the orange money API is itegrated.
+        # **********Code start***********
+        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
+            return render(request, 'njangi/error.html', context={
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                })
+        #************End of code*********
+
         elif action not in ['load', 'withdraw']:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid action %(action)s.') % {'action': action},
@@ -431,6 +471,15 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
                 'message': _('Unknown Network service provider %(nsp)s.') % {'nsp': nsp},
                 'status': 'warning'
             })
+
+        # This code should be eliminated onces the orange money API is itegrated.
+        # **********Code start***********
+        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
+            return render(request, 'njangi/error.html', context={
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                })
+        #************End of code*********
+
         elif action not in ['load', 'withdraw']:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid action %(action)s.') % {'action': action},
