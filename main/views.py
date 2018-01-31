@@ -88,6 +88,11 @@ class ProfileChangeView(LoginRequiredMixin, generic.UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
+    def get_form_kwargs(self):
+        kwargs = super(ProfileChangeView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
 
 class LoginView(DefaultLoginView):
     template_name = 'main/login.html'
@@ -133,7 +138,7 @@ class ContactView(generic.FormView):
 
         mailer_services.send_email.delay(
             subject='Contact From:' + str(name),
-            message=content,
+            message=content + "<p><br>" + email + "</p>",
             reply_to=email,
             to_email=settings.CONTACT_EMAIL,
         )

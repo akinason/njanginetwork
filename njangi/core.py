@@ -11,6 +11,7 @@ from mailer import services as mailer_services
 tree_side = NjangiTreeSide()
 _nsp = NSP()
 
+
 def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
     tree_node = NjangiTree.objects.create(
         user=user,

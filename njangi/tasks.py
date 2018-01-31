@@ -75,12 +75,13 @@ def process_payout_(
                                 )
                             return wallet_response  # Inner wallet response
                         else:
-                            mailer_services.send_wallet_withdrawal_email.delay(
-                                user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                            )
-                            mailer_services.send_wallet_withdrawal_sms.delay(
-                                user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                            )
+                            if not is_contribution:
+                                mailer_services.send_wallet_withdrawal_email.delay(
+                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
+                                )
+                                mailer_services.send_wallet_withdrawal_sms.delay(
+                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
+                                )
                             return wallet_response  # Outer wallet response
 
                     else:   # if the api response is not successful.
@@ -154,12 +155,13 @@ def process_payout_(
                                 )
                             return wallet_response  # Inner wallet response
                         else:
-                            mailer_services.send_wallet_withdrawal_email.delay(
-                                user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                            )
-                            mailer_services.send_wallet_withdrawal_sms.delay(
-                                user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                            )
+                            if not is_contribution:
+                                mailer_services.send_wallet_withdrawal_email.delay(
+                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
+                                )
+                                mailer_services.send_wallet_withdrawal_sms.delay(
+                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
+                                )
                             return wallet_response  # Outer wallet response
 
                     else:  # if the api response to orange is not successful.
@@ -203,7 +205,7 @@ def process_payout_(
                         mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient_id, message=message,
                                                                                   status=status)
                         mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message,
-                                                                            status=status)
+                                                                                status=status)
                     response = {
                         'status': status,
                         'message': message
@@ -246,9 +248,10 @@ def process_payout_(
 
 
 @app.task
-def process_payout(recipient_id, amount, nsp, processing_fee=0.00):
+def process_payout(recipient_id, amount, nsp, processing_fee=0.00, is_contribution=False):
     return process_payout_(
-        recipient_id=recipient_id, amount=amount, nsp=nsp, processing_fee=processing_fee
+        recipient_id=recipient_id, amount=amount, nsp=nsp, processing_fee=processing_fee,
+        is_contribution=is_contribution
     )
 
 
@@ -538,7 +541,8 @@ def process_wallet_load(user_id, amount, nsp, charge=0.00):
     elif nsp == service_provider.orange():
         if user.tel2 and user.tel2_is_verified:
             """Process loading operation"""
-            response = api_services.request_orange_money_deposit(phone_number=user.tel2, amount=loading_amount)
+            response = api_services.request_orange_money_deposit(phone_number=user.tel2.national_number,
+                                                                 amount=loading_amount)
             if response['status'] == trans_status.success():
                 # Proceed to update the user's wallet.
                 load_response = wallet.load(

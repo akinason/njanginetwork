@@ -10,6 +10,8 @@ from twilio.rest import Client
 from njanginetwork import settings
 from main.core import NSP
 import os
+from django.utils.http import urlencode
+import requests
 
 _nsp = NSP()
 wallet = WalletManager()
@@ -17,20 +19,55 @@ wallet = WalletManager()
 
 @app.task
 def send_sms(to_number, body):
+    # try:
+    #     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    #     client.messages.create(
+    #         to=settings.TWILIO_VERIFIED_NUMBER,
+    #         from_=settings.TWILIO_PHONE_NUMBER,
+    #         body=body
+    #     )
+    #     return True
+    # except Exception as e:
+    #     path = os.path.join(settings.BASE_DIR, 'mailer', 'service.log')
+    #     file = open(path, 'w')
+    #     file.write("\n" + str(e))s
+    #     file.close()
+    #     return False
+    # response = send_1s2u_sms(to_number, body)
+    response = True
+    return response
+
+
+@app.task
+def send_1s2u_sms(to_number, body):
+    _to_number = str(to_number).replace(" ", "").replace("+", "")
+    if len(_to_number) <= 9:
+        _to_number = '237%s' % _to_number
+
+    to_number_ = int(_to_number)
+    url = settings.ONE_S_2_U_SEND_URL
+    username = settings.ONE_S_2_U_USERNAME
+    password = settings.ONE_S_2_U_PASSWORD
+    mno = to_number_
+    msg = body
+    sid = "NjangiNetwk"
+    fl = 0
+    mt = 0
+    ipcl = "127.0.0.1"
+    params = {
+        'username': username, 'password': password, 'msg': msg,
+        'Sid': sid, 'fl': fl, 'mt': mt, 'ipcl': ipcl, 'mno': mno
+    }
+    encoded_params = urlencode(params)
+    response = requests.get(url=url, params=encoded_params)
+    content = ''
     try:
-        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-        client.messages.create(
-            to=settings.TWILIO_VERIFIED_NUMBER,
-            from_=settings.TWILIO_PHONE_NUMBER,
-            body=body
-        )
-        return True
-    except Exception as e:
-        path = os.path.join(settings.BASE_DIR, 'mailer', 'service.log')
-        file = open(path, 'w')
-        file.write("\n" + str(e))
-        file.close()
-        return False
+        content = response.content.decode('ascii')
+    except AttributeError:
+        content = response.content
+
+    r = {'status_code': str(response.status_code), 'content': content}
+    return r
 
 
 @app.task
@@ -379,6 +416,7 @@ def send_failed_operation_admin_email(instance_id):
     message = instance
     return send_email(user=user, subject=subject, message=message, to_email=settings.ADMIN_EMAIL)
 
+
 @app.task
 def send_signup_welcome_email(user_id):
     subject = _('Welcome to the Network!')
@@ -538,10 +576,12 @@ def send_wallet_withdrawal_sms(user_id, amount, processing_fee, nsp):
                 'your %(nsp)s wallet Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF.') % params
     to_number = ''
     try:
-        if nsp == _nsp.orange() or nsp == _nsp.orange_wallet():
+        if nsp == _nsp.orange() or nsp == _nsp.orange_wallet() and user.tel2:
             to_number = user.tel2.as_international
-        elif nsp == _nsp.mtn() or nsp == _nsp.mtn_wallet():
+        elif (nsp == _nsp.mtn() or nsp == _nsp.mtn_wallet()) and user.tel1:
             to_number = user.tel1.as_international
+        else:
+            return False
     except Exception as e:
         return False
     return send_sms(to_number=to_number, body=message)
@@ -575,9 +615,9 @@ def send_wallet_contribution_auto_withdrawal_sms(sender_id, recipient_id, amount
     ) % params
     to_number = ''
     try:
-        if nsp == _nsp.orange() or nsp == _nsp.orange_wallet():
+        if (nsp == _nsp.orange() or nsp == _nsp.orange_wallet()) and sender.tel2:
             to_number = sender.tel2.as_international
-        elif nsp == _nsp.mtn() or nsp == _nsp.mtn_wallet():
+        elif (nsp == _nsp.mtn() or nsp == _nsp.mtn_wallet()) and sender.tel1:
             to_number = sender.tel1.as_international
     except Exception as e:
         return False
@@ -716,7 +756,7 @@ def send_nsp_contribution_pending_sms(user_id, nsp, level, amount):
                  ) % params
     to_number = ''
     try:
-        if nsp == _nsp.orange() or nsp == _nsp.orange_wallet() and user.tel2:
+        if (nsp == _nsp.orange() or nsp == _nsp.orange_wallet()) and user.tel2:
             to_number = user.tel2.as_international
         elif (nsp == _nsp.mtn() or nsp == _nsp.mtn_wallet()) and user.tel1:
             to_number = user.tel1.as_international

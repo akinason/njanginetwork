@@ -313,6 +313,11 @@ class WalletLoadAndWithdrawView(LoginRequiredMixin, generic.TemplateView):
                 'message': _('Unknown Network service provider %(nsp)s.') % {'nsp': nsp},
                 'status': 'warning'
             })
+        elif amount < 0:
+            return render(request, 'njangi/error.html', context={
+                'message': _('Invalid Amount %(amount)s. Amounts must be greater than zero.') % {'amount': amount},
+                'status': 'warning'
+            })
         elif action not in ['load', 'withdraw']:
                 return render(request, 'njangi/error.html', context={
                     'message': _('Invalid action %(action)s.') % {'action': action},
@@ -478,5 +483,5 @@ class WalletLoadAndWithdrawDoneView(LoginRequiredMixin, generic.TemplateView):
         action = self.kwargs['action']
         nsp = self.kwargs['nsp']
         context['message'] = _('Your %(nsp)s %(action)s is been processed.') % \
-                             {'nsp': nsp.replace('_', ' '), 'action': action}
+                        {'nsp': nsp.replace('_', ' '), 'action': action}
         return context

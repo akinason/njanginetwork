@@ -10,7 +10,7 @@ from main import validators as main_validators
 
 class SignupForm(forms.ModelForm):
     error_messages = (
-        ('length', _('Password must be greater than 5 characters')),
+        ('length', _('Password must be greater than 8 characters')),
         ('no_match', _('Password does not match.')),
         ('invalid', _('Current Password is invalid.')),
     )
@@ -18,13 +18,13 @@ class SignupForm(forms.ModelForm):
     tel1 = PhoneNumberField(
         max_length=TEL_MAX_LENGTH, min_length=TEL_MAX_LENGTH,
         label=_('MTN Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
-            attrs={'placeholder': _('e.g. +237675366885')}), help_text='*'
+            attrs={'placeholder': _('e.g. +237675366885')}), help_text=''
     )
 
     tel2 = PhoneNumberField(
         max_length=TEL_MAX_LENGTH, min_length=TEL_MAX_LENGTH,
         label=_('Orange Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
-            attrs={'placeholder': _('e.g. +237695366885')}), help_text='*'
+            attrs={'placeholder': _('e.g. +237695366885')}), help_text=''
     )
 
     password = forms.CharField(
@@ -42,6 +42,8 @@ class SignupForm(forms.ModelForm):
         super(SignupForm, self).__init__(*args, **kwargs)
         self.fields["sponsor"].initial = self.sponsor
         self.fields['sponsor'].widget = HiddenInput()
+        self.fields['tel1'].required = False
+        self.fields['tel2'].required = False
 
     class Meta:
         model = get_user_model()
@@ -54,6 +56,22 @@ class SignupForm(forms.ModelForm):
         if password and password != confirm_password:
             raise forms.ValidationError(self.fields['confirm_password'].error_messages['no_match'])
         return confirm_password
+
+    def clean(self):
+        tel1 = self.cleaned_data.get('tel1')
+        tel2 = self.cleaned_data.get('tel2')
+
+        if not tel1 and not tel2:
+            msg = forms.ValidationError(_('Provide at least an MTN or Orange number.'))
+            self.add_error('tel1', msg)
+        return self.cleaned_data
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if email:
+            if get_user_model().objects.filter(email=email).exists():
+                msg = _('Email already exist.')
+                self.add_error('email', msg)
 
     def send_email(self):
         pass
@@ -77,7 +95,7 @@ class SignupForm(forms.ModelForm):
 
 class ProfileChangeForm(forms.ModelForm):
     error_messages = (
-        ('length', _('Password must be greater than 5 characters')),
+        ('length', _('Password must be greater than 8 characters')),
         ('no_match', _('Password does not match.')),
         ('invalid', _('Current Password is invalid.')),
     )
@@ -85,23 +103,44 @@ class ProfileChangeForm(forms.ModelForm):
     tel1 = PhoneNumberField(
         max_length=TEL_MAX_LENGTH, min_length=TEL_MAX_LENGTH,
         label=_('MTN Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
-            attrs={'placeholder': _('e.g. +237675366885')}), help_text='*',
+            attrs={'placeholder': _('e.g. +237675366885')}), help_text='',
     )
 
     tel2 = PhoneNumberField(
         max_length=TEL_MAX_LENGTH, min_length=TEL_MAX_LENGTH,
         label=_('Orange Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
-            attrs={'placeholder': _('e.g. +237695366885')}), help_text='*',
+            attrs={'placeholder': _('e.g. +237695366885')}), help_text='',
     )
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)
         super(ProfileChangeForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['readonly'] = True
+        self.fields['tel1'].required = False
+        self.fields['tel2'].required = False
 
     class Meta:
         model = get_user_model()
         fields = ['username', 'tel1', 'tel2', 'tel3', 'first_name', 'last_name', 'gender', 'email',
                   'allow_automatic_contribution']
+
+    def clean(self):
+        tel1 = self.cleaned_data.get('tel1')
+        tel2 = self.cleaned_data.get('tel2')
+
+        if not tel1 and not tel2:
+            msg = forms.ValidationError(_('Provide at least an MTN or Orange number.'))
+            self.add_error('tel1', msg)
+        return self.cleaned_data
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if email:
+            if get_user_model().objects.exclude(pk=self.user.id).filter(email=email).exists():
+                msg = _('Email already exist.')
+                self.add_error('email', msg)
+            else:
+                return email
 
     def send_email(self):
         pass

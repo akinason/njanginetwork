@@ -187,6 +187,11 @@ CONTACT_EMAIL = 'contact@njanginetwork.com'
 SUPPORT_EMAIL = 'contact@njanginetwork.com'
 
 
+#1s2u.com sms Configuration
+ONE_S_2_U_USERNAME = 'kinason42'
+ONE_S_2_U_PASSWORD = 'web54126'
+ONE_S_2_U_SEND_URL = 'https://1s2u.com/sms/sendsms/sendsms.asp'
+
 # MTN Mobile Money API configuration by webshinobis.com
 # APIs return JSON response. params = {status, message, amount, phoneNumber, transactionId, transactionDate}
 MOMO_CHECKOUT_URL = 'http://api.webshinobis.com/api/v1/momo/checkout'

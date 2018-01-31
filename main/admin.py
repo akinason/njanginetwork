@@ -8,7 +8,7 @@ from main.models import LevelModel
 admin.site.register(
     get_user_model(),
     list_display=(
-        'id', 'username', 'level', 'first_name', 'last_name', 'sponsor_id', 'sponsor', 'is_admin', 'tel1', 'tel2',
+        'id', 'username', 'level', 'first_name', 'last_name', 'email', 'sponsor_id', 'sponsor', 'is_admin', 'tel1', 'tel2',
         'tel3', 'date_joined',
     )
 )

@@ -76,27 +76,31 @@
                                 <li>
 									<a href="{% url 'njangi:contribution_checkout' level=1 %}">{% trans 'Level'|title %} 1</a>
 								</li>
-								{% elif user.level >= 1 %}
+								{% endif %}
+								{% if user.level >= 1 %}
 								<li>
 									<a href="{% url 'njangi:contribution_checkout' level=2 %}">{% trans 'Level'|title %} 2</a>
 								</li>
-								{% elif user.level >= 2 %}
+								{% endif %}
+								{% if user.level >= 2 %}
                                 <li>
 									<a href="{% url 'njangi:contribution_checkout' level=3 %}">{% trans 'Level'|title %} 3</a>
 								</li>
-								{% elif user.level >= 3 %}
+								{% endif  %}
+								{% if user.level >= 3 %}
                                 <li>
-									<a href="{% url 'njangi:contribution_checkout' level=4 %}">{% trans 'Level'|title %} 3</a>
+									<a href="{% url 'njangi:contribution_checkout' level=4 %}">{% trans 'Level'|title %} 4</a>
 								</li>
-								{% elif user.level >= 4 %}
+								{% endif %}
+								{% if user.level >= 4 %}
                                 <li>
-									<a href="{% url 'njangi:contribution_checkout' level=5 %}">{% trans 'Level'|title %} 3</a>
+									<a href="{% url 'njangi:contribution_checkout' level=5 %}">{% trans 'Level'|title %} 5</a>
 								</li>
-								{% elif user.level >= 5 %}
+								{% endif %}
+								{% if user.level >= 5 %}
                                 <li>
-									<a href="{% url 'njangi:contribution_checkout' level=6 %}">{% trans 'Level'|title %} 3</a>
+									<a href="{% url 'njangi:contribution_checkout' level=6 %}">{% trans 'Level'|title %} 6</a>
 								</li>
-
 								{% endif %}
 							</ul>
 						</li>

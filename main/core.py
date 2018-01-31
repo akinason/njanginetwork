@@ -103,3 +103,4 @@ class FailedOperationTypes:
         # Used when contribution has been processed by the API at the level of the contributor but pending
         # Loading to the user's wallet, recipients wallet and payout to recipient.
         return self._contribution_api_processed
+

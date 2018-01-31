@@ -206,7 +206,7 @@
 																			<tr>
 																				<td align="left" class="textContent">
 																					<div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
-																						{{ introduction }}
+																						{{ introduction|safe }}
 																					</div>
 																				</td>
 																			</tr>
@@ -287,7 +287,7 @@
 																<tr>
 																	<td align="center" valign="top" class="textContent">
 																		<h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:normal;margin-bottom:5px;text-align:center;">
-																			{{ subject }}
+																			{{ subject|safe }}
 																		</h1>
 																		
 																	</td>
@@ -335,7 +335,7 @@
 																</thead >
 																<tbody style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#5F5F5F;line-height:135%;">
 																	<tr>
-																		{{ message }}
+																		{{ message|safe }}
 																	</tr><br>
 															
 																</tbody>
