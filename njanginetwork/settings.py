@@ -199,6 +199,8 @@ MOMO_PAYMENT_URL = 'http://api.webshinobis.com/api/v1/momo/pay'
 MOMO_AUTH_EMAIL = 'fenn25.fn@gmail.com'
 MOMO_AUTH_PASSWORD = 'secret'
 
+
+
 # REDIS related settings
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6379'
