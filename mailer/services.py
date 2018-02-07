@@ -217,7 +217,7 @@ def send_wallet_contribution_received_email(sender_id, recipient_id, amount, pro
         'amount': amount, 'nsp': nsp.replace('_', ' ').upper(), 'level': level,
         'sender': sender.username if sender else None
     }
-    message = _('You have received %(amount)s as level %(level)s contribution from %(sender)s through'
+    message = _('You have received %(amount)s as level %(level)s contribution from %(sender)s through '
                 '%(nsp)s.') % params
     return send_email(user=recipient, subject=subject, message=message)
 
@@ -457,7 +457,7 @@ def send_wallet_load_success_sms(user_id, amount, processing_fee, nsp, transacti
         'balance': balance, 'username': user.username if user.username else _('Member'),
         'transaction_id': transaction_id
     }
-    translation.activate('fr')
+    # translation.activate('fr')
     message = _('Hello %(username)s! \nYou have successfully reloaded your %(nsp)s wallet '
                 'with the sum of %(amount)s XOF. '
                 'Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF. Ref:'
@@ -555,9 +555,9 @@ def send_wallet_contribution_received_sms(sender_id, recipient_id, amount, proce
     to_number = ''
     try:
         if nsp == _nsp.orange() or nsp == _nsp.orange_wallet():
-            to_number = sender.tel2.as_international
+            to_number = recipient.tel2.as_international
         elif nsp == _nsp.mtn() or nsp == _nsp.mtn_wallet():
-            to_number = sender.tel1.as_international
+            to_number = recipient.tel1.as_international
     except Exception as e:
         return False
     return send_sms(to_number=to_number, body=message)
