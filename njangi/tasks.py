@@ -15,6 +15,7 @@ from mailer import services as mailer_services
 from django.contrib.auth import get_user_model as UserModel
 from njangi.models import LEVEL_CONTRIBUTIONS, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE
 from njangi.core import get_upline_to_pay_upgrade_contribution
+import decimal
 
 wallet = WalletManager()
 trans_status = WalletTransStatus()
@@ -23,8 +24,10 @@ trans_description = WalletTransDescription()
 service_provider = NSP()
 fot = FailedOperationTypes()
 TRANSStatus = TransactionStatus()
+D = decimal.Decimal
 
 
+@app.task
 def process_payout_(
     recipient_id, amount, nsp, processing_fee=0.00, is_failed_operation=False, failed_operation_id=None,
     is_contribution=False
@@ -42,10 +45,11 @@ def process_payout_(
             process_contribution_response would have sent them.
     :return:
     """
+
     try:
         recipient = UserModel().objects.get(pk=recipient_id)
 
-        if wallet.balance(user=recipient, nsp=nsp) >= (amount + processing_fee):
+        if wallet.balance(user=recipient, nsp=nsp) >= (D(amount) + D(processing_fee)):
             # Check if the user has a valid nsp telephone number
             if nsp.upper() == service_provider.mtn().upper():
                 if recipient.tel1 and recipient.tel1_is_verified:
@@ -180,10 +184,9 @@ def process_payout_(
                                'message': message
                             }
                             return response
-
                 else:
-                    # Send a notification mail to the recipient and set the transaction status to provide_contact or just
-                    # increase the number of attempts if it's a previously failed transaction.
+                    # Send a notification mail to the recipient and set the transaction status to provide_contact or
+                    # just increase the number of attempts if it's a previously failed transaction.
                     if is_failed_operation:
                         try:
                             failed_operation = FailedOperations.objects.get(pk=failed_operation_id)
@@ -269,7 +272,7 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
     """
     user = UserModel().objects.get(pk=user_id)
     recipient = UserModel().objects.get(pk=recipient_id)
-    loading_amount = amount + processing_fee
+    loading_amount = D(amount) + D(processing_fee)
     loading_charge = processing_fee
     contribution_amount = get_level_contribution_amount(level)
 
@@ -395,6 +398,7 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
         return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
 
 
+@app.task
 def process_contribution_response(response, user, recipient, level, recipient_amount, nsp, processing_fee):
     """
     If the response status received is 'success' it does the following:
@@ -491,7 +495,7 @@ def process_contribution_response(response, user, recipient, level, recipient_am
 
 @app.task
 def process_wallet_load(user_id, amount, nsp, charge=0.00):
-    loading_amount = amount + charge
+    loading_amount = D(amount) + D(charge)
     user = UserModel().objects.get(pk=user_id)
     information = _('wallet load through %s mobile money') % nsp.upper()
     if nsp == service_provider.mtn():
@@ -664,7 +668,7 @@ def process_automatic_contributions():
             amount = LEVEL_CONTRIBUTIONS[level]
             processing_fee = amount * WALLET_CONTRIBUTION_PROCESSING_FEE_RATE
             nsp = ''
-            total = amount + processing_fee
+            total = D(amount) + D(processing_fee)
             recipient = get_upline_to_pay_upgrade_contribution(user_id=obj.user.id, level=level)
             sender_tel = ''
             # Check if there is sufficient funds in the wallet.
