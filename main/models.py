@@ -95,7 +95,7 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'gender', 'sponsor']
-    EMAIL_FIELD = ['email']
+    EMAIL_FIELD = 'email'
 
     def set_unique_random_tel1_code(self):
         while True:
