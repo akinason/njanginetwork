@@ -72,6 +72,8 @@ class SignupForm(forms.ModelForm):
             if get_user_model().objects.filter(email=email).exists():
                 msg = _('Email already exist.')
                 self.add_error('email', msg)
+            else:
+                return email
 
     def send_email(self):
         pass
