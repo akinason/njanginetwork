@@ -208,7 +208,7 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
         #         'message': _('Invalid request.'), 'status': 'warning'
         #     })
 
-        response = process_contribution(user_id=request.user.id, recipient_id=recipient.id, level=level,
+        response = process_contribution.delay(user_id=request.user.id, recipient_id=recipient.id, level=level,
                                         amount=amount, nsp=nsp, sender_tel=sender_tel, processing_fee=processing_fee)
 
         return HttpResponseRedirect(reverse('njangi:contribution_done'))
@@ -515,19 +515,19 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
             response = {}
 
             if nsp == _nsp.orange_wallet() and action == 'withdraw':
-               response = process_payout(
+               response = process_payout.delay(
                    request.user.id, amount=amount, nsp=_nsp.orange(), processing_fee=processing_fee
                )
             elif nsp == _nsp.orange_wallet() and action == 'load':
-                response = process_wallet_load(
+                response = process_wallet_load.delay(
                     user_id=request.user.id, amount=amount, nsp=_nsp.orange(), charge=processing_fee
                 )
             elif nsp == _nsp.mtn_wallet() and action == 'withdraw':
-                response = process_payout(
+                response = process_payout.delay(
                     request.user.id, amount=amount, nsp=_nsp.mtn(), processing_fee=processing_fee
                 )
             elif nsp == _nsp.mtn_wallet() and action == 'load':
-                response = process_wallet_load(
+                response = process_wallet_load.delay(
                     user_id=request.user.id, amount=amount, nsp=_nsp.mtn(), charge=processing_fee
                 )
         return HttpResponseRedirect(
