@@ -16,7 +16,7 @@ def request_momo_payout(phone_number, amount):
         email = settings.MOMO_AUTH_EMAIL
         password = settings.MOMO_AUTH_PASSWORD
         params = {'email': email, 'password': password, 'amount': amount, 'phone': _phone_number}
-        r = requests.post(url=url, data=params)
+        r = requests.post(url=url, data=params, timeout=(3.05, 120))
         response = r.json()
     except Exception as e:
         message = "MoMo Payout Request of %(amount)s by %(phone_number)s <br><br> ErrorMsg: %(error)s" % {
@@ -35,7 +35,7 @@ def request_momo_deposit(phone_number, amount):
         email = settings.MOMO_AUTH_EMAIL
         password = settings.MOMO_AUTH_PASSWORD
         params = {'email': email, 'password': password, 'amount': amount, 'phone': _phone_number}
-        r = requests.post(url=url, data=params)
+        r = requests.post(url=url, data=params, timeout=(3.05, 120))
         response = r.json()
     except Exception as e:
         message = "MoMo Deposit Request of %(amount)s by %(phone_number)s <br><br> ErrorMsg: %(error)s" % {
@@ -54,7 +54,7 @@ def request_orange_money_payout(phone_number, amount):
         email = settings.ORANGE_MONEY_AUTH_EMAIL
         password = settings.ORANGE_MONEY_AUTH_PASSWORD
         params = {'email': email, 'password': password, 'amount': amount, 'phone': _phone_number}
-        r = requests.post(url=url, data=params)
+        r = requests.post(url=url, data=params, timeout=(3.05, 120))
         response = r.json()
     except Exception as e:
         message = "Orange Money Payout Request of %(amount)s by %(phone_number)s <br><br> ErrorMsg: %(error)s" % {
@@ -73,7 +73,7 @@ def request_orange_money_deposit(phone_number, amount):
         email = settings.ORANGE_MONEY_AUTH_EMAIL
         password = settings.ORANGE_MONEY_AUTH_PASSWORD
         params = {'email': email, 'password': password, 'amount': amount, 'phone': _phone_number}
-        r = requests.post(url=url, data=params)
+        r = requests.post(url=url, data=params, timeout=(3.05, 120))
         response = r.json()
     except Exception as e:
         message = "Orange Money deposit Request of %(amount)s by %(phone_number)s <br><br> ErrorMsg: %(error)s" % {

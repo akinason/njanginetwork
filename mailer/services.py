@@ -444,7 +444,7 @@ def send_signup_welcome_email(user_id):
 # SMS notifications.
 @app.task
 def send_wallet_load_success_sms(user_id, amount, processing_fee, nsp, transaction_id):
-
+    from django.utils import translation
     balance = 0
     try:
         user = UserModel().objects.get(pk=user_id)
@@ -457,10 +457,12 @@ def send_wallet_load_success_sms(user_id, amount, processing_fee, nsp, transacti
         'balance': balance, 'username': user.username if user.username else _('Member'),
         'transaction_id': transaction_id
     }
+    translation.activate('fr')
     message = _('Hello %(username)s! \nYou have successfully reloaded your %(nsp)s wallet '
                 'with the sum of %(amount)s XOF. '
                 'Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF. Ref:'
                 '%(transaction_id)s') % params
+
     to_number = ''
     try:
         if nsp == _nsp.orange() or nsp == _nsp.orange_wallet():

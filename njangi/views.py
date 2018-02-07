@@ -53,6 +53,9 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
 class NetworkToolsView(generic.TemplateView):
     template_name = 'njangi/network_tools.html'
 
+    def get(self, request, *args, **kwargs):
+        return super(NetworkToolsView, self).get(request, *args, **kwargs)
+
 
 class DashboardSignupView(generic.CreateView):
     form_class = SignupForm
@@ -174,7 +177,8 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                 })
         elif nsp == _nsp.orange():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences,'
+                                 ' it will be restored soon.'), 'status': 'info'
                 })
 
             # if request.user.tel2 and request.user.tel2_is_verified:
@@ -191,7 +195,8 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                 })
         elif nsp == _nsp.orange_wallet():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
+                                 'it will be restored soon.'), 'status': 'info'
                 })
         #     if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
         #         return render(request, 'njangi/error.html', context={
@@ -221,7 +226,8 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                 })
         elif nsp == _nsp.orange():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
+                                 'it will be restored soon.'), 'status': 'info'
                 })
             # if request.user.tel2 and request.user.tel2_is_verified:
             #     sender_tel = request.user.tel2.national_number
@@ -237,7 +243,8 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                 })
         elif nsp == _nsp.orange_wallet():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences,'
+                                 ' it will be restored soon.'), 'status': 'info'
                 })
             # if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
             #     return render(request, 'njangi/error.html', context={
@@ -331,9 +338,10 @@ class WalletLoadAndWithdrawView(LoginRequiredMixin, generic.TemplateView):
         # **********Code start***********
         elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
+                                 'it will be restored soon.'), 'status': 'info'
                 })
-        #************End of code*********
+        # ************End of code*********
 
         elif amount < 0:
             return render(request, 'njangi/error.html', context={
@@ -369,9 +377,10 @@ class WalletLoadAndWithdrawView(LoginRequiredMixin, generic.TemplateView):
         # **********Code start***********
         elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
+                                 'it will be restored soon.'), 'status': 'info'
                 })
-        #************End of code*********
+        # ************End of code*********
 
         elif action not in ['load', 'withdraw']:
                 return render(request, 'njangi/error.html', context={
@@ -436,9 +445,10 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
         # **********Code start***********
         elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
+                                 'it will be restored soon.'), 'status': 'info'
                 })
-        #************End of code*********
+        # ************End of code*********
 
         elif action not in ['load', 'withdraw']:
             return render(request, 'njangi/error.html', context={
@@ -472,13 +482,14 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
                 'status': 'warning'
             })
 
-        # This code should be eliminated onces the orange money API is itegrated.
+        # This code should be eliminated onces the orange money API is integrated.
         # **********Code start***********
         elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
             return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be restored soon.'), 'status': 'info'
+                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be '
+                                 'restored soon.'), 'status': 'info'
                 })
-        #************End of code*********
+        # ************End of code*********
 
         elif action not in ['load', 'withdraw']:
             return render(request, 'njangi/error.html', context={

@@ -196,8 +196,8 @@ ONE_S_2_U_SEND_URL = 'https://1s2u.com/sms/sendsms/sendsms.asp'
 # APIs return JSON response. params = {status, message, amount, phoneNumber, transactionId, transactionDate}
 MOMO_CHECKOUT_URL = 'http://api.webshinobis.com/api/v1/momo/checkout'
 MOMO_PAYMENT_URL = 'http://api.webshinobis.com/api/v1/momo/pay'
-MOMO_AUTH_EMAIL = 'fenn25.fn@gmail.com'
-MOMO_AUTH_PASSWORD = 'secret'
+MOMO_AUTH_EMAIL = 'kinason42@gmail.com'
+MOMO_AUTH_PASSWORD = 'scoolingS245@XM'
 
 
 
