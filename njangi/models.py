@@ -7,27 +7,27 @@ from main.core import NSP
 from main.models import TEL_MAX_LENGTH
 from django.utils import timezone
 
-NSP_CONTRIBUTION_PROCESSING_FEE_RATE = 0.01
+NSP_CONTRIBUTION_PROCESSING_FEE_RATE = 0.025
 NSP_WALLET_LOAD_PROCESSING_FEE_RATE = 0.0
 NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE = 0
-WALLET_CONTRIBUTION_PROCESSING_FEE_RATE = 0.01
+WALLET_CONTRIBUTION_PROCESSING_FEE_RATE = 0.025
 
 NSP_CONTRIBUTION_PROCESSING_FEE_RATES = {
-    1: 0.02,
-    2: 0.015,
-    3: 0.02,
-    4: 0.02,
-    5: 0.02,
-    6: 0.02,
+    1: 0.025,
+    2: 0.025,
+    3: 0.025,
+    4: 0.025,
+    5: 0.025,
+    6: 0.025,
 }
 
 WALLET_CONTRIBUTION_PROCESSING_FEE_RATES = {
-    1: 0.02,
-    2: 0.015,
-    3: 0.02,
-    4: 0.02,
-    5: 0.02,
-    6: 0.02,
+    1: 0.025,
+    2: 0.025,
+    3: 0.025,
+    4: 0.025,
+    5: 0.025,
+    6: 0.025,
 }
 
 NJANGI_LEVELS = [1, 2, 3, 4, 5, 6]
