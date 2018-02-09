@@ -16,6 +16,19 @@ ORANGE_MOBILE_MONEY_PARTNER = 'Extended Limits Inc'
 DEFAULT_TRANSACTION_LIST_LIMIT = 30
 
 
+class MMRequestType:
+
+    def __init__(self):
+        self.deposit = 'deposit'
+        self.payout = 'payout'
+
+    def payout(self):
+        return self.payout
+
+    def deposit(self):
+        return self.deposit
+
+
 class WalletTransDescription:
     _wallet_load = _('wallet_load')
     _contribution_received = _('contribution_received')
@@ -578,3 +591,59 @@ class WalletManager:
 
         else:
             return self.model.objects.none()
+
+
+class MobileMoney(models.Model):
+    request_status = models.CharField(_('request status'), max_length=20, blank=True)
+    response_status = models.CharField(_('response status'), max_length=20, blank=True)
+    response_code = models.CharField(_('response code'), max_length=15, blank=True)
+    request_type = models.CharField(_('request type'), max_length=20)
+    user = models.ForeignKey(get_user_model(), null=True, blank=True, verbose_name=_('user'), on_delete=models.CASCADE)
+    nsp = models.CharField(_('NSP'), max_length=15)
+    tel = models.CharField(_('tel'), max_length=20)
+    amount = models.DecimalField(_('amount'), max_digits=10, decimal_places=2)
+    message = models.TextField(_('message'), blank=True)
+    transaction_id = models.CharField(_('transaction id'), max_length=30, blank=True)
+    request_date = models.DateTimeField(_('request date'), default=timezone.now)
+    response_date = models.DateTimeField(_('response date'), blank=True, null=True)
+    response_transaction_date = models.DateTimeField(_('response tranx date'), blank=True, null=True)
+
+
+class MobileMoneyManager:
+
+    def __init__(self):
+        self.model = MobileMoney
+        self.trans_status = TransactionStatus()
+
+    def send_request(self, request_type, nsp, tel, amount, user=None):
+        mm_transaction = self.model.objects.create(
+            request_status=self.trans_status.processing(), request_type=request_type, nsp=nsp, tel=tel, amount=amount,
+        )
+        if user:
+            mm_transaction.user = user
+        mm_transaction.save()
+        return mm_transaction
+
+    def get_response(self, mm_request_id, response_status, response_code=None, message=None,
+                     transaction_id=None, response_transaction_date=None
+                     ):
+        try:
+            mm_transaction = self.model.objects.get(pk=mm_request_id)
+            mm_transaction.request_status = self.trans_status.complete()
+            mm_transaction.response_status = response_status
+            mm_transaction.response_date = timezone.now()
+            if response_code:
+                mm_transaction.response_code = response_code
+            if message:
+                mm_transaction.message = message
+            if transaction_id:
+                mm_transaction.transaction_id = transaction_id
+            if response_transaction_date:
+                mm_transaction.response_transaction_date = response_transaction_date
+            mm_transaction.save()
+            return mm_transaction
+        except self.model.DoesNotExist:
+            return self.model.objects.none()
+
+    def check_transaction(self, mm_request_id):
+        pass

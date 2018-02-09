@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.views import generic
+from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
-from purse.models import WalletManager, WalletTransDescription
-from njangi.models import LevelModel, LEVEL_CONTRIBUTIONS
+from django.contrib.auth import get_user_model as UserModel
+from purse.models import WalletManager, WalletTransDescription, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER
+from njangi.models import LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree
 from django.db.models import Sum, F, Value as V
 from django.db.models.functions import Coalesce
 from main.forms import SignupForm
@@ -16,7 +18,6 @@ from django.urls import reverse_lazy, reverse
 from njangi.models import NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, \
     NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE, \
     NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
-from purse.models import MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER
 from django.utils.translation import ugettext_lazy as _
 from njangi.tasks import process_contribution, process_payout, process_wallet_load
 from django.http import HttpResponseRedirect
@@ -32,7 +33,11 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        # user_level_plus_one = self.request.user.level + 1
+        user_node = None
+        try:
+            user_node = NjangiTree.objects.filter(user=self.request.user).get()
+        except Exception:
+            pass
         user_levels = LevelModel.objects.filter(user=self.request.user)
         contribution_status = LevelModel.objects.filter(user=self.request.user).aggregate(
             total_contributed=Coalesce(Sum(F('total_sent')), V(0.00)),
@@ -40,13 +45,22 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         )
         mtn_wallet_balance = wallet.balance(user=self.request.user, nsp=_nsp.mtn())
         orange_wallet_balance = wallet.balance(user=self.request.user, nsp=_nsp.orange())
+        today = timezone.now().date()
+        import datetime
+        _today = today + datetime.timedelta(days=-10)
         wallet_balance = mtn_wallet_balance + orange_wallet_balance
         context['wallet_balance'] = wallet_balance
         context['total_contributed'] = contribution_status['total_contributed']
         context['total_received'] = contribution_status['total_received']
         context['user_levels'] = user_levels.order_by('level')
+        context['total_users'] = UserModel().objects.filter(is_admin=False).count()
         context['LEVEL_CONTRIBUTIONS'] = LEVEL_CONTRIBUTIONS
         context['nsp'] = _nsp
+        context['today_users'] = UserModel().objects.filter(date_joined__date=_today, is_admin=False).count()
+        if user_node:
+            context['my_network_users'] = user_node.get_descendant_count()
+        else:
+            context['my_network_users'] = 0
         return context
 
 

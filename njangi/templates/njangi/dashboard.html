@@ -12,7 +12,7 @@
             <h5>{% trans 'network members'|title %}</h5>
         </div>
         <div class="stats-right">
-            <h5>{{ site_info.total_users|intword }}</h5>
+            <h5>{{ total_users|intword }}</h5>
         </div>
         <div class="clearfix"> </div>
     </div>
@@ -22,7 +22,7 @@
             <h5>{% trans 'network members'|title %}</h5>
         </div>
         <div class="stats-right">
-            <h5>{{ site_info.total_users|intcomma  }}</h5>
+            <h5>{{ my_network_users|intcomma  }}</h5>
         </div>
         <div class="clearfix"> </div>
     </div>
@@ -32,7 +32,7 @@
             <h5>{% trans 'new members'|capfirst %}</h5>
         </div>
         <div class="stats-right">
-            <h5>{{ site_info.today_users }}</h5>
+            <h5>{{ today_users }}</h5>
         </div>
         <div class="clearfix"> </div>
     </div>
