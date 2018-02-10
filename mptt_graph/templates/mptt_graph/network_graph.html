@@ -1,0 +1,37 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags staticfiles mptt_tags %}
+
+{% block content %}
+<div class="forms">
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>{% trans 'My Network'|title %}</h4>
+        </div>
+        <div class="form-body col-md-6">
+            <link rel="stylesheet" media="screen, projection" href="{% static 'mptt_graph/tree.css' %}" />
+            <div class="text-center">
+                <div class="text-left" style="display:inline-block">
+                    <div class="tree">
+                        <ul>
+                        {% recursetree nodes %}
+                            <li>
+                                <a href="{% url 'mptt_graph:network_graph' user_id=node.user.id %}">
+                                    {{ node.user.username }} | {% trans 'L' %}{{ node.user.level }}
+                                    <div id="displayzone_{{ node.id }}" class="displayzone"></div>
+                                </a>
+                                {% if not node.is_leaf_node %}
+                                    <ul>
+                                        {{ children }}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endrecursetree %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--</div>-->
+{% endblock %}

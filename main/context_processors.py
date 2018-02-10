@@ -7,19 +7,14 @@ from main.utils import get_sponsor
 
 
 class SiteInformation:
-    _accronym = _('NNetwork')
-    _name = _('Njangi Network')
-    _website = 'www.njangi.network'
-    _total_users = UserModel().objects.filter(is_admin=False).count()
-    _total_admin_users = UserModel().objects.filter(is_admin=True).count()
-
-    today = timezone.now().date()
-
-    _today_users = UserModel().objects.filter(date_joined__date=today, is_admin=False).count()
-    _current_date = datetime.now()
 
     def __init__(self, request):
         self.request = request
+        self._accronym = _('NNetwork')
+        self._name = _('Njangi Network')
+        self._website = 'www.njanginetwork.com'
+        self._current_date = datetime.now()
+        self._contact_numbers = '+237 675397307 | +237 655916762'
 
     def accronym(self):
         return self._accronym
@@ -30,17 +25,11 @@ class SiteInformation:
     def website(self):
         return 'https://%s' % get_current_site(self.request)
 
-    def total_users(self):
-        return self._total_users
-
-    def total_admin_users(self):
-        return self._total_admin_users
-
-    def today_users(self):
-        return self._today_users
-
     def current_date(self):
         return self._current_date
+
+    def contact_numbers(self):
+        return self._contact_numbers
 
 
 def main_context_processors(request):

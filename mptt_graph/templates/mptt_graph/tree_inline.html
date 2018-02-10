@@ -1,0 +1,23 @@
+{% load staticfiles mptt_tags i18n %}
+<link rel="stylesheet" media="screen, projection" href="{% static 'mptt_graph/tree.css' %}" />
+<div class="text-center">
+	<div class="text-left" style="display:inline-block">
+		<div class="tree">
+			<ul>
+			{% recursetree nodes %}
+		        <li>
+		        	<a href="{% url 'mptt_graph:network_graph' user_id=node.user.id %}">
+		            	{{ node.user.username }} | {% trans 'L' %}{{ node.user.level }}
+		            	<div id="displayzone_{{ node.id }}" class="displayzone"></div>
+		            </a>
+		            {% if not node.is_leaf_node %}
+		                <ul>
+		                    {{ children }}
+		                </ul>
+		            {% endif %}
+		        </li>
+		    {% endrecursetree %}
+		    </ul>
+	    </div>
+	</div>
+</div>

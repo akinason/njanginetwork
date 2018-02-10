@@ -46,8 +46,6 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         mtn_wallet_balance = wallet.balance(user=self.request.user, nsp=_nsp.mtn())
         orange_wallet_balance = wallet.balance(user=self.request.user, nsp=_nsp.orange())
         today = timezone.now().date()
-        import datetime
-        _today = today + datetime.timedelta(days=-10)
         wallet_balance = mtn_wallet_balance + orange_wallet_balance
         context['wallet_balance'] = wallet_balance
         context['total_contributed'] = contribution_status['total_contributed']
@@ -56,7 +54,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         context['total_users'] = UserModel().objects.filter(is_admin=False).count()
         context['LEVEL_CONTRIBUTIONS'] = LEVEL_CONTRIBUTIONS
         context['nsp'] = _nsp
-        context['today_users'] = UserModel().objects.filter(date_joined__date=_today, is_admin=False).count()
+        context['today_users'] = UserModel().objects.filter(date_joined__date=today, is_admin=False).count()
         if user_node:
             context['my_network_users'] = user_node.get_descendant_count()
         else:

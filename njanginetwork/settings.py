@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'mailer.apps.MailerConfig',
     'django.contrib.humanize',
     'phonenumber_field',
+    'mptt_graph.apps.MpttGraphConfig',
 ]
 
 MIDDLEWARE = [

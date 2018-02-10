@@ -228,7 +228,7 @@ class NjangiTree(MPTTModel):
         Returns the number of people on the left leg of the user.
         """
         if self.has_left_downline():
-            return self.get_left_downlines().count()
+            return self.get_left_downline().get_descendant_count() + 1
         else:
             return 0
 
@@ -237,7 +237,7 @@ class NjangiTree(MPTTModel):
         Returns the number of people on the right leg of the user or zero if the user does not have a right downline.
         """
         if self.has_right_downline():
-            return self.get_right_downline().count()
+            return self.get_right_downline().get_descendant_count() + 1
         else:
             return 0
 
