@@ -56,19 +56,26 @@ def send_1s2u_sms(to_number, body):
     fl = 0
     mt = 0
     ipcl = "127.0.0.1"
+    content = ''
+    status_code = ''
     params = {
         'username': username, 'password': password, 'msg': msg,
         'Sid': sid, 'fl': fl, 'mt': mt, 'ipcl': ipcl, 'mno': mno
     }
     encoded_params = urlencode(params)
-    response = requests.get(url=url, params=encoded_params)
-    content = ''
     try:
-        content = response.content.decode('ascii')
-    except AttributeError:
-        content = response.content
+        response = requests.get(url=url, params=encoded_params)
+        status_code = response.status_code
+        try:
+            content = response.content.decode('ascii')
+        except AttributeError:
+            content = response.content
+        except Exception:
+            content = response.content
+    except Exception:
+        status_code = 404
 
-    r = {'status_code': str(response.status_code), 'content': content}
+    r = {'status_code': str(status_code), 'content': content}
     return r
 
 

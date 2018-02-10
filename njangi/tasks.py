@@ -55,7 +55,7 @@ def process_payout_(
                 if recipient.tel1 and recipient.tel1_is_verified:
                     # Process the transaction
                     response = api_services.request_momo_payout(
-                        phone_number=recipient.tel1.national_number, amount=amount
+                        phone_number=recipient.tel1.national_number, amount=amount, user=recipient
                     )
                     if response['status'].upper() == trans_status.success().upper():
                         information = _('withdrawal through %(nsp)s mobile money.') % {'nsp': nsp}
@@ -135,7 +135,7 @@ def process_payout_(
             elif nsp.upper() == service_provider.orange().upper():
                 if recipient.tel2 and recipient.tel2_is_verified:
                     # Process the transaction
-                    response = api_services.request_orange_money_payout(phone_number=recipient.tel2.national_number, amount=amount)
+                    response = api_services.request_orange_money_payout(phone_number=recipient.tel2.national_number, amount=amount, user=recipient)
                     if response['status'].upper() == trans_status.success().upper():
                         information = _('withdrawal through %(nsp)s mobile money.') % {'nsp': nsp}
                         wallet_response = wallet.withdraw(user=recipient, amount=amount, nsp=nsp, charge=0.00,
@@ -292,10 +292,10 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
         api_response = {}
         if nsp == service_provider.mtn() and user.tel1 and user.tel1_is_verified:
             sender_tel = user.tel1.national_number
-            api_response = api_services.request_momo_deposit(sender_tel, amount=loading_amount)
+            api_response = api_services.request_momo_deposit(sender_tel, amount=loading_amount, user=user)
         elif nsp == service_provider.orange() and user.tel2 and user.tel2_is_verified:
             sender_tel = user.tel2.national_number
-            api_response = api_services.request_orange_money_deposit(sender_tel, amount=loading_amount)
+            api_response = api_services.request_orange_money_deposit(sender_tel, amount=loading_amount, user=user)
         else:
             mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
             mailer_services.send_nsp_contribution_failed_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
@@ -501,7 +501,7 @@ def process_wallet_load(user_id, amount, nsp, charge=0.00):
     if nsp == service_provider.mtn():
         if user.tel1 and user.tel1_is_verified:
             """Process loading operation"""
-            response = api_services.request_momo_deposit(phone_number=user.tel1.national_number, amount=loading_amount)
+            response = api_services.request_momo_deposit(phone_number=user.tel1.national_number, amount=loading_amount, user=user)
             if response['status'] == trans_status.success():
                 # Proceed to update the user's wallet.
                 load_response = wallet.load(
@@ -546,7 +546,7 @@ def process_wallet_load(user_id, amount, nsp, charge=0.00):
         if user.tel2 and user.tel2_is_verified:
             """Process loading operation"""
             response = api_services.request_orange_money_deposit(phone_number=user.tel2.national_number,
-                                                                 amount=loading_amount)
+                                                                 amount=loading_amount, user=user)
             if response['status'] == trans_status.success():
                 # Proceed to update the user's wallet.
                 load_response = wallet.load(
@@ -612,7 +612,7 @@ def send_contribution_due_reminder():
 
     if queryset:
         for obj in queryset:
-            duration = str(obj.day) + _('day(s)') + ' ' + str(obj.hour) + _('hour(s)')
+            duration = _("%(day)s day(s) %(hour)s hour(s)") % {'day': obj.day, 'hour': obj.hour}
 
             mailer_services.send_contribution_due_reminder_email.delay(
                 user_id=obj.user.id, level=obj.level, amount=LEVEL_CONTRIBUTIONS[obj.level], duration=duration
