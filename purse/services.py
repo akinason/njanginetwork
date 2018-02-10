@@ -53,9 +53,8 @@ def request_momo_deposit(phone_number, amount, user=None):
         email = settings.MOMO_AUTH_EMAIL
         password = settings.MOMO_AUTH_PASSWORD
         params = {'email': email, 'password': password, 'amount': amount, 'phone': _phone_number}
-        # r = requests.post(url=url, data=params, timeout=(3.05, 120))
-        # response = r.json()
-        response = {'status': 'failure', 'message': "HTTPConnectionPool(host='api.webshinobis.com', port=80): Max retries exceeded with url: /api/v1/momo/checkout (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f50882bbb70>: Failed to establish a new connection: [Errno -2] Name or service not known',))"}
+        r = requests.post(url=url, data=params, timeout=(3.05, 120))
+        response = r.json()
         try:
             log_transaction(mm_request_id=log.id, api_response=response)
         except Exception as e:
