@@ -52,7 +52,7 @@ class UserNetworkView(LoginRequiredMixin, TemplateView):
         user_id = kwargs['user_id']
         request_user = self.request.user
         nodes = ""
-
+        node = ""
         if int(user_id) and int(user_id) >= int(request_user.id):
             try:
                 node = NjangiTree.objects.filter(user__id=user_id).get()
@@ -60,4 +60,5 @@ class UserNetworkView(LoginRequiredMixin, TemplateView):
             except NjangiTree.DoesNotExist:
                 nodes = ""
         context['nodes'] = nodes
+        context['top_node'] = node
         return context
