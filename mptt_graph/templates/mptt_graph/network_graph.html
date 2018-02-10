@@ -16,7 +16,11 @@
                         {% recursetree nodes %}
                             <li>
                                 <a href="{% url 'mptt_graph:network_graph' user_id=node.user.id %}">
-                                    {{ node.user.username }} | {% trans 'L' %}{{ node.user.level }}
+                                    {{ node.user.username }} | 
+                                    {{ node.side }} | 
+                                    {% if top_node.user.level < node.user.level %} <span style="color:rgb(255,0,0)">{% trans 'Lvl' %} {{ node.user.level }}</span> {% else %} {% trans 'Lvl' %} {{ node.user.level }} 
+                                    {% endif %} |
+                                    {{ node.get_descendant_count }}
                                 </a>
                                 {% if not node.is_leaf_node %}
                                     <ul>
