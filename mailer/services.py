@@ -9,6 +9,7 @@ from njangi.models import FailedOperations
 from twilio.rest import Client
 from njanginetwork import settings
 from main.core import NSP
+from main.models import TEL_MAX_LENGTH
 import os
 from django.utils.http import urlencode
 import requests
@@ -18,9 +19,81 @@ wallet = WalletManager()
 
 
 @app.task
+def send_1s2u_mass_sms(to_numbers, body):
+    # Sends a mass sms. Max 15 at a time.
+    _list = ""
+    grand_list = []
+    list_limit = 15
+    list_count = 1
+    count = 1
+    number_count = len(to_numbers)
+    url = settings.ONE_S_2_U_SEND_URL
+    username = settings.ONE_S_2_U_USERNAME
+    password = settings.ONE_S_2_U_PASSWORD
+    msg = body
+    sid = "NjangiNetwk"
+    fl = 0
+    mt = 0
+    ipcl = "127.0.0.1"
+    content = ''
+    status_code = ''
+    for number in to_numbers:
+        number = str(number).replace(" ", "").replace("+", "")
+        if len(number) <= 9:
+            number = '237%s' % number
+
+        if len(number) == TEL_MAX_LENGTH - 1:
+            if len(_list) == 0:
+                _list = number
+            else:
+                _list = _list + ',' + number
+
+        if list_count == list_limit or count == number_count:
+            if len(_list) > 0:
+                grand_list.append(_list)
+                _list = ""
+                list_count = 1
+        else:
+            if len(_list) > 0:
+                list_count += 1
+        count += 1
+
+    response_list = []
+    for grouped_numbers in grand_list:
+        mno = grouped_numbers
+        params = {
+            'username': username, 'password': password, 'msg': msg,
+            'Sid': sid, 'fl': fl, 'mt': mt, 'ipcl': ipcl, 'mno': mno
+        }
+        encoded_params = urlencode(params)
+        try:
+            response = requests.get(url=url, params=encoded_params)
+            status_code = response.status_code
+            try:
+                content = response.content.decode('ascii')
+            except AttributeError:
+                content = response.content
+            except Exception:
+                content = response.content
+        except Exception as e:
+            status_code = 404
+            content = e
+
+        r = {'status_code': str(status_code), 'content': content}
+        response_list.append(r)
+    return response_list
+
+
+
+
+
+
+
+@app.task
 def send_sms(to_number, body):
     response = send_1s2u_sms(to_number, body)
     return response
+
 
 @app.task 
 def send_twilio_sms(to_number, body):
@@ -72,8 +145,9 @@ def send_1s2u_sms(to_number, body):
             content = response.content
         except Exception:
             content = response.content
-    except Exception:
+    except Exception as e:
         status_code = 404
+        content = e
 
     r = {'status_code': str(status_code), 'content': content}
     return r
@@ -760,7 +834,7 @@ def send_nsp_contribution_pending_sms(user_id, nsp, level, amount):
         'username': user.username if user.username else _('Member'), 'amount': amount, 'level': level, 'nsp': nsp
     }
     _message = _('Hi %(username)s!\n'
-                 'Level %(level)s contribution through %(nsp)s Pending\n'
+                 'Level %(level)s contribution through %(nsp)s is pending\n'
                  'We will retry and notify you when its done.'
                  'Amount: %(amount)s XOF\n'
                  'Thanks for Collaborating!'

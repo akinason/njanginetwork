@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.forms.widgets import HiddenInput
-from main.models import TEL_MAX_LENGTH
+from main.models import TEL_MAX_LENGTH, RESERVED_USERNAMES
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field import widgets as phonenumber_widgets
 from main import validators as main_validators
@@ -60,10 +60,14 @@ class SignupForm(forms.ModelForm):
     def clean(self):
         tel1 = self.cleaned_data.get('tel1')
         tel2 = self.cleaned_data.get('tel2')
+        username = self.cleaned_data.get('username')
 
         if not tel1 and not tel2:
             msg = forms.ValidationError(_('Provide at least an MTN or Orange number.'))
             self.add_error('tel1', msg)
+        if username in RESERVED_USERNAMES:
+            msg = forms.ValidationError(_('username already exist.'))
+            self.add_error('username', msg)
         return self.cleaned_data
 
     def clean_email(self):

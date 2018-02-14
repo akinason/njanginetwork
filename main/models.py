@@ -18,9 +18,13 @@ GENDER_TYPES = (
 TEL_MAX_LENGTH = 13
 
 TRUE_FALSE_CHOICES = (
-    (1, _('Yes')),
-    (0, _('No')),
+    (True, _('Yes')),
+    (False, _('No')),
 )
+
+RESERVED_USERNAMES = [
+    'administrator', 'admin', 'administrateur', 'adminaccount', 'adminuser', 'administration',
+ ]
 
 
 class UserManager(DefaultUserManager):
@@ -55,8 +59,12 @@ class User(AbstractUser):
             'unique': _("A user with that username already exists."),
         },
     )
-    first_name = models.CharField(_('first name'), max_length=30, blank=False, help_text='*')
-    last_name = models.CharField(_('last name'), max_length=50, blank=False, help_text='*')
+    first_name = models.CharField(
+        _('first name'), max_length=30, blank=False, help_text='*', validators=[username_validator]
+    )
+    last_name = models.CharField(
+        _('last name'), max_length=50, blank=False, help_text='*', validators=[username_validator]
+    )
     gender = models.CharField(_('gender'), choices=GENDER_TYPES, max_length=6, help_text='*')
     sponsor = models.PositiveIntegerField(_('sponsor'), blank=True, null=True, db_index=True)
 
