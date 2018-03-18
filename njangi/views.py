@@ -3,7 +3,8 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model as UserModel
-from purse.models import WalletManager, WalletTransDescription, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER
+from purse.models import WalletManager, WalletTransDescription, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER, \
+    MOMOPurpose
 from njangi.models import LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree
 from django.db.models import Sum, F, Value as V
 from django.db.models.functions import Coalesce
@@ -19,14 +20,15 @@ from njangi.models import NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUT
     NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE, \
     NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
 from django.utils.translation import ugettext_lazy as _
-from njangi.tasks import process_contribution, process_payout, process_wallet_load
+from njangi.tasks import process_contribution, process_wallet_load
 from django.http import HttpResponseRedirect
 import decimal
+from purse import services as purse_services
 
 wallet = WalletManager()
 _nsp = NSP()
 D = decimal.Decimal
-
+momo_purpose = MOMOPurpose()
 
 class DashboardView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'njangi/dashboard.html'
@@ -180,9 +182,15 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
         nsp = self.get_context_data(**kwargs).pop('nsp')
         sender_tel = ''
 
+        print(processing_fee)
+
         if nsp == _nsp.mtn():
             if request.user.tel1 and request.user.tel1_is_verified:
                 sender_tel = request.user.tel1.national_number
+                purse_services.request_momo_deposit.delay(
+                    phone_number=sender_tel, amount=total, user_id=self.request.user.id, nsp=nsp, level=level,
+                    purpose=momo_purpose.contribution(), recipient_id=recipient.id, charge=processing_fee
+                )
             else:
                 return render(request, 'njangi/error.html', context={
                     'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
@@ -195,6 +203,10 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
 
             # if request.user.tel2 and request.user.tel2_is_verified:
             #     sender_tel = request.user.tel2.national_number
+            #     purse_services.request_momo_deposit.delay(
+            #         phone_number=sender_tel, amount=total, user_id=self.request.user.id, nsp=nsp, level=level,
+            #         purpose=momo_purpose.contribution(), recipient_id=recipient.id, charge=processing_fee
+            #     )
             # else:
             #     return render(request, 'njangi/error.html', context={
             #         'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
@@ -205,23 +217,31 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                     'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
                     'status': 'warning'
                 })
+            else:
+                process_contribution.delay(
+                        level=level, nsp=nsp, processing_fee=processing_fee, user_id=self.request.user.id,
+                        recipient_id=recipient.id
+                    )
         elif nsp == _nsp.orange_wallet():
             return render(request, 'njangi/error.html', context={
                     'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
                                  'it will be restored soon.'), 'status': 'info'
                 })
-        #     if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
-        #         return render(request, 'njangi/error.html', context={
-        #             'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
-        #             'status': 'warning'
-        #         })
+            # if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
+            #     return render(request, 'njangi/error.html', context={
+            #         'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
+            #         'status': 'warning'
+            #     })
+            # else:
+            #     process_contribution.delay(
+            #         level=level, nsp=nsp, processing_fee=processing_fee, user_id=self.request.user.id,
+            #         recipient_id=recipient.id
+            #     )
+
         # else:
         #     return render(request, 'njangi/error.html', context={
         #         'message': _('Invalid request.'), 'status': 'warning'
         #     })
-
-        response = process_contribution.delay(user_id=request.user.id, recipient_id=recipient.id, level=level,
-                                        amount=amount, nsp=nsp, sender_tel=sender_tel, processing_fee=processing_fee)
 
         return HttpResponseRedirect(reverse('njangi:contribution_done'))
 
@@ -494,7 +514,7 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
                 'status': 'warning'
             })
 
-        # This code should be eliminated onces the orange money API is integrated.
+        # This code should be eliminated once the orange money API is integrated.
         # **********Code start***********
         elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
             return render(request, 'njangi/error.html', context={
@@ -527,21 +547,30 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
             response = {}
 
             if nsp == _nsp.orange_wallet() and action == 'withdraw':
-               response = process_payout.delay(
-                   request.user.id, amount=amount, nsp=_nsp.orange(), processing_fee=processing_fee
-               )
+               # response = process_payout.delay(
+               #     user_id=self.request.user.id, amount=amount, nsp=_nsp.orange(), processing_fee=processing_fee
+               # )
+                pass
             elif nsp == _nsp.orange_wallet() and action == 'load':
-                response = process_wallet_load.delay(
-                    user_id=request.user.id, amount=amount, nsp=_nsp.orange(), charge=processing_fee
+                purse_services.request_momo_deposit.delay(
+                    phone_number=self.request.user.tel2.national_number, amount=total, user_id=self.request.user.id,
+                    nsp=_nsp.orange(), level=0, purpose=momo_purpose.wallet_load(), recipient_id=self.request.user.id,
+                    charge=processing_fee
                 )
             elif nsp == _nsp.mtn_wallet() and action == 'withdraw':
-                response = process_payout.delay(
-                    request.user.id, amount=amount, nsp=_nsp.mtn(), processing_fee=processing_fee
+                purse_services.request_momo_payout(
+                    user_id=self.request.user.id, phone_number=self.request.user.tel1.national_number, amount=amount,
+                    recipient_id=self.request.user.id, nsp=_nsp.mtn(), processing_fee=processing_fee,
+                    purpose=momo_purpose.wallet_withdraw(),
                 )
+
             elif nsp == _nsp.mtn_wallet() and action == 'load':
-                response = process_wallet_load.delay(
-                    user_id=request.user.id, amount=amount, nsp=_nsp.mtn(), charge=processing_fee
+                r = purse_services.request_momo_deposit(
+                    phone_number=self.request.user.tel1.national_number, amount=total, user_id=self.request.user.id,
+                    nsp=_nsp.mtn(), level=0, purpose=momo_purpose.wallet_load(), recipient_id=self.request.user.id,
+                    charge=processing_fee
                 )
+                # print(r)
         return HttpResponseRedirect(
             reverse('njangi:load_or_withdraw_done', kwargs={'nsp': nsp, 'action': action})
         )

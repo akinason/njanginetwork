@@ -19,6 +19,7 @@ def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
         parent_user=sponsor,
         parent=sponsor_node,
     )
+    print('a new node has been created')
     return tree_node
 
 
@@ -61,13 +62,21 @@ def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
                 )
         elif sponsor_node.has_right_downline() and sponsor_node.has_left_downline():
             # Then get a queryset of the downlines with unmatched downlines and position the new user
-            queryset = sponsor_node.get_unmatched_downlines()
+            queryset = ""
+            left_downline_count = sponsor_node.get_left_downline_count()
+            right_downline_count = sponsor_node.get_right_downline_count()
+
+            if left_downline_count > right_downline_count:
+                queryset = sponsor_node.get_right_unmatched_downlines(limit=3, limit_output=True)
+            else:
+                queryset = sponsor_node.get_left_unmatched_downlines(limit=3, limit_output=True)
+
             id_list = []
             for node in queryset:
                 id_list.append(node.pk)
             random.shuffle(id_list)
             pk = id_list[0]
-            node = queryset.filter(pk=pk).get()
+            node = NjangiTree.objects.get(pk=pk)
 
             if node.has_left_downline() and not node.has_right_downline():
                 # Add the new user to the right leg regardless of the value of 'side'
@@ -80,6 +89,7 @@ def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
                     user=user, sponsor=node.user, sponsor_node=node, side=tree_side.left()
                 )
             elif node.is_leaf_node():
+                print('am a leaf node')
                 # Verify if a side was provided and matches the standards then position the user to
                 # corresponding side else position to the left.
                 if side and side in [tree_side.left(), tree_side.right()]:

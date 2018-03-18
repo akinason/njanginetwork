@@ -78,6 +78,7 @@ class FailedOperations(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     resolved_on = models.DateTimeField(null=True, blank=True)
     attempts = models.PositiveIntegerField(default=0)
+    tracker_id = models.CharField(_('tracker id'), max_length=15, blank=True)
 
 
 class LevelModel(models.Model):
@@ -193,33 +194,43 @@ class NjangiTree(MPTTModel):
         else:
             return NjangiTree.objects.none().get()
 
-    def get_downlines(self):
+    def get_downlines(self, limit=3, limit_output=False):
         """
         Creates a QuerySet containing descendants of the user instance, in tree order.
         If include_self is True, the QuerySet will also include the model instance itself.
         Raises a ValueError if the instance isn’t saved already.
         """
-        return super(NjangiTree, self).get_descendants(include_self=False)
+        queryset = super(NjangiTree, self).get_descendants(include_self=False)
+        if limit_output:
+            queryset = queryset[:limit]
+        return queryset
 
-    def get_left_downlines(self):
+    def get_left_downlines(self, limit=3, limit_output=False):
         """
         Creates a QuerySet containing descendants of the user's left side or left leg, in tree order.
         Raises a ValueError if the instance isn’t saved already.
         """
         if self.has_left_downline():
             downline = self.get_left_downline()
-            return downline.get_descendants(include_self=True)
+            queryset = downline.get_descendants(include_self=True)
+            if limit_output:
+                queryset = queryset[:limit]
+            return queryset
         else:
             return NjangiTree.objects.none()
 
-    def get_right_downlines(self):
+    def get_right_downlines(self, limit=3, limit_output=False):
         """
         Creates a QuerySet containing descendants of the user's left side or left leg, in tree order.
         Raises a ValueError if the instance isn’t saved already.
         """
         if self.has_right_downline():
             downline = self.get_right_downline()
-            return downline.get_descendants(include_self=True)
+            queryset = downline.get_descendants(include_self=True)
+
+            if limit_output:
+                queryset = queryset[:limit]
+            return queryset
         else:
             return NjangiTree.objects.none()
 
@@ -241,7 +252,7 @@ class NjangiTree(MPTTModel):
         else:
             return 0
 
-    def get_left_unmatched_downlines(self):
+    def get_left_unmatched_downlines(self, limit=3, limit_output=False):
         """
         Returns a queryset containing the list of users having 1 or no downline on the left leg in tree order.
         If the user does not have a left downline, it returns the user.
@@ -251,11 +262,13 @@ class NjangiTree(MPTTModel):
             queryset = queryset.annotate(children_count=Count('children')).filter(
                 Q(children_count=0) | Q(children_count=1)
             )
+            if limit_output:
+                queryset = queryset[:limit]
             return queryset
         else:
             return NjangiTree.objects.filter(pk=self.pk)
 
-    def get_right_unmatched_downlines(self):
+    def get_right_unmatched_downlines(self, limit=3, limit_output=False):
         """
         Returns a queryset containing the list of users having 1 or no downline on the right leg in tree order.
         If the user does not have a left downline, it returns the user.
@@ -265,11 +278,13 @@ class NjangiTree(MPTTModel):
             queryset = queryset.annotate(children_count=Count('children')).filter(
                 Q(children_count=0) | Q(children_count=1)
             )
+            if limit_output:
+                queryset = queryset[:limit]
             return queryset
         else:
             return NjangiTree.objects.filter(pk=self.pk)
 
-    def get_unmatched_downlines(self):
+    def get_unmatched_downlines(self, limit=3, limit_output=False):
         """
         Returns a queryset containing the list of users having 1 or no downline on the left and right leg in
         tree order. If the user does not have a left or right downline, it returns the user.
@@ -278,7 +293,9 @@ class NjangiTree(MPTTModel):
             queryset = self.get_downlines()
             queryset = queryset.annotate(children_count=Count('children')).filter(
                 Q(children_count=0) | Q(children_count=1)
-            )
+            )[:limit]
+            if limit_output:
+                queryset = queryset[:limit]
             return queryset
         else:
             return NjangiTree.objects.filter(pk=self.pk)

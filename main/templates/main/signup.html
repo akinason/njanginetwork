@@ -15,7 +15,7 @@
         <div class="row mb-5">
             <div class="col-md-12">
                 <form  action="{% url 'main:signup' %}" method="post">{% csrf_token %}
-                    {% if form.erros %}
+                    {% if form.errors %}
                     <div class="row">
                         <div class="form-group col-md-12">
                             <div class="alert alert-danger" role="alert">

@@ -6,9 +6,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.db.models import Q, F, ExpressionWrapper, DateTimeField, DurationField
 from django.db.models.functions import Extract
-from purse.models import WalletTransStatus, WalletTransMessage, WalletTransDescription
+from purse.models import WalletTransStatus, WalletTransMessage, WalletTransDescription, MobileMoneyManager, MOMOPurpose\
+    , MMRequestType
 from njangi.models import NSP, CONTRIBUTION_INTERVAL_IN_DAYS
-from purse import services as api_services
+from purse import services as purse_services
 from njanginetwork.celery import app
 from main.core import FailedOperationTypes, TransactionStatus
 from mailer import services as mailer_services
@@ -17,7 +18,7 @@ from njangi.models import LEVEL_CONTRIBUTIONS, WALLET_CONTRIBUTION_PROCESSING_FE
 from njangi.core import get_upline_to_pay_upgrade_contribution
 import decimal
 
-wallet = WalletManager()
+wallet_manager = wallet = WalletManager()
 trans_status = WalletTransStatus()
 trans_message = WalletTransMessage()
 trans_description = WalletTransDescription()
@@ -25,311 +26,120 @@ service_provider = NSP()
 fot = FailedOperationTypes()
 TRANSStatus = TransactionStatus()
 D = decimal.Decimal
+momo_purpose = MOMOPurpose()
+momo_manager = MobileMoneyManager()
+momo_request_type = MMRequestType()
 
 
 @app.task
-def process_payout_(
-    recipient_id, amount, nsp, processing_fee=0.00, is_failed_operation=False, failed_operation_id=None,
-    is_contribution=False
-):
-    """
-    processes withdrawal from the recipient's wallet to his/her Mobile money account.
-    :param recipient_id:
-    :param amount: Amount requested for withdrawal.
-    :param nsp: Network Service Provider.
-    :param processing_fee: The withdrawal processing fee.
-    :param is_failed_operation
-    :param failed_operation_id
-    :param is_contribution: Determines whether its a contribution or not. Used to decide whether to send success sms
-            and email or not. In case is_contribution=True, success email and sms are not sent because
-            process_contribution_response would have sent them.
-    :return:
-    """
-
-    try:
-        recipient = UserModel().objects.get(pk=recipient_id)
-
-        if wallet.balance(user=recipient, nsp=nsp) >= (D(amount) + D(processing_fee)):
-            # Check if the user has a valid nsp telephone number
-            if nsp.upper() == service_provider.mtn().upper():
-                if recipient.tel1 and recipient.tel1_is_verified:
-                    # Process the transaction
-                    response = api_services.request_momo_payout(
-                        phone_number=recipient.tel1.national_number, amount=amount, user=recipient
-                    )
-                    if response['status'].upper() == trans_status.success().upper():
-                        information = _('withdrawal through %(nsp)s mobile money.') % {'nsp': nsp}
-                        wallet_response = wallet.withdraw(user=recipient, amount=amount, nsp=nsp, charge=0.00,
-                                                          tel=recipient.tel1.national_number, information=information,
-                                                          thirdparty_reference=response['transactionId'],
-                                                          )
-                        if wallet_response['status'] == trans_status.failed():
-                            # do a force withdraw
-                            wallet_response = wallet.withdraw(user=recipient, amount=amount, nsp=nsp, charge=0.00,
-                                                              tel=recipient.tel1.national_number,
-                                                              thirdparty_reference=response['transactionId'],
-                                                              information=information, force_withdraw=True
-                                                              )
-                            if not is_contribution:  # Only send sms and email if its not a contribution.
-                                mailer_services.send_wallet_withdrawal_email.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                                mailer_services.send_wallet_withdrawal_sms.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                            return wallet_response  # Inner wallet response
-                        else:
-                            if not is_contribution:
-                                mailer_services.send_wallet_withdrawal_email.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                                mailer_services.send_wallet_withdrawal_sms.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                            return wallet_response  # Outer wallet response
-
-                    else:   # if the api response is not successful.
-                            # Send a notification mail to the recipient
-                            status = trans_status.failed()
-                            message = trans_message.failed_message()
-                            mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
-                                                                                status=status)
-                            mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
-                                                                              status=status)
-                            response = {
-                               'status': status,
-                               'message': message
-                            }
-                            return response
-
-                else:
-                    # Send a notification mail to the recipient and set the transaction status to provide_contact or
-                    # simply increase the number of attempts if it's a previously failed operation.
-                    if is_failed_operation:
-                        try:
-                            failed_operation = FailedOperations.objects.filter(pk=failed_operation_id).get()
-                            failed_operation.attempts += 1
-                            failed_operation.save()
-                        except FailedOperations.DoesNotExist:
-                            FailedOperations.objects.create(
-                                user=recipient, amount=amount, nsp=nsp, processing_fee=processing_fee,
-                                status=TRANSStatus.provide_contact(), operation_type=fot.withdrawal()
-                            )
-                    else:
-                        FailedOperations.objects.create(
-                            user=recipient, amount=amount, nsp=nsp, processing_fee=processing_fee,
-                            status=TRANSStatus.provide_contact(), operation_type=fot.withdrawal()
-                        )
-                    message = trans_message.provide_contact_and_receive_payments() % {'nsp': nsp.upper()}
-                    status = trans_status.pending()
-                    if not is_failed_operation:
-                        mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
-                                                                                  status=status)
-                        mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
-                                                                                status=status)
-                    response = {
-                        'status': status,
-                        'message': message,
-                    }
-                    return response
-            elif nsp.upper() == service_provider.orange().upper():
-                if recipient.tel2 and recipient.tel2_is_verified:
-                    # Process the transaction
-                    response = api_services.request_orange_money_payout(phone_number=recipient.tel2.national_number, amount=amount, user=recipient)
-                    if response['status'].upper() == trans_status.success().upper():
-                        information = _('withdrawal through %(nsp)s mobile money.') % {'nsp': nsp}
-                        wallet_response = wallet.withdraw(user=recipient, amount=amount, nsp=nsp, charge=0.00,
-                                                          tel=recipient.tel2.national_number,
-                                                          thirdparty_reference=response['transactionId'],
-                                                          information=information
-                                                          )
-                        if wallet_response['status'] == trans_status.failed():
-                            # do a force withdraw
-                            wallet_response = wallet.withdraw(user=recipient, amount=amount, nsp=nsp, charge=0.00,
-                                                              tel=recipient.tel1.national_number,
-                                                              thirdparty_reference=response['transactionId'],
-                                                              information=information, force_withdraw=True
-                                                              )
-                            if not is_contribution:  # Only send email and sms if its not a contribution.
-                                mailer_services.send_wallet_withdrawal_email.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                                mailer_services.send_wallet_withdrawal_sms.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                            return wallet_response  # Inner wallet response
-                        else:
-                            if not is_contribution:
-                                mailer_services.send_wallet_withdrawal_email.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                                mailer_services.send_wallet_withdrawal_sms.delay(
-                                    user_id=recipient.id, amount=amount, processing_fee=0.00, nsp=nsp
-                                )
-                            return wallet_response  # Outer wallet response
-
-                    else:  # if the api response to orange is not successful.
-                            # Send a notification mail to the recipient
-                            status = trans_status.failed()
-                            message = trans_message.failed_message()
-                            if not is_failed_operation:
-                                mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id,
-                                                                                          message=message,
-                                                                                          status=status)
-                                mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id,
-                                                                                        message=message,
-                                                                                        status=status)
-                            response = {
-                               'status': status,
-                               'message': message
-                            }
-                            return response
-                else:
-                    # Send a notification mail to the recipient and set the transaction status to provide_contact or
-                    # just increase the number of attempts if it's a previously failed transaction.
-                    if is_failed_operation:
-                        try:
-                            failed_operation = FailedOperations.objects.get(pk=failed_operation_id)
-                            failed_operation.attempts += 1
-                            failed_operation.save()
-                        except FailedOperations.DoesNotExist:
-                            FailedOperations.objects.create(
-                                user=recipient, amount=amount, nsp=nsp, processing_fee=processing_fee,
-                                status=TRANSStatus.provide_contact(), operation_type=fot.withdrawal()
-                            )
-                    else:
-                        FailedOperations.objects.create(
-                            user=recipient, amount=amount, nsp=nsp, processing_fee=processing_fee,
-                            status=TRANSStatus.provide_contact(), operation_type=fot.withdrawal()
-                        )
-                    message = trans_message.provide_contact_and_receive_payments() % {'nsp': nsp}
-                    status = trans_status.pending()
-                    if not is_failed_operation:
-                        mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient_id, message=message,
-                                                                                  status=status)
-                        mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message,
-                                                                                status=status)
-                    response = {
-                        'status': status,
-                        'message': message
-                    }
-                    return response
-
-            else:
-                status = trans_status.failed()
-                message = trans_message.insufficient_balance_message()
-                if not is_failed_operation:
-                    mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
-                                                                              status=status)
-                    mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient.id, message=message,
-                                                                        status=status)
-                response = {
-                    'status': status,
-                    'message': message
-                }
-                return response
-
-        else:  # if the balance is insufficient
-            status = trans_status.failed()
-            message = trans_message.insufficient_balance_message()
-            if not is_failed_operation:
-                mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=recipient.id, message=message,
-                                                                          status=status)
-                mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=recipient_id, message=message,
-                                                                        status=status)
-            response = {
-                'status': status,
-                'message': message
-            }
-            return response
-    except UserModel().DoesNotExist:
-        response = {
-            'status': trans_status.failed(),
-            'message': trans_message.failed_message()
-        }
-        return response
-
-
-@app.task
-def process_payout(recipient_id, amount, nsp, processing_fee=0.00, is_contribution=False):
-    return process_payout_(
-        recipient_id=recipient_id, amount=amount, nsp=nsp, processing_fee=processing_fee,
-        is_contribution=is_contribution
-    )
-
-
-@app.task
-def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, processing_fee=0.00,
-                         thirdparty_reference=None):
+def process_contribution(level, nsp, processing_fee=0.00, user_id=None, recipient_id=None, tracker_id=None):
     """
     Processes the contribution and return the status of the transaction.
-    0. Request cash deposit from mobile money API
+    0. Request cash deposit from mobile money API (API request is not needed here.) **Deprecated**
+
     1. Fund the users wallet if nsp=orange or mtn. (ignored if nsp=mtn_wallet or nsp=orange_wallet)
     2. Transfer funds from user's wallet to recipient's wallet.
     3. Request a withdrawal from the user's wallet.
     4. Upgrade the user if user's level is less than this level.
     5. Update user's LevelModel for last_payment, total_sent and update recipient's LevelModel with total_received.
     """
-    user = UserModel().objects.get(pk=user_id)
-    recipient = UserModel().objects.get(pk=recipient_id)
-    loading_amount = D(amount) + D(processing_fee)
-    loading_charge = processing_fee
+    user = None
+    recipient = None
+    thirdparty_reference = None
+    mm_transaction = None
+
     contribution_amount = get_level_contribution_amount(level)
+    amount = contribution_amount
 
     recipient_charge = 0.00
-    contribution_charge = 0.00
-    recipient_amount = get_level_contribution_amount(level)
+    recipient_amount = contribution_amount
+
+    recipient_tel = None
+    sender_tel = None
+
+    if tracker_id and (nsp == service_provider.mtn() or nsp == service_provider.orange()):
+        if not momo_manager.is_valid(tracker_id=tracker_id):
+            response = {
+                'status': trans_status.failed(), 'message': trans_message.failed_message(), 'tracker_id': tracker_id
+            }
+            return response
+
+        mm_transaction = momo_manager.get_mm_transaction(tracker_id=tracker_id)
+        api_callback_status_code = mm_transaction.callback_status_code
+        processing_fee = mm_transaction.charge
+
+        if mm_transaction.is_complete or not mm_transaction.purpose == momo_purpose.contribution() or \
+                not mm_transaction.request_type == momo_request_type.deposit():
+            response = {
+                'status': trans_status.failed(), 'message': trans_message.already_treated_transaction(),
+                'tracker_id': tracker_id
+            }
+            return response
+        if api_callback_status_code and (not int(api_callback_status_code) == 200):
+            response = {
+                'status': trans_status.failed(), 'message': trans_message.failed_message(), 'tracker_id': tracker_id
+            }
+            mailer_services.send_nsp_contribution_failed_email.delay(user_id=mm_transaction.user.id, nsp=nsp,
+                                                                     level=level, amount=recipient_amount)
+            mailer_services.send_nsp_contribution_failed_sms.delay(user_id=mm_transaction.user.id, nsp=nsp,
+                                                                   level=level, amount=recipient_amount)
+            return response
+
+        thirdparty_reference = tracker_id
+        user = mm_transaction.user
+        recipient = mm_transaction.recipient
+    elif (nsp == service_provider.orange_wallet() or nsp == service_provider.mtn_wallet()) and user_id and recipient_id:
+        user = UserModel().objects.get(pk=user_id)
+        recipient = UserModel().objects.get(pk=recipient_id)
+    else:
+        response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
+        return response
 
     params = {'level': level, 'sender': user.username, 'recipient': recipient.username}
     information = _('level %(level)s contribution from %(sender)s to %(recipient)s.') % params
-
-    sender_tel = sender_tel
-    recipient_tel = None
-    thirdparty_reference = thirdparty_reference
-    nsp = nsp
+    loading_amount = D(amount) + D(processing_fee)
+    loading_charge = 0.00
+    contribution_charge = processing_fee
 
     if nsp == service_provider.mtn() or nsp == service_provider.orange():
-        api_response = {}
         if nsp == service_provider.mtn() and user.tel1 and user.tel1_is_verified:
             sender_tel = user.tel1.national_number
-            api_response = api_services.request_momo_deposit(sender_tel, amount=loading_amount, user=user)
         elif nsp == service_provider.orange() and user.tel2 and user.tel2_is_verified:
             sender_tel = user.tel2.national_number
-            api_response = api_services.request_orange_money_deposit(sender_tel, amount=loading_amount, user=user)
         else:
-            mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
+            mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level,
+                                                                     amount=amount)
             mailer_services.send_nsp_contribution_failed_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
             return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
-        if api_response and api_response['status'] == trans_status.success():
-            response = wallet.load_and_contribute(
-                user=user, recipient=recipient, loading_amount=loading_amount, contribution_amount=contribution_amount,
-                recipient_amount=recipient_amount, loading_charge=loading_charge, recipient_charge=recipient_charge,
-                contribution_charge=contribution_charge, information=information, sender_tel=sender_tel,
-                recipient_tel=recipient_tel, thirdparty_reference=thirdparty_reference, nsp=nsp
+
+        response = wallet.load_and_contribute(
+            user=user, recipient=recipient, loading_amount=loading_amount, contribution_amount=contribution_amount,
+            recipient_amount=recipient_amount, loading_charge=loading_charge, recipient_charge=recipient_charge,
+            contribution_charge=contribution_charge, information=information, sender_tel=sender_tel,
+            recipient_tel=recipient_tel, thirdparty_reference=thirdparty_reference, nsp=nsp
+        )
+
+        # if the transaction is successful, update the user level, the njangi model and process the payout.
+        if response['status'] == trans_status.success():
+
+            process_contribution_response(response=response, user=user, recipient=recipient,
+                                          level=level, recipient_amount=recipient_amount, nsp=nsp,
+                                          processing_fee=recipient_charge, mm_transaction=mm_transaction
+                                          )
+            return {'status': trans_status.success(), 'message': trans_message.success_message()}
+        else:
+            FailedOperations.objects.create(
+                user=user, recipient=recipient, level=level, amount=amount, nsp=nsp, sender_tel=sender_tel,
+                processing_fee=processing_fee, transaction_id=thirdparty_reference,
+                status=trans_status.pending(), operation_type=fot.contribution(),
+                message=response['message'], response_status=response['status']
             )
+            mailer_services.send_nsp_contribution_pending_email.delay(user_id=user.id, nsp=nsp, level=level,
+                                                                      amount=amount)
+            mailer_services.send_nsp_contribution_pending_sms.delay(user_id=user.id, nsp=nsp, level=level,
+                                                                    amount=amount)
+            return {'status': trans_status.pending(), 'message': trans_message.failed_message()}
 
-            # if the transaction is successful, update the user level, the njangi model and process the payout.
-            if response['status'] == trans_status.success():
-                process_contribution_response(response=response, user=user, recipient=recipient,
-                                              level=level, recipient_amount=recipient_amount, nsp=nsp,
-                                              processing_fee=processing_fee
-                                              )
-                return {'status': trans_status.success(), 'message': trans_message.success_message()}
-            else:
-
-                FailedOperations.objects.create(
-                    user=user, recipient=recipient, level=level, amount=amount, nsp=nsp, sender_tel=sender_tel,
-                    processing_fee=processing_fee, transaction_id=api_response['transactionId'],
-                    status=trans_status.pending(), operation_type=fot.contribution(),
-                    message=response['message'], response_status=response['status']
-                )
-                mailer_services.send_nsp_contribution_pending_email.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
-                mailer_services.send_nsp_contribution_pending_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
-                return {'status': trans_status.pending(), 'message': trans_message.failed_message()}
-        else:
-            mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
-            mailer_services.send_nsp_contribution_failed_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
-            return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
     elif nsp == service_provider.mtn_wallet():
         # then processing will be done in the mtn wallet
         nsp = service_provider.mtn()
@@ -344,7 +154,7 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
         if response['status'] == trans_status.success():
             process_contribution_response(response=response, user=user, recipient=recipient,
                                           level=level, recipient_amount=recipient_amount, nsp=nsp,
-                                          processing_fee=processing_fee
+                                          processing_fee=recipient_charge
                                           )
             return {'status': trans_status.success()}
         else:
@@ -376,7 +186,7 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
         if response['status'] == trans_status.success():
             process_contribution_response(response=response, user=user, recipient=recipient,
                                           level=level, recipient_amount=recipient_amount, nsp=nsp,
-                                          processing_fee=processing_fee
+                                          processing_fee=recipient_charge
                                           )
             return {'status': trans_status.success()}
         else:
@@ -398,8 +208,9 @@ def process_contribution(user_id, recipient_id, level, amount, nsp, sender_tel, 
         return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
 
 
-@app.task
-def process_contribution_response(response, user, recipient, level, recipient_amount, nsp, processing_fee):
+def process_contribution_response(
+    response, user, recipient, level, recipient_amount, nsp, processing_fee, mm_transaction=None
+):
     """
     If the response status received is 'success' it does the following:
         1) Upgrade the user level if need be.
@@ -419,8 +230,10 @@ def process_contribution_response(response, user, recipient, level, recipient_am
     :param nsp:
     :param processing_fee:
     :return: returns a dictionary response
+    :param mm_transaction: An instance of the mobile money transaction.
     {'status': <success or failed>, 'message': <trans_message.success_message() or trans_message.failed_message()>}
     """
+
     if response['status'] == trans_status.success():
         # proceed to upgrade the user level and the Level model.
         if user.level < int(level):
@@ -432,6 +245,7 @@ def process_contribution_response(response, user, recipient, level, recipient_am
         njangi_level.recipient = recipient
         njangi_level.amount = recipient_amount
         njangi_level.total_sent += recipient_amount
+        njangi_level.last_payment = timezone.now()
 
         if njangi_level.next_payment:
             next_payment = njangi_level.next_payment
@@ -445,7 +259,6 @@ def process_contribution_response(response, user, recipient, level, recipient_am
                 next_payment_date = timezone.now() + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
                 njangi_level.next_payment = next_payment_date
         else:
-            njangi_level.last_payment = timezone.now()
             njangi_level.next_payment = timezone.now() + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
         njangi_level.save()
 
@@ -453,6 +266,11 @@ def process_contribution_response(response, user, recipient, level, recipient_am
         njangi_level, created = LevelModel.objects.get_or_create(user=recipient, level=level)
         njangi_level.total_received += recipient_amount
         njangi_level.save()
+
+        # Mark the MOMO transaction as complete.
+        if mm_transaction:
+            mm_transaction.is_complete = True
+            mm_transaction.save()
 
         # Send a confirmation sms and/or email to sender.
         mailer_services.send_wallet_contribution_paid_email.delay(sender_id=user.id, recipient_id=recipient.id,
@@ -477,7 +295,22 @@ def process_contribution_response(response, user, recipient, level, recipient_am
                                                                     )
 
         # process payout to the recipient. Delay it and let Celery take over.
-        process_payout.delay(recipient_id=recipient.id, amount=recipient_amount, nsp=nsp, is_contribution=True)
+        _nsp = None
+        tel = None
+        if nsp == service_provider.mtn() or nsp == service_provider.mtn_wallet():
+            _nsp = service_provider.mtn()
+            if recipient.tel1 and recipient.tel1_is_verified:
+                tel = recipient.tel1.national_number
+        elif nsp == service_provider.orange() or nsp == service_provider.orange_wallet():
+            _nsp = service_provider.orange()
+            if recipient.tel2 and recipient.tel2_is_verified:
+                tel = recipient.tel2.national_number
+        if tel:
+            purse_services.request_momo_payout(
+                phone_number=tel, amount=recipient_amount, user_id=recipient.id,
+                purpose=momo_purpose.contribution_wallet_withdraw(), nsp=_nsp, recipient_id=recipient.id, level=level,
+                processing_fee=processing_fee,
+            )
 
         process_response = {
             'status': trans_status.success(),
@@ -493,98 +326,164 @@ def process_contribution_response(response, user, recipient, level, recipient_am
         return process_response
 
 
+def process_wallet_withdraw(user_id, amount, nsp, tracker_id, charge=0.00):
+    """
+    Called after a callback is received from the Mobile Money provider.
+    The objective of this function is to update the status of the transaction
+    in the user's wallet from "pending" to "complete" or "failed"
+    :param user_id:
+    :param amount:
+    :param nsp:
+    :param tracker_id:
+    :param charge:
+    :return:
+    """
+
+    mm_transaction = momo_manager.get_mm_transaction(tracker_id=tracker_id)
+    if mm_transaction and (
+            mm_transaction.purpose == momo_purpose.wallet_withdraw() or
+            mm_transaction.purpose == momo_purpose.contribution_wallet_withdraw()
+    ):
+        # Continue the processing of the transaction.
+        if mm_transaction.is_complete:
+            response = {
+                'status': trans_status.failed(), 'message': trans_message.already_treated_transaction(),
+                'tracker_id': tracker_id
+            }
+            return response
+        elif mm_transaction.callback_status_code and not int(mm_transaction.callback_status_code) == 200:
+            response = {
+                'status': trans_status.failed(), 'message': trans_message.failed_message(),
+                'tracker_id': tracker_id
+            }
+            # Change the status of the transaction from "pending" to "failed" in the user's wallet.
+            r = wallet_manager.update_status(
+                status=trans_status.complete(), tracker_id=mm_transaction.tracker_id
+            )
+
+            mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=user_id,
+                                                                      message=trans_message.failed_message(),
+                                                                      status=trans_status.failed())
+            mailer_services.send_wallet_withdrawal_failed_sms.delay(user_id=user_id,
+                                                                    message=trans_message.failed_message(),
+                                                                    status=trans_status.failed())
+            # Mark the transaction as complete
+            mm_transaction.is_complete = True
+            mm_transaction.save()
+            return response
+        else:
+            r = wallet_manager.update_status(
+                status=trans_status.complete(), tracker_id=mm_transaction.tracker_id
+            )
+            mailer_services.send_wallet_withdrawal_email.delay(
+                user_id=user_id, amount=amount, processing_fee=charge, nsp=nsp
+            )
+            mailer_services.send_wallet_withdrawal_sms.delay(
+                user_id=user_id, amount=amount, processing_fee=charge, nsp=nsp
+            )
+            # Mark the transaction as complete
+            mm_transaction.is_complete = True
+            mm_transaction.save()
+    else:
+
+        response = {
+            'status': trans_status.failed(), 'message': trans_message.invalid_transaction(),
+            'tracker_id': tracker_id
+        }
+
+        return response
+
+
 @app.task
-def process_wallet_load(user_id, amount, nsp, charge=0.00):
+def process_wallet_load(user_id, amount, nsp, tracker_id, charge=0.00):
+    # This function is called after a successful callback response is received from the MOMO API provider.
     loading_amount = D(amount) + D(charge)
     user = UserModel().objects.get(pk=user_id)
     information = _('wallet load through %s mobile money') % nsp.upper()
-    if nsp == service_provider.mtn():
-        if user.tel1 and user.tel1_is_verified:
-            """Process loading operation"""
-            response = api_services.request_momo_deposit(phone_number=user.tel1.national_number, amount=loading_amount, user=user)
-            if response['status'] == trans_status.success():
-                # Proceed to update the user's wallet.
-                load_response = wallet.load(
-                    user=user, amount=loading_amount, nsp=nsp, description=trans_description.wallet_load(),
-                    charge=charge, tel=user.tel1.national_number, thirdparty_reference=response['transactionId'],
-                    information=information,
-                )
-                if load_response['status'] == trans_status.failed():
-                    # add the transaction to FailedOperations and let celery take over.
-                    FailedOperations.objects.create(
-                        user=user, amount=loading_amount, nsp=nsp, processing_fee=charge,
-                        status=TRANSStatus.pending(), operation_type=fot.account_load_api_processed(),
-                        transaction_id=response['transactionId']
-                    )
-                    response = {'status': trans_status.pending(), 'message': trans_message.pending_message()}
-                    return response
-                elif load_response['status'] == trans_status.success():
-                    # inform the user by sms/mail of the successful operation.
-                    mailer_services.send_wallet_load_success_email.delay(user_id=user.id, amount=amount,
-                                                                         processing_fee=charge, nsp=nsp)
-                    mailer_services.send_wallet_load_success_sms.delay(user_id=user.id, amount=amount,
-                                                                       processing_fee=charge, nsp=nsp,
-                                                                       transaction_id=load_response['transactionId']
-                                                                       )
-                    return load_response
-            else:
-                # Inform the user of a failed operation.
-                mailer_services.send_wallet_load_failed_email.delay(user_id=user.id, amount=amount,
-                                                                    processing_fee=charge, nsp=nsp)
-                mailer_services.send_wallet_load_failed_sms.delay(user_id=user.id, amount=amount, processing_fee=charge,
-                                                                  nsp=nsp)
-                response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
-                return response
-        else:
-            """Inform of unverified MTN Number"""
-            mailer_services.send_unverified_phone_number_mail(user_id=user_id, nsp=nsp)
-            mailer_services.send_unverified_phone_number_sms.delay(user_id=user_id, nsp=nsp)
-            response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
-            return response
 
-    elif nsp == service_provider.orange():
-        if user.tel2 and user.tel2_is_verified:
-            """Process loading operation"""
-            response = api_services.request_orange_money_deposit(phone_number=user.tel2.national_number,
-                                                                 amount=loading_amount, user=user)
-            if response['status'] == trans_status.success():
-                # Proceed to update the user's wallet.
-                load_response = wallet.load(
-                    user=user, amount=loading_amount, nsp=nsp, description=trans_description.wallet_load(),
-                    charge=charge, tel=user.tel2.national_number, thirdparty_reference=response['transactionId'],
-                    information=information,
-                )
-                if load_response['status'] == trans_status.failed():
-                    # add the transaction to FailedOperations and let celery take over.
-                    FailedOperations.objects.create(
-                        user=user, amount=amount, nsp=nsp, processing_fee=charge,
-                        status=TRANSStatus.pending(), operation_type=fot.account_load_api_processed()
-                    )
-                    response = {'status': trans_status.pending(), 'message': trans_message.pending_message()}
-                    return response
-                elif load_response['status'] == trans_status.success():
-                    # inform the user by sms/mail of the successful operation.
-                    mailer_services.send_wallet_load_success_email.delay(user_id=user.id, amount=amount,
-                                                                         processing_fee=charge, nsp=nsp)
-                    mailer_services.send_wallet_load_success_sms.delay(user_id=user.id, amount=amount,
-                                                                       processing_fee=charge, nsp=nsp,
-                                                                       transaction_id=load_response['transactionId']
-                                                                       )
-                    return load_response
-            else:
-                # Inform the user of a failed operation.
-                mailer_services.send_wallet_load_failed_email.delay(user_id=user.id, amount=amount,
-                                                                    processing_fee=charge, nsp=nsp)
-                mailer_services.send_wallet_load_failed_sms.delay(user_id=user.id, amount=amount, processing_fee=charge,
-                                                                  nsp=nsp)
-                response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
-                return response
-        else:
-            """Inform of unverified MTN Number"""
-            mailer_services.send_unverified_phone_number_mail(user_id=user_id, nsp=nsp)
-            mailer_services.send_unverified_phone_number_sms.delay(user_id=user_id, nsp=nsp)
-            response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
+    mm_transaction = momo_manager.get_mm_transaction(tracker_id=tracker_id)
+    if mm_transaction:
+        if not momo_manager.is_valid(tracker_id=tracker_id):
+            response = {'status': trans_status.failed(), 'message': trans_message.invalid_transaction(),
+                        'tracker_id': tracker_id}
             return response
+        elif not mm_transaction.callback_status_code or not int(mm_transaction.callback_status_code) == 200:
+            response = {
+                'status': trans_status.failed(), 'tracker_id': tracker_id,
+                'message': trans_message.unauthenticated_transaction()
+            }
+            return response
+        elif not mm_transaction.purpose == momo_purpose.wallet_load():
+            response = {
+                'status': trans_status.failed(),  'tracker_id': tracker_id,
+                'message': trans_message.not_a_x_transaction() % momo_purpose.wallet_load()
+            }
+            return response
+        elif mm_transaction.is_complete:
+            response = {'status': trans_status.failed(), 'message': trans_message.already_treated_transaction(),
+                        'tracker_id': tracker_id}
+            return response
+    else:
+        response = {'status': trans_status.failed(), 'message': trans_message.invalid_transaction(),
+                    'tracker_id': tracker_id}
+        return response
+
+    if nsp == service_provider.mtn():
+        """Process loading operation"""
+        # Proceed to update the user's wallet.
+        load_response = wallet.load(
+            user=user, amount=loading_amount, nsp=nsp, description=trans_description.wallet_load(),
+            charge=charge, tel=user.tel1.national_number, thirdparty_reference=tracker_id,
+            information=information,
+        )
+        if load_response['status'] == trans_status.failed():
+            # add the transaction to FailedOperations and let celery take over.
+            FailedOperations.objects.create(
+                user=user, amount=loading_amount, nsp=nsp, processing_fee=charge,
+                status=TRANSStatus.pending(), operation_type=fot.account_load_api_processed(),
+                transaction_id=tracker_id
+            )
+            response = {'status': trans_status.pending(), 'message': trans_message.pending_message()}
+            return response
+        elif load_response['status'] == trans_status.success():
+            # inform the user by sms/mail of the successful operation.
+            mailer_services.send_wallet_load_success_email.delay(user_id=user.id, amount=amount,
+                                                                 processing_fee=charge, nsp=nsp)
+            mailer_services.send_wallet_load_success_sms.delay(user_id=user.id, amount=amount,
+                                                               processing_fee=charge, nsp=nsp,
+                                                               transaction_id=load_response['transactionId']
+                                                               )
+            # Mark the transaction as completed
+            mm_transaction.is_complete = True
+            mm_transaction.save()
+            return load_response
+    elif nsp == service_provider.orange():
+        # Proceed to update the user's wallet.
+        load_response = wallet.load(
+            user=user, amount=loading_amount, nsp=nsp, description=trans_description.wallet_load(),
+            charge=charge, tel=user.tel2.national_number, thirdparty_reference=tracker_id,
+            information=information,
+        )
+        if load_response['status'] == trans_status.failed():
+            # add the transaction to FailedOperations and let celery take over.
+            FailedOperations.objects.create(
+                user=user, amount=amount, nsp=nsp, processing_fee=charge,
+                status=TRANSStatus.pending(), operation_type=fot.account_load_api_processed()
+            )
+            response = {'status': trans_status.pending(), 'message': trans_message.pending_message()}
+            return response
+        elif load_response['status'] == trans_status.success():
+            # inform the user by sms/mail of the successful operation.
+            mailer_services.send_wallet_load_success_email.delay(user_id=user.id, amount=amount,
+                                                                 processing_fee=charge, nsp=nsp)
+            mailer_services.send_wallet_load_success_sms.delay(user_id=user.id, amount=amount,
+                                                               processing_fee=charge, nsp=nsp,
+                                                               transaction_id=load_response['transactionId']
+                                                               )
+            # Mark the transaction as completed
+            mm_transaction.is_complete = True
+            mm_transaction.save()
+            return load_response
     else:
         """inform of invalid nsp"""
         mailer_services.send_wallet_load_failed_email.delay(user_id=user.id, amount=amount,
@@ -644,13 +543,13 @@ def deactivate_users_with_past_due_contribution():
 @app.task
 def process_automatic_contributions():
     """
-    processes contributions for those whose contribution is due in 1 minute and who have set
+    processes contributions for those whose contribution is due in 1 day or less and who have set
     UserModel().allow_automatic_contribution to True and who have enough balance in either their Orange Wallet or MTN
     wallet.
     In the event of failure or success, they are informed by email and/or sms.
     """
 
-    # Get the list of users whose contribution is due in 1 minute
+    # Get the list of users whose contribution is due in less than or equal to 1 day
     queryset = LevelModel.objects.filter(
         next_payment__isnull=False, user__allow_automatic_contribution=True
     ).annotate(
@@ -674,10 +573,10 @@ def process_automatic_contributions():
             # Check if there is sufficient funds in the wallet.
             if wallet.balance(user=obj.user, nsp=_nsp.orange()) >= total:
                 nsp = _nsp.orange_wallet()
-                sender_tel = obj.user.tel2
+                sender_tel = obj.user.tel2.national_number
             elif wallet.balance(user=obj.user, nsp=_nsp.mtn()) >= total:
                 nsp = _nsp.mtn_wallet()
-                sender_tel = obj.user.tel1
+                sender_tel = obj.user.tel1.national_number
             else:  # Insufficient funds, send them failed mails/sms
                 mailer_services.send_auto_wallet_contribution_failed_email.delay(
                     user_id=obj.user.id, level=level, amount=amount
@@ -691,9 +590,10 @@ def process_automatic_contributions():
                         (nsp == _nsp.mtn_wallet() and obj.user.tel1 and obj.user.tel1_is_verified):
                     # Process the contribution from either orange_wallet or mtn_wallet.
                     response = process_contribution(
-                        user_id=obj.user.id, recipient_id=recipient.id, level=level, amount=amount, nsp=nsp,
-                        sender_tel=sender_tel.national_number, processing_fee=processing_fee
+                        user_id=obj.user.id, recipient_id=recipient.id, level=level, nsp=nsp,
+                        processing_fee=processing_fee
                     )
+
                     if response['status'] == trans_status.success():
                         pass
                     else:

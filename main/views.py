@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 from .forms import SignupForm, ProfileChangeForm, ContactForm
 from django.views import generic
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login, authenticate
 from django.urls import reverse_lazy
 from .utils import add_sponsor_id_to_session, get_sponsor
-from django.contrib.auth.views import LoginView as DefaultLoginView, PasswordResetView as DefaultPasswordResetView, \
-    PasswordResetConfirmView as DefaultPasswordConfirmView, \
-    PasswordResetCompleteView as DefaultPasswordResetCompleteView, PasswordChangeView as DefaultPasswordChangeView, \
+from django.contrib.auth.views import (
+    LoginView as DefaultLoginView, PasswordResetView as DefaultPasswordResetView,
+    PasswordResetConfirmView as DefaultPasswordConfirmView,
+    PasswordResetCompleteView as DefaultPasswordResetCompleteView, PasswordChangeView as DefaultPasswordChangeView,
     PasswordChangeDoneView as DefaultPasswordChangeDoneView, LogoutView as DefaultLogoutView
+)
 from njangi.core import add_user_to_njangi_tree, create_user_levels
 from django.contrib.auth.mixins import LoginRequiredMixin
 from main import website
@@ -57,7 +59,7 @@ class SignupView(generic.CreateView):
        """
         kwargs = super(SignupView, self).get_form_kwargs()
         if self.request.method in ('GET', 'POST', 'PUT'):
-            kwargs.update({'sponsor': get_sponsor(self.request).pk })
+            kwargs.update({'sponsor': get_sponsor(self.request).pk})
         return kwargs
 
     def form_valid(self, form):
@@ -67,11 +69,16 @@ class SignupView(generic.CreateView):
         user.set_unique_random_tel2_code()
         user.set_unique_random_tel3_code()
         user.save()
+        self.object = user
         sponsor = get_sponsor(self.request)
         add_user_to_njangi_tree(user=user, sponsor=sponsor)
-        create_user_levels(user)
+        create_user_levels(user=user)
         mailer_services.send_signup_welcome_sms(user_id=user.id)
         mailer_services.send_signup_welcome_email(user_id=user.id)
+
+        # Authenticate and login the user
+        user_logged = authenticate(username=user.username, password=form.cleaned_data['password'])
+        login(self.request, user_logged)
         return super(SignupView, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):

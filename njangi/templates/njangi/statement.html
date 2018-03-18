@@ -30,6 +30,10 @@
                         <td><h6>{{ transaction.charge|intcomma }}</h6></td>
                         {% if transaction.status == 'complete' %}
                         <td><h5><span class="label label-success">{{ transaction.status }}</span></h5></td>
+                        {% elif transaction.status == 'failed' %}
+                        <td><h5><span class="label label-warning">{{ transaction.status }}</span></h5></td>
+                        {% elif transaction.status == 'pending' %}
+                        <td><h5><span class="label label-danger">{{ transaction.status }}</span></h5></td>
                         {% else %}
                         <td><h5><span class="label label-danger">{{ transaction.status }}</span></h5></td>
                         {% endif %}

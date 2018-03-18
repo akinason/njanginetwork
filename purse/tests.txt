@@ -1,4 +1,0 @@
-2018-01-10 14:15:31.561048+00:00
-{'status': 'failed', 'message': 'operation failed.'}
-2018-01-10 14:15:31.564829+00:00
-{'status': 'failed', 'message': 'insufficient balance'}

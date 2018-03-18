@@ -60,10 +60,10 @@ class User(AbstractUser):
         },
     )
     first_name = models.CharField(
-        _('first name'), max_length=30, blank=False, help_text='*', validators=[username_validator]
+        _('first name'), max_length=50, blank=False, help_text='*', validators=[]
     )
     last_name = models.CharField(
-        _('last name'), max_length=50, blank=False, help_text='*', validators=[username_validator]
+        _('last name'), max_length=50, blank=False, help_text='*', validators=[]
     )
     gender = models.CharField(_('gender'), choices=GENDER_TYPES, max_length=6, help_text='*')
     sponsor = models.PositiveIntegerField(_('sponsor'), blank=True, null=True, db_index=True)

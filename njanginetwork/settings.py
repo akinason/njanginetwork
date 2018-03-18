@@ -27,8 +27,7 @@ SECRET_KEY = 'qibts7+4ws=xwy3%s2sku2g_^vuooodqzy_l%x9c5qj0n=$k$i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'e782f2f1.ngrok.io']
 
 
 # Application definition
@@ -44,6 +43,8 @@ INSTALLED_APPS = [
     'mptt',
     'njangi.apps.NjangiConfig',
     'purse.apps.PurseConfig',
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'mailer.apps.MailerConfig',
     'django.contrib.humanize',
@@ -82,6 +83,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'njangi.context_processors.njangi_context_processors',
                 'main.context_processors.main_context_processors',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -108,6 +110,7 @@ DATABASES = {
         'PASSWORD': 'viicha',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'CONN_MAX_AGE': 5,
     }
 }
 
@@ -200,7 +203,9 @@ MOMO_PAYMENT_URL = 'http://api.webshinobis.com/api/v1/momo/pay'
 MOMO_AUTH_EMAIL = 'kinason42@gmail.com'
 MOMO_AUTH_PASSWORD = 'scoolingS245@XM'
 
-
+AFKANERD_MOMO_URL = 'https://gsmtools.afkanerd.com/api/'
+AFKANERD_BASE_CALLBACK_URL = 'hhttps://e782f2f1.ngrok.io/purse/gsmtools/afkanerd/api/momo/'
+AFKANERD_AUTH_SID = 's45a1h9PHfqS9fhGE7MMkVJV0idSeXTa'
 
 # REDIS related settings
 REDIS_HOST = 'localhost'

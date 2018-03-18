@@ -21,9 +21,12 @@ from njanginetwork import settings
 urlpatterns = [
     url(r'^', include('main.urls')),
     url(r'^dashboard/', include('njangi.urls')),
+    url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^admin/', admin.site.urls),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url('^graph/', include('mptt_graph.urls')),
+    url(r'^purse/', include('purse.urls')),
 ]
 
 if settings.DEBUG:
