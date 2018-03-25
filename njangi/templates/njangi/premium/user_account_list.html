@@ -1,0 +1,89 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="main-page">
+        <h3 class="title1" align="center">One Login, Access to them all</h3>
+        <p align="center">
+            <i>Login to any of the accounts on the list below and have access to all other accounts you own.</i><br>
+            <i>You don't have to login in and out any longer.</i>
+        </p>
+    </div>
+    <div class="tables">
+        <div class="table-responsive bs-example widget-shadow">
+            <h5>
+                <a href="{% url 'njangi:add_user_account' %}"><span class="label label-primary">{% trans 'Add New Account'|title %}</span></a>
+                <a href="{% url 'njangi:user_account_packages' %}"><span class="label label-primary">{% trans 'update subscription'|title %}</span></a>
+            </h5><hr>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <h5>
+                        {% trans 'package'|title %}: <span class="label label-success">{{ user_account.package.name|upper }}</span>
+                    </h5><br>
+                </div>
+                <div class="col-md-3">
+                    <h5>
+                        {% if user_account.next_payment %}
+                        {% trans 'package expiry'|title %}: <span style="color:blue">{{ user_account.next_payment|date:'Y-M-d H:i' }}</span>
+                        {% endif %}
+                    </h5><br>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{% trans 'username' %}</th>
+                        <th>{% trans 'first name'|title %}</th>
+                        <th>{% trans 'last name'|title %}</th>
+                        <th>{% trans 'email'|title %}</th>
+                        <th>{% trans 'MTN' %}</th>
+                        <th>{% trans 'Orange'|capfirst %}</th>
+                        <th>{% trans 'status'|title %}</th>
+                        <th>{% trans 'level'|title %}</th>
+                        <th>{% trans 'action'|title %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for obj in user_account_list %}
+                    <tr>
+                        <th scope="row"><h6>{{ obj.username }}</h6></th>
+                        <td><h6>{{ obj.first_name|title }}</h6></td>
+                        <td><h6>{{ obj.last_name|title }}</h6></td>
+                        <td><h6>{{ obj.email|safe }}</h6></td>
+                        <td><h6>{{ obj.tel1 }}</h6></td>
+                        <td><h6>{{ obj.tel2 }}</h6></td>
+                        {% if obj.status == 'active' %}
+                        <td><h5><span class="label label-success">{{ obj.status }}</span></h5></td>
+                        {% else %}
+                        <td><h5><span class="label label-danger">{{ transaction.status }}</span></h5></td>
+                        {% endif %}
+                        <td><h6>{{ obj.level }}</h6></td>
+
+                        <td><h6><a href="{% url 'njangi:remove_user_account' user_id=obj.id %}"><i class="fa fa-trash-o nav_icon"></i> {% trans 'Remove'|title %}</a></h6></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if is_paginated and user_account_list %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'njangi:user_account_list' %}?page={{ page_obj.previous_page_number }}">{% trans 'previous'|title %}</a>
+                    {% endif %}
+                    <span class="page-current">
+                        {% trans 'page'|title %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'njangi:user_account_list' %}?page={{ page_obj.next_page_number }}">{% trans 'next'|title %}</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

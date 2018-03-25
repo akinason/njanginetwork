@@ -1,12 +1,13 @@
 import decimal
 import uuid
+from django.core.exceptions import ValidationError
 from django.db import models, IntegrityError, transaction
 from django.db.models import Sum, F, Value as V, Q
 from django.db.models.functions import Coalesce
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from main.core import TransactionStatus, NSP_LIST
+from main.core import TransactionStatus, NSP_LIST, NSP
 from main.models import TEL_MAX_LENGTH
 from django.db.utils import DataError
 from njanginetwork import settings
@@ -16,6 +17,7 @@ D = decimal.Decimal
 MTN_MOBILE_MONEY_PARTNER = 'AURBANPAY'
 ORANGE_MOBILE_MONEY_PARTNER = 'Extended Limits Inc'
 DEFAULT_TRANSACTION_LIST_LIMIT = 30
+_nsp = NSP()
 
 
 class MOMOAPIProvider:
@@ -61,6 +63,7 @@ class MMRequestType:
         self._payout = 'payout'
         self._afkanerd_payout = 'cashin'
         self._afkanerd_deposit = 'cashout'
+        self._unknown = 'unknown'
 
     def payout(self):
         return self._payout
@@ -74,6 +77,9 @@ class MMRequestType:
     def afkanerd_deposit(self):
         return self._afkanerd_deposit
 
+    def unknown(self):
+        return self._unknown
+
 
 class WalletTransDescription:
     _wallet_load = 'wallet_load'
@@ -84,6 +90,7 @@ class WalletTransDescription:
     _charge = 'charge'
     _funds_withdrawal = 'funds_withdrawal'
     _purchase = 'purchase'
+    _user_account_subscription = 'user_account_subscription'
 
     def wallet_load(self):
         return self._wallet_load
@@ -108,6 +115,9 @@ class WalletTransDescription:
 
     def purchase(self):
         return self._purchase
+
+    def user_account_subscription(self):
+        return self._user_account_subscription
 
 
 class WalletTransMessage:
@@ -453,6 +463,55 @@ class WalletManager:
                 }
                 return response
 
+    def pay_subscription(self, user, amount, charge=0.00):
+
+        bal1 = self.balance(user, _nsp.mtn())
+        bal2 = self.balance(user, _nsp.orange())
+        amount1 = 0.00
+        amount2 = 0.00
+        amt = D(abs(amount))
+        total = amt + D(charge)
+
+        if bal1 >= total:
+            amount1 = total
+        elif bal2 >= total:
+            amount2 = total
+        elif (D(bal1) + D(bal2)) >= total:
+            amount1 = D(bal1)
+            amount2 = total - amount1
+        else:
+            return {
+                'status': self.trans_status.failed(), 'message': self.trans_message.insufficient_balance_message()
+            }
+
+        trans_code = self._generate_trans_code()
+        recipient = get_user_model().objects.filter(is_admin=True).order_by('username')[:1].get()
+        response = {}
+
+        if amount1 > 0:
+            information = _('Package Subscription through %s wallet.') % _nsp.mtn().upper()
+            response = self.transfer(
+                sender=user, recipient=recipient, amount=amount1, information=information, nsp=_nsp.mtn(),
+                sender_description=self.trans_description.user_account_subscription(),
+                recipient_description=self.trans_description.user_account_subscription(),
+                trans_code=trans_code
+            )
+            if response['status'] == self.trans_status.failed():
+                return {
+                    'status': self.trans_status.failed(), 'message': self.trans_message.failed_message()
+                }
+
+        if amount2 > 0:
+            information = _('Package Subscription through %s wallet by %s.') % (_nsp.orange().upper(), user.username)
+            response = self.transfer(
+                sender=user, recipient=recipient, amount=amount2, information=information, nsp=_nsp.orange(),
+                sender_description=self.trans_description.user_account_subscription(),
+                recipient_description=self.trans_description.user_account_subscription(),
+                trans_code=trans_code
+            )
+
+        return response
+
     def contribute(self, sender, recipient, sender_amount, recipient_amount, information, nsp, sender_tel=None,
                    recipient_tel=None, sender_charge=0.00, recipient_charge=0.00, thirdparty_reference=None,
                    trans_code=None
@@ -591,21 +650,28 @@ class WalletManager:
                 }
                 return response
 
-    def transfer(self, sender, recipient, amount, information, nsp, sender_tel=None, recipient_tel=None,
-                 sender_charge=0.00, recipient_charge=0.00, thirdparty_reference=None
+    def transfer(self, sender, recipient, amount, information, nsp, sender_description=None, recipient_description=None,
+                 sender_tel=None, recipient_tel=None, sender_charge=0.00, recipient_charge=0.00,
+                 thirdparty_reference=None, trans_code=None
                  ):
 
         try:
             with transaction.atomic():
-                trans_code = self._generate_trans_code()
+                trans_code = trans_code if trans_code else self._generate_trans_code()
+                _sender_description = (
+                    sender_description if sender_description else self.trans_description.funds_transfer()
+                )
+                _recipient_description = (
+                    recipient_description if recipient_description else self.trans_description.transfer_received()
+                )
                 pay_response = self._pay(user=sender, amount=amount, nsp=nsp,
-                                         description=self.trans_description.funds_transfer(),
+                                         description=_sender_description,
                                          charge=sender_charge, tel=sender_tel, thirdparty_reference=thirdparty_reference,
                                          information=information, trans_code=trans_code
                                          )
                 if pay_response['status'] == self.trans_status.success():
                     load_response = self.load(user=recipient, amount=amount, nsp=nsp,
-                                              description=self.trans_description.transfer_received(),
+                                              description=_recipient_description,
                                               charge=recipient_charge, tel=recipient_tel, information=information,
                                               trans_code=trans_code, thirdparty_reference=thirdparty_reference,
                                               sender=sender
@@ -717,7 +783,10 @@ class MobileMoneyManager:
 
     def is_valid(self, tracker_id, uuid=None):
         if uuid:
-            return self.model.objects.filter(tracker_id=tracker_id, uuid=uuid).exists()
+            try:
+                return self.model.objects.filter(tracker_id=tracker_id, uuid=uuid).exists()
+            except ValidationError:
+                return False
         else:
             return self.model.objects.filter(tracker_id=tracker_id).exists()
 

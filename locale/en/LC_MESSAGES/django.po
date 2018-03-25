@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-04 07:28+0000\n"
+"POT-Creation-Date: 2018-03-22 17:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1189,6 +1189,35 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
+#: env/lib/python3.5/site-packages/httplib2/__init__.py:344
+#, python-format
+msgid "Content purported to be compressed with %s but failed to decompress."
+msgstr ""
+
+#: env/lib/python3.5/site-packages/httplib2/__init__.py:495
+#, python-format
+msgid "Unsupported value for qop: %s."
+msgstr ""
+
+#: env/lib/python3.5/site-packages/httplib2/__init__.py:498
+#: env/lib/python3.5/site-packages/httplib2/__init__.py:560
+#, python-format
+msgid "Unsupported value for algorithm: %s."
+msgstr ""
+
+#: env/lib/python3.5/site-packages/httplib2/__init__.py:557
+msgid "The challenge doesn't contain a server nonce, or this one is empty."
+msgstr ""
+
+#: env/lib/python3.5/site-packages/httplib2/__init__.py:563
+#, python-format
+msgid "Unsupported value for pw-algorithm: %s."
+msgstr ""
+
+#: env/lib/python3.5/site-packages/httplib2/__init__.py:1095
+msgid "Redirected but the response is missing a Location: header."
+msgstr ""
+
 #: env/lib/python3.5/site-packages/kombu/transport/qpid.py:1298
 #, python-format
 msgid "Attempting to connect to qpid with SASL mechanism %s"
@@ -1208,11 +1237,11 @@ msgstr ""
 msgid "Error running spellchecker"
 msgstr ""
 
-#: mailer/services.py:145
+#: mailer/services.py:223
 msgid "Wallet Load Successful"
 msgstr ""
 
-#: mailer/services.py:157
+#: mailer/services.py:235
 #, python-format
 msgid ""
 "You have successfully reloaded your %(nsp)s wallet with the sum of "
@@ -1220,11 +1249,11 @@ msgid ""
 "%(balance)s XOF."
 msgstr ""
 
-#: mailer/services.py:164
+#: mailer/services.py:242
 msgid "Wallet Load Failed"
 msgstr ""
 
-#: mailer/services.py:176
+#: mailer/services.py:254
 #, python-format
 msgid ""
 "Your request to reload your %(nsp)s wallet with the sum of %(amount)s XOF "
@@ -1232,45 +1261,45 @@ msgid ""
 "XOF."
 msgstr ""
 
-#: mailer/services.py:183
+#: mailer/services.py:261
 msgid "Contribution Payment Successful"
 msgstr ""
 
-#: mailer/services.py:198
+#: mailer/services.py:276
 #, python-format
 msgid ""
 "Your level %(level)s contribution to %(recipient)s of %(amount)s XOF through "
 "%(nsp)s was successful.Processing fees: %(processing_fee)s XOF. "
 msgstr ""
 
-#: mailer/services.py:205
+#: mailer/services.py:283
 #, python-format
 msgid "Level %s Contribution Received"
 msgstr ""
 
-#: mailer/services.py:220
+#: mailer/services.py:298
 #, python-format
 msgid ""
 "You have received %(amount)s as level %(level)s contribution from %(sender)s "
-"through%(nsp)s."
+"through %(nsp)s."
 msgstr ""
 
-#: mailer/services.py:227
+#: mailer/services.py:305
 msgid "Withdrawal Successful"
 msgstr ""
 
-#: mailer/services.py:239
+#: mailer/services.py:317
 #, python-format
 msgid ""
 "You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s "
 "wallet Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF."
 msgstr ""
 
-#: mailer/services.py:246
+#: mailer/services.py:324
 msgid "Contribution Auto Withdrawal Successful"
 msgstr ""
 
-#: mailer/services.py:263
+#: mailer/services.py:341
 #, python-format
 msgid ""
 "You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s "
@@ -1278,49 +1307,49 @@ msgid ""
 "Contribution from  %(sender)s"
 msgstr ""
 
-#: mailer/services.py:271
+#: mailer/services.py:349
 msgid "Withdrawal Failed"
 msgstr ""
 
-#: mailer/services.py:281
+#: mailer/services.py:359
 #, python-format
 msgid "Your withdrawal request failed. Status: %(status)s, Reason: %(reason)s"
 msgstr ""
 
-#: mailer/services.py:287
+#: mailer/services.py:365
 msgid "Phone Number Verification Needed"
 msgstr ""
 
-#: mailer/services.py:296
+#: mailer/services.py:374
 #, python-format
 msgid ""
 "Your %(nsp)s phone number is not verified. Please verify it else you will "
 "not be able to receive any contributions."
 msgstr ""
 
-#: mailer/services.py:303
+#: mailer/services.py:381
 #, python-format
 msgid "Level %(level)s contribution failed"
 msgstr ""
 
-#: mailer/services.py:312 mailer/services.py:328
+#: mailer/services.py:390 mailer/services.py:406
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s XOF through %(nsp)s failed. "
 "We will automatically do a retry for a while for you."
 msgstr ""
 
-#: mailer/services.py:319
+#: mailer/services.py:397
 #, python-format
 msgid "Level %(level)s wallet contribution failed"
 msgstr ""
 
-#: mailer/services.py:335
+#: mailer/services.py:413
 #, python-format
 msgid "Level %(level)s contribution due reminder"
 msgstr ""
 
-#: mailer/services.py:345
+#: mailer/services.py:423
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s XOF is due in %(duration)s. "
@@ -1328,7 +1357,7 @@ msgid ""
 "contributing.."
 msgstr ""
 
-#: mailer/services.py:350
+#: mailer/services.py:428
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s XOF is has been due for "
@@ -1336,12 +1365,12 @@ msgid ""
 "level."
 msgstr ""
 
-#: mailer/services.py:358
+#: mailer/services.py:436
 #, python-format
 msgid "Level %(level)s deactivation notice"
 msgstr ""
 
-#: mailer/services.py:368
+#: mailer/services.py:446
 #, python-format
 msgid ""
 "You have been deactivated in level %(level)s. You cannot receive "
@@ -1349,53 +1378,53 @@ msgid ""
 "of %(amount)s XOF."
 msgstr ""
 
-#: mailer/services.py:376
+#: mailer/services.py:454
 #, python-format
 msgid "Level %(level)s auto wallet contribution failed"
 msgstr ""
 
-#: mailer/services.py:385
+#: mailer/services.py:463
 #, python-format
 msgid ""
 "We could not process your level %(level)s contribution of %(amount)s XOF. "
 "Please ensure you have sufficient balance."
 msgstr ""
 
-#: mailer/services.py:392
+#: mailer/services.py:470
 #, python-format
 msgid "Level %(level)s contribution pending"
 msgstr ""
 
-#: mailer/services.py:401
+#: mailer/services.py:479
 #, python-format
 msgid ""
 "Your level %(level)s contribution of %(amount)s through %(nsp)s is pending "
 "processing. We will notify you as soon as we complete the process."
 msgstr ""
 
-#: mailer/services.py:408
+#: mailer/services.py:486
 msgid "New Failed Operation"
 msgstr ""
 
-#: mailer/services.py:424
+#: mailer/services.py:502
 msgid "Welcome to the Network!"
 msgstr ""
 
-#: mailer/services.py:431
+#: mailer/services.py:509
 msgid ""
 "Welcome to the network. Please be fast to do your first contribution so you "
 "don't miss to receive from your network.Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:457 mailer/services.py:486 mailer/services.py:517
-#: mailer/services.py:548 mailer/services.py:575 mailer/services.py:607
-#: mailer/services.py:638 mailer/services.py:667 mailer/services.py:695
-#: mailer/services.py:723 mailer/services.py:751 mailer/services.py:780
-#: mailer/services.py:817 mailer/services.py:847 mailer/services.py:876
+#: mailer/services.py:535 mailer/services.py:566 mailer/services.py:597
+#: mailer/services.py:628 mailer/services.py:655 mailer/services.py:687
+#: mailer/services.py:718 mailer/services.py:747 mailer/services.py:775
+#: mailer/services.py:803 mailer/services.py:831 mailer/services.py:860
+#: mailer/services.py:897 mailer/services.py:927 mailer/services.py:956
 msgid "Member"
 msgstr ""
 
-#: mailer/services.py:460
+#: mailer/services.py:539
 #, python-format
 msgid ""
 "Hello %(username)s! \n"
@@ -1404,7 +1433,7 @@ msgid ""
 "%(balance)s XOF. Ref:%(transaction_id)s"
 msgstr ""
 
-#: mailer/services.py:488
+#: mailer/services.py:568
 #, python-format
 msgid ""
 "Hello %(username)s! \n"
@@ -1413,7 +1442,7 @@ msgid ""
 "XOF."
 msgstr ""
 
-#: mailer/services.py:519
+#: mailer/services.py:599
 #, python-format
 msgid ""
 "Hello %(sender)s! \n"
@@ -1421,7 +1450,7 @@ msgid ""
 "%(nsp)s was successful.Processing fees: %(processing_fee)s XOF. "
 msgstr ""
 
-#: mailer/services.py:550
+#: mailer/services.py:630
 #, python-format
 msgid ""
 "Hello %(recipient)s! \n"
@@ -1429,7 +1458,7 @@ msgid ""
 "through %(nsp)s."
 msgstr ""
 
-#: mailer/services.py:577
+#: mailer/services.py:657
 #, python-format
 msgid ""
 "Hello %(username)s! \n"
@@ -1437,7 +1466,7 @@ msgid ""
 "wallet Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF."
 msgstr ""
 
-#: mailer/services.py:610
+#: mailer/services.py:690
 #, python-format
 msgid ""
 "Hello %(username)s!\n"
@@ -1449,7 +1478,7 @@ msgid ""
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:640
+#: mailer/services.py:720
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
@@ -1459,7 +1488,7 @@ msgid ""
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:669
+#: mailer/services.py:749
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
@@ -1469,7 +1498,7 @@ msgid ""
 "Thanks for collaborating!"
 msgstr ""
 
-#: mailer/services.py:697 mailer/services.py:725
+#: mailer/services.py:777 mailer/services.py:805
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
@@ -1478,16 +1507,16 @@ msgid ""
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:753
+#: mailer/services.py:833
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
-"Level %(level)s contribution through %(nsp)s Pending\n"
+"Level %(level)s contribution through %(nsp)s is pending\n"
 "We will retry and notify you when its done.Amount: %(amount)s XOF\n"
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:785
+#: mailer/services.py:865
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
@@ -1496,7 +1525,7 @@ msgid ""
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:791
+#: mailer/services.py:871
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
@@ -1505,7 +1534,7 @@ msgid ""
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:821
+#: mailer/services.py:901
 #, python-format
 msgid ""
 "Hello %(username)s!\n"
@@ -1515,7 +1544,7 @@ msgid ""
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:849
+#: mailer/services.py:929
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
@@ -1525,7 +1554,7 @@ msgid ""
 "Thanks for Collaborating!"
 msgstr ""
 
-#: mailer/services.py:878
+#: mailer/services.py:958
 #, python-format
 msgid ""
 "Hi %(username)s!\n"
@@ -1570,40 +1599,40 @@ msgstr ""
 msgid "contact us"
 msgstr ""
 
-#: main/context_processors.py:10
+#: main/context_processors.py:13
 msgid "NNetwork"
 msgstr ""
 
-#: main/context_processors.py:11 main/templates/main/index.html:56
+#: main/context_processors.py:14 main/templates/main/index.html:56
 #: templates/base_website.html:28
 msgid "Njangi Network"
 msgstr ""
 
-#: main/forms.py:13 main/forms.py:98
+#: main/forms.py:13 main/forms.py:104
 msgid "Password must be greater than 8 characters"
 msgstr ""
 
-#: main/forms.py:14 main/forms.py:99
+#: main/forms.py:14 main/forms.py:105
 msgid "Password does not match."
 msgstr ""
 
-#: main/forms.py:15 main/forms.py:100
+#: main/forms.py:15 main/forms.py:106
 msgid "Current Password is invalid."
 msgstr ""
 
-#: main/forms.py:20 main/forms.py:105
+#: main/forms.py:20 main/forms.py:111
 msgid "MTN Number"
 msgstr ""
 
-#: main/forms.py:21 main/forms.py:106
+#: main/forms.py:21 main/forms.py:112
 msgid "e.g. +237675366885"
 msgstr ""
 
-#: main/forms.py:26 main/forms.py:111
+#: main/forms.py:26 main/forms.py:117
 msgid "Orange Number"
 msgstr ""
 
-#: main/forms.py:27 main/forms.py:112
+#: main/forms.py:27 main/forms.py:118
 msgid "e.g. +237695366885"
 msgstr ""
 
@@ -1623,142 +1652,152 @@ msgstr ""
 msgid "Password does not match"
 msgstr ""
 
-#: main/forms.py:65 main/forms.py:132
+#: main/forms.py:66 main/forms.py:138
 msgid "Provide at least an MTN or Orange number."
 msgstr ""
 
-#: main/forms.py:73 main/forms.py:140
+#: main/forms.py:69
+msgid "username already exist."
+msgstr ""
+
+#: main/forms.py:77 main/forms.py:146
 msgid "Email already exist."
 msgstr ""
 
-#: main/forms.py:164
+#: main/forms.py:170
 msgid "full name"
 msgstr ""
 
-#: main/forms.py:165
+#: main/forms.py:171 njangi/templates/njangi/premium/user_account_list.html:16
 msgid "email"
 msgstr ""
 
-#: main/forms.py:167
+#: main/forms.py:173 purse/models.py:709
 msgid "message"
 msgstr ""
 
-#: main/models.py:49
+#: main/models.py:53 njangi/templates/njangi/premium/user_account_list.html:13
 msgid "username"
 msgstr ""
 
-#: main/models.py:52
+#: main/models.py:56
 msgid "*"
 msgstr ""
 
-#: main/models.py:55
+#: main/models.py:59
 msgid "A user with that username already exists."
 msgstr ""
 
-#: main/models.py:58
+#: main/models.py:63 njangi/templates/njangi/premium/user_account_list.html:14
 msgid "first name"
 msgstr ""
 
-#: main/models.py:59
+#: main/models.py:66 njangi/templates/njangi/premium/user_account_list.html:15
 msgid "last name"
 msgstr ""
 
-#: main/models.py:60
+#: main/models.py:68
 msgid "gender"
 msgstr ""
 
-#: main/models.py:61
+#: main/models.py:69
 msgid "sponsor"
 msgstr ""
 
-#: main/models.py:64
+#: main/models.py:72
 msgid "email address"
 msgstr ""
 
-#: main/models.py:65
+#: main/models.py:73
 msgid "staff status"
 msgstr ""
 
-#: main/models.py:66
+#: main/models.py:74 njangi/models.py:343
 msgid "is active"
 msgstr ""
 
-#: main/models.py:68
+#: main/models.py:76
 msgid "country"
 msgstr ""
 
-#: main/models.py:69
+#: main/models.py:77
 msgid "date joined"
 msgstr ""
 
-#: main/models.py:70
+#: main/models.py:78
 msgid "MTN number"
 msgstr ""
 
-#: main/models.py:71
+#: main/models.py:79
 msgid "Orange number"
 msgstr ""
 
-#: main/models.py:72
+#: main/models.py:80
 msgid "Nexttel number"
 msgstr ""
 
-#: main/models.py:72
+#: main/models.py:80
 msgid "optional"
 msgstr ""
 
-#: main/models.py:75
+#: main/models.py:81
+msgid "user account id"
+msgstr ""
+
+#: main/models.py:84
 msgid "profile picture"
 msgstr ""
 
-#: main/models.py:78 main/models.py:136 njangi/forms.py:6
+#: main/models.py:87 main/models.py:145 njangi/forms.py:6
 #: njangi/templates/njangi/checkout/contribution_checkout.html:12
 #: njangi/templates/njangi/checkout/nsp_checkout_confirm.html:13
-#: njangi/templates/njangi/dashboard.html:85 templates/base_dashboard.html:229
+#: njangi/templates/njangi/dashboard.html:85
+#: njangi/templates/njangi/premium/user_account_list.html:20
+#: purse/models.py:722 templates/base_dashboard.html:254
 msgid "level"
 msgstr ""
 
-#: main/models.py:80
+#: main/models.py:89
 msgid "allow automatic contributions"
 msgstr ""
 
-#: main/models.py:130 njangi/templates/njangi/dashboard.html:109
+#: main/models.py:139 njangi/templates/njangi/dashboard.html:109
 msgid "active"
 msgstr ""
 
-#: main/models.py:132 njangi/templates/njangi/dashboard.html:111
+#: main/models.py:141 njangi/templates/njangi/dashboard.html:111
 msgid "inactive"
 msgstr ""
 
-#: main/models.py:137
+#: main/models.py:146
 msgid "downlines"
 msgstr ""
 
-#: main/models.py:138
+#: main/models.py:147
 msgid "cumm. downlines"
 msgstr ""
 
-#: main/models.py:139 njangi/templates/njangi/dashboard.html:86
+#: main/models.py:148 njangi/templates/njangi/dashboard.html:86
 msgid "contribution"
 msgstr ""
 
-#: main/models.py:140
+#: main/models.py:149
 msgid "receipts"
 msgstr ""
 
-#: main/models.py:141
+#: main/models.py:150
 msgid "cumm. receipts"
 msgstr ""
 
-#: main/models.py:142
+#: main/models.py:151
 msgid "cumm. contribution"
 msgstr ""
 
-#: main/models.py:143
+#: main/models.py:152
 msgid "monthly profit"
 msgstr ""
 
-#: main/models.py:144
+#: main/models.py:153
 msgid "upgrade after"
 msgstr ""
 
@@ -1789,7 +1828,7 @@ msgstr ""
 #: main/templates/main/index.html:34 main/templates/main/index.html:95
 #: main/templates/registration/password_reset_complete.html:28
 #: templates/base_dashboard.html:5 templates/base_dashboard.html:47
-#: templates/base_website.html:44
+#: templates/base_website.html:49
 msgid "dashboard"
 msgstr ""
 
@@ -1839,7 +1878,7 @@ msgstr ""
 #: main/templates/main/index.html:99 main/templates/main/login.html:46
 #: main/templates/main/signup.html:107
 #: main/templates/registration/password_reset_complete.html:32
-#: templates/base_website.html:48
+#: templates/base_website.html:53
 msgid "login"
 msgstr ""
 
@@ -1853,7 +1892,7 @@ msgstr ""
 
 #: main/templates/main/index.html:137
 msgid ""
-"Njangi Network is a colloboration platform where people contribute money "
+"Njangi Network is a collaboration platform where people contribute money "
 "among themselves in a network without the need to worry about who they are "
 "contributing to or who they are receiving from."
 msgstr ""
@@ -1907,9 +1946,9 @@ msgstr ""
 
 #: main/templates/main/index.html:177
 msgid ""
-"Do you think you can forget to contribute? Njangi Network got you covered. "
-"Just reload your wallet and activate <em><b>automatic contribution</b></em>. "
-"I will take over and do it for you."
+"Do you think you can forget to contribute on time? Njangi Network got you "
+"covered. Just reload your wallet and activate <em><b>automatic contribution</"
+"b></em>. I will take over and do it for you."
 msgstr ""
 
 #: main/templates/main/index.html:192
@@ -1947,16 +1986,16 @@ msgstr ""
 #: main/templates/main/index.html:222
 msgid ""
 "What about those big plans, investments, projects etc? Is finance the reason "
-"when they have not started? Join the collaboration!! Build the money you "
-"need with time. It's realisable... Just begin!! And remember to upgrade and "
-"stay active."
+"why they have not started? Join the collaboration!! Build the money you need "
+"with time. It's realisable... Just begin!! And remember to upgrade and stay "
+"active."
 msgstr ""
 
 #: main/templates/main/index.html:247
 msgid "How does it work?"
 msgstr ""
 
-#: main/templates/main/index.html:250
+#: main/templates/main/index.html:250 templates/base_website.html:42
 msgid "Signup"
 msgstr ""
 
@@ -2033,7 +2072,7 @@ msgstr ""
 msgid "make sure you share it with your friends too!"
 msgstr ""
 
-#: main/templates/main/index.html:445 templates/base_website.html:78
+#: main/templates/main/index.html:445 templates/base_website.html:83
 msgid "template design by"
 msgstr ""
 
@@ -2174,7 +2213,7 @@ msgid ""
 "lowercase, 1 digit.)"
 msgstr ""
 
-#: main/views.py:148
+#: main/views.py:155
 msgid "Thanks for contacting, we will get back to you as soon as possible."
 msgstr ""
 
@@ -2225,20 +2264,76 @@ msgid ""
 "them under your  downline network members)</p>"
 msgstr ""
 
-#: njangi/forms.py:7 njangi/models.py:95
+#: mptt_graph/models.py:9 mptt_graph/models.py:23
+msgid "Title"
+msgstr ""
+
+#: mptt_graph/models.py:10
+msgid "Model path"
+msgstr ""
+
+#: mptt_graph/models.py:10
+msgid "Path to the model: ex: myapp.models.MyModel"
+msgstr ""
+
+#: mptt_graph/models.py:11
+msgid "Root node primary key"
+msgstr ""
+
+#: mptt_graph/models.py:14
+msgid "Mptt graph"
+msgstr ""
+
+#: mptt_graph/models.py:15
+msgid "Mptt graphs"
+msgstr ""
+
+#: mptt_graph/models.py:24
+msgid "Parent node"
+msgstr ""
+
+#: mptt_graph/models.py:27
+msgid "Tree node"
+msgstr ""
+
+#: mptt_graph/models.py:28
+msgid "Tree nodes"
+msgstr ""
+
+#: mptt_graph/templates/mptt_graph/index.html:4
+#: mptt_graph/templates/mptt_graph/index.html:7
+msgid "Model graphs"
+msgstr ""
+
+#: mptt_graph/templates/mptt_graph/network_graph.html:8
+msgid "My Network"
+msgstr ""
+
+#: mptt_graph/templates/mptt_graph/network_graph.html:23
+#: mptt_graph/templates/mptt_graph/network_graph.html:25
+#: mptt_graph/templates/mptt_graph/network_graph.html:27
+msgid "Lvl"
+msgstr ""
+
+#: mptt_graph/templates/mptt_graph/tree_inline.html:10
+msgid "L"
+msgstr ""
+
+#: njangi/forms.py:7 njangi/models.py:110
 #: njangi/templates/njangi/checkout/contribution_checkout.html:18
 #: njangi/templates/njangi/checkout/nsp_checkout_confirm.html:19
-#: njangi/templates/njangi/dashboard.html:89
+#: njangi/templates/njangi/dashboard.html:89 purse/models.py:704
 msgid "recipient"
 msgstr ""
 
-#: njangi/forms.py:8 njangi/forms.py:32
+#: njangi/forms.py:8 njangi/forms.py:32 njangi/models.py:341
 #: njangi/templates/njangi/checkout/contribution_checkout.html:24
 #: njangi/templates/njangi/checkout/load_or_withdraw_confirm.html:13
 #: njangi/templates/njangi/checkout/load_withdraw_checkout.html:13
 #: njangi/templates/njangi/checkout/nsp_checkout_confirm.html:26
 #: njangi/templates/njangi/dashboard.html:90
-#: njangi/templates/njangi/statement.html:15 purse/models.py:117
+#: njangi/templates/njangi/statement.html:15 purse/models.py:202
+#: purse/models.py:708
 msgid "amount"
 msgstr ""
 
@@ -2257,75 +2352,132 @@ msgstr ""
 msgid "total"
 msgstr ""
 
-#: njangi/models.py:47
+#: njangi/models.py:50
+#: njangi/templates/njangi/premium/user_account_list.html:17
 msgid "MTN"
 msgstr ""
 
-#: njangi/models.py:48
+#: njangi/models.py:51
+#: njangi/templates/njangi/premium/user_account_list.html:18
 msgid "Orange"
 msgstr ""
 
-#: njangi/models.py:49
+#: njangi/models.py:52
 #: njangi/templates/njangi/checkout/contribution_checkout.html:42
 #: njangi/templates/njangi/checkout/load_or_withdraw_wallet_choice.html:14
 msgid "MTN Wallet"
 msgstr ""
 
-#: njangi/models.py:50
+#: njangi/models.py:53
 #: njangi/templates/njangi/checkout/contribution_checkout.html:49
 #: njangi/templates/njangi/checkout/load_or_withdraw_wallet_choice.html:19
 msgid "Orange Wallet"
 msgstr ""
 
-#: njangi/models.py:90 purse/models.py:120
+#: njangi/models.py:95 purse/models.py:213 purse/models.py:720
+msgid "tracker id"
+msgstr ""
+
+#: njangi/models.py:105 purse/models.py:205 purse/models.py:702
 msgid "user"
 msgstr ""
 
-#: njangi/models.py:91
+#: njangi/models.py:106
 msgid "njangi level"
 msgstr ""
 
-#: njangi/models.py:93
+#: njangi/models.py:108
 msgid "last payment date"
 msgstr ""
 
-#: njangi/models.py:94
+#: njangi/models.py:109
 msgid "next payment date"
 msgstr ""
 
-#: njangi/models.py:112
+#: njangi/models.py:127
 msgid "child user"
 msgstr ""
 
-#: njangi/models.py:114
+#: njangi/models.py:129
 msgid "parent user"
 msgstr ""
 
-#: njangi/models.py:115
+#: njangi/models.py:130
 msgid "position side"
 msgstr ""
 
-#: njangi/signals.py:89 njangi/tasks.py:496
-#, python-format
-msgid "wallet load through %s mobile money"
+#: njangi/models.py:319
+msgid "package name"
 msgstr ""
 
-#: njangi/tasks.py:57 njangi/tasks.py:136
-#, python-format
-msgid "withdrawal through %(nsp)s mobile money."
+#: njangi/models.py:320 njangi/models.py:326 njangi/models.py:333
+msgid "account limits"
 msgstr ""
 
-#: njangi/tasks.py:281
+#: njangi/models.py:321
+msgid "monthly subscription"
+msgstr ""
+
+#: njangi/models.py:322
+msgid "annual subscription"
+msgstr ""
+
+#: njangi/models.py:323
+msgid "monthly subscription duration"
+msgstr ""
+
+#: njangi/models.py:324
+msgid "annual subscription duration"
+msgstr ""
+
+#: njangi/models.py:334
+msgid "related users"
+msgstr ""
+
+#: njangi/models.py:336
+msgid "account manager"
+msgstr ""
+
+#: njangi/models.py:338
+msgid "last payment"
+msgstr ""
+
+#: njangi/models.py:339
+msgid "next payment"
+msgstr ""
+
+#: njangi/models.py:342 njangi/templates/njangi/dashboard.html:93
+#: njangi/templates/njangi/premium/user_account_list.html:19
+#: njangi/templates/njangi/statement.html:17
+msgid "status"
+msgstr ""
+
+#: njangi/models.py:344
+msgid "auto renewal"
+msgstr ""
+
+#: njangi/models.py:345
+msgid "created on"
+msgstr ""
+
+#: njangi/tasks.py:102
 #, python-format
 msgid "level %(level)s contribution from %(sender)s to %(recipient)s."
 msgstr ""
 
-#: njangi/tasks.py:611
-msgid "day(s)"
+#: njangi/tasks.py:405
+#, python-format
+msgid "wallet load through %s mobile money"
 msgstr ""
 
-#: njangi/tasks.py:611
-msgid "hour(s)"
+#: njangi/tasks.py:517
+#, python-format
+msgid "%(day)s day(s) %(hour)s hour(s)"
+msgstr ""
+
+#: njangi/tasks.py:684
+#, python-format
+msgid "%(package_name)s package subscription through %(nsp)s by %(username)s."
 msgstr ""
 
 #: njangi/templates/njangi/checkout/contribution_checkout.html:8
@@ -2377,7 +2529,7 @@ msgid "Cancel"
 msgstr ""
 
 #: njangi/templates/njangi/checkout/load_or_withdraw_wallet_choice.html:8
-#: njangi/templates/njangi/dashboard.html:46 templates/base_dashboard.html:53
+#: njangi/templates/njangi/dashboard.html:46 templates/base_dashboard.html:109
 msgid "wallet"
 msgstr ""
 
@@ -2395,6 +2547,7 @@ msgstr ""
 
 #: njangi/templates/njangi/dashboard.html:12
 #: njangi/templates/njangi/dashboard.html:22
+#: njangi/templates/njangi/network_tools.html:14
 msgid "network members"
 msgstr ""
 
@@ -2438,39 +2591,84 @@ msgstr ""
 msgid "total received"
 msgstr ""
 
-#: njangi/templates/njangi/dashboard.html:93
-#: njangi/templates/njangi/statement.html:17
-msgid "status"
-msgstr ""
-
 #: njangi/templates/njangi/dashboard.html:94
+#: njangi/templates/njangi/premium/user_account_list.html:21
 msgid "action"
 msgstr ""
 
-#: njangi/templates/njangi/dashboard.html:113 templates/base_dashboard.html:73
+#: njangi/templates/njangi/dashboard.html:113 templates/base_dashboard.html:74
 msgid "contribute"
 msgstr ""
 
 #: njangi/templates/njangi/network_tools.html:9
-msgid "network promotion tools"
+msgid "network promotion tools & statistics"
 msgstr ""
 
 #: njangi/templates/njangi/network_tools.html:14
-msgid "promotion link"
+msgid "my promotion link"
 msgstr ""
 
 #: njangi/templates/njangi/network_tools.html:16
 msgid ""
-"Share this link to your loved ones so they can signup under your network."
+"Share this link to your loved ones so they can signup under your network. "
+"(Left or Right. Automatically placed by the system)"
+msgstr ""
+
+#: njangi/templates/njangi/network_tools.html:20
+msgid "left promotion link"
+msgstr ""
+
+#: njangi/templates/njangi/network_tools.html:20
+msgid "left network members"
+msgstr ""
+
+#: njangi/templates/njangi/network_tools.html:22
+msgid ""
+"Share this link to your loved ones so they can signup under your left "
+"network."
+msgstr ""
+
+#: njangi/templates/njangi/network_tools.html:27
+msgid "right promotion link"
+msgstr ""
+
+#: njangi/templates/njangi/network_tools.html:27
+msgid "right network members"
+msgstr ""
+
+#: njangi/templates/njangi/network_tools.html:29
+msgid ""
+"Share this link to your loved ones so they can signup under your right "
+"network."
 msgstr ""
 
 #: njangi/templates/njangi/new_registration.html:9
-#: templates/base_dashboard.html:114
+#: templates/base_dashboard.html:139
 msgid "new registration"
 msgstr ""
 
 #: njangi/templates/njangi/new_registration.html:99
 msgid "login information"
+msgstr ""
+
+#: njangi/templates/njangi/premium/user_account_list.html:49
+#: njangi/templates/njangi/statement.html:52
+msgid "previous"
+msgstr ""
+
+#: njangi/templates/njangi/premium/user_account_list.html:52
+#: njangi/templates/njangi/statement.html:55
+msgid "page"
+msgstr ""
+
+#: njangi/templates/njangi/premium/user_account_list.html:52
+#: njangi/templates/njangi/statement.html:55
+msgid "of"
+msgstr ""
+
+#: njangi/templates/njangi/premium/user_account_list.html:55
+#: njangi/templates/njangi/statement.html:58
+msgid "next"
 msgstr ""
 
 #: njangi/templates/njangi/statement.html:9
@@ -2481,11 +2679,11 @@ msgstr ""
 msgid "date"
 msgstr ""
 
-#: njangi/templates/njangi/statement.html:14 purse/models.py:114
+#: njangi/templates/njangi/statement.html:14 purse/models.py:199
 msgid "description"
 msgstr ""
 
-#: njangi/templates/njangi/statement.html:16 purse/models.py:25
+#: njangi/templates/njangi/statement.html:16 purse/models.py:723
 msgid "charge"
 msgstr ""
 
@@ -2493,7 +2691,7 @@ msgstr ""
 msgid "information"
 msgstr ""
 
-#: njangi/templates/njangi/statement.html:19 purse/models.py:116
+#: njangi/templates/njangi/statement.html:19 purse/models.py:201
 msgid "reference"
 msgstr ""
 
@@ -2505,23 +2703,7 @@ msgstr ""
 msgid "sender"
 msgstr ""
 
-#: njangi/templates/njangi/statement.html:48
-msgid "previous"
-msgstr ""
-
-#: njangi/templates/njangi/statement.html:51
-msgid "page"
-msgstr ""
-
-#: njangi/templates/njangi/statement.html:51
-msgid "of"
-msgstr ""
-
-#: njangi/templates/njangi/statement.html:54
-msgid "next"
-msgstr ""
-
-#: njangi/views.py:125
+#: njangi/views.py:145
 #, python-format
 msgid ""
 "We will send you a request of %(total)s to your %(nsp)s mobile number "
@@ -2529,228 +2711,338 @@ msgid ""
 "your mobile phone so we can process your contribution."
 msgstr ""
 
-#: njangi/views.py:129
+#: njangi/views.py:149
 #, python-format
 msgid ""
 "We will withdraw the sum of %(total)s from your %(nsp)s to contribute. "
 "Confirm the operation so we can process your contribution."
 msgstr ""
 
-#: njangi/views.py:173 njangi/views.py:220
+#: njangi/views.py:199 njangi/views.py:260
 #, python-format
 msgid "Please provide or verify your %(nsp)s number."
 msgstr ""
 
-#: njangi/views.py:177 njangi/views.py:194 njangi/views.py:224
-#: njangi/views.py:240 njangi/views.py:334 njangi/views.py:372
-#: njangi/views.py:439 njangi/views.py:479
+#: njangi/views.py:203 njangi/views.py:230 njangi/views.py:264
+#: njangi/views.py:281 njangi/views.py:376 njangi/views.py:415
+#: njangi/views.py:483 njangi/views.py:524
 msgid ""
 "Orange money is temporally unavailable, sorry for inconveniences, it will be "
 "restored soon."
 msgstr ""
 
-#: njangi/views.py:189 njangi/views.py:235 njangi/views.py:350
-#: njangi/views.py:490
+#: njangi/views.py:220 njangi/views.py:276 njangi/views.py:393
+#: njangi/views.py:536
 #, python-format
 msgid "Insufficient funds in your %(nsp)s."
 msgstr ""
 
-#: njangi/views.py:249
+#: njangi/views.py:291
 msgid "Invalid request."
 msgstr ""
 
-#: njangi/views.py:326 njangi/views.py:364 njangi/views.py:431
-#: njangi/views.py:471
+#: njangi/views.py:368 njangi/views.py:407 njangi/views.py:475
+#: njangi/views.py:516
 #, python-format
 msgid "Unknown Network service provider %(nsp)s."
 msgstr ""
 
-#: njangi/views.py:340
+#: njangi/views.py:383
 #, python-format
 msgid "Invalid Amount %(amount)s. Amounts must be greater than zero."
 msgstr ""
 
-#: njangi/views.py:345 njangi/views.py:378 njangi/views.py:445
-#: njangi/views.py:485
+#: njangi/views.py:388 njangi/views.py:422 njangi/views.py:490
+#: njangi/views.py:531
 #, python-format
 msgid "Invalid action %(action)s."
 msgstr ""
 
-#: njangi/views.py:383 njangi/views.py:388 njangi/views.py:450
-#: njangi/views.py:455 njangi/views.py:495 njangi/views.py:500
+#: njangi/views.py:427 njangi/views.py:432 njangi/views.py:495
+#: njangi/views.py:500 njangi/views.py:541 njangi/views.py:546
 #, python-format
 msgid "Invalid or unverified %(nsp)s phone number."
 msgstr ""
 
-#: njangi/views.py:534
+#: njangi/views.py:589
 #, python-format
 msgid "Your %(nsp)s %(action)s is been processed."
 msgstr ""
 
-#: njanginetwork/settings.py:149
+#: njanginetwork/settings.py:153
 msgid "English"
 msgstr ""
 
-#: njanginetwork/settings.py:150
+#: njanginetwork/settings.py:154
 msgid "French"
 msgstr ""
 
-#: purse/models.py:20
-msgid "wallet_load"
-msgstr ""
-
-#: purse/models.py:21
-msgid "contribution_received"
-msgstr ""
-
-#: purse/models.py:22
-msgid "contribution_paid"
-msgstr ""
-
-#: purse/models.py:23
-msgid "funds_transfer"
-msgstr ""
-
-#: purse/models.py:24
-msgid "transfer_received"
-msgstr ""
-
-#: purse/models.py:26
-msgid "funds_withdrawal"
-msgstr ""
-
-#: purse/models.py:27
-msgid "purchase"
-msgstr ""
-
-#: purse/models.py:55
+#: purse/models.py:123
 msgid "operation failed."
 msgstr ""
 
-#: purse/models.py:56
+#: purse/models.py:124
 #, python-format
 msgid ""
 "%(user)s's wallet load by %(nsp)s, amount: %(amount)s , fees: %(charge)s, "
 "ref: %(reference)s "
 msgstr ""
 
-#: purse/models.py:58
+#: purse/models.py:126
 msgid "operation successful"
 msgstr ""
 
-#: purse/models.py:59
+#: purse/models.py:127
 msgid "insufficient balance"
 msgstr ""
 
-#: purse/models.py:60
+#: purse/models.py:128
 #, python-format
 msgid "provide %(nsp)s phone number and/or verify your %(nsp)s phone number"
 msgstr ""
 
-#: purse/models.py:61
+#: purse/models.py:129
 #, python-format
 msgid "you have %(nsp)s payments pending reception. please "
 msgstr ""
 
-#: purse/models.py:63
+#: purse/models.py:131
 msgid "transaction pending processing"
 msgstr ""
 
-#: purse/models.py:115
+#: purse/models.py:133
+msgid "transaction already treated and completed."
+msgstr ""
+
+#: purse/models.py:134
+msgid "invalid transaction"
+msgstr ""
+
+#: purse/models.py:135
+#, python-format
+msgid "not a %s transaction"
+msgstr ""
+
+#: purse/models.py:136
+msgid "unauthenticated transaction."
+msgstr ""
+
+#: purse/models.py:200
 msgid "transaction information"
 msgstr ""
 
-#: purse/models.py:118
+#: purse/models.py:203
 msgid "fees"
 msgstr ""
 
-#: purse/models.py:119
+#: purse/models.py:204
 msgid "transaction status"
 msgstr ""
 
-#: purse/models.py:121
+#: purse/models.py:206
 msgid "transaction code"
 msgstr ""
 
-#: purse/models.py:122
+#: purse/models.py:207
 msgid "fund sender"
 msgstr ""
 
-#: purse/models.py:125
+#: purse/models.py:210
 msgid "third party reference"
 msgstr ""
 
-#: purse/models.py:126
+#: purse/models.py:211
 msgid "network service provider"
 msgstr ""
 
-#: purse/models.py:127
+#: purse/models.py:212
 msgid "phone number"
 msgstr ""
 
-#: purse/models.py:173 purse/models.py:226 purse/models.py:270
+#: purse/models.py:259 purse/models.py:315 purse/models.py:359
 #, python-format
 msgid " through %(nsp)s"
 msgstr ""
 
+#: purse/models.py:696
+msgid "request status"
+msgstr ""
+
+#: purse/models.py:697
+msgid "response status"
+msgstr ""
+
+#: purse/models.py:698
+msgid "response code"
+msgstr ""
+
+#: purse/models.py:699
+msgid "callback status code"
+msgstr ""
+
+#: purse/models.py:700
+msgid "user authentication"
+msgstr ""
+
+#: purse/models.py:701
+msgid "request type"
+msgstr ""
+
+#: purse/models.py:706
+msgid "NSP"
+msgstr ""
+
+#: purse/models.py:707
+msgid "tel"
+msgstr ""
+
+#: purse/models.py:710
+msgid "Service Provider"
+msgstr ""
+
+#: purse/models.py:711
+msgid "purpose"
+msgstr ""
+
+#: purse/models.py:712
+msgid "server response"
+msgstr ""
+
+#: purse/models.py:713
+msgid "transaction id"
+msgstr ""
+
+#: purse/models.py:714
+msgid "request date"
+msgstr ""
+
+#: purse/models.py:715
+msgid "response date"
+msgstr ""
+
+#: purse/models.py:716
+msgid "processing status"
+msgstr ""
+
+#: purse/models.py:717
+msgid "callback response date"
+msgstr ""
+
+#: purse/models.py:718
+msgid "response tranx date"
+msgstr ""
+
+#: purse/models.py:719
+msgid "unique verification UUID"
+msgstr ""
+
+#: purse/models.py:721
+msgid "is complete"
+msgstr ""
+
+#: purse/models.py:724
+msgid "api unique id"
+msgstr ""
+
+#: purse/services.py:68
+#, python-format
+msgid "Funds withdrawal though %s mobile money"
+msgstr ""
+
 #: templates/base_dashboard.html:50
-msgid "genealogy"
+msgid "switch user"
 msgstr ""
 
-#: templates/base_dashboard.html:56 templates/base_dashboard.html:57
-msgid "account statement"
-msgstr ""
-
-#: templates/base_dashboard.html:59
-msgid "MTN Statement"
+#: templates/base_dashboard.html:58
+msgid "add user account"
 msgstr ""
 
 #: templates/base_dashboard.html:60
-msgid "Orange Statement"
+msgid "add another user"
+msgstr ""
+
+#: templates/base_dashboard.html:62
+msgid "increase your limits"
 msgstr ""
 
 #: templates/base_dashboard.html:64
-msgid "load"
+msgid "update subscription"
 msgstr ""
 
-#: templates/base_dashboard.html:67
-msgid "withdraw"
+#: templates/base_dashboard.html:65
+msgid "manage accounts"
 msgstr ""
 
-#: templates/base_dashboard.html:77 templates/base_dashboard.html:82
-#: templates/base_dashboard.html:87 templates/base_dashboard.html:92
-#: templates/base_dashboard.html:97 templates/base_dashboard.html:102
+#: templates/base_dashboard.html:71
+msgid "genealogy"
+msgstr ""
+
+#: templates/base_dashboard.html:78 templates/base_dashboard.html:83
+#: templates/base_dashboard.html:88 templates/base_dashboard.html:93
+#: templates/base_dashboard.html:98 templates/base_dashboard.html:103
 msgid "Level"
 msgstr ""
 
-#: templates/base_dashboard.html:108
+#: templates/base_dashboard.html:112 templates/base_dashboard.html:113
+msgid "account statement"
+msgstr ""
+
+#: templates/base_dashboard.html:115
+msgid "MTN Statement"
+msgstr ""
+
+#: templates/base_dashboard.html:116
+msgid "Orange Statement"
+msgstr ""
+
+#: templates/base_dashboard.html:120
+msgid "load"
+msgstr ""
+
+#: templates/base_dashboard.html:123
+msgid "withdraw"
+msgstr ""
+
+#: templates/base_dashboard.html:129
+msgid "my network"
+msgstr ""
+
+#: templates/base_dashboard.html:133
 msgid "settings"
 msgstr ""
 
-#: templates/base_dashboard.html:111
+#: templates/base_dashboard.html:136
 msgid "network tools"
 msgstr ""
 
-#: templates/base_dashboard.html:117
+#: templates/base_dashboard.html:142
 msgid "profile"
 msgstr ""
 
-#: templates/base_dashboard.html:121
+#: templates/base_dashboard.html:146
 msgid "change password"
 msgstr ""
 
-#: templates/base_dashboard.html:124 templates/base_dashboard.html:239
+#: templates/base_dashboard.html:149 templates/base_dashboard.html:264
 msgid "logout"
 msgstr ""
 
-#: templates/base_dashboard.html:127 templates/base_dashboard.html:240
+#: templates/base_dashboard.html:152 templates/base_dashboard.html:265
 msgid "website"
 msgstr ""
 
-#: templates/base_dashboard.html:197
+#: templates/base_dashboard.html:222
 msgid "language"
 msgstr ""
 
-#: templates/base_dashboard.html:238
+#: templates/base_dashboard.html:263
 msgid "Profile"
+msgstr ""
+
+#: templates/base_dashboard.html:276
+msgid "service number"
+msgstr ""
+
+#: templates/base_website.html:37
+msgid "Home"
 msgstr ""

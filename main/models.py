@@ -78,6 +78,7 @@ class User(AbstractUser):
     tel1 = PhoneNumberField(_('MTN number'), help_text='', blank=True, null=True)
     tel2 = PhoneNumberField(_('Orange number'), help_text='', blank=True, null=True)
     tel3 = PhoneNumberField(_('Nexttel number'), help_text=_('optional'), blank=True, null=True)
+    user_account_id = models.IntegerField(_('user account id'), blank=True, null=True)
 
     profile_picture = models.ImageField(
         _('profile picture'), upload_to=settings.PROFILE_PICTURE_PATH, blank=True, null=True

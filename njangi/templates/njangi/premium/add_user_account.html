@@ -1,0 +1,54 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="tables col-md-12">
+        <div class="col-md-3"></div>
+        <div class="table-responsive bs-example widget-shadow col-md-6">
+            <div class="form-body">
+                <form class="form-horizontal" action="{% url 'njangi:add_user_account' %}" method="post">{% csrf_token %}
+                    <h3 align="center">{% trans 'Enter username and password'|title %}</h3><br>
+                    {% if error_message %}
+                        <div class="alert alert-danger" role="alert" align="center">
+                            {{ error_message }}
+                        </div>
+                    {% elif success_message %}
+                        <div class="alert alert-success" role="alert" align="center">
+                            {{ success_message }}
+                        </div>
+                    {% endif %}
+                    <div class="form-group fieldWrapper has-feedback">
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <span class="help-block with-errors">{{ form.username.errors }}</span>
+                        <label for="{{ form.username.id_for_label }}" class="col-sm-3 control-label">{{ form.username.label }}</label>
+                        <div class="col-sm-8">
+                            {{ form.username|addcss:'form-control' }}
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">{{ form.username.help_text }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group fieldWrapper has-feedback">
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <span class="help-block with-errors">{{ form.password.errors }}</span>
+                        <label for="{{ form.password.id_for_label }}" class="col-sm-3 control-label">{{ form.password.label }}</label>
+                        <div class="col-sm-8">
+                            {{ form.password|addcss:'form-control' }}
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">{{ form.password.help_text }}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-2" align="center">
+                        <button type="submit" class="btn btn-primary fa-gun-o"><i class="fa fa-plus-square-o nav_icon"> {% trans 'add'|title %}</i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+{% endblock %}

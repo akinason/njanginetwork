@@ -81,23 +81,34 @@ def process_transaction_update(tracker_id, uuid, status_code):
 
                 mm_transaction.is_complete = True
                 mm_transaction.save()
-            print('This transaction is already completed or its a failed operation.')
     else:
-        print('API request received but does not pass test. Certainly not sent by me.')
-        pass
+        mm_transaction = momo_manager.send_request(
+            request_type=momo_request_type.unknown(), nsp="unknown", tel="unknown", amount=0,
+            provider="unknown", purpose="unknown", user=None
+        )
+        mm_transaction.tracker_id = tracker_id
+        mm_transaction.message = uuid
+        mm_transaction.callback_status_code=status_code
+        mm_transaction.is_complete = True
+        mm_transaction.save()
 
-from django.urls import reverse_lazy, reverse
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import login, authenticate
 
-class TestView(generic.TemplateView):
-    template_name = 'purse/test.html'
-    success_url = reverse_lazy('main:login')
-
-    def post(self, request, *args, **kwargs):
-        # url = 'http://localhost:8012/purse/gsmtools/afkanerd/api/momo/2b28b40b-a462-404f-a2f9-114c86d442d0/'
-        # data = {'trackerId': 'L188', 'status': 'success', 'statusCode': 200, 'serverResponse': 'success'}
-        # headers = {'Content-Type': 'application/json', }
-        # response = requests.post(url, data=json.dumps(data), headers=headers)
-        # # print(response)
-        return HttpResponseRedirect(reverse('main:login',), )
+# from django.urls import reverse_lazy, reverse
+# from django.http import HttpResponse, HttpResponseRedirect
+# from django.contrib.auth import login, authenticate
+# from main.models import User
+#
+# class TestView(generic.TemplateView):
+#     template_name = 'purse/test.html'
+#     success_url = reverse_lazy('main:login')
+#
+#     def post(self, request, *args, **kwargs):
+#         url = 'http://localhost:8012/purse/gsmtools/afkanerd/api/momo/ca59a5f1-b4a5-4f19-ac51-0c079c0e0d6/'
+#         data = {'trackerId': 'L192', 'status': 'success', 'statusCode': 200, 'serverResponse': 'success'}
+#         headers = {'Content-Type': 'application/json', }
+#         response = requests.post(url, data=json.dumps(data), headers=headers)
+#         # print(response)
+#         # user = User.objects.get(username='kinason')
+#         # login(request, user)
+#         # return HttpResponseRedirect(reverse('main:login',), )
+#         return render(request, self.template_name)

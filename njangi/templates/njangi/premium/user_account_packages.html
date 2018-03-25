@@ -1,0 +1,40 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="main-page">
+        <h3 class="title1" align="center">{% trans 'our user account packages'|title %}</h3>
+        <p align="center">
+            <i>{% trans 'Subscribe to any of the packages below to increase your limits.'|title %}</i><br>
+            <i>{% trans 'If you have an active package, subscribe to the same or a bigger pack and your due date will simply be extended'|title %}</i>
+        </p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for package in package_list %}
+                <div class="col-md-4 profile widget-shadow">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+                        <h4 class="title3" align="center"><b>{{ package.name|upper }}</b></h4>
+                        <div class="profile-top">
+                            <img src="{{ package.photo.url }}" alt="">
+                            <h4> {% trans 'account limits'|title %} {{ package.limit }}</h4>
+                            <h5>
+                                {{ package.monthly_subscription|floatformat:0|intcomma }}F/{% trans 'month'|title %} |
+                                {{ package.annual_subscription|floatformat:0|intcomma }} F/{% trans 'year'|title %}
+                            </h5><br>
+                        </div>
+                        <h4 class="title3" align="center">
+                            <a href="{% url 'njangi:package_subscription' subscription_type=subscription_types.monthly package_id=package.id %}" class="btn btn-success">{% trans 'Monthly'|title %}</a>
+                            <a href="{% url 'njangi:package_subscription' subscription_type=subscription_types.annually package_id=package.id %}" class="btn btn-success">{% trans 'Annually'|title %}</a>
+                        </h4>
+                    </div>
+                    <!--<div class="col-md-1"></div>-->
+                </div>
+            {% endfor %}
+        </div>
+</div>
+</div>
+{% endblock %}

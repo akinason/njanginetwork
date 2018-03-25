@@ -1,16 +1,24 @@
-from django.db import models
-from django.db.models import Q, Count
-from mptt.models import MPTTModel, TreeForeignKey
+import datetime
+
 from django.contrib.auth import get_user_model as UserModel
+from django.contrib.postgres.fields import JSONField
+from django.db import models
+from django.db.models import Q, Count, F, ExpressionWrapper, DurationField
+from django.db.models.functions import Extract
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
+from mptt.models import MPTTModel, TreeForeignKey
+
 from main.core import NSP
 from main.models import TEL_MAX_LENGTH
-from django.utils import timezone
+
 
 NSP_CONTRIBUTION_PROCESSING_FEE_RATE = 0.025
 NSP_WALLET_LOAD_PROCESSING_FEE_RATE = 0.0
 NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE = 0
 WALLET_CONTRIBUTION_PROCESSING_FEE_RATE = 0.025
+DEFAULT_USER_ACCOUNT_LIMIT = 2
 
 NSP_CONTRIBUTION_PROCESSING_FEE_RATES = {
     1: 0.025,
@@ -60,6 +68,17 @@ class NjangiTreeSide:
 
     def right(self):
         return self._right
+
+
+class UserAccountSubscriptionType:
+    _monthly = 'monthly'
+    _annually = 'annually'
+
+    def monthly(self):
+        return self._monthly
+
+    def annually(self):
+        return self._annually
 
 
 class FailedOperations(models.Model):
@@ -299,3 +318,258 @@ class NjangiTree(MPTTModel):
             return queryset
         else:
             return NjangiTree.objects.filter(pk=self.pk)
+
+
+class AccountPackage(models.Model):
+    name = models.CharField(_('package name'), max_length=20)
+    limit = models.IntegerField(_('account limits'))
+    monthly_subscription = models.DecimalField(_('monthly subscription'), decimal_places=2, max_digits=10)
+    annual_subscription = models.DecimalField(_('annual subscription'), decimal_places=2, max_digits=10)
+    monthly_subscription_duration = models.IntegerField(_('monthly subscription duration'))
+    annual_subscription_duration = models.IntegerField(_('annual subscription duration'))
+    photo = models.FileField(upload_to='account_package/', blank=True, null=True)
+    rank = models.IntegerField(_('rank'), default=0)
+    is_default = models.BooleanField(_('is default'), default=False)
+
+    def __str__(self):
+        return '%(name)s Limit: %(limit)s' % {'name': self.name.upper(), 'limit': self.limit}
+
+
+class UserAccount(models.Model):
+    limit = models.IntegerField(_('account limits'), default=DEFAULT_USER_ACCOUNT_LIMIT)
+    related_users = JSONField(_('related users'), blank=True, null=True)
+    account_manager = models.ForeignKey(
+        UserModel(), blank=True, null=True, verbose_name=_('account manager'), on_delete=models.SET_NULL
+    )
+    last_payment = models.DateTimeField(_('last payment'), blank=True, null=True)
+    next_payment = models.DateTimeField(_('next payment'), blank=True, null=True)
+    package = models.ForeignKey(AccountPackage, on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.DecimalField(_('amount'), max_digits=10, decimal_places=2, default=0.00)
+    status = models.CharField(_('status'), blank=True, max_length=20)
+    is_active = models.BooleanField(_('is active'), default=False)
+    auto_renewal = models.BooleanField(_('auto renewal'), default=False)
+    created_on = models.DateTimeField(_('created on'), default=timezone.now)
+
+    def __str__(self):
+        return '%s Limit: %s' % (self.related_users, self.limit)
+
+
+class UserAccountManager:
+
+    def __init__(self):
+        self.model = UserAccount
+        self.user = UserModel().objects.none()
+
+    def add_user_to_user_account(self, user, user_account_id=None):
+        self.user = user
+        if self.user.user_account_id:  # Return False if the user has already been added to another user account.
+            response = {
+                'status': 'failure', 'message': _('This user account has already been added to a list.'),
+                'instance': self.model.objects.none()
+            }
+            return response
+
+        elif not user_account_id:
+            # Create a new user account if the user has not been added to any account and the user_account_id is not
+            # provided.
+            package = None
+            if user.is_admin:
+                package = AccountPackage.objects.order_by('-limit')[:1].get()
+            else:
+                package = AccountPackage.objects.filter(is_default=True)[:1].get()
+            related_users = [user.id]
+            user_account = self.model.objects.create(
+                is_active=True, status='active', related_users=related_users, account_manager=self.user,
+                package=package,
+            )
+
+            self.user.user_account_id = user_account.id
+            self.user.save()
+            response = {
+                'status': 'success', 'message': _('User Account added successfully.'),
+                'instance': user_account
+            }
+            return response
+
+        elif user_account_id:
+            # But if the user has not been added to any user account and the user_account_id is provided, update the
+            # list of related users. But first ensure the limits have not been reached.,
+            user_account = None
+            try:
+                user_account = self.model.objects.get(pk=user_account_id)
+            except self.model.DoesNotExist:
+                response = {
+                    'status': 'failure', 'message': _('Invalid user account Id supplied.'),
+                    'instance': self.model.objects.none()
+                }
+                return response
+
+            if user_account and len(user_account.related_users) < user_account.limit:
+                related_users = user_account.related_users
+                related_users.append(user.id)
+                user_account.related_users = related_users
+                user_account.save()
+                self.user.user_account_id = user_account.id
+                self.user.save()
+                response = {
+                    'status': 'success', 'message': _('Account added successfully.'),
+                    'instance': user_account,
+                }
+                return response
+            else:
+                response = {
+                    'status': 'failure', 'message': _('User not added. Account Limits reached.'),
+                    'instance': self.model.objects.none()
+                }
+                return response
+
+    def remove_user_from_user_account(self, user, user_account_id):
+        self.user = user
+        try:
+            user_account = self.model.objects.get(pk=user_account_id)
+        except self.model.DoesNotExist:
+            return False
+
+        if user_account:
+            related_users = user_account.related_users
+            try:
+                related_users.remove(self.user.id)
+                # if len(related_users) == 0:  # Delete the user account if it has not more related accounts.
+                #     user_account.delete()
+                # else:
+                user_account.related_users = related_users
+                user_account.save()
+                self.user.user_account_id = None
+                self.user.save()
+            except ValueError:
+                pass
+            return user_account
+        else:
+            return False
+
+    def get_user_account(self, user_account_id):
+        # Returns an instance of a user account or empty queryset
+        try:
+            return self.model.objects.get(pk=user_account_id)
+        except self.model.DoesNotExist:
+            return self.model.objects.none()
+
+    def get_user_account_user_list(self, user_account_id):
+        # Returns a list of related_users instances
+
+        user_account = self.get_user_account(user_account_id)
+        user_list = []
+        if user_account:
+            related_users = user_account.related_users
+            for user_id in related_users:
+                try:
+                    user = UserModel().objects.get(pk=user_id)
+                    user_list.append(user)
+                except UserModel().DoesNotExist:
+                    pass
+        return user_list
+
+    def user_is_in_list(self, user_id, user_account_id):
+        # Checks to ensure the given user_id is in the list of a particular user_account's related users
+        user_account = self.get_user_account(user_account_id=user_account_id)
+        if user_account:
+            related_users = user_account.related_users
+            if int(user_id) in related_users:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def is_account_manager(self, user, user_account_id):
+        user_account = self.get_user_account(user_account_id)
+        if user_account:
+            return user == user_account.account_manager
+        else:
+            return False
+
+    def update_account_manager(self, user, user_account_id):
+
+        user_account = self.get_user_account(user_account_id)
+        if user_account:
+            user_account.account_manager = user
+            user_account.save()
+            return user_account
+        else:
+            return False
+
+    def update_subscription(self, user_account_id, package_id, subscription):
+        package = None
+        user_account = None
+        subscription_type = UserAccountSubscriptionType()
+        subscription_duration = 0
+        subscription_amount = 0.00
+        try:
+            package = AccountPackage.objects.get(pk=package_id)
+        except AccountPackage.DoesNotExist:
+            return AccountPackage.objects.none()
+
+        user_account = self.get_user_account(user_account_id)
+        if user_account:
+            if subscription == subscription_type.monthly():
+                subscription_duration = package.monthly_subscription_duration
+                subscription_amount = package.monthly_subscription
+            elif subscription == subscription_type.annually():
+                subscription_duration = package.annual_subscription_duration
+                subscription_amount = package.annual_subscription
+
+            user_account.last_payment = timezone.now()
+            user_account.next_payment = (
+                user_account.next_payment + datetime.timedelta(days=subscription_duration) if user_account.next_payment
+                else timezone.now() + datetime.timedelta(days=subscription_duration)
+            )
+            user_account.package = package
+            user_account.amount = subscription_amount
+            user_account.limit = package.limit
+            user_account.is_active = True
+            user_account.save()
+            return user_account
+        else:
+            return False
+
+    def deactivate_subscription(self, user_account_id):
+        user_account = self.get_user_account(user_account_id)
+        if user_account:
+            user_account.is_active = False
+            user_account.save()
+            return user_account
+        else:
+            return False
+
+    def deactivate_over_due_subscriptions(self):
+        # Deactivates all accounts with past due subscriptions
+        user_accounts = self.model.objects.filter(next_payment__lte=timezone.now(), package__isnull=False)
+        if user_accounts:
+            for user_account in user_accounts:
+                if user_account.account_manager and user_account.account_manager.is_admin:
+                    pass
+                else:
+                    self.deactivate_subscription(user_account_id=user_account.id)
+        return user_accounts
+
+    def get_user_accounts_to_send_subscription_reminder(self):
+        # Returns the list of user accounts to which the subscription is due in 3 days or less
+        queryset = self.model.objects.filter(
+            next_payment__isnull=False, package__isnull=False
+        ).annotate(
+            duration=ExpressionWrapper(F('next_payment') - timezone.now(), DurationField())
+        ).annotate(
+            day=Extract('duration', 'day'), hour=Extract('duration', 'hour'), minute=Extract('duration', 'minute')
+        ).filter(
+            day__gt=-1, day__lte=3
+        )
+        return queryset
+
+    def get_user_account_packages(self):
+        return AccountPackage.objects.filter(is_default=False).order_by('rank')
+
+    def get_package(self, package_id):
+        try:
+            return AccountPackage.objects.get(pk=package_id)
+        except AccountPackage.DoesNotExist:
+            return AccountPackage.objects.none()

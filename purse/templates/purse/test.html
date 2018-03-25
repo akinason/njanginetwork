@@ -7,6 +7,7 @@
 </head>
 <body>
     <form method="post" action="{% url 'purse:test_view' %}">
+    <!--<form method="post" action="{% url 'njangi:switch_user' user_id=53 %}">-->
         {% csrf_token %}
         <input type="submit" value="submit">
     </form>

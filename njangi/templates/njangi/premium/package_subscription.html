@@ -1,0 +1,47 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="main-page">
+        <h3 class="title1" align="center">{% trans 'Package Subscription'|title %}</h3>
+        {% if status == 'error' %}
+            <div class="alert alert-danger" role="alert" align="center">
+                {{ message|title }}
+            </div>
+        {% elif status == 'success' %}
+            <div class="alert alert-success" role="alert" align="center">
+                {{ message|title }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3 profile widget-shadow"></div>
+            <div class="col-md-6 profile widget-shadow">
+                <h4 class="title3" align="center"><b>{{ package.name|upper }}</b></h4>
+                <div class="profile-top">
+                    <img src="{{ package.photo.url }}" alt="">
+                    <h4> {% trans 'account limits'|title %} {{ package.limit }}</h4>
+                    <h5>
+                        {% if subscription_type == subscription_types.monthly %}
+                            {{ package.monthly_subscription|floatformat:0|intcomma }}F/{% trans 'month'|title %}
+                        {% elif subscription_type == subscription_types.annually %}
+                            {{ package.annual_subscription|floatformat:0|intcomma }} F/{% trans 'year'|title %}
+                        {% endif %}
+                    </h5><br>
+                </div><br>
+                <div align="center">
+                    <form action="{% url 'njangi:package_subscription' subscription_type=subscription_type package_id=package.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="{% trans 'Confirm Subscription'|title %}" class="btb btn-success">
+                    </form>
+                </div><br>
+
+            </div>
+
+        </div>
+</div>
+</div>
+{% endblock %}

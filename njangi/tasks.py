@@ -1,24 +1,31 @@
 import datetime
-from purse.models import WalletManager
-from njangi.models import LevelModel, FailedOperations
-from njangi.core import get_level_contribution_amount
-from django.utils.translation import ugettext_lazy as _
-from django.utils import timezone
-from django.db.models import Q, F, ExpressionWrapper, DateTimeField, DurationField
-from django.db.models.functions import Extract
-from purse.models import WalletTransStatus, WalletTransMessage, WalletTransDescription, MobileMoneyManager, MOMOPurpose\
-    , MMRequestType
-from njangi.models import NSP, CONTRIBUTION_INTERVAL_IN_DAYS
-from purse import services as purse_services
-from njanginetwork.celery import app
-from main.core import FailedOperationTypes, TransactionStatus
-from mailer import services as mailer_services
-from django.contrib.auth import get_user_model as UserModel
-from njangi.models import LEVEL_CONTRIBUTIONS, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE
-from njangi.core import get_upline_to_pay_upgrade_contribution
 import decimal
 
+from django.contrib.auth import get_user_model as UserModel
+from django.db.models import F, ExpressionWrapper, DurationField
+from django.db.models.functions import Extract
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+
+
+from mailer import services as mailer_services
+from main.core import FailedOperationTypes, TransactionStatus
+from njangi.core import get_level_contribution_amount, get_upline_to_pay_upgrade_contribution
+from njangi.models import (
+    LevelModel, FailedOperations, AccountPackage, UserAccountSubscriptionType, UserAccountManager, LEVEL_CONTRIBUTIONS,
+    WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP, CONTRIBUTION_INTERVAL_IN_DAYS
+)
+from njanginetwork.celery import app
+from purse import services as purse_services
+from purse.models import WalletManager
+from purse.models import (
+    WalletTransStatus, WalletTransMessage, WalletTransDescription, MobileMoneyManager, MOMOPurpose,
+    MMRequestType
+)
+
+
 wallet_manager = wallet = WalletManager()
+user_account_manager = UserAccountManager()
 trans_status = WalletTransStatus()
 trans_message = WalletTransMessage()
 trans_description = WalletTransDescription()
@@ -29,7 +36,7 @@ D = decimal.Decimal
 momo_purpose = MOMOPurpose()
 momo_manager = MobileMoneyManager()
 momo_request_type = MMRequestType()
-
+user_account_subscription_type = UserAccountSubscriptionType()
 
 @app.task
 def process_contribution(level, nsp, processing_fee=0.00, user_id=None, recipient_id=None, tracker_id=None):
@@ -613,3 +620,114 @@ def process_automatic_contributions():
             else:
                 # Simply pass because the email/sms have already been sent to the user.
                 pass
+
+
+@app.task
+def process_subscription_update(user_id, package_id, subscription_type, nsp, user_account_id=None):
+    # Function responsible for processing user account subscriptions
+    # Returns True on success and False on failure
+    user = UserModel().objects.none()
+    admin_user = UserModel().objects.none()
+    package = AccountPackage.objects.none()
+    user_account = None
+
+    try:
+        user = UserModel().objects.get(pk=user_id)
+        admin_user = UserModel().objects.filter(is_admin=True).order_by('username')[:1].get()
+    except UserModel().DoesNotExist:
+        return False
+
+    try:
+        package = AccountPackage.objects.get(pk=package_id)
+    except AccountPackage.DoesNotExist:
+        return False
+
+    if subscription_type not in [
+        user_account_subscription_type.annually(), user_account_subscription_type.monthly()
+    ]:
+        return False
+
+    if nsp not in [service_provider.mtn_wallet(), service_provider.orange()]:
+        return False
+
+    if user_account_id:
+        user_account = user_account_manager.get_user_account(user_account_id)
+    elif user.user_account_id:
+        user_account = user_account_manager.get_user_account_user_list(user.user_account_id)
+    else:
+        user_account = user_account_manager.add_user_to_user_account(user=user)
+
+    if not user_account:
+        return False
+
+    else:
+        _nsp = None
+        amount = 0.00
+        processing_fee = 0.00
+        sender_tel = None
+        recipient_tel = None
+
+        if nsp == service_provider.orange_wallet():
+            _nsp = service_provider.orange()
+            sender_tel = user.tel2.national_number
+            recipient_tel = admin_user.tel2.national_number
+        elif nsp == service_provider.mtn_wallet():
+            _nsp = service_provider.mtn()
+            sender_tel = user.tel1.national_number
+            recipient_tel = admin_user.tel1.national_number
+        balance = wallet_manager.balance(user=user, nsp=_nsp)
+
+        if subscription_type == user_account_subscription_type.monthly():
+            amount = package.monthly_subscription
+        elif subscription_type == user_account_subscription_type.annually():
+            amount = package.annual_subscription
+
+        if D(balance) < D(amount):
+            return False
+        else:
+            information = _("%(package_name)s package subscription through %(nsp)s by %(username)s.") % {
+                'package_name': package.name.upper(), 'nsp': _nsp.upper(), 'username': user.username
+            }
+            response = wallet_manager.transfer(
+                sender=user, recipient=admin_user, amount=amount, information=information, nsp=_nsp,
+                sender_description=trans_description.purchase(),
+                recipient_description=trans_description.user_account_subscription(),
+                sender_tel=sender_tel, recipient_tel=recipient_tel, sender_charge=processing_fee
+            )
+            if response['status'] == trans_status.success():
+                r = user_account_manager.update_subscription(
+                    user_account_id=user_account.id, package_id=package_id, subscription=subscription_type,
+                )
+                return True if r else False
+            else:
+                return False
+
+
+@app.task
+def deactivate_users_with_due_package_subscription():
+    user_accounts = user_account_manager.deactivate_over_due_subscriptions()
+    for user_account in user_accounts:
+        user_list = user_account_manager.get_user_account_user_list(user_account.id)
+        for user in user_list:
+            if user.email:
+                mailer_services.send_user_account_subscription_deactivation_email.delay(
+                    username=user.username, package_name=user_account.package.name, email=user.email
+                )
+
+    return user_accounts.count()
+
+
+@app.task
+def send_package_subscription_reminder():
+    user_accounts = user_account_manager.get_user_accounts_to_send_subscription_reminder()
+    for user_account in user_accounts:
+        user_list = user_account_manager.get_user_account_user_list(user_account.id)
+        duration = _("%(day)s day(s) %(hour)s hour(s)") % {'day': user_account.day, 'hour': user_account.hour}
+        for user in user_list:
+            if user.email:
+                mailer_services.send_user_account_subscription_reminder_email.delay(
+                    username=user.username, package_name=user_account.package.name, email=user.email, duration=duration
+                )
+    return user_accounts.count()
+
+

@@ -1,5 +1,7 @@
-from njangi.models import NjangiTree
+from njangi.models import NjangiTree, UserAccountManager
 from main.core import NSP
+
+account_manager = UserAccountManager()
 
 
 def get_user_node(request):
@@ -13,9 +15,28 @@ def get_user_node(request):
         return NjangiTree.objects.none()
 
 
+def get_user_account_list(request):
+    user_account_list = ""
+    if request.user.is_authenticated:
+        if request.user.user_account_id:
+            user_account_list = account_manager.get_user_account_user_list(
+                user_account_id=request.user.user_account_id
+            )
+        return user_account_list
+
+
+def get_user_account(request):
+        user_account = ""
+        if request.user.is_authenticated:
+            user_account = account_manager.get_user_account(request.user.user_account_id)
+        return user_account
+
+
 def njangi_context_processors(request):
     context = {
         'nsp_': NSP(),
-        'user_node': get_user_node(request)
+        'user_node': get_user_node(request),
+        'user_account': get_user_account(request),
+        'user_account_list': get_user_account_list(request),
     }
     return context

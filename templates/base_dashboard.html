@@ -46,31 +46,29 @@
 						<li>
 							<a href="{% url 'njangi:dashboard' %}" class="active"><i class="fa fa-home nav_icon"></i>{% trans 'dashboard'|capfirst %}</a>
 						</li>
-						<li>
-							<a href="{% url 'mptt_graph:network_graph' user_id=user.id %}" class="active"><i class="fa fa-th-large nav_icon"></i>{% trans 'my network'|title %}</a>
+						<li class="">
+							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'switch user'|title %}<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								{% for obj in user_account_list %}
+                                <li>
+									<a href="{% url 'njangi:switch_user' user_id=obj.id %}"><i class="fa fa-user nav_icon"></i>{{ obj.username|upper }}</a>
+								</li>
+								{% endfor %}
+								{% if not user_account %}
+									<li><a href=""><i class="fa fa-plus-square-o nav_icon"></i>{% trans 'add user account'|title %}</a></li>
+								{% elif use_account_list|length < user_account.limit %}
+									<li><a href="{% url 'njangi:add_user_account' %}"><i class="fa fa-plus-square-o nav_icon"></i>{% trans 'add another user'|title %}</a></li>
+								{% else %}
+									<li><a href=""><i class="fa fa-arrow-up nav_icon"></i>{% trans 'increase your limits'|title %}</a></li>
+								{% endif %}
+								<li><a href="{% url 'njangi:user_account_packages' %}"><i class="fa fa-share nav_icon"></i>{% trans 'update subscription'|title %}</a></li>
+								<li><a href="{% url 'njangi:user_account_list' %}"><i class="fa fa-random nav_icon"></i>{% trans 'manage accounts'|title %}</a></li>
+
+							</ul>
+
 						</li>
                         <li>
 							<!--<a href="index.html" class="active"><i class="fa fa-table nav_icon"></i>{% trans 'genealogy'|capfirst %}</a>-->
-						</li>
-						<li class="">
-							<a href="#"><i class="fa fa-th-large nav_icon"></i> {% trans 'wallet'|capfirst %}<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<!--<a href="media.html">{% trans 'account statement'|title %}</a>-->
-                                    <a href="#"><i class="fa fa-th-large nav_icon"></i> {% trans 'account statement'|title %}<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level collapse">
-                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.mtn %}">{% trans 'MTN Statement' %}</a></li>
-                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.orange %}">{% trans 'Orange Statement'|title %}</a></li>
-                                    </ul>
-								</li>
-                                <li>
-									<a href="{% url 'njangi:load_or_withdraw_choice' action='load' %}">{% trans 'load'|capfirst %}</a>
-								</li>
-                                <li>
-                                    <a href="{% url 'njangi:load_or_withdraw_choice' action='withdraw' %}">{% trans 'withdraw'|capfirst %}</a>
-								</li>
-							</ul>
-							<!-- /nav-second-level -->
 						</li>
 						<li>
 							<a href="#"><i class="fa fa-th-large nav_icon"></i>{% trans 'contribute'|capfirst %} <span class="nav-badge">{{ wallet.balance }}</span> <span class="fa arrow"></span></a>
@@ -107,6 +105,30 @@
 								{% endif %}
 							</ul>
 						</li>
+						<li class="">
+							<a href="#"><i class="fa fa-money nav_icon"></i> {% trans 'wallet'|capfirst %}<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<!--<a href="media.html">{% trans 'account statement'|title %}</a>-->
+                                    <a href="#"><i class="fa fa-th-large nav_icon"></i> {% trans 'account statement'|title %}<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level collapse">
+                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.mtn %}">{% trans 'MTN Statement' %}</a></li>
+                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.orange %}">{% trans 'Orange Statement'|title %}</a></li>
+                                    </ul>
+								</li>
+                                <li>
+									<a href="{% url 'njangi:load_or_withdraw_choice' action='load' %}">{% trans 'load'|capfirst %}</a>
+								</li>
+                                <li>
+                                    <a href="{% url 'njangi:load_or_withdraw_choice' action='withdraw' %}">{% trans 'withdraw'|capfirst %}</a>
+								</li>
+							</ul>
+							<!-- /nav-second-level -->
+						</li>
+						<li>
+							<a href="{% url 'mptt_graph:network_graph' user_id=user.id %}" class="active"><i class="fa fa-sitemap nav_icon"></i>{% trans 'my network'|title %}</a>
+						</li>
+
                         <li>
 							<a href="#"><i class="fa fa-cogs nav_icon"></i>{% trans 'settings'|capfirst %} <span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
@@ -245,7 +267,7 @@
 						</li>
 					</ul>
 				</div>
-				<!-- <div class="profile_details">
+				<div class="profile_details">
 					<ul>
 						<li class="dropdown profile_details_drop">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -260,7 +282,7 @@
 
 						</li>
 					</ul>
-				</div> -->
+				</div>
 				<div class="clearfix"> </div>
 			</div>
 			<div class="clearfix"> </div>

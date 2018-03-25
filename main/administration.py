@@ -1,8 +1,11 @@
+import datetime
 
-from njangi.core import create_user_levels, add_user_to_njangi_tree
-from django.contrib.auth import get_user_model
-from mailer import services as mailer_services
 from django.db.models import Q
+
+from django.contrib.auth import get_user_model
+from njangi.core import create_user_levels, add_user_to_njangi_tree
+from mailer import services as mailer_services
+from njangi.models import LevelModel
 
 
 def create_admin_user(username, password):
@@ -83,3 +86,11 @@ def send_mass_sms(body):
     response = mailer_services.send_1s2u_mass_sms(to_numbers=number_list, body=body)
     return response
 
+
+def mass_increase_next_payment_duration(days):
+    levels = LevelModel.objects.filter(next_payment__isnull=False)
+    for level in levels:
+        level.is_active = True
+        level.next_payment += datetime.timedelta(days=days)
+        level.save()
+    return levels.count()

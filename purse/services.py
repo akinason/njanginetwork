@@ -85,12 +85,12 @@ def _process_momo_operation(
         }
 
         try:
-            # r = requests.post(url=url, data=params, timeout=(50, 25))
+            r = requests.post(url=url, data=params, timeout=(60, 60))
             # print(r.content, r.status_code)
-            # response = r.json()
-            import random
-            response = {'statusCode': 200, 'userAuth': 'valid', 'trackerId': log.tracker_id,
-                        'serverResponse': 'Everything moving on', 'uniqueId': random.randint(1000, 9999)}
+            response = r.json()
+            # import random
+            # response = {'statusCode': 200, 'userAuth': 'valid', 'trackerId': log.tracker_id,
+            #             'serverResponse': 'Everything moving on', 'uniqueId': random.randint(1000, 9999)}
             # Treatment of the response
             status_code = 0
             user_auth = ''

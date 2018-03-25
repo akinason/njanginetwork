@@ -27,7 +27,7 @@ SECRET_KEY = 'qibts7+4ws=xwy3%s2sku2g_^vuooodqzy_l%x9c5qj0n=$k$i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'e782f2f1.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.1', 'cm.localhost', 'localhost', 'e782f2f1.ngrok.io']
 
 
 # Application definition
@@ -180,16 +180,26 @@ MEDIA_URL = '/media/'
 
 
 # Email Configurations.
-DEFAULT_FROM_EMAIL = 'contact@njanginetwork.com'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.privateemail.com'
-EMAIL_HOST_USER = 'contact@njanginetwork.com'
-EMAIL_HOST_PASSWORD = '*45H0KRs$1.F.'
-EMAIL_PORT = 587
-ADMIN_EMAIL = 'admin@njanginetwork.com'
-CONTACT_EMAIL = 'contact@njanginetwork.com'
-SUPPORT_EMAIL = 'contact@njanginetwork.com'
+# DEFAULT_FROM_EMAIL = 'contact@njanginetwork.com'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'mail.privateemail.com'
+# EMAIL_HOST_USER = 'contact@njanginetwork.com'
+# EMAIL_HOST_PASSWORD = '*45H0KRs$1.F.'
+# EMAIL_PORT = 587
+# ADMIN_EMAIL = 'admin@njanginetwork.com'
+# CONTACT_EMAIL = 'contact@njanginetwork.com'
+# SUPPORT_EMAIL = 'contact@njanginetwork.com'
 
+
+DEFAULT_FROM_EMAIL = 'njanginetwork@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'njanginetwork@gmail.com'
+EMAIL_HOST_PASSWORD = 'scoolings245'
+EMAIL_PORT = 587
+ADMIN_EMAIL = 'njanginetwork@gmail.com'
+CONTACT_EMAIL = 'njanginetwork@gmail.com'
+SUPPORT_EMAIL = 'njanginetwork@gmail.com'
 
 #1s2u.com sms Configuration
 ONE_S_2_U_USERNAME = 'kinason42'

@@ -1,34 +1,40 @@
+import decimal
 from django.shortcuts import render
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import get_user_model as UserModel
-from purse.models import WalletManager, WalletTransDescription, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER, \
-    MOMOPurpose
-from njangi.models import LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree
+from django.contrib.auth import get_user_model as UserModel, login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+
+from purse.models import WalletManager, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER,  MOMOPurpose
+from njangi.models import LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree, UserAccountManager
 from django.db.models import Sum, F, Value as V
 from django.db.models.functions import Coalesce
 from main.forms import SignupForm
-from .forms import ContributionConfirmForm, LoadWithdrawForm
+from .forms import ContributionConfirmForm
 from main.utils import get_sponsor
 from main.core import NSP
 from mailer import services as mailer_services
-from njangi.core import add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, \
-    get_level_contribution_amount, get_processing_fee_rate
+from njangi.core import (
+    add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, get_level_contribution_amount,
+    get_processing_fee_rate
+)
 from django.urls import reverse_lazy, reverse
-from njangi.models import NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, \
-    NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE, \
-    NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
+from njangi.models import (
+    UserAccountSubscriptionType, NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE)
+
 from django.utils.translation import ugettext_lazy as _
-from njangi.tasks import process_contribution, process_wallet_load
-from django.http import HttpResponseRedirect
-import decimal
+from njangi.tasks import process_contribution
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from purse import services as purse_services
 
 wallet = WalletManager()
+account_manager = UserAccountManager()
 _nsp = NSP()
 D = decimal.Decimal
 momo_purpose = MOMOPurpose()
+subscription_types = UserAccountSubscriptionType()
+
 
 class DashboardView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'njangi/dashboard.html'
@@ -57,6 +63,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         context['LEVEL_CONTRIBUTIONS'] = LEVEL_CONTRIBUTIONS
         context['nsp'] = _nsp
         context['today_users'] = UserModel().objects.filter(date_joined__date=today, is_admin=False).count()
+
         if user_node:
             context['my_network_users'] = user_node.get_descendant_count()
         else:
@@ -586,3 +593,220 @@ class WalletLoadAndWithdrawDoneView(LoginRequiredMixin, generic.TemplateView):
         context['message'] = _('Your %(nsp)s %(action)s is been processed.') % \
                         {'nsp': nsp.replace('_', ' '), 'action': action}
         return context
+
+
+class SwitchUserView(LoginRequiredMixin, generic.View):
+
+    # View responsible for switching a user from the dashboard.
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('user_id')
+        user_account_id = self.request.user.user_account_id
+        if user_account_id and user_id:
+            if account_manager.user_is_in_list(user_id=user_id, user_account_id=user_account_id):
+                user_account = account_manager.get_user_account(user_account_id=user_account_id)
+                if user_account.is_active or user_account.last_payment > timezone.now:
+                    try:
+                        user = UserModel().objects.get(pk=user_id)
+                        login(self.request, user)
+                    except UserModel().DoesNotExist:
+                        pass
+            else:
+                pass
+        else:
+            pass
+
+        return HttpResponseRedirect(reverse('njangi:dashboard',))
+
+
+class UserAccountListView(LoginRequiredMixin, generic.ListView):
+    template_name = 'njangi/premium/user_account_list.html'
+    paginate_by = 5
+    context_object_name = 'user_account_list'
+
+    def get_queryset(self):
+        if self.request.user.user_account_id:
+            return account_manager.get_user_account_user_list(user_account_id=self.request.user.user_account_id)
+        else:
+            return []
+
+
+class CreateUserAccountView(LoginRequiredMixin, generic.View):
+    template_name = 'njangi/premium/add_user_account.html'
+    form = AuthenticationForm
+
+    def get(self, request, *args, **kwargs):
+        return render(
+            request=request, template_name=self.template_name, context={
+                'form': self.form, 'error_message': None
+            }
+        )
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        error_message = None
+        response1 = {}
+        response2 = {}
+        response = {}
+        user = authenticate(username=username, password=password)
+        if not user:
+            error_message = _('Username and password incorrect.')
+        else:
+            if user.user_account_id:
+                error_message = _('This user has already been added to a list.')
+            else:
+                if request.user.user_account_id:
+                    response = account_manager.add_user_to_user_account(
+                        user=user, user_account_id=request.user.user_account_id
+                    )
+                else:
+                    response1 = account_manager.add_user_to_user_account(
+                        user=request.user
+                    )
+                    if response1['status'] == 'success' and not user == request.user:
+                        # Only add the user to user account if "user" is different from "request.user"
+                        response2 = account_manager.add_user_to_user_account(
+                            user=user, user_account_id=response1['instance'].id
+                        )
+
+                    elif response1['status'] == 'success' and user == request.user:
+                        # if the user is the same as the request.user, just add a "success" status to response2
+
+                        success_message = _('Account added successfully.')
+                        response2['status'] = 'success'
+                    else:
+                        error_message = _('Account not added. Check your subscription package.')
+
+            if (response and response['status'] == 'success') or (response2 and response2['status'] == 'success'):
+                success_message = _('Account added successfully.')
+                return render(
+                    request=request, template_name=self.template_name, context={
+                        'form': self.form, 'success_message': success_message
+                    }
+                )
+            else:
+                if response:
+                    error_message = response['message']
+                elif response2:
+                    error_message = response['messate']
+        return render(
+            request=request, template_name=self.template_name, context={
+                'form': self.form, 'error_message': error_message
+            }
+        )
+
+
+class RemoveUserAccountView(LoginRequiredMixin, generic.DeleteView):
+    success_url = reverse_lazy('njangi:user_account_list')
+
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('user_id')
+        if user_id:
+            try:
+                user = UserModel().objects.get(pk=user_id)
+                if self.request.user.user_account_id:
+                    account_manager.remove_user_from_user_account(
+                        user=user, user_account_id=self.request.user.user_account_id
+                    )
+            except UserModel().DoesNotExist:
+                pass
+        return HttpResponseRedirect(self.success_url)
+
+
+class UserAccountPackages(LoginRequiredMixin, generic.ListView):
+    template_name = 'njangi/premium/user_account_packages.html'
+    context_object_name = 'package_list'
+
+    def get_queryset(self):
+        return account_manager.get_user_account_packages()
+
+    def get_context_data(self, **kwargs):
+        context = super(UserAccountPackages, self).get_context_data(**kwargs)
+        context['subscription_types'] = subscription_types
+        return context
+
+
+class UserAccountPackageSubscriptionView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'njangi/premium/package_subscription.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        package_id = context['package_id']
+        package = account_manager.get_package(package_id)
+        if not package:
+            content = "<h2>%s</h2>" % _('Package Not Found')
+            return HttpResponseNotFound(content)
+        return super(UserAccountPackageSubscriptionView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(UserAccountPackageSubscriptionView, self).get_context_data(**kwargs)
+        package_id = kwargs.get('package_id')
+        subscription_type = kwargs.get('subscription_type')
+        context['package'] = account_manager.get_package(package_id)
+        context['subscription_type'] = subscription_type
+        context['subscription_types'] = subscription_types
+        return context
+
+    def post(self, request, *args, **kwargs):
+        package_id = kwargs.get('package_id')
+        subscription_type = kwargs.get('subscription_type')
+        amount = 0.00
+        package = account_manager.get_package(package_id)
+        user_account_id = None
+        if package:
+            if subscription_type == subscription_types.annually():
+                amount = package.annual_subscription
+            elif subscription_type == subscription_types.monthly():
+                amount = package.monthly_subscription
+            else:
+                context = self.get_context_data(**kwargs)
+                context['message'] = _('Invalid subscription. Please choose a subscription from the list')
+                context['status'] = 'error'
+
+                return render(request, self.template_name, context={
+                    'status': 'error', 'message': _('Invalid subscription. Please choose a subscription from the list'),
+                    'package': package, 'subscription_type': subscription_type,
+                    'subscription_types': subscription_types
+                })
+
+            if D(amount) <= 0.00:
+                return render(request, self.template_name, context={
+                    'status': 'error', 'message': _('Invalid subscription. Please choose a subscription from the list'),
+                    'package': package, 'subscription_type': subscription_type,
+                    'subscription_types': subscription_types
+                })
+
+            if request.user.user_account_id:
+                user_account_id = request.user.user_account_id
+            else:
+                r = account_manager.add_user_to_user_account(user=request.user)
+                if r['status'] == 'success':
+                    user_account_id = r['instance'].id
+
+            if user_account_id:
+                pay_response = wallet.pay_subscription(user=request.user, amount=amount)
+                if pay_response['status'] == 'success':
+                    account_manager.update_subscription(
+                        user_account_id=user_account_id, package_id=package_id, subscription=subscription_type
+                    )
+                    return render(request, self.template_name, context={
+                        'status': 'success', 'message': _('Subscription completed Successfully.'),
+                        'package': package, 'subscription_type': subscription_type,
+                        'subscription_types': subscription_types
+                    })
+                else:
+                    return render(request, self.template_name, context={
+                        'status': 'error', 'message': pay_response['message'],
+                        'package': package, 'subscription_type': subscription_type,
+                        'subscription_types': subscription_types
+                    })
+            else:
+                return render(request, self.template_name, context={
+                    'status': 'error', 'message': _('Please add the current user to your list of user accounts.'),
+                    'package': package, 'subscription_type': subscription_type,
+                    'subscription_types': subscription_types
+                })
+        else:
+            content = "<h2>%s</h2>" % _('Package does not exist.')
+            return HttpResponseNotFound(content=content, *args, **kwargs)
+

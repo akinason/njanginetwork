@@ -19,4 +19,13 @@ urlpatterns = [
         WalletLoadAndWithdrawConfirmView.as_view(), name='load_or_withdraw_confirm'),
     url(r'^wallet/(?P<nsp>[a-z_]+)/(?P<action>[a-z]+)/done/$', WalletLoadAndWithdrawDoneView.as_view(),
         name='load_or_withdraw_done'),
+
+    # Premium Service URLs
+    url(r'^premium/switch_user/(?P<user_id>[0-9]+)/$', SwitchUserView.as_view(), name='switch_user'),
+    url(r'^premium/account/list/$', UserAccountListView.as_view(), name='user_account_list'),
+    url(r'^premium/account/create/$', CreateUserAccountView.as_view(), name='add_user_account'),
+    url(r'^premium/account/(?P<user_id>[0-9]+)/remove/$', RemoveUserAccountView.as_view(), name='remove_user_account'),
+    url(r'^premium/account/packages/list/$', UserAccountPackages.as_view(), name='user_account_packages'),
+    url(r'^premium/account/package/subscription/(?P<subscription_type>[a-z]+)/(?P<package_id>[0-9]+)/$',
+        UserAccountPackageSubscriptionView.as_view(), name='package_subscription'),
 ]

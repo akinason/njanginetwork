@@ -1,21 +1,25 @@
-from njanginetwork.celery import app
-from django.core.mail import EmailMultiAlternatives, send_mail
-from django.template import loader
-from main.context_processors import SiteInformation
+import requests
+
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model as UserModel
-from purse.models import WalletManager
-from njangi.models import FailedOperations
-from twilio.rest import Client
-from njanginetwork import settings
-from main.core import NSP
-from main.models import TEL_MAX_LENGTH
-import os
+from django.template import loader
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.utils.http import urlencode
-import requests
+
+from twilio.rest import Client
+
+from main.models import TEL_MAX_LENGTH
+from main.context_processors import SiteInformation
+from main.core import NSP
+from njangi.models import FailedOperations, UserAccountManager
+from njanginetwork import settings
+from njanginetwork.celery import app
+from purse.models import WalletManager
+
 
 _nsp = NSP()
 wallet = WalletManager()
+account_manager = UserAccountManager()
 
 
 @app.task
@@ -518,6 +522,24 @@ def send_signup_welcome_email(user_id):
     except Exception as e:
         return False
 
+@app.task
+def send_user_account_subscription_deactivation_email(username, package_name, email):
+    subject = _('%s Package Deactivated') % package_name.upper()
+    message = _('Hi %(username)s!\n'
+                "Your subscription to the %(package_name)s package has been deactivated.\n"
+                "Please visit the website and update your subscription.\n"
+                "Thanks for Collaborating!") % {'package_name': package_name, 'username': username}
+    return send_email(subject=subject, message=message, to_email=email)
+
+
+@app.task
+def send_user_account_subscription_reminder_email(username, package_name, email, duration):
+    subject = _('%s Package Subscription Update Reminder') % package_name.upper()
+    message = _('Hi %(username)s!\n'
+                "Your subscription to the %(package_name)s package is coming due in %(duration)s.\n"
+                "Please visit Njangi Network Website and update your subscription.\n"
+                "Thanks for Collaborating!") % {'package_name': package_name, 'username': username, 'duration': duration}
+
 
 # SMS notifications.
 @app.task
@@ -971,3 +993,5 @@ def send_signup_welcome_sms(user_id):
     except Exception as e:
         return False
     return send_sms(to_number=to_number, body=_message)
+
+
