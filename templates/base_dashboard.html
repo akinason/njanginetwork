@@ -55,7 +55,7 @@
 								</li>
 								{% endfor %}
 								{% if not user_account %}
-									<li><a href=""><i class="fa fa-plus-square-o nav_icon"></i>{% trans 'add user account'|title %}</a></li>
+									<li><a href="{% url 'njangi:add_user_account' %}"><i class="fa fa-plus-square-o nav_icon"></i>{% trans 'add user account'|title %}</a></li>
 								{% elif use_account_list|length < user_account.limit %}
 									<li><a href="{% url 'njangi:add_user_account' %}"><i class="fa fa-plus-square-o nav_icon"></i>{% trans 'add another user'|title %}</a></li>
 								{% else %}

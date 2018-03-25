@@ -21,7 +21,8 @@ admin.site.register(
 )
 
 admin.site.register(LevelModel,
-                    list_display=('user', 'level', 'is_active', 'last_payment', 'total_sent', 'total_received')
+                    list_display=('user', 'level', 'is_active', 'last_payment', 'next_payment',
+                                  'total_sent', 'total_received')
                     )
 
 admin.site.register(
