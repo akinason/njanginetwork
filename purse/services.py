@@ -78,7 +78,7 @@ def _process_momo_operation(
             'client': _phone_number,
             'amount': amount,
             'sid': sid,
-            'email': 'njanginetwork@gmail.com',
+            'email': settings.AFKANERD_AUTH_EMAIL,
             'type': mm_request_type.afkanerd_payout() if operation_type == mm_request_type.payout() else mm_request_type.afkanerd_deposit(),
             'trackerId': log.tracker_id,
             'callbackUrl': callback_url
