@@ -79,16 +79,17 @@ def process_transaction_update(tracker_id, uuid, status_code):
                     status=trans_status.failed(), tracker_id=mm_transaction.tracker_id
                 )
 
-                mm_transaction.is_complete = True
-                mm_transaction.save()
+            mm_transaction.is_complete = True
+            mm_transaction.save()
     else:
+        # Looks like this transaction is not from our server, however, keep track of it.
         mm_transaction = momo_manager.send_request(
             request_type=momo_request_type.unknown(), nsp="unknown", tel="unknown", amount=0,
             provider="unknown", purpose="unknown", user=None
         )
         mm_transaction.tracker_id = tracker_id
         mm_transaction.message = uuid
-        mm_transaction.callback_status_code=status_code
+        mm_transaction.callback_status_code = status_code
         mm_transaction.is_complete = True
         mm_transaction.save()
 
