@@ -760,6 +760,7 @@ class MobileMoney(models.Model):
     provider = models.CharField(_('Service Provider'), max_length=100, blank=True)
     purpose = models.CharField(_('purpose'), max_length=50, blank=True)
     server_response = models.CharField(_('server response'), max_length=255, blank=True)
+    callback_server_response = models.CharField(_('callback server response'), max_length=255, blank=True)
     transaction_id = models.CharField(_('transaction id'), max_length=30, blank=True)
     request_date = models.DateTimeField(_('request date'), default=timezone.now)
     response_date = models.DateTimeField(_('response date'), blank=True, null=True)
@@ -807,7 +808,7 @@ class MobileMoneyManager:
     def get_response(self, mm_request_id, response_status=None, response_code=None, message=None,
                      transaction_id=None, response_transaction_date=None, callback_response_date=None,
                      callback_status_code=None, user_auth=None, server_response=None, processing_status=None,
-                     unique_id=None
+                     unique_id=None, callback_server_response=None, is_complete=False
                      ):
         try:
             mm_transaction = self.model.objects.get(pk=mm_request_id)
@@ -841,6 +842,10 @@ class MobileMoneyManager:
                 mm_transaction.processing_status = processing_status
             if unique_id:
                 mm_transaction.unique_id = unique_id
+            if callback_server_response:
+                mm_transaction.callback_server_response = callback_server_response
+            if is_complete:
+                mm_transaction.is_complete = True
             mm_transaction.save()
             return mm_transaction
         except self.model.DoesNotExist:

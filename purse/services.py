@@ -1,14 +1,17 @@
-import requests
 import decimal
-from django.utils.translation import ugettext_lazy as _
-from njanginetwork import settings
-from purse.models import TransactionStatus, WalletTransMessage, MobileMoneyManager, MMRequestType, MOMOAPIProvider, \
-    WalletManager, WalletTransDescription
-from mailer.services import send_admin_email
-from main.core import NSP
-from njanginetwork.celery import app
-from django.utils import timezone
+import requests
+
 from django.contrib.auth import get_user_model as UserModel
+from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+
+from main.core import NSP
+from njanginetwork import settings
+from njanginetwork.celery import app
+from purse.models import (
+    TransactionStatus, WalletTransMessage, MobileMoneyManager, MMRequestType, MOMOAPIProvider, WalletManager,
+    WalletTransDescription
+)
 
 
 trans_status = TransactionStatus()
@@ -129,11 +132,24 @@ def _process_momo_operation(
             except Exception:
                 pass
 
-            mm_manager.get_response(
-                mm_request_id=log.id, response_status=transaction_state, response_code=status_code, message=error_message,
-                response_transaction_date=timezone.now(), user_auth=user_auth, server_response=server_response,
-                unique_id=unique_id
-            )
+            if int(status_code) == 402:  # This means we do not have enough balance in the AFKANERD wallet.
+                                         # There will be no callback so consider the transaction as failed and complete.
+                wallet_manager.update_status(
+                    status=trans_status.failed(), tracker_id=log.tracker_id
+                )
+                mm_manager.get_response(
+                    mm_request_id=log.id, response_status=trans_status.failed(), response_code=status_code,
+                    message=error_message, response_transaction_date=timezone.now(), user_auth=user_auth,
+                    server_response=server_response, unique_id=unique_id, is_complete=True,
+                    callback_server_response=server_response, callback_status_code=status_code
+                )
+            else:
+                mm_manager.get_response(
+                    mm_request_id=log.id, response_status=transaction_state, response_code=status_code,
+                    message=error_message,
+                    response_transaction_date=timezone.now(), user_auth=user_auth, server_response=server_response,
+                    unique_id=unique_id
+                )
             returnable_response = {
                 'status': trans_status.success() if (int(status_code) and int(status_code) == 102) else trans_status.failure(),
                 'message': trans_message.success_message() if (int(status_code) and int(status_code) == 102) else trans_message.failed_message(),

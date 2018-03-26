@@ -38,11 +38,13 @@ def afknerdgsmtoolsview(request, *args, **kwargs):
         tracker_id = post_data.get('trackerId')
         unique_id = post_data.get('uniqueId')
         # print(uuid, server_response, status_code, tracker_id, unique_id)
-        process_transaction_update(tracker_id=tracker_id, uuid=uuid, status_code=status_code)
+        process_transaction_update(
+            tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response
+        )
     return JsonResponse(data={'status': 'success', 'message': 'Thanks'})
 
 
-def process_transaction_update(tracker_id, uuid, status_code):
+def process_transaction_update(tracker_id, uuid, status_code, server_response):
 
     # Check to ensure the transaction actually originated from our servers
     if momo_manager.is_valid(tracker_id=tracker_id, uuid=uuid):
@@ -52,7 +54,7 @@ def process_transaction_update(tracker_id, uuid, status_code):
             response_status = trans_status.failed()
         mm_transaction = momo_manager.get_response(
             mm_request_id=transaction_id, callback_status_code=status_code, response_status=response_status,
-            callback_response_date=timezone.now()
+            callback_response_date=timezone.now(), callback_server_response=server_response
         )
         if int(status_code) == 200 and not mm_transaction.is_complete:
             # Proceed to process the transaction.
@@ -75,7 +77,7 @@ def process_transaction_update(tracker_id, uuid, status_code):
                )
         else:
             if not mm_transaction.is_complete and mm_transaction.purpose == momo_purpose.wallet_withdraw():
-                r = wallet_manager.update_status(
+                wallet_manager.update_status(
                     status=trans_status.failed(), tracker_id=mm_transaction.tracker_id
                 )
 

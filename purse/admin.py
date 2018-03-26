@@ -20,7 +20,7 @@ class MobileMoneyAdmin(admin.ModelAdmin):
         'id', 'tracker_id', 'request_type', 'request_status', 'response_code', 'response_status',
         'callback_status_code', 'is_complete', 'tel', 'nsp', 'amount', 'charge', 'request_date',
         'response_date', 'message', 'transaction_id', 'user', 'response_transaction_date',
-        'user_auth', 'server_response', 'provider', 'purpose', 'callback_response_date',
+        'user_auth', 'server_response', 'callback_server_response', 'provider', 'purpose', 'callback_response_date',
         'recipient', 'uuid',
     )
 
