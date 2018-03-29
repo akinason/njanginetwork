@@ -1,14 +1,12 @@
 import json
-import requests
 
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 
 from main.core import TransactionStatus
+from main.notification import notification
 from njangi.tasks import process_contribution, process_wallet_load, process_wallet_withdraw
 from purse.models import (
     MobileMoneyManager, MOMOPurpose, MMRequestType, WalletManager
@@ -76,13 +74,21 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
                    tracker_id=mm_transaction.tracker_id, charge=mm_transaction.charge
                )
         else:
-            if not mm_transaction.is_complete and mm_transaction.purpose == momo_purpose.wallet_withdraw():
-                wallet_manager.update_status(
-                    status=trans_status.failed(), tracker_id=mm_transaction.tracker_id
-                )
+            if not mm_transaction.is_complete:
+                # First mark the failed transaction as complete.
+                mm_transaction.is_complete = True
+                mm_transaction.save()
 
-            mm_transaction.is_complete = True
-            mm_transaction.save()
+                # Insert a failure notification.
+                notification().templates.transaction_failed(
+                    user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount,
+                    nsp=mm_transaction.nsp
+                )
+                if mm_transaction.purpose == momo_purpose.wallet_withdraw():
+                    wallet_manager.update_status(
+                        status=trans_status.failed(), tracker_id=mm_transaction.tracker_id
+                    )
+
     else:
         # Looks like this transaction is not from our server, however, keep track of it.
         mm_transaction = momo_manager.send_request(

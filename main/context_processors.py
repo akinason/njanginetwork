@@ -1,9 +1,11 @@
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import get_user_model as UserModel
+
 from datetime import datetime
-from django.utils import timezone
+
 from django.contrib.sites.shortcuts import get_current_site
+from django.utils.translation import ugettext_lazy as _
+
 from main.utils import get_sponsor
+from main.notification import notification
 
 
 class SiteInformation:
@@ -35,6 +37,8 @@ class SiteInformation:
 def main_context_processors(request):
     context = {
         'site_info': SiteInformation(request),
-        'sponsor': get_sponsor(request)
+        'sponsor': get_sponsor(request),
+        'notification_list': notification().get_user_notifications(request.user.id),
+        'unread_notification_count': notification().get_unread_notification_count(request.user.id),
     }
     return context

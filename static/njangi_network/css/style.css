@@ -41,6 +41,17 @@ body a:hover{
 }
 /*-------HEADER SECTION------*/
 /* ----STICKY HEADER----*/
+.button {
+     background:none!important;
+     color:inherit;
+     border:none;
+     padding:0!important;
+     font: inherit;
+     /*border is optional*/
+     border-bottom:1px solid #444;
+     cursor: pointer;
+}
+
 .sticky-header{
     position: fixed;
     top: 0;
@@ -3984,4 +3995,5 @@ h4.title3 {
     margin: 1em auto 0;
 }
 }
+
 /*--//responsive-design---*/

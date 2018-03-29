@@ -1,11 +1,15 @@
-from .models import NjangiTree, LevelModel, NjangiTreeSide, NJANGI_LEVELS, LEVEL_CONTRIBUTIONS, \
-    NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP, \
-    NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
+import random
+
 from django.contrib.auth import get_user_model as UserModel
 from django.db.models import Q
 from main.utils import get_admin_users
 from django.utils import timezone
-import random
+
+from .models import (
+    NjangiTree, LevelModel, NjangiTreeSide, NJANGI_LEVELS, LEVEL_CONTRIBUTIONS,
+    NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP,
+    NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
+)
 from mailer import services as mailer_services
 
 tree_side = NjangiTreeSide()

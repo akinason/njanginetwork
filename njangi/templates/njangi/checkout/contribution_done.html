@@ -6,11 +6,12 @@
 <div class=" form-grids row form-grids-right">
     <div class="widget-shadow " data-example-id="basic-forms">
         <div class="form-title">
-            <h4>{% trans 'confirmation!!'|capfirst %}</h4>
+            <h4 style="color:green">{% trans 'confirmation!!'|capfirst %}</h4>
         </div>
         <div class="form-body">
             <form class="form-horizontal">
-                <h4>{% trans 'Your contribution is been processed. Your should receive a confirmation email and/or sms when its done.' %}</h4><br>
+                <h4>{% trans 'Your contribution is been processed. Use F5 to refresh and check your notifications to get the status.' %}</h4><br>
+                <h5 class="alert alert-success">{% trans 'If you did not use your wallet, check your phone to approve the mobile money cash out request' %}</h5>
             </form>
         </div>
     </div>

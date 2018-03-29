@@ -216,7 +216,7 @@ MOMO_AUTH_PASSWORD = 'scoolingS245@XM'
 AFKANERD_MOMO_URL = 'https://gsmtools.afkanerd.com/api/'
 AFKANERD_BASE_CALLBACK_URL = 'https://njanginetwork.com/purse/gsmtools/afkanerd/api/momo/'
 AFKANERD_AUTH_SID = 's45a1h9PHfqS9fhGE7MMkVJV0idSeXTa'
-AFKANERD_AUTH_EMAIL = 'njanginetwork@gmail.com'
+AFKANERD_AUTH_EMAIL = 'kinason42@gmail.com'
 
 # REDIS related settings
 REDIS_HOST = 'localhost'

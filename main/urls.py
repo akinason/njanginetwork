@@ -1,6 +1,9 @@
 from django.conf.urls import url
-from .views import SignupView, IndexView, PasswordResetView, PasswordResetConfirmView, PasswordResetCompleteView, \
-    PasswordChangeView, PasswordChangeDoneView, LoginView, LogoutView, ProfileChangeView, ContactView
+from .views import (
+    SignupView, IndexView, PasswordResetView, PasswordResetConfirmView, PasswordResetCompleteView,
+    PasswordChangeView, PasswordChangeDoneView, LoginView, LogoutView, ProfileChangeView, ContactView,
+    UpdateAllNotificationsView, UpdateNotificationView
+)
 from django.contrib.auth import views as auth_views
 
 app_name = 'main'
@@ -18,4 +21,10 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset/done/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^dashboard/profile_change/$', ProfileChangeView.as_view(), name='profile_change'),
+    url(r'^dashboard/notification/(?P<notification_id>[0-9]+)/update/$', UpdateNotificationView.as_view(),
+        name='update_notification'),
+    url(r'^dashboard/notification/update/all/$', UpdateAllNotificationsView.as_view(),
+        name='update_all_notifications'),
+
+
 ]

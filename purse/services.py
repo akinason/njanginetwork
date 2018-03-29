@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from main.core import NSP
+from main.notification import notification
 from njanginetwork import settings
 from njanginetwork.celery import app
 from purse.models import (
@@ -137,11 +138,20 @@ def _process_momo_operation(
                 wallet_manager.update_status(
                     status=trans_status.failed(), tracker_id=log.tracker_id
                 )
-                mm_manager.get_response(
+                mm_transaction = mm_manager.get_response(
                     mm_request_id=log.id, response_status=trans_status.failed(), response_code=status_code,
                     message=error_message, response_transaction_date=timezone.now(), user_auth=user_auth,
                     server_response=server_response, unique_id=unique_id, is_complete=True,
                     callback_server_response=server_response, callback_status_code=status_code
+                )
+                # notification().templates.withdrawal_failed(
+                #      user_id=mm_transaction.user.id, amount=mm_transaction.amount,
+                #      nsp=mm_transaction.nsp
+                # )
+                notification().templates.transaction_failed(
+                     user_id=mm_transaction.user.id, purpose=mm_transaction.purpose,
+                     amount=mm_transaction.amount,
+                     nsp=mm_transaction.nsp
                 )
             else:
                 mm_manager.get_response(

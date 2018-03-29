@@ -1,9 +1,21 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from main.models import LevelModel
+
+from main.models import LevelModel, Notification
 
 # Register your models here.
 # class UserAdmin():
+
+
+class NotificationAdmin(admin.ModelAdmin):
+    list_per_page = 15
+    search_fields = ('notification_type', 'user__username', 'text')
+    list_filter = ('type',)
+    list_display = (
+        'id', 'user', 'type', 'text', 'is_read', 'created_on', 'read_on', 'link'
+    )
+
+admin.site.register(Notification, NotificationAdmin)
 
 admin.site.register(
     get_user_model(),
@@ -20,3 +32,4 @@ admin.site.register(
         'monthly_profit', 'upgrade_after'
     )
 )
+

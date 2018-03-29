@@ -1,32 +1,34 @@
 import decimal
-from django.shortcuts import render
-from django.views import generic
-from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.contrib.auth import get_user_model as UserModel, login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-
-from purse.models import WalletManager, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER,  MOMOPurpose
-from njangi.models import LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree, UserAccountManager
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum, F, Value as V
 from django.db.models.functions import Coalesce
-from main.forms import SignupForm
-from .forms import ContributionConfirmForm
-from main.utils import get_sponsor
-from main.core import NSP
+from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from django.views import generic
+
+
 from mailer import services as mailer_services
+from main.core import NSP
+from main.forms import SignupForm
+from main.utils import get_sponsor
 from njangi.core import (
     add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, get_level_contribution_amount,
     get_processing_fee_rate
 )
-from django.urls import reverse_lazy, reverse
+from njangi.forms import ContributionConfirmForm
 from njangi.models import (
-    UserAccountSubscriptionType, NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE)
-
-from django.utils.translation import ugettext_lazy as _
+    UserAccountSubscriptionType, NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE,
+    LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree, UserAccountManager
+)
 from njangi.tasks import process_contribution
-from django.http import HttpResponseRedirect, HttpResponseNotFound
 from purse import services as purse_services
+from purse.models import WalletManager, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER,  MOMOPurpose
 
 wallet = WalletManager()
 account_manager = UserAccountManager()
@@ -809,4 +811,5 @@ class UserAccountPackageSubscriptionView(LoginRequiredMixin, generic.TemplateVie
         else:
             content = "<h2>%s</h2>" % _('Package does not exist.')
             return HttpResponseNotFound(content=content, *args, **kwargs)
+
 

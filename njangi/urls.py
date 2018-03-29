@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^premium/account/packages/list/$', UserAccountPackages.as_view(), name='user_account_packages'),
     url(r'^premium/account/package/subscription/(?P<subscription_type>[a-z]+)/(?P<package_id>[0-9]+)/$',
         UserAccountPackageSubscriptionView.as_view(), name='package_subscription'),
+
 ]

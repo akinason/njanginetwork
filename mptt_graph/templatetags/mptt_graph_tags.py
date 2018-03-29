@@ -6,6 +6,7 @@ from django import template
 
 register = template.Library()
 
+
 def recurse_nodes(node, previous_node=None, previous_nodename=''):
     output = []
     if previous_node is None:
@@ -23,13 +24,14 @@ def recurse_nodes(node, previous_node=None, previous_nodename=''):
     output.append(node_name+'.Nodes['+previous_nodename+'] = { '+content+' };')
     return '\n'.join(output)
 
+
 @register.inclusion_tag('mptt_graph/tree.html')
 def get_tree(modelpath, node=1):
     # get the model
     t = modelpath.split('.')
     modelname = t[-1]
     t.pop()
-    path ='.'.join(t)
+    path = '.'.join(t)
     module = importlib.import_module(path)
     model = getattr(module, modelname)
     # operations on tree

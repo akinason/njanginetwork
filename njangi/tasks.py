@@ -15,6 +15,7 @@ from njangi.models import (
     LevelModel, FailedOperations, AccountPackage, UserAccountSubscriptionType, UserAccountManager, LEVEL_CONTRIBUTIONS,
     WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP, CONTRIBUTION_INTERVAL_IN_DAYS
 )
+from main.notification import notification
 from njanginetwork.celery import app
 from purse import services as purse_services
 from purse.models import WalletManager
@@ -81,6 +82,9 @@ def process_contribution(level, nsp, processing_fee=0.00, user_id=None, recipien
                 'status': trans_status.failed(), 'message': trans_message.already_treated_transaction(),
                 'tracker_id': tracker_id
             }
+            notification().templates.transaction_failed(
+                user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
+            )
             return response
         if api_callback_status_code and (not int(api_callback_status_code) == 200):
             response = {
@@ -90,6 +94,9 @@ def process_contribution(level, nsp, processing_fee=0.00, user_id=None, recipien
                                                                      level=level, amount=recipient_amount)
             mailer_services.send_nsp_contribution_failed_sms.delay(user_id=mm_transaction.user.id, nsp=nsp,
                                                                    level=level, amount=recipient_amount)
+            notification().templates.transaction_failed(
+                user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
+            )
             return response
 
         thirdparty_reference = tracker_id
@@ -100,6 +107,9 @@ def process_contribution(level, nsp, processing_fee=0.00, user_id=None, recipien
         recipient = UserModel().objects.get(pk=recipient_id)
     else:
         response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
+        notification().templates.transaction_failed(
+            user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
+        )
         return response
 
     params = {'level': level, 'sender': user.username, 'recipient': recipient.username}
@@ -117,6 +127,10 @@ def process_contribution(level, nsp, processing_fee=0.00, user_id=None, recipien
             mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level,
                                                                      amount=amount)
             mailer_services.send_nsp_contribution_failed_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
+
+            notification().templates.transaction_failed(
+                user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
+            )
             return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
 
         response = wallet.load_and_contribute(
@@ -280,6 +294,9 @@ def process_contribution_response(
             mm_transaction.save()
 
         # Send a confirmation sms and/or email to sender.
+        notification().templates.transaction_successful(
+            user_id=user.id, purpose=momo_purpose.contribution(), amount=recipient_amount, nsp=nsp
+        )
         mailer_services.send_wallet_contribution_paid_email.delay(sender_id=user.id, recipient_id=recipient.id,
                                                                   amount=recipient_amount,
                                                                   processing_fee=processing_fee, nsp=nsp, level=level,

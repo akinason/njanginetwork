@@ -4,10 +4,13 @@
 {% block content %}
 <div class="form">
     <div class="grid_3 grid_5 widget-shadow">
-        <h3>{% trans 'Confirmation'|capfirst %} | {{ nsp|title }} {% trans 'mobile money'|title %}</h3>
+        <h3>{% trans 'Confirmation'|capfirst %} | {{ nsp|upper }} {% trans 'mobile money'|title %}</h3>
         <div class="well">
             <form class="form-horizontal" action="{% url 'njangi:nsp_contribution_confirmation' level=level nsp=nsp %}" method="post">
                 {% csrf_token %}
+                {% if nsp == 'mtn' or nsp == 'orange' %}
+                    <h4 class="alert alert-danger"><i style="color:red">{% trans 'NB: Normal Mobile Money Cash Out charges apply.' %}</i></h4>
+                {% endif %}
                 <input type="text" name="nsp" class="form-control hidden" id="nsp" value="{{ nsp }}" hidden>
                 <div class="form-group">
                     <label for="level" class="col-sm-4">{% trans 'level'|capfirst %}</label>

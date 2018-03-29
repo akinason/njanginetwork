@@ -151,3 +151,13 @@ class LevelModel(models.Model):
     cumm_contribution = models.DecimalField(_('cumm. contribution'), max_digits=10, decimal_places=2)
     monthly_profit = models.DecimalField(_('monthly profit'), max_digits=10, decimal_places=2)
     upgrade_after = models.PositiveIntegerField(_('upgrade after'), default=0)
+
+
+class Notification(models.Model):
+    type = models.CharField(_('notification type'), max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(_('notification'), max_length=255)
+    link = models.CharField(_('notification link'), max_length=255, blank=True)
+    is_read = models.BooleanField(_('is read'), default=False)
+    created_on = models.DateTimeField(_('creation date'), default=timezone.now)
+    read_on = models.DateTimeField(_('read on'), blank=True, null=True)

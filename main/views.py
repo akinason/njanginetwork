@@ -1,23 +1,26 @@
-from django.shortcuts import render, redirect
-from .forms import SignupForm, ProfileChangeForm, ContactForm
-from django.views import generic
+
+from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate
-from django.urls import reverse_lazy
-from .utils import add_sponsor_id_to_session, get_sponsor
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     LoginView as DefaultLoginView, PasswordResetView as DefaultPasswordResetView,
     PasswordResetConfirmView as DefaultPasswordConfirmView,
     PasswordResetCompleteView as DefaultPasswordResetCompleteView, PasswordChangeView as DefaultPasswordChangeView,
     PasswordChangeDoneView as DefaultPasswordChangeDoneView, LogoutView as DefaultLogoutView
 )
-from njangi.core import add_user_to_njangi_tree, create_user_levels
-from django.contrib.auth.mixins import LoginRequiredMixin
-from main import website
-from main.models import LevelModel
-from mailer import services as mailer_services
-from njanginetwork import settings
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.contrib import messages
+from django.views import generic
+
+from mailer import services as mailer_services
+from main import website
+from main.forms import SignupForm, ProfileChangeForm, ContactForm
+from main.models import LevelModel
+from main.notification import notification
+from main.utils import add_sponsor_id_to_session, get_sponsor
+from njangi.core import add_user_to_njangi_tree, create_user_levels
+from njanginetwork import settings
 
 
 class IndexView(generic.FormView):
@@ -157,3 +160,17 @@ class ContactView(generic.FormView):
         )
         return super(ContactView, self).form_valid(form)
 
+
+class UpdateAllNotificationsView(LoginRequiredMixin, generic.View):
+
+    def get(self, request, *args, **kwargs):
+        notification().mark_notifications_as_read(user_id=request.user.id)
+        return HttpResponseRedirect(reverse_lazy('njangi:dashboard'))
+
+
+class UpdateNotificationView(LoginRequiredMixin, generic.View):
+
+    def get(self, request, *args, **kwargs):
+        notification_id = kwargs.get('notification_id')
+        notification().update(notification_id=notification_id)
+        return HttpResponseRedirect(reverse_lazy('njangi:dashboard'))
