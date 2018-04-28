@@ -1,5 +1,6 @@
-from njangi.models import NjangiTree, UserAccountManager
+from blog.models import MainCategory
 from main.core import NSP
+from njangi.models import NjangiTree, UserAccountManager
 
 account_manager = UserAccountManager()
 
@@ -38,5 +39,6 @@ def njangi_context_processors(request):
         'user_node': get_user_node(request),
         'user_account': get_user_account(request),
         'user_account_list': get_user_account_list(request),
+        'main_category_list': MainCategory.objects.filter(is_published=True),
     }
     return context

@@ -43,6 +43,13 @@
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
+                        {% for category in main_category_list %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'blog:index' %}">{% trans 'blog'|title %}
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                     {% if user.is_authenticated %}
                         <ul class="navbar-nav">

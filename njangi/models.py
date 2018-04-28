@@ -434,7 +434,7 @@ class UserAccountManager:
             related_users = user_account.related_users
             try:
                 related_users.remove(self.user.id)
-                # if len(related_users) == 0:  # Delete the user account if it has not more related accounts.
+                # if len(related_users) == 0:  # Delete the user account if it has no more related accounts.
                 #     user_account.delete()
                 # else:
                 user_account.related_users = related_users
@@ -455,7 +455,7 @@ class UserAccountManager:
             return self.model.objects.none()
 
     def get_user_account_user_list(self, user_account_id):
-        # Returns a list of related_users instances
+        # Returns a list of related_users instances e.g. [34, 30, 5, 70]
 
         user_account = self.get_user_account(user_account_id)
         user_list = []
@@ -482,6 +482,11 @@ class UserAccountManager:
             return False
 
     def is_account_manager(self, user, user_account_id):
+        """
+        :param user: The user we wish to verify if he/she is an account manager.
+        :param user_account_id: The user_account_id of the account we wish to check in.
+        :return: True is the user is the account manager and False otherwise
+        """
         user_account = self.get_user_account(user_account_id)
         if user_account:
             return user == user_account.account_manager
@@ -499,6 +504,13 @@ class UserAccountManager:
             return False
 
     def update_subscription(self, user_account_id, package_id, subscription):
+        """
+        Updates the user's subscription to a package.
+        :param user_account_id: The user account id of the account to be updated.
+        :param package_id: The package_id of the package chosen
+        :param subscription: the subscription type (monthly or annually)
+        :return: An instance of the  user_account or False
+        """
         package = None
         user_account = None
         subscription_type = UserAccountSubscriptionType()
@@ -528,9 +540,32 @@ class UserAccountManager:
             user_account.limit = package.limit
             user_account.is_active = True
             user_account.save()
+            self.resize_user_account_related_users(user_account=user_account, size_limit=package.limit)
             return user_account
         else:
             return False
+
+    def resize_user_account_related_users(self, user_account, size_limit):
+        """
+        Resizes a user_account related user's len. Ensures the account manager is not removed from the list.
+
+        :param user_account:
+        :param size_limit: The maximum size of the related_user list.
+        :return: And instance of user_account
+        """
+        related_user_list = user_account.related_users
+        if len(related_user_list) < int(size_limit):
+            return user_account
+        else:
+            account_manager = user_account.account_manager
+            account_manager_id = 0 if not account_manager else account_manager.id
+            new_related_user_list = related_user_list[:size_limit]
+            if account_manager_id not in new_related_user_list:
+                del new_related_user_list[len(new_related_user_list)-1]
+                new_related_user_list.append(account_manager_id)
+            user_account.related_users = new_related_user_list
+            user_account.save()
+            return user_account
 
     def deactivate_subscription(self, user_account_id):
         user_account = self.get_user_account(user_account_id)

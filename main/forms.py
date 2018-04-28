@@ -39,8 +39,10 @@ class SignupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.sponsor = kwargs.pop("sponsor")
+        self.promoter = kwargs.pop('promoter')
+        print(self.sponsor, self.promoter)
         super(SignupForm, self).__init__(*args, **kwargs)
-        self.fields["sponsor"].initial = self.sponsor
+        self.fields["sponsor"].initial = self.promoter
         self.fields['sponsor'].widget = HiddenInput()
         self.fields['tel1'].required = False
         self.fields['tel2'].required = False

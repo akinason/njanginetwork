@@ -18,14 +18,14 @@
                 {% if user_node.has_left_downline %}
                 <div class="form-group">
                     <label for="referral_link">{% trans 'left promotion link'|title %} | <span style="color:rgb(0,255,0)">{{ user_node.get_left_downline_count }} {% trans 'left network members'|title  %}</span></label>
-                    <input type="url" class="form-control" id="left_referral_link" value="{{ protocol }}{{ site_info.website }}/signup/?rid={{ user_node.get_left_downline.user.sponsor_id }}">
+                    <input type="url" class="form-control" id="left_referral_link" value="{{ protocol }}{{ site_info.website }}/signup/?rid={{ user_node.get_left_downline.user.sponsor_id }}&pid={{ user.sponsor_id }}">
                     <p class="help-block">{% trans 'Share this link to your loved ones so they can signup under your left network.' %}</p>
                 </div>
                 {% endif %}
                 {% if user_node.has_right_downline %}
                 <div class="form-group">
                     <label for="referral_link">{% trans 'right promotion link'|title %} | <span style="color:rgb(0,255,0)">{{ user_node.get_right_downline_count }} {% trans 'right network members'|title  %}</span></label>
-                    <input type="url" class="form-control" id="right_referral_link" value="{{ protocol }}{{ site_info.website }}/signup/?rid={{ user_node.get_right_downline.user.sponsor_id }}">
+                    <input type="url" class="form-control" id="right_referral_link" value="{{ protocol }}{{ site_info.website }}/signup/?rid={{ user_node.get_right_downline.user.sponsor_id }}&pid={{ user.sponsor_id }}">
                     <p class="help-block">{% trans 'Share this link to your loved ones so they can signup under your right network.' %}</p>
                 </div>
                 {% endif %}

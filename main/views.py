@@ -18,7 +18,7 @@ from main import website
 from main.forms import SignupForm, ProfileChangeForm, ContactForm
 from main.models import LevelModel
 from main.notification import notification
-from main.utils import add_sponsor_id_to_session, get_sponsor
+from main.utils import add_sponsor_id_to_session, get_sponsor, get_promoter, add_promoter_id_to_session
 from njangi.core import add_user_to_njangi_tree, create_user_levels
 from njanginetwork import settings
 
@@ -33,11 +33,12 @@ class IndexView(generic.FormView):
        """
         kwargs = super(IndexView, self).get_form_kwargs()
         if self.request.method in ('GET', 'POST', 'PUT'):
-            kwargs.update({'sponsor': get_sponsor(self.request).pk})
+            kwargs.update({'sponsor': get_sponsor(self.request).pk, 'promoter': get_promoter(self.request)})
         return kwargs
 
     def get(self, request, *args, **kwargs):
         add_sponsor_id_to_session(request)
+        add_promoter_id_to_session(request)
         return super(IndexView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -62,7 +63,7 @@ class SignupView(generic.CreateView):
        """
         kwargs = super(SignupView, self).get_form_kwargs()
         if self.request.method in ('GET', 'POST', 'PUT'):
-            kwargs.update({'sponsor': get_sponsor(self.request).pk})
+            kwargs.update({'sponsor': get_sponsor(self.request).pk, 'promoter': get_promoter(self.request).pk})
         return kwargs
 
     def form_valid(self, form):
@@ -86,6 +87,7 @@ class SignupView(generic.CreateView):
 
     def get(self, request, *args, **kwargs):
         add_sponsor_id_to_session(request)
+        add_promoter_id_to_session(request)
         return super(SignupView, self).get(request, *args, **kwargs)
 
 

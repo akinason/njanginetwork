@@ -1,0 +1,27 @@
+{% extends "base_website.html" %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div id="cards" class="container" style="padding-bottom: 1px">
+<div class="section-title col-lg-8 col-md-10 ml-auto mr-auto">
+    <br>
+    <h3 class="mb-4" align="left">{% trans 'blog'|title %}</h3>
+    <p> </p>
+</div>
+
+<div class="example col-md-12 ml-auto mr-auto">
+    <div class="row">
+        <div class="col-lg-12 col-md-6 col-sm-12 mb-4 sm-hidden" align="left">
+            {% for post in post_list %}
+            <a href="{% url 'blog:post_detail' pk=post.id %}">{{ post.title }}</a><br>
+            {{ post.body|safe|truncatewords:20 }}<br>
+            {% trans 'posted on'|title %}: {{ post.created_on|date:'Y-M-d H:i' }} {% trans 'by'|title %}: {{ post.user.username }}
+            <hr>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

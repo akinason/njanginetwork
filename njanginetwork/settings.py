@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'phonenumber_field',
     'mptt_graph.apps.MpttGraphConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -235,7 +236,7 @@ TWILIO_PHONE_NUMBER = '+14154293468'
 TWILIO_VERIFIED_NUMBER = '+237675397307'
 
 
-if DEBUG:
+if DEBUG==False:
     INSTALLED_APPS += ['debug_toolbar',]
     INTERNAL_IPS = ['localhost', '127.0.0.1']
     # MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware',]

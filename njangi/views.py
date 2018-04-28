@@ -16,7 +16,7 @@ from django.views import generic
 from mailer import services as mailer_services
 from main.core import NSP
 from main.forms import SignupForm
-from main.utils import get_sponsor
+from main.utils import get_sponsor, get_promoter
 from njangi.core import (
     add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, get_level_contribution_amount,
     get_processing_fee_rate
@@ -91,7 +91,7 @@ class DashboardSignupView(generic.CreateView):
        """
         kwargs = super(DashboardSignupView, self).get_form_kwargs()
         if self.request.method in ('GET', 'POST', 'PUT'):
-            kwargs.update({'sponsor': get_sponsor(self.request).pk})
+            kwargs.update({'sponsor': get_sponsor(self.request).pk, 'promoter': get_promoter(self.request)})
         return kwargs
 
     def form_valid(self, form):

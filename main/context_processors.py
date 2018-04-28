@@ -4,7 +4,7 @@ from datetime import datetime
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import ugettext_lazy as _
 
-from main.utils import get_sponsor
+from main.utils import get_sponsor, get_promoter
 from main.notification import notification
 
 
@@ -16,7 +16,7 @@ class SiteInformation:
         self._name = _('Njangi Network')
         self._website = 'www.njanginetwork.com'
         self._current_date = datetime.now()
-        self._contact_numbers = '+237 675397307 | +237 655916762'
+        self._contact_numbers = '+237 675397307'
 
     def accronym(self):
         return self._accronym
@@ -38,6 +38,7 @@ def main_context_processors(request):
     context = {
         'site_info': SiteInformation(request),
         'sponsor': get_sponsor(request),
+        'promoter': get_promoter(request),
         'notification_list': notification().get_user_notifications(request.user.id),
         'unread_notification_count': notification().get_unread_notification_count(request.user.id),
     }

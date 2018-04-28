@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url('^graph/', include('mptt_graph.urls')),
     url(r'^purse/', include('purse.urls')),
+    url(r'^blog/', include('blog.urls')),
 ]
 
 if settings.DEBUG:

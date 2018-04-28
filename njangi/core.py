@@ -23,7 +23,6 @@ def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
         parent_user=sponsor,
         parent=sponsor_node,
     )
-    print('a new node has been created')
     return tree_node
 
 
