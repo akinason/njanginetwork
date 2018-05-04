@@ -26,7 +26,7 @@ from njangi.models import (
     UserAccountSubscriptionType, NSP_WALLET_LOAD_PROCESSING_FEE_RATE, NSP_WALLET_WITHDRAWAL_PROCESSING_FEE_RATE,
     LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree, UserAccountManager
 )
-from njangi.tasks import process_contribution
+from njangi.tasks import process_wallet_contribution
 from purse import services as purse_services
 from purse.models import WalletManager, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER,  MOMOPurpose
 
@@ -125,8 +125,6 @@ class ContributionCheckoutView(LoginRequiredMixin, generic.TemplateView):
         context['nsp'] = _nsp
         return context
 
-# class WalletCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
-
 
 class NSPContributionDoneView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'njangi/checkout/contribution_done.html'
@@ -191,8 +189,6 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
         nsp = self.get_context_data(**kwargs).pop('nsp')
         sender_tel = ''
 
-        print(processing_fee)
-
         if nsp == _nsp.mtn():
             if request.user.tel1 and request.user.tel1_is_verified:
                 sender_tel = request.user.tel1.national_number
@@ -227,10 +223,9 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
                     'status': 'warning'
                 })
             else:
-                process_contribution.delay(
-                        level=level, nsp=nsp, processing_fee=processing_fee, user_id=self.request.user.id,
-                        recipient_id=recipient.id
-                    )
+                process_wallet_contribution.delay(
+                    level=level, nsp=nsp, user_id=request.user.id, processing_fee=processing_fee
+                )
         elif nsp == _nsp.orange_wallet():
             return render(request, 'njangi/error.html', context={
                     'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
@@ -242,11 +237,9 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
             #         'status': 'warning'
             #     })
             # else:
-            #     process_contribution.delay(
-            #         level=level, nsp=nsp, processing_fee=processing_fee, user_id=self.request.user.id,
-            #         recipient_id=recipient.id
+            #     process_wallet_contribution.delay(
+            #         level=level, nsp=nsp, user_id=request.user.id, processing_fee=processing_fee
             #     )
-
         # else:
         #     return render(request, 'njangi/error.html', context={
         #         'message': _('Invalid request.'), 'status': 'warning'
@@ -606,7 +599,7 @@ class SwitchUserView(LoginRequiredMixin, generic.View):
         if user_account_id and user_id:
             if account_manager.user_is_in_list(user_id=user_id, user_account_id=user_account_id):
                 user_account = account_manager.get_user_account(user_account_id=user_account_id)
-                if user_account.is_active or user_account.last_payment > timezone.now:
+                if user_account.is_active or user_account.last_payment > timezone.now():
                     try:
                         user = UserModel().objects.get(pk=user_id)
                         login(self.request, user)

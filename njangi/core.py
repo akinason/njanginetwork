@@ -1,29 +1,30 @@
 import random
+import decimal
 
 from django.contrib.auth import get_user_model as UserModel
 from django.db.models import Q
 from main.utils import get_admin_users
 from django.utils import timezone
 
-from .models import (
-    NjangiTree, LevelModel, NjangiTreeSide, NJANGI_LEVELS, LEVEL_CONTRIBUTIONS,
-    NSP_CONTRIBUTION_PROCESSING_FEE_RATES, WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP,
-    NSP_CONTRIBUTION_PROCESSING_FEE_RATE, WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
-)
 from mailer import services as mailer_services
+from .models import (
+    NjangiTree, LevelModel, NjangiTreeSide, RemunerationPlan, NJANGI_LEVELS, LEVEL_CONTRIBUTIONS,
+    NSP_CONTRIBUTION_PROCESSING_FEE_RATES, NSP, NSP_CONTRIBUTION_PROCESSING_FEE_RATE,
+    WALLET_CONTRIBUTION_PROCESSING_FEE_RATES
+)
 
 tree_side = NjangiTreeSide()
 _nsp = NSP()
+D = decimal.Decimal
 
 
 def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
-    tree_node = NjangiTree.objects.create(
+    return NjangiTree.objects.create(
         user=user,
         side=side,
         parent_user=sponsor,
         parent=sponsor_node,
     )
-    return tree_node
 
 
 def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
@@ -92,7 +93,6 @@ def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
                     user=user, sponsor=node.user, sponsor_node=node, side=tree_side.left()
                 )
             elif node.is_leaf_node():
-                print('am a leaf node')
                 # Verify if a side was provided and matches the standards then position the user to
                 # corresponding side else position to the left.
                 if side and side in [tree_side.left(), tree_side.right()]:
@@ -157,7 +157,7 @@ def get_upline_to_pay_upgrade_contribution(user_id, level):
                     recipient_node = NjangiTree.objects.filter(user=recipient).get()
                     recipient_node_ancestors = recipient_node.get_ancestors(ascending=True).filter(
                         Q(user__is_active=True, user__level__gte=_level) | Q(user__is_admin=True)
-                    )
+                    )[:30]
                     # Loop through the list of recipient's ancestors and return the ancestor who is active in the level.
                     # NB: This will end up returning the admin if it gets to that level. The admin user is always active
                     for ancestor_node in recipient_node_ancestors:
@@ -260,3 +260,75 @@ def get_processing_fee_rate(level, nsp):
         return rate
     except KeyError:
         return rate
+
+
+def get_contribution_beneficiaries(contributor, level):
+    """
+    :param contributor: the user who wants to contribute
+    :param level: the contribution level
+    :return: a dictionary response or False
+
+    dictionary kwargs:  level -> int
+                        contributor -> user instance
+                        contribution_amount -> decimal
+                        recipient -> dict {user, amount}
+                        company_commission -> dict {user, amount}
+                        velocity_reserve -> dict {user, amount}
+                        direct_commission -> dict {user, amount}
+                        network_commission -> list [{user, amount}, {user, amount}]
+    """
+    contributor_node = NjangiTree.objects.filter(user=contributor).get()
+    _level = int(level)
+    beneficiaries = {'level': level, 'contributor': contributor}
+    admin_user = get_admin_users()[0]
+    remuneration = ""
+    try:
+        remuneration = RemunerationPlan.objects.get(level=level)
+    except RemunerationPlan.DoesNotExist:
+        return False
+
+    recipient = {
+        'user': get_upline_to_pay_upgrade_contribution(user_id=contributor.id, level=_level),
+        'amount': remuneration.recipient_amount
+    }
+    total_commission = D(remuneration.contribution_amount) - D(remuneration.recipient_amount)
+    company_commission = {'user': admin_user, 'amount': total_commission * D(remuneration.company_commission)}
+    velocity_reserve = {'user': admin_user, 'amount': total_commission * D(remuneration.velocity_reserve)}
+
+    left_user = ''
+    if contributor_node.has_left_downline():
+        left_user = contributor_node.get_left_downline().user
+        if not left_user.is_active or not left_user.level > 0:
+            left_user = admin_user
+    else:
+        left_user = admin_user
+    right_user = ""
+    if contributor_node.has_right_downline():
+        right_user = contributor_node.get_right_downline().user
+        if not right_user.is_active or not right_user.level > 0:
+            right_user = admin_user
+    else:
+        right_user = admin_user
+    network_commission = [
+        {'user': left_user, 'amount': total_commission * D(remuneration.network_commission) * D(0.5)},
+        {'user': right_user, 'amount': total_commission * D(remuneration.network_commission) * D(0.5)}
+    ]
+    direct_commission = {
+        'user': get_promoter(contributor), 'amount': total_commission * D(remuneration.direct_commission)
+    }
+
+    beneficiaries['contribution_amount'] = remuneration.contribution_amount
+    beneficiaries['recipient'] = recipient
+    beneficiaries['company_commission'] = company_commission
+    beneficiaries['velocity_reserve'] = velocity_reserve
+    beneficiaries['network_commission'] = network_commission
+    beneficiaries['direct_commission'] = direct_commission
+
+    return beneficiaries
+
+
+def get_promoter(user):
+    try:
+        return UserModel().objects.get(sponsor_id=user.sponsor)
+    except UserModel().DoesNotExist:
+        return get_admin_users()[0]

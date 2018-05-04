@@ -75,7 +75,6 @@ def _process_momo_operation(
                 information=information, force_withdraw=True, status=trans_status.pending(),
             )
         callback_url = get_afkanerd_callback_url(log.uuid)
-        # try:
         url = settings.AFKANERD_MOMO_URL
         sid = settings.AFKANERD_AUTH_SID
         params = {
@@ -89,12 +88,11 @@ def _process_momo_operation(
         }
 
         try:
-            r = requests.post(url=url, data=params, timeout=(60, 60))
-            # print(r.content, r.status_code)
-            response = r.json()
-            # import random
-            # response = {'statusCode': 200, 'userAuth': 'valid', 'trackerId': log.tracker_id,
-            #             'serverResponse': 'Everything moving on', 'uniqueId': random.randint(1000, 9999)}
+            # r = requests.post(url=url, data=params, timeout=(60, 60))
+            # response = r.json()
+            import random
+            response = {'statusCode': 200, 'userAuth': 'valid', 'trackerId': log.tracker_id,
+                        'serverResponse': 'Everything moving on', 'uniqueId': random.randint(1000, 9999)}
             # Treatment of the response
             status_code = 0
             user_auth = ''
@@ -144,10 +142,6 @@ def _process_momo_operation(
                     server_response=server_response, unique_id=unique_id, is_complete=True,
                     callback_server_response=server_response, callback_status_code=status_code
                 )
-                # notification().templates.withdrawal_failed(
-                #      user_id=mm_transaction.user.id, amount=mm_transaction.amount,
-                #      nsp=mm_transaction.nsp
-                # )
                 notification().templates.transaction_failed(
                      user_id=mm_transaction.user.id, purpose=mm_transaction.purpose,
                      amount=mm_transaction.amount,

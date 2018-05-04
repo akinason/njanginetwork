@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from main.core import TransactionStatus
 from main.notification import notification
-from njangi.tasks import process_contribution, process_wallet_load, process_wallet_withdraw
+from njangi.tasks import process_nsp_contribution, process_wallet_load, process_wallet_withdraw
 from purse.models import (
     MobileMoneyManager, MOMOPurpose, MMRequestType, WalletManager
 )
@@ -58,21 +58,19 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
             # Proceed to process the transaction.
             if mm_transaction.purpose == momo_purpose.contribution() and mm_transaction.level and \
              mm_transaction.request_type == momo_request_type.deposit():
-                r = process_contribution(
-                    level=mm_transaction.level, nsp=mm_transaction.nsp, user_id=mm_transaction.user.id,
-                    recipient_id=mm_transaction.recipient.id, tracker_id=mm_transaction.tracker_id
-                )
+                r = process_nsp_contribution(mm_transaction.tracker_id)
+                print(r)
             elif mm_transaction.purpose == momo_purpose.wallet_load():
-                r = process_wallet_load(
+                process_wallet_load(
                     user_id=mm_transaction.user.id, amount=mm_transaction.amount, nsp=mm_transaction.nsp,
                     tracker_id=mm_transaction.tracker_id, charge=mm_transaction.charge
                 )
             elif mm_transaction.purpose == momo_purpose.wallet_withdraw() or \
                     mm_transaction.purpose == momo_purpose.contribution_wallet_withdraw():
-               r = process_wallet_withdraw(
+                process_wallet_withdraw(
                    user_id=mm_transaction.recipient.id, amount=mm_transaction.amount, nsp=mm_transaction.nsp,
                    tracker_id=mm_transaction.tracker_id, charge=mm_transaction.charge
-               )
+                )
         else:
             if not mm_transaction.is_complete:
                 # First mark the failed transaction as complete.
@@ -102,22 +100,25 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
         mm_transaction.save()
 
 
-# from django.urls import reverse_lazy, reverse
-# from django.http import HttpResponse, HttpResponseRedirect
-# from django.contrib.auth import login, authenticate
-# from main.models import User
-#
-# class TestView(generic.TemplateView):
-#     template_name = 'purse/test.html'
-#     success_url = reverse_lazy('main:login')
-#
-#     def post(self, request, *args, **kwargs):
-#         url = 'http://localhost:8012/purse/gsmtools/afkanerd/api/momo/ca59a5f1-b4a5-4f19-ac51-0c079c0e0d6/'
-#         data = {'trackerId': 'L192', 'status': 'success', 'statusCode': 200, 'serverResponse': 'success'}
-#         headers = {'Content-Type': 'application/json', }
-#         response = requests.post(url, data=json.dumps(data), headers=headers)
-#         # print(response)
-#         # user = User.objects.get(username='kinason')
-#         # login(request, user)
-#         # return HttpResponseRedirect(reverse('main:login',), )
-#         return render(request, self.template_name)
+from django.urls import reverse_lazy, reverse
+import requests
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import login, authenticate
+from main.models import User
+from django.views import generic
+
+
+class TestView(generic.TemplateView):
+    template_name = 'purse/test.html'
+    success_url = reverse_lazy('main:login')
+
+    def post(self, request, *args, **kwargs):
+        url = 'http://localhost:8012/purse/gsmtools/afkanerd/api/momo/a59e90d9-3884-4410-9add-0a05f0cc046d/'
+        data = {'trackerId': 'L210', 'status': 'success', 'statusCode': 200, 'serverResponse': 'success'}
+        headers = {'Content-Type': 'application/json', }
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        print(response)
+        # user = User.objects.get(username='kinason')
+        # login(request, user)
+        return HttpResponseRedirect(reverse('purse:test_view',), )
+        # return render(request, self.template_name)

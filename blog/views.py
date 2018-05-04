@@ -76,5 +76,5 @@ class PostDetailView(generic.DetailView):
 
     def get_object(self, queryset=None):
         obj = super(PostDetailView, self).get_object(queryset=queryset)
-        obj.view_count += F(1)
+        obj.view_count = F('view_count') + 1
         return obj

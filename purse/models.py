@@ -1,18 +1,20 @@
 import decimal
 import uuid
+
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models, IntegrityError, transaction
 from django.db.models import Sum, F, Value as V, Q
 from django.db.models.functions import Coalesce
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import get_user_model
+from django.db.utils import DataError
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+
 from main.core import TransactionStatus, NSP_LIST, NSP
 from main.models import TEL_MAX_LENGTH
-from django.db.utils import DataError
+
 from njanginetwork import settings
 
-# Create your models here.
 D = decimal.Decimal
 MTN_MOBILE_MONEY_PARTNER = 'AURBANPAY'
 ORANGE_MOBILE_MONEY_PARTNER = 'Extended Limits Inc'
@@ -91,6 +93,11 @@ class WalletTransDescription:
     _funds_withdrawal = 'funds_withdrawal'
     _purchase = 'purchase'
     _user_account_subscription = 'user_account_subscription'
+    _commission = 'commission'
+    _network_commission = 'network_commission'
+    _velocity_reserve = 'velocity_reserve'
+    _company_commission = 'company_commission'
+    _direct_commission = 'direct_commission'
 
     def wallet_load(self):
         return self._wallet_load
@@ -119,6 +126,21 @@ class WalletTransDescription:
     def user_account_subscription(self):
         return self._user_account_subscription
 
+    def commission(self):
+        return self._commission
+
+    def velocity_reserve(self):
+        return self._velocity_reserve
+
+    def company_commission(self):
+        return self._company_commission
+
+    def direct_commission(self):
+        return self._direct_commission
+
+    def network_commission(self):
+        return self._network_commission
+
 
 class WalletTransMessage:
     _failed_message = _('operation failed.')
@@ -135,6 +157,8 @@ class WalletTransMessage:
     _invalid_transaction = _('invalid transaction')
     _not_a_x_transaction = _('not a %s transaction')
     _unauthenticated_transaction = _('unauthenticated transaction.')
+    _commission_received = _("%(commission)s from %(username)s level %(level)s contribution.")
+    _velocity_reserve = _("velocity reserve from %(username)s level %(level)s contribution.")
 
     def failed_message(self):
         return self._failed_message
@@ -168,6 +192,14 @@ class WalletTransMessage:
 
     def unauthenticated_transaction(self):
         return self._unauthenticated_transaction
+
+    def commission_received(self, commission, username, level):
+        return self._commission_received % {
+            'commission': commission.replace("_", " ").upper(), 'username': username, 'level': level
+        }
+
+    def velocity_reserve(self, username, level):
+        return self._velocity_reserve % {'username': username, 'level': level}
 
 
 class WalletTransStatus:
@@ -380,6 +412,7 @@ class WalletManager:
         return response
 
     def update_status(self, status, tracker_id):
+        # Update's the status of a transaction based on the tracker_id
         try:
             wallet = self.model.objects.filter(tracker_id=tracker_id).get()
             wallet.status = status
@@ -512,72 +545,98 @@ class WalletManager:
 
         return response
 
-    def contribute(self, sender, recipient, sender_amount, recipient_amount, information, nsp, sender_tel=None,
-                   recipient_tel=None, sender_charge=0.00, recipient_charge=0.00, thirdparty_reference=None,
-                   trans_code=None
-                   ):
+    def contribute(self, beneficiaries, nsp, processing_fee):
+        user = beneficiaries['contributor']
+        level = beneficiaries['level']
+        contribution_amount = beneficiaries['contribution_amount']
+        contribution_recipient = beneficiaries['recipient']['user']
+        object_list = []
 
-        try:
-            with transaction.atomic():
-                if not trans_code:
-                    trans_code = self._generate_trans_code()
-                pay_response = self._pay(user=sender, amount=sender_amount, nsp=nsp,
-                                         description=self.trans_description.contribution_paid(),
-                                         charge=sender_charge, tel=sender_tel,
-                                         thirdparty_reference=thirdparty_reference,
-                                         information=information, trans_code=trans_code
-                                         )
-                if pay_response['status'] == self.trans_status.success():
-                    load_response = self.load(user=recipient, amount=recipient_amount, nsp=nsp,
-                                              description=self.trans_description.contribution_received(),
-                                              charge=recipient_charge, tel=recipient_tel, information=information,
-                                              trans_code=trans_code, thirdparty_reference=thirdparty_reference,
-                                              sender=sender
-                                              )
-                    if load_response['status'] == self.trans_status.success():  # Construct the response.
-                        response = {
-                            'status': self.trans_status.success(),
-                            'message': self.trans_message.success_message(),
-                            'transactionCode': trans_code,
-                            'senderPhoneNumber': pay_response['phoneNumber'],
-                            'recipientPhoneNumber': load_response['phoneNumber'],
-                            'senderTransactionId': pay_response['transactionId'],
-                            'recipientTransactionId': load_response['transactionId'],
-                            'senderTransactionDate': pay_response['transactionDate'],
-                            'senderDescription': pay_response['description'],
-                            'recipientDescription': load_response['description'],
-                            'senderCharge': pay_response['charge'],
-                            'recipientCharge': load_response['charge'],
-                            'senderAmount': pay_response['amount'],
-                            'recipientAmount': load_response['amount']
-                        }
-                        return response
-                    else:
-                        # There was an error during execution, rollback the first operation "pay_response"
-                        # and return the load_response which contains the failed status.
-                        instance = pay_response['instance']
-                        instance.delete()
-                        return load_response
-                else:
-                    return pay_response
-        except IntegrityError:
-            response = {
-                'status': self.trans_status.failed(),
-                'message': self.trans_message.failed_message()
+        # Now let's proceed to the recipient
+        recipient = beneficiaries['recipient']['user']
+        recipient_amount = beneficiaries['recipient']['amount']
+        if recipient_amount > 0:
+            obj = {
+                'user': recipient, 'amount': recipient_amount,
+                'description': self.trans_description.contribution_received(),
+                'information': _('level %(level)s contribution received from %(username)s.') % {
+                    'level': level, 'username': user.username
+                }
             }
-            return response
-        except DataError:
-            response = {
-                'status': self.trans_status.failed(),
-                'message': self.trans_message.failed_message()
+            object_list.append(obj)
+
+        # Now to direct commission
+        recipient = beneficiaries['direct_commission']['user']
+        recipient_amount = beneficiaries['direct_commission']['amount']
+        if recipient_amount > 0:
+            obj = {
+                'user': recipient, 'amount': recipient_amount,
+                'description': self.trans_description.direct_commission(),
+                'information': _('level %(level)s direct commission received from %(username)s.') % {
+                    'level': level, 'username': user.username
+                }
             }
-            return response
-        except KeyError:
-            response = {
-                'status': self.trans_status.failed(),
-                'message': self.trans_message.failed_message()
+            object_list.append(obj)
+
+        # Now to velocity reserve
+        recipient = beneficiaries['velocity_reserve']['user']
+        recipient_amount = beneficiaries['velocity_reserve']['amount']
+        if recipient_amount > 0:
+            obj = {
+                'user': recipient, 'amount': recipient_amount,
+                'description': self.trans_description.velocity_reserve(),
+                'information': _('level %(level)s velocity reserve received from %(username)s.') % {
+                    'level': level, 'username': user.username
+                }
             }
-            return response
+            object_list.append(obj)
+
+        # Now to company commission
+        recipient = beneficiaries['company_commission']['user']
+        recipient_amount = beneficiaries['company_commission']['amount']
+        if recipient_amount > 0:
+            obj = {
+                'user': recipient, 'amount': recipient_amount,
+                'description': self.trans_description.company_commission(),
+                'information': _('level %(level)s company commission received from %(username)s.') % {
+                    'level': level, 'username': user.username
+                }
+            }
+            object_list.append(obj)
+
+        # Now to network commission
+        beneficiary_list = beneficiaries['network_commission']
+        for beneficiary in beneficiary_list:
+            recipient = beneficiary['user']
+            recipient_amount = beneficiary['amount']
+            if recipient_amount > 0:
+                obj = {
+                    'user': recipient, 'amount': recipient_amount,
+                    'description': self.trans_description.network_commission(),
+                    'information': _('level %(level)s network commission received from %(username)s.') % {
+                        'level': level, 'username': user.username
+                    }
+                }
+                object_list.append(obj)
+
+        # Remove the money from the contributor's account
+        response = self.pay(
+            user=user, amount=contribution_amount, description=self.trans_description.contribution_paid(),
+            information=_('level %(level)s contribution paid to %(recipient)s.') % {
+                'level': level, 'recipient': contribution_recipient.username
+            },
+            charge=processing_fee, nsp=nsp
+        )
+
+        if response['status'] == self.trans_status.success():
+            for obj in object_list:
+                self.load(
+                    user=obj['user'], amount=obj['amount'], nsp=nsp, description=obj['description'],
+                    information=obj['information'], sender=user
+                )
+        else:
+            return {'status': self.trans_status.failed(), 'message': self.trans_message.failed_message()}
+        return {'status': self.trans_status.success(), 'message': self.trans_message.success_message()}
 
     def withdraw(self, user, amount, nsp, charge=0.00, tel=None, thirdparty_reference=None,
                  information=None, force_withdraw=False, status=None, tracker_id=None):
@@ -589,72 +648,10 @@ class WalletManager:
             )
             return response
 
-    def load_and_contribute(self, user, recipient, loading_amount, contribution_amount, recipient_amount, information,
-                            nsp, loading_charge=0.00, recipient_charge=0.00, contribution_charge=0.00, sender_tel=None,
-                            recipient_tel=None, thirdparty_reference=None
-                            ):
-            # Funds the user's wallet and does a contribution to another person. Transaction will fail if the user
-            # has insufficient balance.
-            try:
-                trans_code = self._generate_trans_code()
-                load_response = self._load(
-                    user=user, amount=loading_amount, nsp=nsp, description=self.trans_description.wallet_load(),
-                    charge=loading_charge, tel=sender_tel, thirdparty_reference=thirdparty_reference,
-                    information=information, trans_code=trans_code
-                )
-
-                if load_response['status'] == self.trans_status.success():  # Proceed with the contribution.
-                    contribute_response = self.contribute(
-                        sender=user, recipient=recipient, sender_amount=contribution_amount,
-                        recipient_amount=recipient_amount, information=information, nsp=nsp, sender_tel=sender_tel,
-                        recipient_tel=recipient_tel, sender_charge=contribution_charge,
-                        recipient_charge=recipient_charge, thirdparty_reference=thirdparty_reference,
-                        trans_code=trans_code
-                    )
-
-                    if contribute_response['status'] == self.trans_status.success():
-
-                        # construct a response and return.
-                        contribute_response.update(
-                            {
-                                'loadAmount': load_response['amount'],
-                                'loadCharge': load_response['charge'],
-                                'loadPhoneNumber': load_response['phoneNumber'],
-                                'loadTransactionId': load_response['transactionId'],
-                                'loadDescription': load_response['description'],
-                                'loadTransactionDate': load_response['transactionDate'],
-                                'loadStatus': load_response['status'],
-                            }
-                        )
-                        return contribute_response
-                    else:
-                        # Rollback the load transaction and return the contribution_response which contains a
-                        # failed transaction status.
-                        instance = load_response['instance']
-                        instance.delete()
-                        return contribute_response
-                else:
-                    return load_response
-            except IntegrityError:
-                response = {
-                    'status': self.trans_status.failed(),
-                    'message': self.trans_message.failed_message(),
-                    'reason': 'IntegrityError'
-                }
-                return response
-            except DataError:
-                response = {
-                    'status': self.trans_status.failed(),
-                    'message': self.trans_message.failed_message(),
-                    'reason': 'DataError',
-                }
-                return response
-
     def transfer(self, sender, recipient, amount, information, nsp, sender_description=None, recipient_description=None,
                  sender_tel=None, recipient_tel=None, sender_charge=0.00, recipient_charge=0.00,
                  thirdparty_reference=None, trans_code=None
                  ):
-
         try:
             with transaction.atomic():
                 trans_code = trans_code if trans_code else self._generate_trans_code()
@@ -666,8 +663,8 @@ class WalletManager:
                 )
                 pay_response = self._pay(user=sender, amount=amount, nsp=nsp,
                                          description=_sender_description,
-                                         charge=sender_charge, tel=sender_tel, thirdparty_reference=thirdparty_reference,
-                                         information=information, trans_code=trans_code
+                                         charge=sender_charge, tel=sender_tel, information=information,
+                                         trans_code=trans_code, thirdparty_reference=thirdparty_reference,
                                          )
                 if pay_response['status'] == self.trans_status.success():
                     load_response = self.load(user=recipient, amount=amount, nsp=nsp,

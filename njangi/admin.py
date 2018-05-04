@@ -1,7 +1,9 @@
 from django.contrib import admin
 
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
-from njangi.models import LevelModel, NjangiTree, FailedOperations, AccountPackage, UserAccount
+from njangi.models import (
+    LevelModel, NjangiTree, FailedOperations, AccountPackage, UserAccount, RemunerationPlan
+)
 
 # Register your models here.
 
@@ -47,3 +49,12 @@ admin.site.register(
         'id', 'name', 'rank', 'limit','is_default', 'monthly_subscription', 'annual_subscription',
     )
 )
+
+
+class RemunerationPlanAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'level', 'contribution_amount', 'recipient_amount', 'company_commission', 'velocity_reserve',
+        'direct_commission', 'network_commission'
+    )
+
+admin.site.register(RemunerationPlan, RemunerationPlanAdmin)

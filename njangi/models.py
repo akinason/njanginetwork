@@ -41,11 +41,11 @@ WALLET_CONTRIBUTION_PROCESSING_FEE_RATES = {
 NJANGI_LEVELS = [1, 2, 3, 4, 5, 6]
 NJANGI_LEVEL_LIST = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6))
 LEVEL_CONTRIBUTIONS = {
-    1: 2000,
-    2: 3000,
-    3: 5000,
-    4: 10000,
-    5: 25000,
+    1: 5000,
+    2: 7000,
+    3: 10000,
+    4: 20000,
+    5: 30000,
     6: 50000,
 }
 CONTRIBUTION_INTERVAL_IN_DAYS = 30
@@ -318,6 +318,20 @@ class NjangiTree(MPTTModel):
             return queryset
         else:
             return NjangiTree.objects.filter(pk=self.pk)
+
+
+class RemunerationPlan(models.Model):
+    level = models.IntegerField(_('level'))
+    contribution_amount = models.DecimalField(_('contribution amount'), max_digits=10, decimal_places=2)
+    downlines = models.DecimalField(_('downlines'), max_digits=5, decimal_places=0)
+    recipient_amount = models.DecimalField(_('recipient amount'), max_digits=10, decimal_places=2)
+    company_commission = models.DecimalField(_('company commission'), max_digits=4, decimal_places=2)
+    direct_commission = models.DecimalField(_('direct commission'), max_digits=4, decimal_places=2)
+    velocity_reserve = models.DecimalField(_('velocity reserve'), max_digits=4, decimal_places=2)
+    network_commission = models.DecimalField(_('network commission'), max_digits=4, decimal_places=2)
+
+    def __str__(self):
+        return str(self.level) + " - " + str(self.contribution_amount)
 
 
 class AccountPackage(models.Model):
@@ -608,3 +622,4 @@ class UserAccountManager:
             return AccountPackage.objects.get(pk=package_id)
         except AccountPackage.DoesNotExist:
             return AccountPackage.objects.none()
+

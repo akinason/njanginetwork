@@ -10,14 +10,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from mailer import services as mailer_services
 from main.core import FailedOperationTypes, TransactionStatus
-from njangi.core import get_level_contribution_amount, get_upline_to_pay_upgrade_contribution
+from njangi.core import get_upline_to_pay_upgrade_contribution, get_contribution_beneficiaries
 from njangi.models import (
     LevelModel, FailedOperations, AccountPackage, UserAccountSubscriptionType, UserAccountManager, LEVEL_CONTRIBUTIONS,
-    WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP, CONTRIBUTION_INTERVAL_IN_DAYS
+    WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP, CONTRIBUTION_INTERVAL_IN_DAYS, RemunerationPlan
 )
 from main.notification import notification
 from njanginetwork.celery import app
-from purse import services as purse_services
 from purse.models import WalletManager
 from purse.models import (
     WalletTransStatus, WalletTransMessage, WalletTransDescription, MobileMoneyManager, MOMOPurpose,
@@ -39,315 +38,221 @@ momo_manager = MobileMoneyManager()
 momo_request_type = MMRequestType()
 user_account_subscription_type = UserAccountSubscriptionType()
 
+
 @app.task
-def process_contribution(level, nsp, processing_fee=0.00, user_id=None, recipient_id=None, tracker_id=None):
+def process_nsp_contribution(tracker_id):
     """
-    Processes the contribution and return the status of the transaction.
-    0. Request cash deposit from mobile money API (API request is not needed here.) **Deprecated**
-
-    1. Fund the users wallet if nsp=orange or mtn. (ignored if nsp=mtn_wallet or nsp=orange_wallet)
-    2. Transfer funds from user's wallet to recipient's wallet.
-    3. Request a withdrawal from the user's wallet.
-    4. Upgrade the user if user's level is less than this level.
-    5. Update user's LevelModel for last_payment, total_sent and update recipient's LevelModel with total_received.
+    Process contributions not deducting the money from user's wallet but rather from a mobile money transaction.
+    :param tracker_id: the tracker_id of the transaction from MobileMoney Model
+    :return: a dict response {status, message}: success or failed
+     Processes a contribution deducting the money from the user's wallet but ensuring the deposit was successful.
+        1) Check if the deposit was successful
+        2) Update the user's wallet balance
+        3) Process wallet contribution
     """
-    user = None
-    recipient = None
-    thirdparty_reference = None
-    mm_transaction = None
+    if not momo_manager.is_valid(tracker_id=tracker_id):
+        return {'status': trans_status.failed(), 'message': trans_message.invalid_transaction()}
 
-    contribution_amount = get_level_contribution_amount(level)
-    amount = contribution_amount
+    # 1 - Check if the deposit was successful
+    mm_transaction = momo_manager.get_mm_transaction(tracker_id=tracker_id)
+    api_callback_status_code = mm_transaction.callback_status_code
 
-    recipient_charge = 0.00
-    recipient_amount = contribution_amount
-
-    recipient_tel = None
-    sender_tel = None
-
-    if tracker_id and (nsp == service_provider.mtn() or nsp == service_provider.orange()):
-        if not momo_manager.is_valid(tracker_id=tracker_id):
-            response = {
-                'status': trans_status.failed(), 'message': trans_message.failed_message(), 'tracker_id': tracker_id
-            }
-            return response
-
-        mm_transaction = momo_manager.get_mm_transaction(tracker_id=tracker_id)
-        api_callback_status_code = mm_transaction.callback_status_code
-        processing_fee = mm_transaction.charge
-
-        if mm_transaction.is_complete or not mm_transaction.purpose == momo_purpose.contribution() or \
-                not mm_transaction.request_type == momo_request_type.deposit():
-            response = {
-                'status': trans_status.failed(), 'message': trans_message.already_treated_transaction(),
-                'tracker_id': tracker_id
-            }
-            notification().templates.transaction_failed(
-                user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
-            )
-            return response
-        if api_callback_status_code and (not int(api_callback_status_code) == 200):
-            response = {
-                'status': trans_status.failed(), 'message': trans_message.failed_message(), 'tracker_id': tracker_id
-            }
-            mailer_services.send_nsp_contribution_failed_email.delay(user_id=mm_transaction.user.id, nsp=nsp,
-                                                                     level=level, amount=recipient_amount)
-            mailer_services.send_nsp_contribution_failed_sms.delay(user_id=mm_transaction.user.id, nsp=nsp,
-                                                                   level=level, amount=recipient_amount)
-            notification().templates.transaction_failed(
-                user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
-            )
-            return response
-
-        thirdparty_reference = tracker_id
-        user = mm_transaction.user
-        recipient = mm_transaction.recipient
-    elif (nsp == service_provider.orange_wallet() or nsp == service_provider.mtn_wallet()) and user_id and recipient_id:
-        user = UserModel().objects.get(pk=user_id)
-        recipient = UserModel().objects.get(pk=recipient_id)
-    else:
-        response = {'status': trans_status.failed(), 'message': trans_message.failed_message()}
+    if mm_transaction.is_complete or not mm_transaction.purpose == momo_purpose.contribution() or \
+            not mm_transaction.request_type == momo_request_type.deposit():
+        response = {
+            'status': trans_status.failed(), 'message': trans_message.already_treated_transaction(),
+            'tracker_id': tracker_id
+        }
         notification().templates.transaction_failed(
-            user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
+            user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount,
+            nsp=mm_transaction.nsp
+        )
+        return response
+    if api_callback_status_code and (not int(api_callback_status_code) == 200):
+        response = {
+            'status': trans_status.failed(), 'message': trans_message.failed_message(), 'tracker_id': tracker_id
+        }
+        mailer_services.send_nsp_contribution_failed_email.delay(user_id=mm_transaction.user.id, nsp=mm_transaction.nsp,
+                                                                 level=mm_transaction.level, amount=mm_transaction.amount)
+        mailer_services.send_nsp_contribution_failed_sms.delay(user_id=mm_transaction.user.id, nsp=mm_transaction.nsp,
+                                                               level=mm_transaction.level, amount=mm_transaction.amount)
+        notification().templates.transaction_failed(
+            user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount,
+            nsp=mm_transaction.nsp
         )
         return response
 
-    params = {'level': level, 'sender': user.username, 'recipient': recipient.username}
-    information = _('level %(level)s contribution from %(sender)s to %(recipient)s.') % params
-    loading_amount = D(amount) + D(processing_fee)
-    loading_charge = 0.00
-    contribution_charge = processing_fee
-
-    if nsp == service_provider.mtn() or nsp == service_provider.orange():
-        if nsp == service_provider.mtn() and user.tel1 and user.tel1_is_verified:
-            sender_tel = user.tel1.national_number
-        elif nsp == service_provider.orange() and user.tel2 and user.tel2_is_verified:
-            sender_tel = user.tel2.national_number
-        else:
-            mailer_services.send_nsp_contribution_failed_email.delay(user_id=user.id, nsp=nsp, level=level,
-                                                                     amount=amount)
-            mailer_services.send_nsp_contribution_failed_sms.delay(user_id=user.id, nsp=nsp, level=level, amount=amount)
-
-            notification().templates.transaction_failed(
-                user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount, nsp=nsp
-            )
-            return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
-
-        response = wallet.load_and_contribute(
-            user=user, recipient=recipient, loading_amount=loading_amount, contribution_amount=contribution_amount,
-            recipient_amount=recipient_amount, loading_charge=loading_charge, recipient_charge=recipient_charge,
-            contribution_charge=contribution_charge, information=information, sender_tel=sender_tel,
-            recipient_tel=recipient_tel, thirdparty_reference=thirdparty_reference, nsp=nsp
-        )
-
-        # if the transaction is successful, update the user level, the njangi model and process the payout.
-        if response['status'] == trans_status.success():
-
-            process_contribution_response(response=response, user=user, recipient=recipient,
-                                          level=level, recipient_amount=recipient_amount, nsp=nsp,
-                                          processing_fee=recipient_charge, mm_transaction=mm_transaction
-                                          )
-            return {'status': trans_status.success(), 'message': trans_message.success_message()}
-        else:
-            FailedOperations.objects.create(
-                user=user, recipient=recipient, level=level, amount=amount, nsp=nsp, sender_tel=sender_tel,
-                processing_fee=processing_fee, transaction_id=thirdparty_reference,
-                status=trans_status.pending(), operation_type=fot.contribution(),
-                message=response['message'], response_status=response['status']
-            )
-            mailer_services.send_nsp_contribution_pending_email.delay(user_id=user.id, nsp=nsp, level=level,
-                                                                      amount=amount)
-            mailer_services.send_nsp_contribution_pending_sms.delay(user_id=user.id, nsp=nsp, level=level,
-                                                                    amount=amount)
-            return {'status': trans_status.pending(), 'message': trans_message.failed_message()}
-
-    elif nsp == service_provider.mtn_wallet():
-        # then processing will be done in the mtn wallet
-        nsp = service_provider.mtn()
-
-        response = wallet.contribute(
-            sender=user, recipient=recipient, sender_amount=contribution_amount, recipient_amount=recipient_amount,
-            information=information, nsp=nsp, sender_tel=sender_tel, recipient_tel=recipient_tel,
-            sender_charge=processing_fee, recipient_charge=recipient_charge, thirdparty_reference=thirdparty_reference
-        )
-
-        # if the transaction is successful, update the user level, the njangi model and process the payout.
-        if response['status'] == trans_status.success():
-            process_contribution_response(response=response, user=user, recipient=recipient,
-                                          level=level, recipient_amount=recipient_amount, nsp=nsp,
-                                          processing_fee=recipient_charge
-                                          )
-            return {'status': trans_status.success()}
-        else:
-            FailedOperations.objects.create(
-                user=user, recipient=recipient, level=level, amount=amount, nsp=service_provider.mtn_wallet(),
-                sender_tel=sender_tel, processing_fee=processing_fee, transaction_id=thirdparty_reference,
-                status=trans_status.pending(), operation_type=fot.contribution(), message=response['message'],
-                response_status=response['status']
-            )
-            mailer_services.send_wallet_contribution_failed_email.delay(
-                user_id=user.id, nsp=service_provider.mtn_wallet(), level=level, amount=amount
-            )
-            mailer_services.send_wallet_contribution_failed_sms.delay(
-                user_id=user.id, nsp=service_provider.mtn_wallet(), level=level, amount=amount
-            )
-            return {'status': trans_status.pending(), 'message': trans_message.failed_message()}
-
-    elif nsp == service_provider.orange_wallet():
-        # then processing will be done in the orange wallet
-        nsp = service_provider.orange()
-
-        response = wallet.contribute(
-            sender=user, recipient=recipient, sender_amount=contribution_amount, recipient_amount=recipient_amount,
-            information=information, nsp=nsp, sender_tel=sender_tel, recipient_tel=recipient_tel,
-            sender_charge=processing_fee, recipient_charge=recipient_charge, thirdparty_reference=thirdparty_reference
-        )
-
-        # if the transaction is successful, update the user level, the njangi model and process the payout.
-        if response['status'] == trans_status.success():
-            process_contribution_response(response=response, user=user, recipient=recipient,
-                                          level=level, recipient_amount=recipient_amount, nsp=nsp,
-                                          processing_fee=recipient_charge
-                                          )
-            return {'status': trans_status.success()}
-        else:
-            FailedOperations.objects.create(
-                user=user, recipient=recipient, level=level, amount=amount, nsp=service_provider.orange_wallet(),
-                sender_tel=sender_tel,
-                processing_fee=processing_fee, transaction_id=thirdparty_reference, status=trans_status.pending(),
-                operation_type=fot.contribution(), message=response['message'], response_status=response['status']
-            )
-            mailer_services.send_wallet_contribution_failed_email.delay(
-                user_id=user.id, nsp=service_provider.orange_wallet(), level=level, amount=amount
-            )
-            mailer_services.send_wallet_contribution_failed_sms.delay(
-                user_id=user.id, nsp=service_provider.orange_wallet(), level=level, amount=amount
-            )
-
-            return {'status': trans_status.pending(), 'message': trans_message.failed_message()}
-    else:
-        return {'status': trans_status.failed(), 'message': trans_message.failed_message()}
-
-
-def process_contribution_response(
-    response, user, recipient, level, recipient_amount, nsp, processing_fee, mm_transaction=None
-):
-    """
-    If the response status received is 'success' it does the following:
-        1) Upgrade the user level if need be.
-        2) Update the status of the user on the LevelModel: last_payment, next_payment, is_active, total_sent,
-           total_received etc
-        3) Update the recipient's LevelModel for total_received
-        4) Send emails and sms to the recipient and the sender
-        5) Process payout to the recipient
-        6) Return a response.
-    If the response status received is 'failed' then it returns a failed response as well.
-
-    :param response:
-    :param user:
-    :param recipient:
-    :param level:
-    :param recipient_amount:
-    :param nsp:
-    :param processing_fee:
-    :return: returns a dictionary response
-    :param mm_transaction: An instance of the mobile money transaction.
-    {'status': <success or failed>, 'message': <trans_message.success_message() or trans_message.failed_message()>}
-    """
-
+    # 2 - Update the user's wallet balance
+    response = wallet_manager.load(
+        user=mm_transaction.user, amount=mm_transaction.amount, nsp=mm_transaction.nsp,
+        description=trans_description.wallet_load(),
+        information=_('cash deposit through %s mobile money.') % mm_transaction.nsp.upper(), tel=mm_transaction.tel,
+    )
     if response['status'] == trans_status.success():
-        # proceed to upgrade the user level and the Level model.
-        if user.level < int(level):
-            user.level = level
-            user.save()
+        # mark the transaction as complete.
+        mm_transaction.is_complete = True
+        mm_transaction.save()
 
-        njangi_level, created = LevelModel.objects.get_or_create(user=user, level=level)
-        njangi_level.is_active = True
-        njangi_level.recipient = recipient
-        njangi_level.amount = recipient_amount
-        njangi_level.total_sent += recipient_amount
-        njangi_level.last_payment = timezone.now()
-
-        if njangi_level.next_payment:
-            next_payment = njangi_level.next_payment
-            if next_payment > timezone.now():
-                # If the user is paying in advance, increase the next due date starting from the previous due date.
-                next_payment_date = next_payment + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
-                njangi_level.next_payment = next_payment_date
-            else:
-                # But if the user is paying after the due date, just add the interval of contribution starting
-                # from today's date.
-                next_payment_date = timezone.now() + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
-                njangi_level.next_payment = next_payment_date
-        else:
-            njangi_level.next_payment = timezone.now() + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
-        njangi_level.save()
-
-        # Update the recipient's LevelModel's total_received.
-        njangi_level, created = LevelModel.objects.get_or_create(user=recipient, level=level)
-        njangi_level.total_received += recipient_amount
-        njangi_level.save()
-
-        # Mark the MOMO transaction as complete.
-        if mm_transaction:
-            mm_transaction.is_complete = True
-            mm_transaction.save()
-
-        # Send a confirmation sms and/or email to sender.
-        notification().templates.transaction_successful(
-            user_id=user.id, purpose=momo_purpose.contribution(), amount=recipient_amount, nsp=nsp
+    # 3 - process wallet contribution
+        res = process_wallet_contribution(
+            level=mm_transaction.level, nsp=mm_transaction.nsp, user_id=mm_transaction.user.id,
+            processing_fee=mm_transaction.charge
         )
-        mailer_services.send_wallet_contribution_paid_email.delay(sender_id=user.id, recipient_id=recipient.id,
-                                                                  amount=recipient_amount,
-                                                                  processing_fee=processing_fee, nsp=nsp, level=level,
-                                                                  )
-        mailer_services.send_wallet_contribution_paid_sms.delay(sender_id=user.id, recipient_id=recipient.id,
-                                                                amount=recipient_amount, processing_fee=processing_fee,
-                                                                nsp=nsp, level=level,
-                                                                )
-
-        # send sms or email to recipient notifying him/her of amount received in the wallet.
-        mailer_services.send_wallet_contribution_received_email.delay(sender_id=user.id, recipient_id=recipient.id,
-                                                                      nsp=nsp,
-                                                                      amount=recipient_amount, processing_fee=0.00,
-                                                                      level=level
-                                                                      )
-        mailer_services.send_wallet_contribution_received_sms.delay(sender_id=user.id, recipient_id=recipient.id,
-                                                                    nsp=nsp,
-                                                                    amount=recipient_amount, processing_fee=0.00,
-                                                                    level=level
-                                                                    )
-
-        # process payout to the recipient. Delay it and let Celery take over.
-        _nsp = None
-        tel = None
-        if nsp == service_provider.mtn() or nsp == service_provider.mtn_wallet():
-            _nsp = service_provider.mtn()
-            if recipient.tel1 and recipient.tel1_is_verified:
-                tel = recipient.tel1.national_number
-        elif nsp == service_provider.orange() or nsp == service_provider.orange_wallet():
-            _nsp = service_provider.orange()
-            if recipient.tel2 and recipient.tel2_is_verified:
-                tel = recipient.tel2.national_number
-        if tel:
-            purse_services.request_momo_payout(
-                phone_number=tel, amount=recipient_amount, user_id=recipient.id,
-                purpose=momo_purpose.contribution_wallet_withdraw(), nsp=_nsp, recipient_id=recipient.id, level=level,
-                processing_fee=processing_fee,
-            )
-
-        process_response = {
-            'status': trans_status.success(),
-            'message': trans_message.success_message()
-        }
-
-        return process_response
+        return res
     else:
-        process_response = {
-            'status': trans_status.failed(),
-            'message': trans_message.failed_message()
-        }
-        return process_response
+        # But if the operation is not successful, then something is really wrong. This is not suppose to happen.
+        # however, keep track of it.
+        FailedOperations.objects.create(
+            user=mm_transaction.user, recipient=mm_transaction.recipient, level=mm_transaction.level,
+            amount=mm_transaction.amount, nsp=mm_transaction.nsp, sender_tel=mm_transaction.amount,
+            processing_fee=mm_transaction.charge, transaction_id=mm_transaction.tracker_id,
+            status=trans_status.pending(), operation_type=fot.contribution(),
+            message=response['message'], response_status=response['status']
+        )
+        notification().templates.contribution_in_process(
+            user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount,
+            nsp=mm_transaction.nsp
+        )
+        return response
+
+
+@app.task
+def process_wallet_contribution(level, nsp, user_id, processing_fee=0.00):
+    """
+    :param level: The level for which the contribution is intended for
+    :param nsp: The Network Service Provider (mtn_wallet or orange_wallet)
+    :param user_id: The user_id of the user doing the contribution
+    :param processing_fee: contribution processing fees
+    :return: a dict response. {status, message}
+        Processes a contribution deducting the money from the user's wallet.
+        1) Ensure the user has sufficient funds
+        2) Generate the beneficiary's list
+        3) Process the contribution
+        4) Update statuses and Send notifications, emails, sms
+    """
+    _nsp = ""
+    if nsp == service_provider.orange() or nsp == service_provider.orange_wallet():
+        _nsp = service_provider.orange()
+    elif nsp == service_provider.mtn() or nsp == service_provider.mtn_wallet():
+        _nsp = service_provider.mtn()
+    remuneration = RemunerationPlan.objects.get(level=level)
+    user = UserModel().objects.get(id=user_id)
+    balance = wallet.balance(user=user, nsp=_nsp)
+
+    # 1 - Check balance
+    if balance < (D(remuneration.contribution_amount) + D(processing_fee)):
+        return {'status': trans_status.failed(), 'message': trans_message.insufficient_balance_message()}
+
+    # 2 - Get the beneficiaries of this contribution
+    beneficiaries = get_contribution_beneficiaries(contributor=user, level=level)
+
+    if not beneficiaries:
+        return {'status': trans_status.failed(), 'message': trans_message.insufficient_balance_message()}
+
+    # 3 - contribute
+    contribution_response = wallet_manager.contribute(
+        beneficiaries=beneficiaries, nsp=_nsp, processing_fee=processing_fee
+    )
+    if not contribution_response['status'] == trans_status.success():
+        return {'status': trans_status.failed(), 'message': contribution_response['message']}
+
+    # 4 - Update status and send notifications
+    update_status_and_send_notifications(beneficiaries=beneficiaries)
+
+    return {'status': trans_status.success(), 'message': trans_message.success_message()}
+
+
+def update_status_and_send_notifications(beneficiaries):
+
+    # Get done with the contributor.
+    user = beneficiaries['contributor']
+    level = beneficiaries['level']
+    recipient = beneficiaries['recipient']['user']
+    contribution_amount = beneficiaries['contribution_amount']
+    njangi_level, created = LevelModel.objects.get_or_create(user=user, level=level)
+    njangi_level.is_active = True
+    njangi_level.recipient = recipient
+    njangi_level.amount = contribution_amount
+    njangi_level.total_sent = F('total_sent') + D(contribution_amount)
+    njangi_level.last_payment = timezone.now()
+    if njangi_level.next_payment:
+        next_payment = njangi_level.next_payment
+        if next_payment > timezone.now():
+            # If the user is paying in advance, increase the next due date starting from the previous due date.
+            next_payment_date = next_payment + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
+            njangi_level.next_payment = next_payment_date
+        else:
+            # But if the user is paying after the due date, just add the interval of contribution starting
+            # from today's date.
+            next_payment_date = timezone.now() + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
+            njangi_level.next_payment = next_payment_date
+    else:
+        njangi_level.next_payment = timezone.now() + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
+    njangi_level.save()
+    notification().templates.transaction_successful(
+        user_id=user.id, purpose="level %s contribution" % level, amount=contribution_amount
+    )
+
+    # Now let's proceed to the recipient
+    recipient = beneficiaries['recipient']['user']
+    recipient_amount = beneficiaries['recipient']['amount']
+    if recipient_amount > 0:
+        njangi_level, created = LevelModel.objects.get_or_create(user=recipient, level=level)
+        njangi_level.total_received = F('total_received') + D(recipient_amount)
+        njangi_level.save()
+        notification().templates.contribution_received(
+            user_id=recipient.id, username=user.username, level=level, amount=recipient_amount
+        )
+
+    # Now to direct commission
+    recipient = beneficiaries['direct_commission']['user']
+    recipient_amount = beneficiaries['direct_commission']['amount']
+    if recipient_amount > 0:
+        njangi_level, created = LevelModel.objects.get_or_create(user=recipient, level=level)
+        njangi_level.total_received = F('total_received') + D(recipient_amount)
+        njangi_level.save()
+        notification().templates.commission_received(
+            user_id=recipient.id,
+            username=user.username, level=level, commission_type="direct commission", amount=recipient_amount
+        )
+
+    # Now to velocity reserve
+    recipient = beneficiaries['velocity_reserve']['user']
+    recipient_amount = beneficiaries['velocity_reserve']['amount']
+    if recipient_amount > 0:
+        njangi_level, created = LevelModel.objects.get_or_create(user=recipient, level=level)
+        njangi_level.total_received = F('total_received') + D(recipient_amount)
+        njangi_level.save()
+        notification().templates.commission_received(
+            user_id=recipient.id,
+            username=user.username, level=level, commission_type="velocity reserve", amount=recipient_amount
+        )
+
+    # Now to company commission
+    recipient = beneficiaries['company_commission']['user']
+    recipient_amount = beneficiaries['company_commission']['amount']
+    if recipient_amount > 0:
+        njangi_level, created = LevelModel.objects.get_or_create(user=recipient, level=level)
+        njangi_level.total_received = F('total_received') + D(recipient_amount)
+        njangi_level.save()
+        notification().templates.commission_received(
+            user_id=recipient.id,
+            username=user.username, level=level, commission_type="company commission", amount=recipient_amount
+        )
+
+    # Now to network commission
+    object_list = beneficiaries['network_commission']
+    for obj in object_list:
+        recipient = obj['user']
+        recipient_amount = obj['amount']
+        if recipient_amount > 0:
+            njangi_level, created = LevelModel.objects.get_or_create(user=recipient, level=level)
+            njangi_level.total_received = F('total_received') + D(recipient_amount)
+            njangi_level.save()
+            notification().templates.commission_received(
+                user_id=recipient.id,
+                username=user.username, level=level, commission_type="network commission", amount=recipient_amount
+            )
 
 
 def process_wallet_withdraw(user_id, amount, nsp, tracker_id, charge=0.00):
@@ -613,9 +518,8 @@ def process_automatic_contributions():
                 if (nsp == _nsp.orange_wallet() and obj.user.tel2 and obj.user.tel2_is_verified) or \
                         (nsp == _nsp.mtn_wallet() and obj.user.tel1 and obj.user.tel1_is_verified):
                     # Process the contribution from either orange_wallet or mtn_wallet.
-                    response = process_contribution(
-                        user_id=obj.user.id, recipient_id=recipient.id, level=level, nsp=nsp,
-                        processing_fee=processing_fee
+                    response = process_wallet_contribution(
+                        level=level, nsp=nsp, user_id=obj.user.id, processing_fee=processing_fee
                     )
 
                     if response['status'] == trans_status.success():
