@@ -16,6 +16,7 @@ from django.views import generic
 from mailer import services as mailer_services
 from main import website
 from main.forms import SignupForm, ProfileChangeForm, ContactForm
+from main.mixins import ContributionRequiredMixin
 from main.models import LevelModel
 from main.notification import notification
 from main.utils import add_sponsor_id_to_session, get_sponsor, get_promoter, add_promoter_id_to_session
@@ -55,7 +56,7 @@ class SignupView(generic.CreateView):
     context_object_name = 'user'
     form_class = SignupForm
     model = get_user_model()
-    success_url = reverse_lazy("main:login")
+    success_url = reverse_lazy("njangi:dashboard")
 
     def get_form_kwargs(self):
         """
@@ -75,8 +76,8 @@ class SignupView(generic.CreateView):
         user.save()
         self.object = user
         sponsor = get_sponsor(self.request)
-        add_user_to_njangi_tree(user=user, sponsor=sponsor)
-        create_user_levels(user=user)
+        # add_user_to_njangi_tree(user=user, sponsor=sponsor)
+        # create_user_levels(user=user)
         mailer_services.send_signup_welcome_sms(user_id=user.id)
         mailer_services.send_signup_welcome_email(user_id=user.id)
 
@@ -163,16 +164,18 @@ class ContactView(generic.FormView):
         return super(ContactView, self).form_valid(form)
 
 
-class UpdateAllNotificationsView(LoginRequiredMixin, generic.View):
+class UpdateAllNotificationsView(ContributionRequiredMixin, generic.View):
 
     def get(self, request, *args, **kwargs):
         notification().mark_notifications_as_read(user_id=request.user.id)
         return HttpResponseRedirect(reverse_lazy('njangi:dashboard'))
 
 
-class UpdateNotificationView(LoginRequiredMixin, generic.View):
+class UpdateNotificationView(ContributionRequiredMixin, generic.View):
 
     def get(self, request, *args, **kwargs):
-        notification_id = kwargs.get('notification_id')
+        notification_id = kwargs.get('pk')
+        if not notification_id:
+            notification_id = args[0]['pk']
         notification().update(notification_id=notification_id)
         return HttpResponseRedirect(reverse_lazy('njangi:dashboard'))

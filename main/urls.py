@@ -21,7 +21,7 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset/done/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^dashboard/profile_change/$', ProfileChangeView.as_view(), name='profile_change'),
-    url(r'^dashboard/notification/(?P<notification_id>[0-9]+)/update/$', UpdateNotificationView.as_view(),
+    url(r'^dashboard/notification/(?P<pk>[0-9]+)/update/$', UpdateNotificationView.as_view(),
         name='update_notification'),
     url(r'^dashboard/notification/update/all/$', UpdateAllNotificationsView.as_view(),
         name='update_all_notifications'),

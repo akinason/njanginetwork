@@ -1,0 +1,44 @@
+{% extends 'njangi/checkout/base_signup_contribution.html' %}
+
+{% load static i18n humanize njangi_tags main_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+
+<div class="content clearfix">
+    <!-- Cards -->
+    <div id="cards" class="container mb-2" style="padding-bottom: 1px">
+        <div class="section-title col-lg-11 col-md-11 ml-auto mr-auto">
+            <h3 class="mb-4" style="color:green" align="left">Almost done {{ user.first_name }}</h3>
+            <!-- <p>We wanted cards to stand out and bring depth without changing their original structure. All of this while allowing them to play well with the other components.</p> -->
+        </div>
+
+        <div class="example col-md-12 ml-auto mr-auto">
+            <div class="row">
+                <div class="col-lg-7 col-md-7 col-sm-12 mb-4 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:blue" align="right">hello! {{ user.username }} | <a href="{% url 'main:logout' %}">{% trans 'logout' %}</a></h5>
+                            <p class="card-text">In order to keep the Njangi Network community active, we require you to do your first contribution of {{ contribution_amount }} XAF. Please choose a method of payment for your contribution. </p>
+                            <!-- <a href="#" class="btn btn-primary">Continue >></a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-md-5 col-sm-12 mb-4 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Method of Payment</h5>
+                            <p class="card-text">Select method of payment below:</p>
+                            <a href="{% url 'njangi:signup_contribution_checkout' nsp='orange' %}" class="btn btn-primary">Orange  Money</a>
+                            <a href="{% url 'njangi:signup_contribution_checkout' nsp='mtn' %}" class="btn btn-primary">MTN Mobile Money</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

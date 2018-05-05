@@ -7,6 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from main.core import TransactionStatus
 from main.notification import notification
+from main.utils import get_sponsor_using_sponsor_id
+from njangi.core import add_user_to_njangi_tree, create_user_levels
 from njangi.tasks import process_nsp_contribution, process_wallet_load, process_wallet_withdraw
 from purse.models import (
     MobileMoneyManager, MOMOPurpose, MMRequestType, WalletManager
@@ -58,8 +60,7 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
             # Proceed to process the transaction.
             if mm_transaction.purpose == momo_purpose.contribution() and mm_transaction.level and \
              mm_transaction.request_type == momo_request_type.deposit():
-                r = process_nsp_contribution(mm_transaction.tracker_id)
-                print(r)
+                process_nsp_contribution.delay(mm_transaction.tracker_id)
             elif mm_transaction.purpose == momo_purpose.wallet_load():
                 process_wallet_load(
                     user_id=mm_transaction.user.id, amount=mm_transaction.amount, nsp=mm_transaction.nsp,
@@ -71,6 +72,19 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
                    user_id=mm_transaction.recipient.id, amount=mm_transaction.amount, nsp=mm_transaction.nsp,
                    tracker_id=mm_transaction.tracker_id, charge=mm_transaction.charge
                 )
+            elif mm_transaction.purpose == momo_purpose.signup_contribution():
+                # Add the user to network tree.
+                # create Njangi levels for the user.
+                # Process nsp contribution.
+                user = mm_transaction.user
+                if not user.is_in_network:
+                    sponsor = get_sponsor_using_sponsor_id(sponsor_id=user.sponsor)
+                    add_user_to_njangi_tree(user=user, sponsor=sponsor)
+                    create_user_levels(user=user)
+                user.has_contributed = True
+                user.save()
+                process_nsp_contribution(mm_transaction.tracker_id)
+
         else:
             if not mm_transaction.is_complete:
                 # First mark the failed transaction as complete.
@@ -86,6 +100,9 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
                     wallet_manager.update_status(
                         status=trans_status.failed(), tracker_id=mm_transaction.tracker_id
                     )
+            else:
+                # the transaction is already marked as complete. Just pass.
+                pass
 
     else:
         # Looks like this transaction is not from our server, however, keep track of it.
@@ -100,25 +117,25 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
         mm_transaction.save()
 
 
-from django.urls import reverse_lazy, reverse
-import requests
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import login, authenticate
-from main.models import User
-from django.views import generic
-
-
-class TestView(generic.TemplateView):
-    template_name = 'purse/test.html'
-    success_url = reverse_lazy('main:login')
-
-    def post(self, request, *args, **kwargs):
-        url = 'http://localhost:8012/purse/gsmtools/afkanerd/api/momo/a59e90d9-3884-4410-9add-0a05f0cc046d/'
-        data = {'trackerId': 'L210', 'status': 'success', 'statusCode': 200, 'serverResponse': 'success'}
-        headers = {'Content-Type': 'application/json', }
-        response = requests.post(url, data=json.dumps(data), headers=headers)
-        print(response)
-        # user = User.objects.get(username='kinason')
-        # login(request, user)
-        return HttpResponseRedirect(reverse('purse:test_view',), )
-        # return render(request, self.template_name)
+# # from django.urls import reverse_lazy, reverse
+# # import requests
+# # from django.http import HttpResponse, HttpResponseRedirect
+# # from django.contrib.auth import login, authenticate
+# # from main.models import User
+# # from django.views import generic
+# #
+# #
+# class TestView(generic.TemplateView):
+#     template_name = 'purse/test.html'
+#     success_url = reverse_lazy('main:login')
+#
+#     def post(self, request, *args, **kwargs):
+#         url = 'http://localhost:8012/purse/gsmtools/afkanerd/api/momo/8b0db72e-78ef-4eb2-adf1-9cbfd63346c8/'
+#         data = {'trackerId': 'L216', 'status': 'success', 'statusCode': 200, 'serverResponse': 'success'}
+#         headers = {'Content-Type': 'application/json', }
+#         response = requests.post(url, data=json.dumps(data), headers=headers)
+#         print(response)
+#         # user = User.objects.get(username='kinason')
+#         # login(request, user)
+#         return HttpResponseRedirect(reverse('purse:test_view',), )
+#         # return render(request, self.template_name)

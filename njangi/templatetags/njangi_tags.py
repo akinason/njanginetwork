@@ -7,7 +7,10 @@ register = template.Library()
 
 @register.simple_tag
 def level_contribution(level):
-    return LEVEL_CONTRIBUTIONS[level]
+    try:
+        return LEVEL_CONTRIBUTIONS[level]
+    except KeyError:
+        return 0
 
 
 @register.simple_tag(name='upgrade_to')

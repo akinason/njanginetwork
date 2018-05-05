@@ -157,6 +157,7 @@ class NotificationManager:
             )
 
         def transaction_failed(self, user_id, purpose, amount, nsp=None):
+            amount = round(amount)
             if nsp:
                 self.text = _('Your %(purpose)s of %(amount)s through %(nsp)s was not successful. Please try again') % {
                     'purpose': purpose.replace("_", " ").capitalize(), 'amount': amount, 'nsp': nsp.replace('_', ' ').upper()
@@ -168,6 +169,7 @@ class NotificationManager:
             return NotificationManager().create(notification_type=purpose, user_id=user_id, text=self.text)
 
         def transaction_successful(self, user_id, purpose, amount, nsp=None):
+            amount = round(amount)
             if nsp:
                 self.text = _('Your %(purpose)s of %(amount)s through %(nsp)s was successful.') % {
                     'purpose': purpose.replace("_", " ").capitalize(), 'amount': amount, 'nsp': nsp.replace('_', ' ').upper()
@@ -181,13 +183,14 @@ class NotificationManager:
         def commission_received(self, user_id, username, level, commission_type, amount):
             self.text = _("%(commission_type)s from %(username)s level %(level)s contribution. Amount: %(amount)s XAF") % {
                 'commission_type': commission_type.replace("_", " ").upper(), 'username': username, 'level': level,
-                'amount': amount
+                'amount': round(amount)
             }
             return NotificationManager().create(
                 notification_type=self.notification_type.commission_received(), user_id=user_id, text=self.text
             )
 
         def contribution_received(self, user_id, username, level, amount):
+            amount = round(amount)
             self.text = _("You have received %(amount)s as level %(level)s contribution from %(username)s.") % {
                 'amount': amount, 'level': level, 'username': username
             }
@@ -196,6 +199,7 @@ class NotificationManager:
             )
 
         def contribution_in_process(self, user_id, purpose, amount, nsp=None):
+            amount = round(amount)
             if nsp:
                 self.text = _('Your %(purpose)s of %(amount)s through %(nsp)s is in process. Thanks for contributing.') % {
                     'purpose': purpose.replace("_", " ").capitalize(), 'amount': amount,

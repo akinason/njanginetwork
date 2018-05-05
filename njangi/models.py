@@ -40,14 +40,14 @@ WALLET_CONTRIBUTION_PROCESSING_FEE_RATES = {
 
 NJANGI_LEVELS = [1, 2, 3, 4, 5, 6]
 NJANGI_LEVEL_LIST = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6))
-LEVEL_CONTRIBUTIONS = {
-    1: 5000,
-    2: 7000,
-    3: 10000,
-    4: 20000,
-    5: 30000,
-    6: 50000,
-}
+# LEVEL_CONTRIBUTIONS = {
+#     1: 5000,
+#     2: 7000,
+#     3: 10000,
+#     4: 20000,
+#     5: 30000,
+#     6: 50000,
+# }
 CONTRIBUTION_INTERVAL_IN_DAYS = 30
 # Network Service Provider List
 nsp = NSP()
@@ -623,3 +623,12 @@ class UserAccountManager:
         except AccountPackage.DoesNotExist:
             return AccountPackage.objects.none()
 
+
+def get_njangi_level_contributions():
+    object_list = RemunerationPlan.objects.values('level', 'contribution_amount')
+    contribution_dic = {}
+    for obj in object_list:
+        contribution_dic[obj['level']] = obj['contribution_amount']
+    return contribution_dic
+
+LEVEL_CONTRIBUTIONS = get_njangi_level_contributions()

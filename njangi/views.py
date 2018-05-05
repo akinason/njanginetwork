@@ -16,6 +16,7 @@ from django.views import generic
 from mailer import services as mailer_services
 from main.core import NSP
 from main.forms import SignupForm
+from main.mixins import ContributionRequiredMixin
 from main.utils import get_sponsor, get_promoter
 from njangi.core import (
     add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, get_level_contribution_amount,
@@ -38,7 +39,7 @@ momo_purpose = MOMOPurpose()
 subscription_types = UserAccountSubscriptionType()
 
 
-class DashboardView(LoginRequiredMixin, generic.TemplateView):
+class DashboardView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -80,7 +81,7 @@ class NetworkToolsView(generic.TemplateView):
         return super(NetworkToolsView, self).get(request, *args, **kwargs)
 
 
-class DashboardSignupView(generic.CreateView):
+class DashboardSignupView(ContributionRequiredMixin, generic.CreateView):
     form_class = SignupForm
     template_name = 'njangi/new_registration.html'
     success_url = reverse_lazy("njangi:dashboard")
@@ -109,7 +110,7 @@ class DashboardSignupView(generic.CreateView):
         return super(DashboardSignupView, self).form_valid(form)
 
 
-class ContributionCheckoutView(LoginRequiredMixin, generic.TemplateView):
+class ContributionCheckoutView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/checkout/contribution_checkout.html'
 
     def get_context_data(self, **kwargs):
@@ -126,11 +127,11 @@ class ContributionCheckoutView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class NSPContributionDoneView(LoginRequiredMixin, generic.TemplateView):
+class NSPContributionDoneView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/checkout/contribution_done.html'
 
 
-class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
+class NSPCheckoutConfirmView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/checkout/nsp_checkout_confirm.html'
     form_class = ContributionConfirmForm
 
@@ -140,7 +141,7 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
         amount = get_level_contribution_amount(level)
         recipient = get_upline_to_pay_upgrade_contribution(user_id=self.request.user.id, level=level)
         nsp = kwargs['nsp']
-        processing_fee = amount * get_processing_fee_rate(level=level, nsp=nsp)
+        processing_fee = round(amount * get_processing_fee_rate(level=level, nsp=nsp), 0)
 
         total = amount + processing_fee
         message = ''
@@ -293,7 +294,91 @@ class NSPCheckoutConfirmView(LoginRequiredMixin, generic.TemplateView):
         return super(NSPCheckoutConfirmView, self).get(request, *args, **kwargs)
 
 
-class WalletTransactionListView(LoginRequiredMixin, generic.ListView):
+class NSPSignupContributionView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'njangi/checkout/signup_contribution_notification.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.has_contributed:
+            return HttpResponseRedirect(reverse('njangi:dashboard'))
+        else:
+            return super(NSPSignupContributionView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(NSPSignupContributionView, self).get_context_data(**kwargs)
+        context['contribution_amount'] = round(LEVEL_CONTRIBUTIONS[1])
+        return context
+
+
+class NSPSignupContributionCheckoutView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'njangi/checkout/signup_contribution_checkout.html'
+
+    def get_context_data(self, **kwargs):
+        nsp = kwargs.get('nsp')
+        amount = get_level_contribution_amount(1)
+        processing_fee = round(amount * get_processing_fee_rate(1, nsp))
+        context = super(NSPSignupContributionCheckoutView, self).get_context_data(**kwargs)
+        context['service_provider'] = nsp
+        context['contribution_amount'] = amount
+        context['processing_fee'] = processing_fee
+        context['total'] = round(amount + processing_fee)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        nsp = kwargs.get('nsp')
+        if request.user.has_contributed:
+            return HttpResponseRedirect(reverse('njangi:dashboard'))
+
+        if nsp not in [_nsp.mtn(), _nsp.orange()]:
+            content = "<h2>%s</h2>" % _('Sorry the URL you requested was not found on this server')
+            return HttpResponseNotFound(content)
+        else:
+            if nsp == _nsp.orange():
+                subject = "No offence"
+                message = _("We are sorry that Orange Money services are temporally not available. We will inform you "
+                            "ones we set it up.")
+                return render(request, 'njangi/checkout/notification.html', {'subject': subject, 'message': message})
+            return super(NSPSignupContributionCheckoutView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        nsp = request.POST.get('nsp')
+        amount = request.POST.get('contribution_amount')
+        processing_fee = request.POST.get('processing_fee')
+        total = request.POST.get('total')
+        level = 1
+
+        if nsp == _nsp.orange():
+            subject = "No offence"
+            message = _("We are sorry that Orange Money services are temporally not available. We will inform you "
+                        "ones we set it up.")
+            return render(request, 'njangi/checkout/notification.html', {'subject': subject, 'message': message})
+        elif nsp == _nsp.mtn():
+            if request.user.tel1 and request.user.tel1_is_verified:
+                sender_tel = request.user.tel1.national_number
+                purse_services.request_momo_deposit.delay(
+                    phone_number=sender_tel, amount=total, user_id=request.user.id, nsp=nsp, level=level,
+                    purpose=momo_purpose.signup_contribution(), charge=processing_fee
+                )
+            else:
+                return render(request, 'njangi/checkout/notification.html', context={
+                    'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp.upper()},
+                    'subject': _('Phone number required')
+                })
+        return HttpResponseRedirect(reverse('njangi:signup_contribution_done'))
+
+
+class NSPSignupContributionDoneView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'njangi/checkout/signup_contribution_done.html'
+
+    def post(self, request, *args, **kwargs):
+        if request.user.has_contributed:
+            return HttpResponseRedirect(reverse('njangi:dashboard'))
+        else:
+            message = _("We are still processing your request. If it has been more that 5 minutes, "
+                        "please start all over.")
+            return render(request, self.template_name, {"message": message})
+
+
+class WalletTransactionListView(ContributionRequiredMixin, generic.ListView):
     template_name = 'njangi/statement.html'
     paginate_by = 10
     context_object_name = 'transaction_list'
@@ -318,7 +403,7 @@ class WalletTransactionListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class WalletLoadAndWithdrawChoiceView(LoginRequiredMixin, generic.TemplateView):
+class WalletLoadAndWithdrawChoiceView(ContributionRequiredMixin, generic.TemplateView):
     """
     View that displays the wallets and their balances for the user to chose which to
     perform an action on.
@@ -333,7 +418,7 @@ class WalletLoadAndWithdrawChoiceView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class WalletLoadAndWithdrawView(LoginRequiredMixin, generic.TemplateView):
+class WalletLoadAndWithdrawView(ContributionRequiredMixin, generic.TemplateView):
     """
     A view that receives the user's wallet choice and action and displays a form
     for the user to provide an amount. Then on post, processes the operation and
@@ -435,7 +520,7 @@ class WalletLoadAndWithdrawView(LoginRequiredMixin, generic.TemplateView):
         return super(WalletLoadAndWithdrawView, self).get(request, *args, **kwargs)
 
 
-class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView):
+class WalletLoadAndWithdrawConfirmView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/checkout/load_or_withdraw_confirm.html'
 
     def get_context_data(self, **kwargs):
@@ -578,7 +663,7 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
         )
 
 
-class WalletLoadAndWithdrawDoneView(LoginRequiredMixin, generic.TemplateView):
+class WalletLoadAndWithdrawDoneView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/checkout/load_or_withdraw_done.html'
 
     def get_context_data(self, **kwargs):
@@ -590,7 +675,7 @@ class WalletLoadAndWithdrawDoneView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class SwitchUserView(LoginRequiredMixin, generic.View):
+class SwitchUserView(ContributionRequiredMixin, generic.View):
 
     # View responsible for switching a user from the dashboard.
     def get(self, request, *args, **kwargs):
@@ -613,7 +698,7 @@ class SwitchUserView(LoginRequiredMixin, generic.View):
         return HttpResponseRedirect(reverse('njangi:dashboard',))
 
 
-class UserAccountListView(LoginRequiredMixin, generic.ListView):
+class UserAccountListView(ContributionRequiredMixin, generic.ListView):
     template_name = 'njangi/premium/user_account_list.html'
     paginate_by = 5
     context_object_name = 'user_account_list'
@@ -625,7 +710,7 @@ class UserAccountListView(LoginRequiredMixin, generic.ListView):
             return []
 
 
-class CreateUserAccountView(LoginRequiredMixin, generic.View):
+class CreateUserAccountView(ContributionRequiredMixin, generic.View):
     template_name = 'njangi/premium/add_user_account.html'
     form = AuthenticationForm
 
@@ -691,7 +776,7 @@ class CreateUserAccountView(LoginRequiredMixin, generic.View):
         )
 
 
-class RemoveUserAccountView(LoginRequiredMixin, generic.DeleteView):
+class RemoveUserAccountView(ContributionRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy('njangi:user_account_list')
 
     def get(self, request, *args, **kwargs):
@@ -708,7 +793,7 @@ class RemoveUserAccountView(LoginRequiredMixin, generic.DeleteView):
         return HttpResponseRedirect(self.success_url)
 
 
-class UserAccountPackages(LoginRequiredMixin, generic.ListView):
+class UserAccountPackages(ContributionRequiredMixin, generic.ListView):
     template_name = 'njangi/premium/user_account_packages.html'
     context_object_name = 'package_list'
 
@@ -721,7 +806,7 @@ class UserAccountPackages(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class UserAccountPackageSubscriptionView(LoginRequiredMixin, generic.TemplateView):
+class UserAccountPackageSubscriptionView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/premium/package_subscription.html'
 
     def get(self, request, *args, **kwargs):

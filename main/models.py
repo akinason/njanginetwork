@@ -100,6 +100,9 @@ class User(AbstractUser):
     tel3_is_verified = models.BooleanField(default=False)
     email_is_verified = models.BooleanField(default=False)
 
+    has_contributed = models.BooleanField(default=False)
+    is_in_network = models.BooleanField(default=False)
+
     object = UserManager()
 
     USERNAME_FIELD = 'username'

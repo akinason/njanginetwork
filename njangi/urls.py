@@ -20,6 +20,12 @@ urlpatterns = [
     url(r'^wallet/(?P<nsp>[a-z_]+)/(?P<action>[a-z]+)/done/$', WalletLoadAndWithdrawDoneView.as_view(),
         name='load_or_withdraw_done'),
 
+    # Signup Contribution URLs
+    url(r'^signup/contribution/required/$', NSPSignupContributionView.as_view(), name='signup_contribution_required'),
+    url(r'^signup/contribution/(?P<nsp>[a-z]+)/checkout/$', NSPSignupContributionCheckoutView.as_view(),
+        name='signup_contribution_checkout'),
+    url(r'^signup/contribution/done/$', NSPSignupContributionDoneView.as_view(), name='signup_contribution_done'),
+
     # Premium Service URLs
     url(r'^premium/switch_user/(?P<user_id>[0-9]+)/$', SwitchUserView.as_view(), name='switch_user'),
     url(r'^premium/account/list/$', UserAccountListView.as_view(), name='user_account_list'),

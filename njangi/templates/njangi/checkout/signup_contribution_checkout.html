@@ -1,0 +1,75 @@
+{% extends 'njangi/checkout/base_signup_contribution.html' %}
+
+{% load static i18n humanize njangi_tags main_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+ <div class="content clearfix">
+    <!-- Cards -->
+    <div id="cards" class="container mb-2" style="padding-bottom: 1px">
+       <div class="section-title col-lg-8 col-md-8 ml-auto mr-auto">
+            <h3 class="mb-4" style="color:green" align="left">Just one last step {{ user.first_name }}</h3>
+            <!-- <p>We wanted cards to stand out and bring depth without changing their original structure. All of this while allowing them to play well with the other components.</p> -->
+       </div>
+        <div class="example col-md-12 ml-auto mr-auto">
+            <div class="row">
+                <div class="col-lg-2 col-md-7 col-sm-12 mb-4 "></div>
+                <div class="col-lg-8 col-md-7 col-sm-12 mb-4 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:blue" align="right">{{ user.username }} | <a href="{% url 'main:logout' %}">{% trans 'logout' %}</a></h5>
+                            <h5 class="card-text" style="">{{ nsp|upper }} Mobile Money | Level 1 Contribution</h5>
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <form method="post" action="{% url 'njangi:signup_contribution_checkout' nsp %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                {% trans "Amount"|title %}
+                                                <div class="input-group with-addon-icon-left">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-money"></i>
+                                                    </span>
+                                                    <input type="text" class="form-control" value="{{ nsp }}" hidden name="nsp">
+                                                    <input type="text" class="form-control" value="{{ contribution_amount }}" name="contribution_amount" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                {% trans "Processing fee"|title %}
+                                                <div class="input-group with-addon-icon-left">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-money"></i>
+                                                    </span>
+                                                    <input type="text" class="form-control" value="{{ processing_fee }}"  name="processing_fee" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                {% trans "Total"|title %}
+                                                <div class="input-group with-addon-icon-left">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-money"></i>
+                                                    </span>
+                                                    <input type="text" class="form-control" value="{{ total }}" name="total" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="card-text" style="color:red">
+                                            {% trans "NB: Normal Mobile Money Cashout charges apply" %} <br><span style="color:black">{% trans "A mobile Money Cashout request will be sent to" %}:
+                                            {% if nsp == 'mtn' %} {{ user.tel1 }} {% elif nsp == 'orange' %} {{ user.tel2 }} {% else %} {% trans 'NA' %} {% endif %}</span>
+                                            <a href="{% url 'main:profile_change' %}"><u>{% trans 'edit' %}</u></a>
+                                        </p>
+                                        <hr>
+                                        <input type="submit" class="btn btn-primary" name="submit" value="{% trans 'request Cashout'|title %}">
+                                        <a href="{% url 'njangi:signup_contribution_required' %}" class="btn btn-primary">{% trans "Cancel Operation"|title %}</a>
+                                    </form
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-5 col-sm-12 mb-4 "> </div>
+            </div>
+        </div>
+    </div>
+ </div>
+{% endblock %}

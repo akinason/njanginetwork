@@ -57,8 +57,10 @@ def process_nsp_contribution(tracker_id):
     mm_transaction = momo_manager.get_mm_transaction(tracker_id=tracker_id)
     api_callback_status_code = mm_transaction.callback_status_code
 
-    if mm_transaction.is_complete or not mm_transaction.purpose == momo_purpose.contribution() or \
-            not mm_transaction.request_type == momo_request_type.deposit():
+    if mm_transaction.is_complete or not (mm_transaction.purpose == momo_purpose.contribution() or
+                                          mm_transaction.purpose == momo_purpose.signup_contribution()) or not \
+            mm_transaction.request_type == momo_request_type.deposit():
+
         response = {
             'status': trans_status.failed(), 'message': trans_message.already_treated_transaction(),
             'tracker_id': tracker_id
@@ -189,6 +191,10 @@ def update_status_and_send_notifications(beneficiaries):
     else:
         njangi_level.next_payment = timezone.now() + datetime.timedelta(days=CONTRIBUTION_INTERVAL_IN_DAYS)
     njangi_level.save()
+
+    if int(user.level) < int(level):
+        user.level = level
+        user.save()
     notification().templates.transaction_successful(
         user_id=user.id, purpose="level %s contribution" % level, amount=contribution_amount
     )

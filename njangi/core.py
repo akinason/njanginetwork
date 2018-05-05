@@ -3,6 +3,7 @@ import decimal
 
 from django.contrib.auth import get_user_model as UserModel
 from django.db.models import Q
+from django.db.utils import IntegrityError
 from main.utils import get_admin_users
 from django.utils import timezone
 
@@ -19,12 +20,16 @@ D = decimal.Decimal
 
 
 def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
-    return NjangiTree.objects.create(
+
+    obj, created = NjangiTree.objects.get_or_create(
         user=user,
         side=side,
         parent_user=sponsor,
         parent=sponsor_node,
     )
+    user.is_in_network = True
+    user.save()
+    return obj
 
 
 def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
@@ -37,7 +42,7 @@ def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
 
     if user.is_admin:
         # add as a root node.
-        tree_node = NjangiTree.objects.create(user=user)
+        tree_node, created = NjangiTree.objects.get_or_create(user=user)
         return tree_node
     else:
         # The Njangi Tree Node for the sponsor.
@@ -107,7 +112,7 @@ def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
 
 def create_user_levels(user):
     for level in NJANGI_LEVELS:
-        obj = LevelModel.objects.create(user=user, level=level, is_active=False)
+        obj, created = LevelModel.objects.get_or_create(user=user, level=level)
         if user.is_admin:
             obj.is_active = True
             obj.save()
@@ -251,12 +256,12 @@ def recipient_can_receive_level_contribution(recipient, level, amount):
 
 
 def get_processing_fee_rate(level, nsp):
-    rate = NSP_CONTRIBUTION_PROCESSING_FEE_RATE
+    rate = D(NSP_CONTRIBUTION_PROCESSING_FEE_RATE)
     try:
         if nsp == _nsp.orange() or nsp == _nsp.mtn():
-            rate = NSP_CONTRIBUTION_PROCESSING_FEE_RATES[int(level)]
+            rate = D(NSP_CONTRIBUTION_PROCESSING_FEE_RATES[int(level)])
         else:
-            rate = WALLET_CONTRIBUTION_PROCESSING_FEE_RATES[int(level)]
+            rate = D(WALLET_CONTRIBUTION_PROCESSING_FEE_RATES[int(level)])
         return rate
     except KeyError:
         return rate
@@ -292,8 +297,8 @@ def get_contribution_beneficiaries(contributor, level):
         'amount': remuneration.recipient_amount
     }
     total_commission = D(remuneration.contribution_amount) - D(remuneration.recipient_amount)
-    company_commission = {'user': admin_user, 'amount': total_commission * D(remuneration.company_commission)}
-    velocity_reserve = {'user': admin_user, 'amount': total_commission * D(remuneration.velocity_reserve)}
+    company_commission = {'user': admin_user, 'amount': round(total_commission * D(remuneration.company_commission))}
+    velocity_reserve = {'user': admin_user, 'amount': round(total_commission * D(remuneration.velocity_reserve))}
 
     left_user = ''
     if contributor_node.has_left_downline():
@@ -310,11 +315,11 @@ def get_contribution_beneficiaries(contributor, level):
     else:
         right_user = admin_user
     network_commission = [
-        {'user': left_user, 'amount': total_commission * D(remuneration.network_commission) * D(0.5)},
-        {'user': right_user, 'amount': total_commission * D(remuneration.network_commission) * D(0.5)}
+        {'user': left_user, 'amount': round(total_commission * D(remuneration.network_commission) * D(0.5))},
+        {'user': right_user, 'amount': round(total_commission * D(remuneration.network_commission) * D(0.5))}
     ]
     direct_commission = {
-        'user': get_promoter(contributor), 'amount': total_commission * D(remuneration.direct_commission)
+        'user': get_promoter(contributor), 'amount': round(total_commission * D(remuneration.direct_commission))
     }
 
     beneficiaries['contribution_amount'] = remuneration.contribution_amount

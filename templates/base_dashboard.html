@@ -198,7 +198,7 @@
 									<ul style="height:200px; width:300px; overflow:scroll">
 										{% for notification in notification_list %}
 										<li>
-											<a href="{% url 'main:update_notification' notification_id=notification.id %}">
+											<a href="{% url 'main:update_notification' notification.id %}">
 											<div class="notification_desc">
 												<p>
 													{% if notification.is_read %}

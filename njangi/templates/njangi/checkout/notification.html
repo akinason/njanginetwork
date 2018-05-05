@@ -1,0 +1,36 @@
+{% extends 'njangi/checkout/base_signup_contribution.html' %}
+
+{% load static i18n humanize njangi_tags main_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+
+<div class="content clearfix">
+    <!-- Cards -->
+    <div id="cards" class="container mb-2" style="padding-bottom: 1px">
+        <div class="section-title col-lg-8 col-md-8 ml-auto mr-auto">
+            <h3 class="mb-4" style="color:green" align="left">{{ subject }} {{ user.first_name }}</h3>
+        </div>
+
+        <div class="example col-md-12 ml-auto mr-auto">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 mb-4 "></div>
+                <div class="col-lg-8 col-md-8 col-sm-12 mb-4 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:blue" align="right"> {{ user.username }}| <a href="{% url 'main:logout' %}">{% trans 'logout' %}</a></h5>
+                            <p class="card-text">
+                               {{ message }}
+                            </p>
+                            <hr>
+                            <a href="{% url 'njangi:signup_contribution_required' %}" class="btn btn-primary">{% trans "Start All Over" %}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 mb-4 "></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

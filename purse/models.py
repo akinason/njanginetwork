@@ -44,6 +44,7 @@ class MOMOPurpose:
         self._wallet_load = 'wallet_load'
         self._wallet_withdraw = 'wallet_withdraw'
         self._contribution_wallet_withdraw = 'contribution_wallet_withdraw'
+        self._signup_contribution = 'signup_contribution'
 
     def contribution(self):
         return self._contribution
@@ -56,6 +57,9 @@ class MOMOPurpose:
 
     def contribution_wallet_withdraw(self):
         return self._contribution_wallet_withdraw
+
+    def signup_contribution(self):
+        return self._signup_contribution
 
 
 class MMRequestType:
