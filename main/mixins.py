@@ -11,4 +11,4 @@ class ContributionRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_contributed:
             return HttpResponseRedirect(reverse('njangi:signup_contribution_required'))
-        return super().dispatch(request, *args, kwargs)
+        return super().dispatch(request, *args, **kwargs)
