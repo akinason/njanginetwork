@@ -144,8 +144,8 @@ def get_promoter(request):
 
 def get_sponsor_using_sponsor_id(sponsor_id):
     try:
-        return get_user_model().objects.get(sponsor_id=sponsor_id)
+        return get_user_model().objects.get(pk=sponsor_id)
     except get_user_model().MultipleObjectsReturned:
-        return get_user_model().objects.filter(sponsor_id=sponsor_id)[:1].get()
+        return get_user_model().objects.filter(pk=sponsor_id)[:1].get()
     except get_user_model().DoesNotExist:
         return get_admin_users()[0]

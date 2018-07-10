@@ -84,7 +84,6 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
                 user.has_contributed = True
                 user.save()
                 process_nsp_contribution(mm_transaction.tracker_id)
-
         else:
             if not mm_transaction.is_complete:
                 # First mark the failed transaction as complete.
