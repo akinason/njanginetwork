@@ -1,0 +1,20 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags main_tags %}
+
+{% block content %}
+
+<div class=" form-grids row form-grids-right">
+    <div class="widget-shadow " data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>{% trans 'Payment Completed!!'|capfirst %}</h4>
+        </div>
+        <div class="form-body">
+            <form class="form-horizontal">
+                <h4>{{ message|safe }}</h4><br>
+                <h5 class="alert alert-success">{% trans 'Use F5 to refresh and check your notifications to get the status.' %}</h5>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
