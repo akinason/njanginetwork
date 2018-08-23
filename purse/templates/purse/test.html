@@ -4,12 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="https://www.monetbil.com/widget/v2/monetbil.min.js"></script>
 </head>
 <body>
-    <form method="post" action="{% url 'purse:test_view' %}">
-    <!--<form method="post" action="{% url 'njangi:switch_user' user_id=53 %}">-->
-        {% csrf_token %}
-        <input type="submit" value="submit">
-    </form>
+
+    <form action="https://api.monetbil.com/pay/v2.1/k09XvD34mnqW1gQYuIQqiJA8bZBQx7" method="get" data-monetbil="form"><button class="" type="submit">Pay by Mobile Money</button></form>
 </body>
 </html>

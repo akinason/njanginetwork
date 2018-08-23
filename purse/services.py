@@ -13,6 +13,7 @@ from purse.models import (
     TransactionStatus, WalletTransMessage, MobileMoneyManager, MMRequestType, MOMOAPIProvider, WalletManager,
     WalletTransDescription
 )
+from purse.lib import monetbil
 
 
 trans_status = TransactionStatus()
@@ -28,143 +29,152 @@ D = decimal.Decimal
 
 @app.task
 def request_momo_deposit(phone_number, amount, user_id, purpose, nsp, level, recipient_id=None, charge=None):
-    return _process_momo_operation(
-        operation_type=mm_request_type.deposit(), phone_number=phone_number, amount=amount, user_id=user_id,
-        purpose=purpose, nsp=nsp, level=level, recipient_id=recipient_id, charge=charge
+    user = UserModel().objects.get(pk=user_id)
+    recipient = None
+
+    if recipient_id:
+        recipient = UserModel().objects.get(pk=recipient_id)
+
+    payment_log = mm_manager.send_request(
+        request_type=mm_request_type.deposit(), amount=amount, provider=momoapi_provider.monetbil(),
+        tel=phone_number, nsp=nsp, user=user, recipient=recipient, purpose=purpose, level=level, charge=charge
     )
+
+    response = {
+        'status': trans_status.success(),
+        'message': trans_message.success_message(),
+        'tracker_id': payment_log.tracker_id, 'transactionId': payment_log.id}
+    return response
 
 
 @app.task
 def request_momo_payout(phone_number, amount, user_id, purpose, nsp, recipient_id=None, processing_fee=0.00, level=None):
+    user = UserModel().objects.get(pk=user_id)
+    recipient = None
 
-    return _process_momo_operation(
-        operation_type=mm_request_type.payout(), phone_number=phone_number, amount=amount, user_id=user_id,
-        purpose=purpose, nsp=nsp, recipient_id=recipient_id, charge=processing_fee, level=level
+    if recipient_id:
+        recipient = UserModel().objects.get(pk=recipient_id)
+
+    payment_log = mm_manager.send_request(
+        request_type=mm_request_type.payout(), amount=amount, provider=momoapi_provider.monetbil(),
+        tel=phone_number, nsp=nsp, user=user, recipient=recipient, purpose=purpose, level=level, charge=processing_fee
     )
 
+    # freeze the amount in the user's account.
+    information = _('Funds withdrawal though %s mobile money') % nsp.upper()
+    wallet_manager.withdraw(
+        user=recipient, amount=amount, nsp=nsp, charge=processing_fee, tel=phone_number,
+        tracker_id=payment_log.tracker_id, information=information, force_withdraw=True,
+        status=trans_status.pending(),
+    )
 
-def _process_momo_operation(
-    operation_type, phone_number, amount, user_id, purpose, nsp, level=None, recipient_id=None, charge=0.00
-):
-    returnable_response = ''
+    # Send a payout request to Monetbil
+    phone = str(237) + str(phone_number)
+    monetbil.send_payout_request(amount=amount, phone=phone, tracker_id=payment_log.tracker_id)
 
-    if operation_type in [mm_request_type.deposit(), mm_request_type.payout()]:
-        _phone_number = str(phone_number).replace(" ", "").replace("+", "")
-        _phone_number = int(_phone_number)
-        user = UserModel().objects.get(pk=user_id)
-        recipient = None
+    response = {
+        'status': trans_status.success(),
+        'message': trans_message.success_message(),
+        'tracker_id': payment_log.tracker_id, 'transactionId': payment_log.id}
+    return response
 
-        if recipient_id:
-            recipient = UserModel().objects.get(pk=recipient_id)
-            wallet_balance = wallet_manager.balance(user=recipient, nsp=nsp)
 
-            # Check to ensure the member has sufficient balance in their wallet.
-            if operation_type == mm_request_type.payout() and not wallet_balance >= (D(amount) + D(charge)): # Stop the operation else, proceed
-                return {'status': trans_status.failed(), 'message': trans_message.insufficient_balance_message()}
-            else:
-                pass
+def process_through_afkanerd(log, phone_number, amount, operation_type):
+    callback_url = get_afkanerd_callback_url(log.uuid)
+    url = settings.AFKANERD_MOMO_URL
+    sid = settings.AFKANERD_AUTH_SID
+    params = {
+        'client': phone_number,
+        'amount': amount,
+        'sid': sid,
+        'email': settings.AFKANERD_AUTH_EMAIL,
+        'type': mm_request_type.afkanerd_payout() if operation_type == mm_request_type.payout() else mm_request_type.afkanerd_deposit(),
+        'trackerId': log.tracker_id,
+        'callbackUrl': callback_url
+    }
 
-        log = mm_manager.send_request(
-            request_type=operation_type, amount=amount, provider=momoapi_provider.afkanerd(),
-            tel=_phone_number, nsp=nsp, user=user, recipient=recipient, purpose=purpose, level=level, charge=charge
-        )
-        if operation_type == mm_request_type.payout():
-            information = _('Funds withdrawal though %s mobile money') % nsp.upper()
-            wallet_manager.withdraw(
-                user=recipient, amount=amount, nsp=nsp, charge=charge, tel=phone_number, tracker_id=log.tracker_id,
-                information=information, force_withdraw=True, status=trans_status.pending(),
-            )
-        callback_url = get_afkanerd_callback_url(log.uuid)
-        url = settings.AFKANERD_MOMO_URL
-        sid = settings.AFKANERD_AUTH_SID
-        params = {
-            'client': _phone_number,
-            'amount': amount,
-            'sid': sid,
-            'email': settings.AFKANERD_AUTH_EMAIL,
-            'type': mm_request_type.afkanerd_payout() if operation_type == mm_request_type.payout() else mm_request_type.afkanerd_deposit(),
-            'trackerId': log.tracker_id,
-            'callbackUrl': callback_url
-        }
+    returnable_response = ""
+
+    try:
+        r = requests.post(url=url, data=params, timeout=(60, 60))
+        response = r.json()
+        # import random
+        # response = {'statusCode': 200, 'userAuth': 'valid', 'trackerId': log.tracker_id,
+        #             'serverResponse': 'Everything moving on', 'uniqueId': random.randint(1000, 9999)}
+        # Treatment of the response
+        status_code = 0
+        user_auth = ''
+        server_response = ''
+        error_message = ''
+        transaction_state = ''
+        tracker_id = ''
+        unique_id = ''
 
         try:
-            r = requests.post(url=url, data=params, timeout=(60, 60))
-            response = r.json()
-            # import random
-            # response = {'statusCode': 200, 'userAuth': 'valid', 'trackerId': log.tracker_id,
-            #             'serverResponse': 'Everything moving on', 'uniqueId': random.randint(1000, 9999)}
-            # Treatment of the response
-            status_code = 0
-            user_auth = ''
-            server_response = ''
-            error_message = ''
-            transaction_state = ''
-            tracker_id = ''
-            unique_id = ''
+            status_code = response['statusCode']
+        except Exception:
+            pass
+        try:
+            user_auth = response['userAuth']
+        except Exception:
+            pass
+        try:
+            server_response = response['serverResponse']
+        except Exception:
+            pass
+        try:
+            error_message = response['errorMessage']
+        except Exception:
+            pass
+        try:
+            transaction_state = response['transactionState']
+        except Exception:
+            pass
+        try:
+            tracker_id = response['trackerId']
+        except Exception:
+            pass
+        try:
+            unique_id = response['uniqueId']
+        except Exception:
+            pass
 
-            try:
-                status_code = response['statusCode']
-            except Exception:
-                pass
-            try:
-                user_auth = response['userAuth']
-            except Exception:
-                pass
-            try:
-                server_response = response['serverResponse']
-            except Exception:
-                pass
-            try:
-                error_message = response['errorMessage']
-            except Exception:
-                pass
-            try:
-                transaction_state = response['transactionState']
-            except Exception:
-                pass
-            try:
-                tracker_id = response['trackerId']
-            except Exception:
-                pass
-            try:
-                unique_id = response['uniqueId']
-            except Exception:
-                pass
-
-            if int(status_code) == 402:  # This means we do not have enough balance in the AFKANERD wallet.
-                                         # There will be no callback so consider the transaction as failed and complete.
-                wallet_manager.update_status(
-                    status=trans_status.failed(), tracker_id=log.tracker_id
-                )
-                mm_transaction = mm_manager.get_response(
-                    mm_request_id=log.id, response_status=trans_status.failed(), response_code=status_code,
-                    message=error_message, response_transaction_date=timezone.now(), user_auth=user_auth,
-                    server_response=server_response, unique_id=unique_id, is_complete=True,
-                    callback_server_response=server_response, callback_status_code=status_code
-                )
-                notification().templates.transaction_failed(
-                     user_id=mm_transaction.user.id, purpose=mm_transaction.purpose,
-                     amount=mm_transaction.amount,
-                     nsp=mm_transaction.nsp
-                )
-            else:
-                mm_manager.get_response(
-                    mm_request_id=log.id, response_status=transaction_state, response_code=status_code,
-                    message=error_message,
-                    response_transaction_date=timezone.now(), user_auth=user_auth, server_response=server_response,
-                    unique_id=unique_id
-                )
-            returnable_response = {
-                'status': trans_status.success() if (int(status_code) and int(status_code) == 102) else trans_status.failure(),
-                'message': trans_message.success_message() if (int(status_code) and int(status_code) == 102) else trans_message.failed_message(),
-                'tracker_id': log.tracker_id, 'status_code': status_code, 'transactionId': log.id,
-                'unique_id': unique_id,
-            }
-        except Exception as e:
-            returnable_response = {
-                'status': trans_status.failure(), 'message': trans_message.failed_message(),
-                'status_code': 404, 'error': e
-            }
+        if int(status_code) == 402:  # This means we do not have enough balance in the AFKANERD wallet.
+            # There will be no callback so consider the transaction as failed and complete.
+            wallet_manager.update_status(
+                status=trans_status.failed(), tracker_id=log.tracker_id
+            )
+            mm_transaction = mm_manager.get_response(
+                mm_request_id=log.id, response_status=trans_status.failed(), response_code=status_code,
+                message=error_message, response_transaction_date=timezone.now(), user_auth=user_auth,
+                server_response=server_response, unique_id=unique_id, is_complete=True,
+                callback_server_response=server_response, callback_status_code=status_code
+            )
+            notification().templates.transaction_failed(
+                user_id=mm_transaction.user.id, purpose=mm_transaction.purpose,
+                amount=mm_transaction.amount,
+                nsp=mm_transaction.nsp
+            )
+        else:
+            mm_manager.get_response(
+                mm_request_id=log.id, response_status=transaction_state, response_code=status_code,
+                message=error_message,
+                response_transaction_date=timezone.now(), user_auth=user_auth, server_response=server_response,
+                unique_id=unique_id
+            )
+        returnable_response = {
+            'status': trans_status.success() if (
+            int(status_code) and int(status_code) == 102) else trans_status.failure(),
+            'message': trans_message.success_message() if (
+            int(status_code) and int(status_code) == 102) else trans_message.failed_message(),
+            'tracker_id': log.tracker_id, 'status_code': status_code, 'transactionId': log.id,
+            'unique_id': unique_id,
+        }
+    except Exception as e:
+        returnable_response = {
+            'status': trans_status.failure(), 'message': trans_message.failed_message(),
+            'status_code': 404, 'error': e
+        }
     return returnable_response
 
 

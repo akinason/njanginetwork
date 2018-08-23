@@ -28,6 +28,7 @@ from njangi.models import (
     LevelModel, LEVEL_CONTRIBUTIONS, NjangiTree, UserAccountManager
 )
 from njangi.tasks import process_wallet_contribution
+from purse.lib import monetbil
 from purse import services as purse_services
 from purse.models import WalletManager, MTN_MOBILE_MONEY_PARTNER, ORANGE_MOBILE_MONEY_PARTNER,  MOMOPurpose
 
@@ -193,30 +194,61 @@ class NSPCheckoutConfirmView(ContributionRequiredMixin, generic.TemplateView):
         if nsp == _nsp.mtn():
             if request.user.tel1 and request.user.tel1_is_verified:
                 sender_tel = request.user.tel1.national_number
-                purse_services.request_momo_deposit.delay(
+
+                # 1. Create the cash deposit mobile money transaction.
+                response = purse_services.request_momo_deposit(
                     phone_number=sender_tel, amount=total, user_id=self.request.user.id, nsp=nsp, level=level,
                     purpose=momo_purpose.contribution(), recipient_id=recipient.id, charge=processing_fee
                 )
+                tracker_id = response['tracker_id']
+
+                # 2. if successful, send a payment request to MONETBIL
+                payment_url = monetbil.send_payment_widget_request(
+                    amount=total, phone=sender_tel, payment_ref=tracker_id
+                )
+
+                # 3. if payment request is successful, redirect the user to the payment widget.
+                if payment_url:
+                    return HttpResponseRedirect(payment_url)
+                else:
+                    # Request failed. Restart all over.
+                    return render(request, 'njangi/error.html', context={
+                        'message': _('Something went wrong please start all over.') % {'nsp': nsp},
+                        'status': 'info'
+                    })
             else:
                 return render(request, 'njangi/error.html', context={
                     'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
                 })
         elif nsp == _nsp.orange():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences,'
-                                 ' it will be restored soon.'), 'status': 'info'
-                })
+            if request.user.tel2 and request.user.tel2_is_verified:
+                sender_tel = request.user.tel2.national_number
 
-            # if request.user.tel2 and request.user.tel2_is_verified:
-            #     sender_tel = request.user.tel2.national_number
-            #     purse_services.request_momo_deposit.delay(
-            #         phone_number=sender_tel, amount=total, user_id=self.request.user.id, nsp=nsp, level=level,
-            #         purpose=momo_purpose.contribution(), recipient_id=recipient.id, charge=processing_fee
-            #     )
-            # else:
-            #     return render(request, 'njangi/error.html', context={
-            #         'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
-            #     })
+                # 1. Create the cash deposit mobile money transaction.
+                response = purse_services.request_momo_deposit(
+                    phone_number=sender_tel, amount=total, user_id=self.request.user.id, nsp=nsp, level=level,
+                    purpose=momo_purpose.contribution(), recipient_id=recipient.id, charge=processing_fee
+                )
+                tracker_id = response['tracker_id']
+
+                # 2. if successful, send a payment request to MONETBIL
+                payment_url = monetbil.send_payment_widget_request(
+                    amount=total, phone=sender_tel, payment_ref=tracker_id
+                )
+
+                # 3. if payment request is successful, redirect the user to the payment widget.
+                if payment_url:
+                    return HttpResponseRedirect(payment_url)
+                else:
+                    # Request failed. Restart all over.
+                    return render(request, 'njangi/error.html', context={
+                        'message': _('Something went wrong please start all over.') % {'nsp': nsp},
+                        'status': 'info'
+                    })
+            else:
+                return render(request, 'njangi/error.html', context={
+                    'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
+                })
         elif nsp == _nsp.mtn_wallet():
             if wallet.balance(user=self.request.user, nsp=_nsp.mtn()) < total:
                 return render(request, 'njangi/error.html', context={
@@ -228,23 +260,19 @@ class NSPCheckoutConfirmView(ContributionRequiredMixin, generic.TemplateView):
                     level=level, nsp=nsp, user_id=request.user.id, processing_fee=processing_fee
                 )
         elif nsp == _nsp.orange_wallet():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
-                                 'it will be restored soon.'), 'status': 'info'
+            if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
+                return render(request, 'njangi/error.html', context={
+                    'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
+                    'status': 'warning'
                 })
-            # if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
-            #     return render(request, 'njangi/error.html', context={
-            #         'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
-            #         'status': 'warning'
-            #     })
-            # else:
-            #     process_wallet_contribution.delay(
-            #         level=level, nsp=nsp, user_id=request.user.id, processing_fee=processing_fee
-            #     )
-        # else:
-        #     return render(request, 'njangi/error.html', context={
-        #         'message': _('Invalid request.'), 'status': 'warning'
-        #     })
+            else:
+                process_wallet_contribution.delay(
+                    level=level, nsp=nsp, user_id=request.user.id, processing_fee=processing_fee
+                )
+        else:
+            return render(request, 'njangi/error.html', context={
+                'message': _('Invalid request.'), 'status': 'warning'
+            })
 
         return HttpResponseRedirect(reverse('njangi:contribution_done'))
 
@@ -260,16 +288,12 @@ class NSPCheckoutConfirmView(ContributionRequiredMixin, generic.TemplateView):
                     'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
                 })
         elif nsp == _nsp.orange():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
-                                 'it will be restored soon.'), 'status': 'info'
+            if request.user.tel2 and request.user.tel2_is_verified:
+                sender_tel = request.user.tel2.national_number
+            else:
+                return render(request, 'njangi/error.html', context={
+                    'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
                 })
-            # if request.user.tel2 and request.user.tel2_is_verified:
-            #     sender_tel = request.user.tel2.national_number
-            # else:
-            #     return render(request, 'njangi/error.html', context={
-            #         'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp}, 'status': 'warning'
-            #     })
         elif nsp == _nsp.mtn_wallet():
             if wallet.balance(user=self.request.user, nsp=_nsp.mtn()) < total:
                 return render(request, 'njangi/error.html', context={
@@ -277,15 +301,11 @@ class NSPCheckoutConfirmView(ContributionRequiredMixin, generic.TemplateView):
                     'status': 'warning'
                 })
         elif nsp == _nsp.orange_wallet():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences,'
-                                 ' it will be restored soon.'), 'status': 'info'
+            if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
+                return render(request, 'njangi/error.html', context={
+                    'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
+                    'status': 'warning'
                 })
-            # if wallet.balance(user=self.request.user, nsp=_nsp.orange()) < total:
-            #     return render(request, 'njangi/error.html', context={
-            #         'message': _('Insufficient funds in your %(nsp)s.') % {'nsp': nsp.replace('_', ' ')},
-            #         'status': 'warning'
-            #     })
         else:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid request.'), 'status': 'warning'
@@ -347,22 +367,54 @@ class NSPSignupContributionCheckoutView(LoginRequiredMixin, generic.TemplateView
         level = 1
 
         if nsp == _nsp.orange():
-            subject = "No offence"
-            message = _("We are sorry that Orange Money services are temporally not available. We will inform you "
-                        "ones we set it up.")
-            return render(request, 'njangi/checkout/notification.html', {'subject': subject, 'message': message})
-        elif nsp == _nsp.mtn():
-            if request.user.tel1 and request.user.tel1_is_verified:
+            if request.user.tel2 and request.user.tel2_is_verified:
                 sender_tel = request.user.tel1.national_number
-                purse_services.request_momo_deposit.delay(
-                    phone_number=sender_tel, amount=total, user_id=request.user.id, nsp=nsp, level=level,
+
+                # 1. Create the cash deposit mobile money transaction.
+                response = purse_services.request_momo_deposit(
+                    phone_number=sender_tel, amount=total, user_id=self.request.user.id, nsp=nsp, level=level,
                     purpose=momo_purpose.signup_contribution(), charge=processing_fee
                 )
+                tracker_id = response['tracker_id']
+
+                # 2. if successful, send a payment request to MONETBIL
+                payment_url = monetbil.send_payment_widget_request(
+                    amount=total, phone=sender_tel, payment_ref=tracker_id
+                )
+
+                # 3. if payment request is successful, redirect the user to the payment widget.
+                if payment_url:
+                    return HttpResponseRedirect(payment_url)
             else:
                 return render(request, 'njangi/checkout/notification.html', context={
                     'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp.upper()},
                     'subject': _('Phone number required')
                 })
+        elif nsp == _nsp.mtn():
+            if request.user.tel1 and request.user.tel1_is_verified:
+                sender_tel = request.user.tel1.national_number
+
+                # 1. Create the cash deposit mobile money transaction.
+                response = purse_services.request_momo_deposit(
+                    phone_number=sender_tel, amount=total, user_id=self.request.user.id, nsp=nsp, level=level,
+                    purpose=momo_purpose.signup_contribution(), charge=processing_fee
+                )
+                tracker_id = response['tracker_id']
+
+                # 2. if successful, send a payment request to MONETBIL
+                payment_url = monetbil.send_payment_widget_request(
+                    amount=total, phone=sender_tel, payment_ref=tracker_id
+                )
+
+                # 3. if payment request is successful, redirect the user to the payment widget.
+                if payment_url:
+                    return HttpResponseRedirect(payment_url)
+            else:
+                return render(request, 'njangi/checkout/notification.html', context={
+                    'message': _('Please provide or verify your %(nsp)s number.') % {'nsp': nsp.upper()},
+                    'subject': _('Phone number required')
+                })
+
         return HttpResponseRedirect(reverse('njangi:signup_contribution_done'))
 
 
@@ -453,15 +505,6 @@ class WalletLoadAndWithdrawView(ContributionRequiredMixin, generic.TemplateView)
                 'status': 'warning'
             })
 
-        # This code should be eliminated onces the orange money API is itegrated.
-        # **********Code start***********
-        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
-                                 'it will be restored soon.'), 'status': 'info'
-                })
-        # ************End of code*********
-
         elif amount < 0:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid Amount %(amount)s. Amounts must be greater than zero.') % {'amount': amount},
@@ -491,15 +534,6 @@ class WalletLoadAndWithdrawView(ContributionRequiredMixin, generic.TemplateView)
                 'message': _('Unknown Network service provider %(nsp)s.') % {'nsp': nsp},
                 'status': 'warning'
             })
-
-        # This code should be eliminated onces the orange money API is itegrated.
-        # **********Code start***********
-        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
-                                 'it will be restored soon.'), 'status': 'info'
-                })
-        # ************End of code*********
 
         elif action not in ['load', 'withdraw']:
                 return render(request, 'njangi/error.html', context={
@@ -560,15 +594,6 @@ class WalletLoadAndWithdrawConfirmView(ContributionRequiredMixin, generic.Templa
                 'status': 'warning'
             })
 
-        # This code should be eliminated onces the orange money API is itegrated.
-        # **********Code start***********
-        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, '
-                                 'it will be restored soon.'), 'status': 'info'
-                })
-        # ************End of code*********
-
         elif action not in ['load', 'withdraw']:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid action %(action)s.') % {'action': action},
@@ -601,15 +626,6 @@ class WalletLoadAndWithdrawConfirmView(ContributionRequiredMixin, generic.Templa
                 'status': 'warning'
             })
 
-        # This code should be eliminated once the orange money API is integrated.
-        # **********Code start***********
-        elif nsp == _nsp.orange_wallet() or nsp == _nsp.orange():
-            return render(request, 'njangi/error.html', context={
-                    'message': _('Orange money is temporally unavailable, sorry for inconveniences, it will be '
-                                 'restored soon.'), 'status': 'info'
-                })
-        # ************End of code*********
-
         elif action not in ['load', 'withdraw']:
             return render(request, 'njangi/error.html', context={
                 'message': _('Invalid action %(action)s.') % {'action': action},
@@ -634,30 +650,55 @@ class WalletLoadAndWithdrawConfirmView(ContributionRequiredMixin, generic.Templa
             response = {}
 
             if nsp == _nsp.orange_wallet() and action == 'withdraw':
-               # response = process_payout.delay(
-               #     user_id=self.request.user.id, amount=amount, nsp=_nsp.orange(), processing_fee=processing_fee
-               # )
-                pass
-            elif nsp == _nsp.orange_wallet() and action == 'load':
-                purse_services.request_momo_deposit.delay(
-                    phone_number=self.request.user.tel2.national_number, amount=total, user_id=self.request.user.id,
-                    nsp=_nsp.orange(), level=0, purpose=momo_purpose.wallet_load(), recipient_id=self.request.user.id,
-                    charge=processing_fee
-                )
+               purse_services.request_momo_payout.delay(
+                   user_id=self.request.user.id, phone_number=self.request.user.tel1.national_number, amount=amount,
+                   recipient_id=self.request.user.id, nsp=_nsp.orange(), processing_fee=processing_fee,
+                   purpose=momo_purpose.wallet_withdraw(),
+               )
+
             elif nsp == _nsp.mtn_wallet() and action == 'withdraw':
-                purse_services.request_momo_payout(
+                purse_services.request_momo_payout.delay(
                     user_id=self.request.user.id, phone_number=self.request.user.tel1.national_number, amount=amount,
                     recipient_id=self.request.user.id, nsp=_nsp.mtn(), processing_fee=processing_fee,
                     purpose=momo_purpose.wallet_withdraw(),
                 )
 
+            elif nsp == _nsp.orange_wallet() and action == 'load':
+                response = purse_services.request_momo_deposit(
+                    phone_number=self.request.user.tel2.national_number, amount=total, user_id=self.request.user.id,
+                    nsp=_nsp.orange(), level=0, purpose=momo_purpose.wallet_load(), recipient_id=self.request.user.id,
+                    charge=processing_fee
+                )
+
+                tracker_id = response['tracker_id']
+
+                # 2. if successful, send a payment request to MONETBIL
+                payment_url = monetbil.send_payment_widget_request(
+                    amount=total, phone=self.request.user.tel2.national_number, payment_ref=tracker_id
+                )
+
+                # 3. if payment request is successful, redirect the user to the payment widget.
+                if payment_url:
+                    return HttpResponseRedirect(payment_url)
+
             elif nsp == _nsp.mtn_wallet() and action == 'load':
-                r = purse_services.request_momo_deposit(
+                # create a deposit request.
+                response = purse_services.request_momo_deposit(
                     phone_number=self.request.user.tel1.national_number, amount=total, user_id=self.request.user.id,
                     nsp=_nsp.mtn(), level=0, purpose=momo_purpose.wallet_load(), recipient_id=self.request.user.id,
                     charge=processing_fee
                 )
-                # print(r)
+
+                tracker_id = response['tracker_id']
+
+                # 2. if successful, send a payment request to MONETBIL
+                payment_url = monetbil.send_payment_widget_request(
+                    amount=total, phone=self.request.user.tel1.national_number, payment_ref=tracker_id
+                )
+
+                # 3. if payment request is successful, redirect the user to the payment widget.
+                if payment_url:
+                    return HttpResponseRedirect(payment_url)
         return HttpResponseRedirect(
             reverse('njangi:load_or_withdraw_done', kwargs={'nsp': nsp, 'action': action})
         )
@@ -891,3 +932,5 @@ class UserAccountPackageSubscriptionView(ContributionRequiredMixin, generic.Temp
             return HttpResponseNotFound(content=content, *args, **kwargs)
 
 
+class PaymentCompleteView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'njangi/checkout/payment_done.html'

@@ -35,4 +35,6 @@ urlpatterns = [
     url(r'^premium/account/package/subscription/(?P<subscription_type>[a-z]+)/(?P<package_id>[0-9]+)/$',
         UserAccountPackageSubscriptionView.as_view(), name='package_subscription'),
 
+    #Payment View
+    url(r'^payment/done', PaymentCompleteView.as_view(), name='payment_complete'),
 ]

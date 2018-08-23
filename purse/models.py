@@ -16,8 +16,8 @@ from main.models import TEL_MAX_LENGTH
 from njanginetwork import settings
 
 D = decimal.Decimal
-MTN_MOBILE_MONEY_PARTNER = 'AURBANPAY'
-ORANGE_MOBILE_MONEY_PARTNER = 'Extended Limits Inc'
+MTN_MOBILE_MONEY_PARTNER = 'MONETBIL'
+ORANGE_MOBILE_MONEY_PARTNER = 'MONETBIL'
 DEFAULT_TRANSACTION_LIST_LIMIT = 30
 _nsp = NSP()
 
@@ -26,6 +26,7 @@ class MOMOAPIProvider:
     _afkanerd = 'afkanerd'
     _gloxon = 'gloxon'
     _webshinobis = 'webshinobis'
+    _monetbil = 'monetbil'
 
     def afkanerd(self):
         return self._afkanerd
@@ -35,6 +36,9 @@ class MOMOAPIProvider:
 
     def webshinobis(self):
         return self._webshinobis
+
+    def monetbil(self):
+        return self._monetbil
 
 
 class MOMOPurpose:

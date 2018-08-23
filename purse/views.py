@@ -14,8 +14,6 @@ from purse.models import (
     MobileMoneyManager, MOMOPurpose, MMRequestType, WalletManager
 )
 
-# Responsible for processing mobile money callback_url from gsmtools.afkanerd.com/api/
-
 
 momo_purpose = MOMOPurpose()
 momo_request_type = MMRequestType()
@@ -26,6 +24,8 @@ wallet_manager = WalletManager()
 
 @method_decorator(csrf_exempt, name='dispatch')
 def afknerdgsmtoolsview(request, *args, **kwargs):
+    # Responsible for processing mobile money callback_url from gsmtools.afkanerd.com/api/
+
     if request.method == "POST":
         request_body = request.body
         # print(request_body)
@@ -44,7 +44,51 @@ def afknerdgsmtoolsview(request, *args, **kwargs):
     return JsonResponse(data={'status': 'success', 'message': 'Thanks'})
 
 
-def process_transaction_update(tracker_id, uuid, status_code, server_response):
+@method_decorator(csrf_exempt, name='dispatch')
+def monetbilpayoutnotificationview(request, *args, **kwargs):
+    # Responsible for processing successful mobile money callback_url from monetbil.com
+    if request.method == "POST" or request.mothod == "GET":
+        uuid = None
+        server_response = request.POST.get('message')
+        success = request.POST.get('success')
+        tracker_id = request.POST.get('processing_number')
+        transaction_id = request.POST.get('operator_transaction_id')
+
+        if str(success) == '1':
+            status_code = 200
+        else:
+            status_code = 400
+
+        process_transaction_update(
+            tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response,
+            transaction_id=None
+        )
+    return JsonResponse(data={'status': 'success', 'message': 'Thanks'})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+def monetbilnotificationview(request, *args, **kwargs):
+    # Responsible for processing successful mobile money callback_url from monetbil.com
+    if request.method == "POST" or request.mothod == "GET":
+        uuid = None
+        server_response = request.POST.get('message')
+        status = request.POST.get('status')
+        tracker_id = request.POST.get('payment_ref')
+        # transaction_id = request.POST.get('transaction_id')
+
+        if status == "success":
+            status_code = 200
+        else:
+            status_code = 400
+
+        process_transaction_update(
+            tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response,
+            transaction_id=None
+        )
+    return JsonResponse(data={'status': 'success', 'message': 'Thanks'})
+
+
+def process_transaction_update(tracker_id, status_code, server_response=None, uuid=None, transaction_id=None):
 
     # Check to ensure the transaction actually originated from our servers
     if momo_manager.is_valid(tracker_id=tracker_id, uuid=uuid):
@@ -109,26 +153,28 @@ def process_transaction_update(tracker_id, uuid, status_code, server_response):
             request_type=momo_request_type.unknown(), nsp="unknown", tel="unknown", amount=0,
             provider="unknown", purpose="unknown", user=None
         )
-        mm_transaction.tracker_id = tracker_id
-        mm_transaction.message = uuid
+        mm_transaction.tracker_id = tracker_id if tracker_id else 0
+        mm_transaction.message = uuid if uuid else "Null"
         mm_transaction.callback_status_code = status_code
         mm_transaction.is_complete = True
         mm_transaction.save()
 
 
-# # from django.urls import reverse_lazy, reverse
-# # import requests
-# # from django.http import HttpResponse, HttpResponseRedirect
-# # from django.contrib.auth import login, authenticate
-# # from main.models import User
-# # from django.views import generic
-# #
-# #
+# from django.urls import reverse_lazy, reverse
+# import requests
+# from django.http import HttpResponse, HttpResponseRedirect
+# from django.contrib.auth import login, authenticate
+# from main.models import User
+# from django.views import generic
+
+
 # class TestView(generic.TemplateView):
 #     template_name = 'purse/test.html'
 #     success_url = reverse_lazy('main:login')
 #
-#     def post(self, request, *args, **kwargs):
+#     def get(self, request, *args, **kwargs):
+#         return HttpResponseRedirect('https://google.com')
+
 #         url = 'http://localhost:8012/purse/gsmtools/afkanerd/api/momo/8b0db72e-78ef-4eb2-adf1-9cbfd63346c8/'
 #         data = {'trackerId': 'L216', 'status': 'success', 'statusCode': 200, 'serverResponse': 'success'}
 #         headers = {'Content-Type': 'application/json', }
