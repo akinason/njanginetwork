@@ -83,9 +83,9 @@
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                             <div class="product-img">
-                                <a href="{% url 'marketplace:product_details' product.pk %}"><img src="{{ product.image.image.url }}" alt=""></a>
+                                <a href="{% url 'marketplace:product_details' product.pk %}"><img src="{{ product.image.url }}" alt=""></a>
                                 <!-- Hover Thumb -->
-                                <a href="{% url 'marketplace:product_details' product.pk %}"><img class="hover-img" src="{{ product.image.image.url }}" alt=""></a>
+                                <a href="{% url 'marketplace:product_details' product.pk %}"><img class="hover-img" src="{{ product.image.url }}" alt=""></a>
                                 <!-- Favourite -->
                                 <div class="product-favourite">
                                     <a href="" class="favme fa fa-heart"></a>
