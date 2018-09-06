@@ -334,6 +334,6 @@ def get_contribution_beneficiaries(contributor, level):
 
 def get_promoter(user):
     try:
-        return UserModel().objects.get(sponsor_id=user.sponsor)
+        return UserModel().objects.get(id=user.sponsor)
     except UserModel().DoesNotExist:
         return get_admin_users()[0]

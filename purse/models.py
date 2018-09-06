@@ -48,6 +48,7 @@ class MOMOPurpose:
         self._wallet_withdraw = 'wallet_withdraw'
         self._contribution_wallet_withdraw = 'contribution_wallet_withdraw'
         self._signup_contribution = 'signup_contribution'
+        self._market_purchase = 'market_purchase'
 
     def contribution(self):
         return self._contribution
@@ -63,6 +64,9 @@ class MOMOPurpose:
 
     def signup_contribution(self):
         return self._signup_contribution
+
+    def market_purchase(self):
+        return self._market_purchase
 
 
 class MMRequestType:
@@ -552,6 +556,52 @@ class WalletManager:
 
         return response
 
+    def purchase_payment(self, user, amount, description, information, charge=0.00):
+        bal1 = self.balance(user, _nsp.mtn())
+        bal2 = self.balance(user, _nsp.orange())
+        amount1 = 0.00
+        amount2 = 0.00
+        amt = D(abs(amount))
+        total = amt + D(charge)
+
+        if bal1 >= total:
+            amount1 = total
+        elif bal2 >= total:
+            amount2 = total
+        elif (D(bal1) + D(bal2)) >= total:
+            amount1 = D(bal1)
+            amount2 = total - amount1
+        else:
+            return {
+                'status': self.trans_status.failed(), 'message': self.trans_message.insufficient_balance_message()
+            }
+
+        trans_code = self._generate_trans_code()
+        recipient = get_user_model().objects.filter(is_admin=True).order_by('username')[:1].get()
+        response = {}
+
+        if amount1 > 0:
+            response = self.transfer(
+                sender=user, recipient=recipient, amount=amount1, information=information, nsp=_nsp.mtn(),
+                sender_description=description,
+                recipient_description=description,
+                trans_code=trans_code
+            )
+            if response['status'] == self.trans_status.failed():
+                return {
+                    'status': self.trans_status.failed(), 'message': self.trans_message.failed_message()
+                }
+
+        if amount2 > 0:
+            response = self.transfer(
+                sender=user, recipient=recipient, amount=amount2, information=information, nsp=_nsp.orange(),
+                sender_description=description,
+                recipient_description=description,
+                trans_code=trans_code
+            )
+        print(user, recipient)
+        return response
+
     def contribute(self, beneficiaries, nsp, processing_fee):
         user = beneficiaries['contributor']
         level = beneficiaries['level']
@@ -746,6 +796,20 @@ class WalletManager:
             return self.model.objects.none()
 
 
+    def account_balances(self):
+        """
+        Returns the list of all accounts and their balances.
+        """
+        trans_status = WalletTransStatus()
+        # returns the wallet balance of the specified user.
+        balances = self.model.objects.filter(user__is_admin=False).filter(
+            Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
+        ).values('user').annotate(
+            balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
+        ).order_by('balance')
+        
+        return balances
+
 class MobileMoney(models.Model):
     request_status = models.CharField(_('request status'), max_length=20, blank=True)
     response_status = models.CharField(_('response status'), max_length=20, blank=True)
@@ -777,6 +841,7 @@ class MobileMoney(models.Model):
     level = models.IntegerField(_('level'), blank=True, null=True)
     charge = models.DecimalField(_('charge'), decimal_places=2, max_digits=10, default=0, blank=True, null=True)
     unique_id = models.CharField(_('api unique id'), max_length=20, blank=True)
+    invoice_number = models.CharField(_('invoice number'), max_length=100, blank=True, null=True)
 
 
 class MobileMoneyManager:
@@ -796,10 +861,10 @@ class MobileMoneyManager:
             return self.model.objects.filter(tracker_id=tracker_id).exists()
 
     def send_request(self, request_type, nsp, tel, amount, user, provider, purpose, recipient=None, level=None,
-                     charge=None):
+                     charge=None, invoice_number=None):
         mm_transaction = self.model.objects.create(
             request_status=self.trans_status.processing(), request_type=request_type, nsp=nsp, tel=tel, amount=amount,
-            user=user, purpose=purpose, provider=provider, level=level, charge=charge
+            user=user, purpose=purpose, provider=provider, level=level, charge=charge, invoice_number=invoice_number
         )
 
         self.mm_request_id = mm_transaction.id

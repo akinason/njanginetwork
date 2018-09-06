@@ -27,7 +27,7 @@ SECRET_KEY = 'qibts7+4ws=xwy3%s2sku2g_^vuooodqzy_l%x9c5qj0n=$k$i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'cm.localhost', 'localhost', 'fe815af6.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.1', 'cm.localhost', 'localhost', '78da88db.ngrok.io']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'mptt',
     'njangi.apps.NjangiConfig',
     'purse.apps.PurseConfig',
+    'marketplace',
     'jet.dashboard',
     'jet',
     'django.contrib.admin',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'mptt_graph.apps.MpttGraphConfig',
     'blog.apps.BlogConfig',
+
 ]
 
 MIDDLEWARE = [

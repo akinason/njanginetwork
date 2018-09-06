@@ -1,0 +1,67 @@
+{% extends 'marketplace/base.html' %}
+
+{% load static i18n humanize %}
+
+{% block title %} {{ product.name }} {% endblock %}
+
+{% block content %}
+
+    <section class="single_product_details_area d-flex align-items-center">
+
+        <!-- Single Product Thumb -->
+        <div class="single_product_thumb clearfix">
+            <div class="product_thumbnail_slides owl-carousel">
+                {% for photo in product.product_images  %}
+                <img src="{{ photo.image.url }}" alt="">
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Single Product Description -->
+        <div class="single_product_desc clearfix">
+            <p>
+                <div class="add-to-cart-btn">
+                    <form method="POST" action="{% url 'marketplace:new_invoice' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ product.pk }}" name="product_id">
+                        <button type="submit" value="submit" class="btn essence-btn">{% trans 'buy'|title %}</button>
+                    </form>
+                </div>
+            </p>
+            
+            <span>{{ product.product_type.name }}</span>
+            <h2>{{ product.name }}</h2>
+            <p class="product-price">{{ product.price_rstrip |intcomma }} XAF</p>
+            <p class="product-desc" style="text-align:justify">{{ product.description|safe }}</p>
+
+            <!-- Form -->
+            <form class="cart-form clearfix" method="POST" action="{% url 'marketplace:new_invoice' %}">
+                <!-- Select Box -->
+                {% csrf_token %}
+                <div class="select-box d-flex mt-50 mb-30">
+                    <select name="commission" id="commissionLevel" class="mr-5">
+                        <option value="value">{% trans 'level 1 comm'|title %} {{ l1comm }}</option>
+                        <option value="value">{% trans 'level 2 comm'|title %} {{ l2comm }}</option>
+                        <option value="value">{% trans 'level 3 comm'|title %} {{ l3comm }}</option>
+                        <option value="value">{% trans 'level 4 comm'|title %} {{ l4comm }}</option>
+                        <option value="value">{% trans 'level 5 comm'|title %} {{ l5comm }}</option>
+                        <option value="value">{% trans 'level 6 comm'|title %} {{ l6comm }}</option>
+                    </select>
+                </div>
+                <input type="hidden" value="{{ product.pk }}" name="product_id">
+                
+
+                <!-- Cart & Favourite Box -->
+                <div class="cart-fav-box d-flex align-items-center">
+                    <button type="submit" value="submit" class="btn essence-btn">{% trans 'buy'|title %}</button>
+                    <div class="product-favourite ml-4">
+                        <a href="#" class="favme fa fa-heart"></a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </section>
+    <!-- ##### Single Product Details Area End ##### -->
+
+{% endblock %}

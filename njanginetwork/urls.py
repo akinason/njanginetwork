@@ -28,6 +28,7 @@ urlpatterns = [
     url('^graph/', include('mptt_graph.urls')),
     url(r'^purse/', include('purse.urls')),
     url(r'^blog/', include('blog.urls')),
+    url('^marketplace/', include('marketplace.urls')),
 ]
 
 if settings.DEBUG:

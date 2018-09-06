@@ -28,7 +28,8 @@ D = decimal.Decimal
 
 
 @app.task
-def request_momo_deposit(phone_number, amount, user_id, purpose, nsp, level, recipient_id=None, charge=None):
+def request_momo_deposit(phone_number, amount, user_id, purpose, nsp, level, recipient_id=None, charge=None,
+                         invoice_number=None):
     user = UserModel().objects.get(pk=user_id)
     recipient = None
 
@@ -37,7 +38,8 @@ def request_momo_deposit(phone_number, amount, user_id, purpose, nsp, level, rec
 
     payment_log = mm_manager.send_request(
         request_type=mm_request_type.deposit(), amount=amount, provider=momoapi_provider.monetbil(),
-        tel=phone_number, nsp=nsp, user=user, recipient=recipient, purpose=purpose, level=level, charge=charge
+        tel=phone_number, nsp=nsp, user=user, recipient=recipient, purpose=purpose, level=level, charge=charge,
+        invoice_number=invoice_number
     )
 
     response = {
@@ -48,7 +50,8 @@ def request_momo_deposit(phone_number, amount, user_id, purpose, nsp, level, rec
 
 
 @app.task
-def request_momo_payout(phone_number, amount, user_id, purpose, nsp, recipient_id=None, processing_fee=0.00, level=None):
+def request_momo_payout(phone_number, amount, user_id, purpose, nsp, recipient_id=None, processing_fee=0.00, level=None,
+                        invoice_number=None):
     user = UserModel().objects.get(pk=user_id)
     recipient = None
 
@@ -57,7 +60,8 @@ def request_momo_payout(phone_number, amount, user_id, purpose, nsp, recipient_i
 
     payment_log = mm_manager.send_request(
         request_type=mm_request_type.payout(), amount=amount, provider=momoapi_provider.monetbil(),
-        tel=phone_number, nsp=nsp, user=user, recipient=recipient, purpose=purpose, level=level, charge=processing_fee
+        tel=phone_number, nsp=nsp, user=user, recipient=recipient, purpose=purpose, level=level, charge=processing_fee,
+        invoice_number=invoice_number
     )
 
     # freeze the amount in the user's account.

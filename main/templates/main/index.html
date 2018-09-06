@@ -15,6 +15,20 @@
     <link rel="stylesheet" href="{% static 'website/css/shards.min.css' %}">
     <link rel="stylesheet" href="{% static 'website/css/shards-demo.css' %}">
      <!--<link rel="stylesheet" href="{% static 'website/css/shards-extras.min.css' %}">-->
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/5b8062e5f31d0f771d841f08/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
 </head>
 
 
@@ -65,6 +79,11 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'main:index' %}">{% trans 'home'|title %}
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'marketplace:index' %}">{% trans 'market place'|title %}
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
@@ -149,7 +168,7 @@
                         <div class="icon text-primary mr-3"><i class="fa fa-code"></i></div>
                         <div class="px-4">
                             <h5>{% trans "Peer 2 Peer Contribution"|title %}</h5>
-                            <p>{% trans "Contributions are passed from the sender to recipients immediately. Which means 5000 Frs contributed is equal to 5000 Frs received by the other network members." %}</p>
+                            <p>{% trans "Contributions are passed from the sender to recipients immediately. Which means" %} {{ level_1_contribution }} {% trans "Frs contributed is equal to" %} {{ level_1_contribution }} {% trans "Frs received by the other network members." %}</p>
                         </div>
                       </div>
                     </div>
@@ -165,8 +184,8 @@
                       <div class="feature py-4 col-md-6 d-flex">
                         <div class="icon text-primary mr-3"><i class="fa fa-support"></i></div>
                         <div class="px-4">
-                            <h5>{% trans "Start Small, Start with 5000 Frs "|title %}</h5>
-                            <p>{% trans "Unlike the ordinary Njangi, everyone starts here with 5000Frs and they never have to go somewhere to look for money to contribute again. They contribute from what they receive." %}</p>
+                            <h5>{% trans "Start Small, Start with"|title %} {{ level_1_contribution }} Frs</h5>
+                            <p>{% trans "Unlike the ordinary Njangi, everyone starts here with" %} {{ level_1_contribution }} {% trans "Frs and they never have to go somewhere to look for money to contribute again. They contribute from what they receive." %}</p>
                         </div>
                       </div>
                     </div>

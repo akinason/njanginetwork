@@ -18,20 +18,22 @@
     <link rel="stylesheet" href="http://159.65.47.154:8010/im_livechat/external_lib.css"/>
     <script type="text/javascript" src="http://159.65.47.154:8010/im_livechat/external_lib.js"></script>
     <script type="text/javascript" src="http://159.65.47.154:8010/im_livechat/loader/1"></script>
+
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/5b8062e5f31d0f771d841f08/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/5b8062e5f31d0f771d841f08/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
     </script>
     <!--End of Tawk.to Script-->
 </head>
+
 <body>
 
 
@@ -52,6 +54,11 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'main:index' %}">{% trans 'Home'|title %}
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'marketplace:index' %}">{% trans 'market place'|title %}
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>

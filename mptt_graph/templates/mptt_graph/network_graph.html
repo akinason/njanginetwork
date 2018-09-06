@@ -21,7 +21,7 @@
                             <li>
                                 <h6>
                                 <a href="{% url 'mptt_graph:network_graph' user_id=node.user.id %}">
-                                    {{ node.user.username }} | 
+                                    {{ node.user.id }} | {{ node.user.username }} |
                                     {{ node.side }} |<br> 
                                     {% if top_node.user.level < node.user.level %} 
                                         <span style="color:rgb(0,255,0)">{% trans 'Lvl' %} {{ node.user.level }}</span> 
@@ -30,7 +30,7 @@
                                     {% else %}
                                         <span style="color:rgb(0,0,255)">{% trans 'Lvl' %} {{ node.user.level }}</span>
                                     {% endif %} |
-                                    {{ node.get_descendant_count }}
+                                    {{ node.get_descendant_count }} | {{ node.user.sponsor }}
                                 </a></h6>
                                 {% if not node.is_leaf_node %}
                                     <ul>

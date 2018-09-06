@@ -1,0 +1,69 @@
+{% extends 'marketplace/base.html' %}
+{% load static i18n humanize %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+
+
+<!-- ##### Checkout Area End ##### -->
+<div class="checkout_area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-6 ml-lg-auto">
+                <div class="order-details-confirmation">
+
+                    <div class="cart-page-heading">
+                        
+                        <h5>
+                            {% trans 'Invoice #' %}{{ invoice.pk }} 
+                            {% if invoice.status == 'PAID' %}    
+                            <span style="color:green">
+                                 ({{ invoice.status_rstrip }})
+                            </span>
+                            {% else %}
+                            <span style="color:red">
+                                ({{ invoice.status_rstrip }})
+                            </span>
+                            {% endif %}
+                        </h5>
+                        <p>{{ invoice.user.get_full_name }} <br>{{ invoice.created_on }}</p>
+
+                    </div>
+
+                    <ul class="order-details-form mb-4">
+                        <li><span>{% trans 'description' %}</span> <span>{% trans 'total' %}</span></li>
+                        {% for item in invoice_items %}
+                        <li><span>{{item.product.name}}</span> <span>{{ item.amount_rstrip|intcomma }} XAF</span></li>
+                        {% endfor %}
+                        <li><span>{% trans 'subtotal' %}</span> <span>{{ invoice.total_rstrip|intcomma }} XAF</span></li>
+                        <li><span>{% trans 'shipping' %}</span> <span>{% trans 'free' %}</span></li>
+                        <li><span>{% trans 'total' %}</span> <span>{{ invoice.total_rstrip|intcomma }} XAF</span></li>
+                    </ul>
+                    <form action="{% url 'marketplace:payment'  %}" method="POST">
+                        {% csrf_token %}
+                        <div id="accordion" role="tablist" class="mb-4">
+                            <select name="paymentoption" id="paymentoption" class="mr-5">
+                                <option value="mobilemoney">{% trans "pay with mobilemoney"|title %}</option>
+                                <option value="wallet">{% trans 'pay with balance'|title %}</option>
+                            </select>
+                            <input type="hidden" name="invoice_id" value="{{ invoice.id }}">
+                            <br><br>
+                        </div>
+                        {% if invoice.status == "PAID" %}
+                        <a href="#" class="btn essence-btn">{% trans 'Invoice paid'|title %}</a>
+                        {% else %}
+                        <button type="submit" value="submit" class="btn essence-btn">{% trans 'confirm payment'|title %}</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+            <div class="col-6 col-md-6 col-lg-6 ml-lg-auto"></div>
+
+        </div>
+    </div>
+</div>
+<!-- ##### Checkout Area End ##### -->
+
+
+{% endblock %}

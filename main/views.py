@@ -21,6 +21,7 @@ from main.models import LevelModel
 from main.notification import notification
 from main.utils import add_sponsor_id_to_session, get_sponsor, get_promoter, add_promoter_id_to_session
 from njangi.core import add_user_to_njangi_tree, create_user_levels
+from njangi.models import LEVEL_CONTRIBUTIONS
 from njanginetwork import settings
 
 
@@ -48,6 +49,7 @@ class IndexView(generic.FormView):
         context['njangi_network'] = website.njangi_network()
         context['the_model'] = website.the_model()
         context['njangi_levels'] = LevelModel.objects.all().order_by('level')
+        context['level_1_contribution'] = LEVEL_CONTRIBUTIONS[1]
         return context
 
 

@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from main.core import TransactionStatus
 from main.notification import notification
+from marketplace import service as market_services
 from main.utils import get_sponsor_using_sponsor_id
 from njangi.core import add_user_to_njangi_tree, create_user_levels
 from njangi.tasks import process_nsp_contribution, process_wallet_load, process_wallet_withdraw
@@ -128,6 +129,9 @@ def process_transaction_update(tracker_id, status_code, server_response=None, uu
                 user.has_contributed = True
                 user.save()
                 process_nsp_contribution(mm_transaction.tracker_id)
+            elif mm_transaction.purpose == momo_purpose.market_purchase():
+                market_services.payment_complete_process(invoice_id=mm_transaction.invoice_number)
+
         else:
             if not mm_transaction.is_complete:
                 # First mark the failed transaction as complete.

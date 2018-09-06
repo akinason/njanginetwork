@@ -59,6 +59,26 @@
 						<li>
 							<a href="{% url 'njangi:dashboard' %}" class="active"><i class="fa fa-home nav_icon"></i>{% trans 'dashboard'|capfirst %}</a>
 						</li>
+						<li>
+							<a href="{% url 'marketplace:index' %}" class="active"><i class="fa fa-home nav_icon"></i>{% trans 'market place'|title %}</a>
+						</li>
+
+
+						{% if user.is_admin %}
+						<li class="">
+							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'Administration'|title %}<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li><a href=""><i class="fa fa-share nav_icon"></i>{% trans 'njangi network summary'|title %}</a></li>
+								<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'User Accounts'|title %}</a></li>
+								<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'User Account Balances'|title %}</a></li>
+								<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'Reset User Password'|title %}</a></li>
+								<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'Send SMS'|title %}</a></li>
+								<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'Send Email'|title %}</a></li>
+								
+							</ul>
+						</li>
+						{% endif %}
+
 						<li class="">
 							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'switch user'|title %}<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
