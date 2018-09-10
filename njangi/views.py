@@ -351,13 +351,8 @@ class NSPSignupContributionCheckoutView(LoginRequiredMixin, generic.TemplateView
         if nsp not in [_nsp.mtn(), _nsp.orange()]:
             content = "<h2>%s</h2>" % _('Sorry the URL you requested was not found on this server')
             return HttpResponseNotFound(content)
-        else:
-            if nsp == _nsp.orange():
-                subject = "No offence"
-                message = _("We are sorry that Orange Money services are temporally not available. We will inform you "
-                            "ones we set it up.")
-                return render(request, 'njangi/checkout/notification.html', {'subject': subject, 'message': message})
-            return super(NSPSignupContributionCheckoutView, self).get(request, *args, **kwargs)
+
+        return super(NSPSignupContributionCheckoutView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         nsp = request.POST.get('nsp')

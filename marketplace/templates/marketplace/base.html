@@ -56,7 +56,12 @@
                     <div class="classynav">
                         <ul>
                             <li><a href="{% url 'marketplace:product_list' %}">{% trans 'shop'|capfirst %}</a></li>
-                            <li><a href="{% url 'blog:index' %}">{% trans 'blog'|capfirst %}</a></li>
+                            <li><a>{% trans 'about'|title %}</a>
+                                <ul class="dropdown">
+                                    <li><a href="">{% trans 'How it works'|capfirst %}</a></li>
+                                    <li><a href="{% url 'blog:index' %}">{% trans 'blog'|capfirst %}</a></li>
+                                </ul>
+                            </li>
                             <li><a href="{% url 'main:contact' %}">{% trans 'contact'|capfirst %}</a></li>
                             {% if user.is_authenticated %}
                                 <li><a>{% trans 'my account'|title %}</a>

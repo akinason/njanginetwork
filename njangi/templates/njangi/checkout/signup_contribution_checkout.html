@@ -53,13 +53,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="card-text" style="color:red">
-                                            {% trans "NB: Normal Mobile Money Cashout charges apply" %} <br><span style="color:black">{% trans "A mobile Money Cashout request will be sent to" %}:
-                                            {% if nsp == 'mtn' %} {{ user.tel1 }} {% elif nsp == 'orange' %} {{ user.tel2 }} {% else %} {% trans 'NA' %} {% endif %}</span>
-                                            <a href="{% url 'main:profile_change' %}"><u>{% trans 'edit' %}</u></a>
-                                        </p>
+                                        <!-- <p class="card-text" style="color:red"> -->
+                                            <!-- {% trans "NB: Normal Mobile Money Cashout charges apply" %} <br><span style="color:black">{% trans "A mobile Money Cashout request will be sent to" %}: -->
+                                            <!-- {% if nsp == 'mtn' %} {{ user.tel1 }} {% elif nsp == 'orange' %} {{ user.tel2 }} {% else %} {% trans 'NA' %} {% endif %}</span> -->
+                                            <a href="{% url 'main:profile_change' %}"><u>{% trans 'edit phone number'|title %}</u></a>
+                                        <!-- </p> -->
                                         <hr>
-                                        <input type="submit" class="btn btn-primary" name="submit" value="{% trans 'request Cashout'|title %}">
+                                        <input type="submit" class="btn btn-primary" name="submit" value="{% trans 'Continue'|title %}">
                                         <a href="{% url 'njangi:signup_contribution_required' %}" class="btn btn-primary">{% trans "Cancel Operation"|title %}</a>
                                     </form
                                 </div>

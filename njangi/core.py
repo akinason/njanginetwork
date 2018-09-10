@@ -189,10 +189,10 @@ def get_upline_to_pay_upgrade_contribution(user_id, level):
 
 def get_level_contribution_amount(level):
     # Returns the amount to contribute for a particular level
-    if int(level) in NJANGI_LEVELS:
-        return LEVEL_CONTRIBUTIONS[int(level)]
-    else:
-        return 5000
+    try:
+        return LEVEL_CONTRIBUTIONS[level]
+    except Exception:
+        return 2000
 
 
 def recipient_can_receive_level_contribution(recipient, level, amount):
