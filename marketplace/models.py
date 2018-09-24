@@ -172,14 +172,14 @@ class MarketManager:
 
     def get_total_invoice_value(self):
         # Returns the total value of all paid invoices.
-        invoice = Invoice.objects.aggregate(
+        invoice = Invoice.objects.filter(status=self.invoice_status.paid()).aggregate(
             value=Coalesce(Sum(F('total')), V(0.00))
         )
         return D(invoice['value'])
 
     def get_total_commission_paid(self):
         # Returns the total commission paid out to users.
-        commission = Commission.objects.aggregate(
+        commission = Commission.objects.filter(user__is_admin=False).aggregate(
             total_commission=Coalesce(Sum(F('amount')), V(0.00))
         )
         return D(commission['total_commission'])

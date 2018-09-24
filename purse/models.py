@@ -852,8 +852,8 @@ class WalletManager:
 
     def get_total_charge(self):
         trans_status = WalletTransStatus()
-        # returns the wallet balance of the specified user.
-        wallet = self.model.objects.filter(user__is_admin=True).filter(
+        # returns the total charge paid by users.
+        wallet = self.model.objects.filter(user__is_admin=False).filter(
             Q(status=trans_status.complete()) | Q(status=trans_status.success())
         ).aggregate(
             charge=Coalesce(Sum(F('charge')), V(0.00))
