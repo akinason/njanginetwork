@@ -450,7 +450,7 @@ class WalletTransactionListView(ContributionRequiredMixin, generic.ListView):
         return context
 
 
-class WalletLoadAndWithdrawChoiceView(ContributionRequiredMixin, generic.TemplateView):
+class WalletLoadAndWithdrawChoiceView(generic.TemplateView):
     """
     View that displays the wallets and their balances for the user to chose which to
     perform an action on.
@@ -465,7 +465,7 @@ class WalletLoadAndWithdrawChoiceView(ContributionRequiredMixin, generic.Templat
         return context
 
 
-class WalletLoadAndWithdrawView(ContributionRequiredMixin, generic.TemplateView):
+class WalletLoadAndWithdrawView(generic.TemplateView):
     """
     A view that receives the user's wallet choice and action and displays a form
     for the user to provide an amount. Then on post, processes the operation and

@@ -32,3 +32,8 @@ def upgrade_to(user_id):
 @register.simple_tag(name='replace_underscore')
 def replace_underscore(value):
     return value.replace('_', ' ')
+
+
+@register.simple_tag(name='r_strip')
+def r_strip(amount):
+    return ("%f" % amount).rstrip('0').rstrip('.')

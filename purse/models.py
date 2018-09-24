@@ -436,12 +436,17 @@ class WalletManager:
         except Exception as e:
             return {'status': self.trans_status.failed(), 'message': e}
 
-    def balance(self, user, nsp):
+    def balance(self, user, nsp=None):
         trans_status = WalletTransStatus()
         # returns the wallet balance of the specified user.
-        wallet = self.model.objects.filter(user=user, nsp=nsp).filter(
+        wallet = self.model.objects.filter(user=user).filter(
             Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
-        ).aggregate(
+        )
+
+        if nsp:
+            wallet = wallet.filter(nsp=nsp)
+
+        wallet = wallet.aggregate(
             balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
         )
         balance = D(wallet['balance'])
@@ -795,20 +800,67 @@ class WalletManager:
         else:
             return self.model.objects.none()
 
-
-    def account_balances(self):
+    def get_account_balances(self, include_admin=False, user=None):
         """
         Returns the list of all accounts and their balances.
         """
         trans_status = WalletTransStatus()
-        # returns the wallet balance of the specified user.
-        balances = self.model.objects.filter(user__is_admin=False).filter(
+        # returns the wallet balances of all users.
+
+        balances = self.model.objects.filter(
             Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
-        ).values('user').annotate(
+        )
+
+        if user:
+            balances = balances.filter(user=user)
+
+        if not include_admin:
+            balances = balances.filter(user__is_admin=False)
+
+        balances = balances.values('user', 'user__username', 'user__first_name', 'user__last_name').annotate(
             balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
-        ).order_by('balance')
+        ).order_by('-balance')
         
         return balances
+
+    def get_total_balance(self, include_admin=False):
+        trans_status = WalletTransStatus()
+        # returns the total balance in all wallets.
+        wallet = self.model.objects.filter(
+            Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
+        )
+
+        if not include_admin:
+            wallet = wallet.filter(user__is_admin=False)
+
+        wallet = wallet.aggregate(
+            balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
+        )
+        balance = D(wallet['balance'])
+        return balance
+
+    def get_total_admin_balance(self):
+        trans_status = WalletTransStatus()
+        # returns the wallet balance of the specified user.
+        wallet = self.model.objects.filter(user__is_admin=True).filter(
+            Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
+        ).aggregate(
+            balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
+        )
+        balance = D(wallet['balance'])
+        return balance
+
+    def get_total_charge(self):
+        trans_status = WalletTransStatus()
+        # returns the wallet balance of the specified user.
+        wallet = self.model.objects.filter(user__is_admin=True).filter(
+            Q(status=trans_status.complete()) | Q(status=trans_status.success())
+        ).aggregate(
+            charge=Coalesce(Sum(F('charge')), V(0.00))
+        )
+        total_charge = D(wallet['charge'])
+        return total_charge * -1
+
 
 class MobileMoney(models.Model):
     request_status = models.CharField(_('request status'), max_length=20, blank=True)

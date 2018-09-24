@@ -1,0 +1,67 @@
+{% extends 'marketplace/base.html' %}
+
+{% load static i18n humanize %}
+
+{% block title %} {% trans 'how it works'|title %} {% endblock %}
+
+{% block content %}
+
+    <!-- ##### Blog Wrapper Area Start ##### -->
+    <div class="single-blog-wrapper">
+
+        <!-- Single Blog Post Thumb -->
+        <div class="single-blog-post-thumb">
+            <!-- <img src="{{ index_image.image.url }}" alt=""> -->
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="regular-page-content-wrapper section-padding-80">
+                        <div class="regular-page-text">
+                            <h2>{% trans 'how it works'|title %}</h2>
+                            <p>
+                                {% trans 'Earn Amazing commissions on the Market Place. The procedure is simple:' %}
+                            </p>
+                            
+                            <blockquote>
+                                    <a href="{% url 'main:signup' %}"><h6><i class="fa fa-quote-left" aria-hidden="true"></i> 1 -{% trans 'Signup' %} </h6></a>
+                            </blockquote>
+                            <blockquote>
+                                    <a href="{% url 'marketplace:product_list' %}"><h6><i class="fa fa-quote-left" aria-hidden="true"></i> 2 - {% trans 'Buy an e-pack' %} </h6></a>
+                                    <span>{% trans 'Pay with MTN or Orange or Express Union Mobile Money.' %}</span>
+                            </blockquote>
+                            <blockquote>
+                                <h6><i class="fa fa-quote-left" aria-hidden="true"></i> 
+                                    3 - {% trans 'Invite your network of friends to Signup and buy the e-pack you already purchased.' %}
+                                </h6>
+                                <span>{% trans 'You earn level 1 commission on the e-pack.' %}</span>
+                            </blockquote>
+                            <blockquote>
+                                    <h6><i class="fa fa-quote-left" aria-hidden="true"></i> 
+                                        4 - {% trans 'They invite their friends who also signup and buy e-packs.' %}
+                                    </h6>
+                                    <span>{% trans 'You earn level 2 commission on the e-packs.' %}</span>
+                            </blockquote>
+                            <blockquote>
+                                    <h6><i class="fa fa-quote-left" aria-hidden="true"></i> 
+                                        5 - {% trans 'And so on until level 6 commission.' %}
+                                    </h6>
+                                    <span>{% trans '(Depending on the pack, commission amounts vary. Check product details for commission percentages.)' %}</span>
+                            </blockquote>
+                            <blockquote>
+                                    <h6><i class="fa fa-quote-left" aria-hidden="true"></i> 
+                                        6 - {% trans 'Withdraw your commissions anytime into your Orange or MTN Mobile Money Account.' %}
+                                    </h6>
+                                    <span>{% trans '(Your money is available immediately for withdrawal.)' %}</span>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Blog Wrapper Area End ##### -->
+
+
+{% endblock %}

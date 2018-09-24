@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^purse/', include('purse.urls')),
     url(r'^blog/', include('blog.urls')),
     url('^marketplace/', include('marketplace.urls')),
+    url('^dashboard/administration/', include('administration.urls')),
 ]
 
 if settings.DEBUG:

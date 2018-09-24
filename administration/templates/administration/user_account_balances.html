@@ -1,0 +1,69 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags tz %}
+
+
+{% block content %}
+{% localtime on %}
+
+<div class="row">
+    <div class="tables">
+        <div class="table-responsive bs-example widget-shadow">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <h5>
+                        {% trans 'total balance'|title %}: {{ total_user_balance|intcomma }}
+                    </h5><br>
+                </div>
+                <div class="col-md-3">
+                    <form action="{% url 'administration:user_account_balances' %}" >
+                        <input type="text" name="username" placeholder="Search by username" id="username">
+                        <input type="submit" value="{% trans 'search'|title %}">
+                    </form>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{% trans 'username' %}</th>
+                        <th>{% trans 'first name'|title %}</th>
+                        <th>{% trans 'last name'|title %}</th>
+                        <th>{% trans 'balance'|title %}</th>
+                        <!-- <th>{% trans 'action'|title %}</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                {% for obj in balances %}
+                    <tr>
+                        <th scope="row"><h6>{{ obj.user__username }}</h6></th>
+                        <td><h6>{{ obj.user__first_name|title }}</h6></td>
+                        <td><h6>{{ obj.user__last_name|title }}</h6></td>
+                        <td><h6>{{ obj.balance }}</h6></td>
+
+                        <!-- <td><h6><a href=""><i class="fa fa-trash-o nav_icon"></i> {% trans 'Remove'|title %}</a></h6></td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if is_paginated and user_account_list %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'administration:user_account_balances' %}?page={{ page_obj.previous_page_number }}">{% trans 'previous'|title %}</a>
+                    {% endif %}
+                    <span class="page-current">
+                        {% trans 'page'|title %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'administration:user_account_balances' %}?page={{ page_obj.next_page_number }}">{% trans 'next'|title %}</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+{% endlocaltime %}
+{% endblock %}

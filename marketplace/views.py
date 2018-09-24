@@ -1,13 +1,14 @@
 import decimal
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
-from .models import Product, Invoice, InvoiceItem, InvoiceStatus, PaymentMethod, ProductType, ProductImage
+from .models import Product, Invoice, InvoiceItem, InvoiceStatus, PaymentMethod, ProductType, ProductImage, Commission
 from marketplace import service as market_services
 from main.utils import add_promoter_id_to_session, add_sponsor_id_to_session
 from njangi.models import NSP
@@ -160,6 +161,17 @@ class InvoiceDetailView(LoginRequiredMixin, generic.TemplateView):
             return render(request, 'marketplace/not_found.html')
 
 
+class InvoiceListView(LoginRequiredMixin, generic.ListView):
+    template_name = 'marketplace/invoice_list.html'
+    paginate_by = 10
+    context_object_name = 'invoice_list'
+
+    def get_queryset(self):
+        return Invoice.objects.filter(
+            Q(status=invoice_status.paid()) | Q(status=invoice_status.pending_payment()), user=self.request.user
+        ).order_by('-created_on')
+
+
 class PaymentView(LoginRequiredMixin, generic.View):
 
     def post(self, request, *args, **kwargs):
@@ -218,4 +230,18 @@ class PaymentView(LoginRequiredMixin, generic.View):
         return HttpResponseRedirect(reverse(viewname='marketplace:invoice_detail', kwargs={'pk': invoice_id}))
 
 
+class HowItWorksView(generic.TemplateView):
+    template_name = 'marketplace/how_it_works.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(HowItWorksView, self).get_context_data(**kwargs)
+        return context
+
+
+class CommissionStatementView(LoginRequiredMixin, generic.ListView):
+    template_name = 'marketplace/commission_statement.html'
+    paginate_by = 10
+    context_object_name = 'commission_list'
+
+    def get_queryset(self):
+        return Commission.objects.filter(user=self.request.user).order_by('-created_on')

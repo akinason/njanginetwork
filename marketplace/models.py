@@ -1,10 +1,15 @@
+import decimal
+
 from django.contrib.auth import get_user_model as UserModel
 from django.db import models
+from django.db.models import Sum, F, Value as V, Q
+from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from tinymce.models import HTMLField
 
+D = decimal.Decimal
 INVOICE_STATUS = (('DRAFT', 'DRAFT'), ('PENDING_PAYMENT', 'PENDING_PAYMENT'), ('PAID', 'PAID'), ('CANCELLED', 'CANCELLED'))
 PRODUCT_TYPE_IMAGE_URL = 'marketplace/product_type/'
 PRODUCT_IMAGE_URL = 'marketplace/product/'
@@ -84,7 +89,8 @@ class Product(models.Model):
             return ProductImage.objects.none()
 
     def price_rstrip(self):
-        return ("%f" % self.price ).rstrip('0').rstrip('.')
+        return ("%f" % self.price).rstrip('0').rstrip('.')
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -119,6 +125,7 @@ class Invoice(models.Model):
     def status_rstrip(self):
         return self.status.replace('_', ' ').capitalize()
 
+
 class InvoiceItem(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     product = models.ForeignKey(
@@ -135,14 +142,16 @@ class InvoiceItem(models.Model):
         return self.product.name
 
     def price_rstrip(self):
-        return ("%f" % self.price ).rstrip('0').rstrip('.')
+        return ("%f" % self.price).rstrip('0').rstrip('.')
 
     def amount_rstrip(self):
         return ("%f" % self.amount).rstrip('0').rstrip('.')
 
+
 class Commission(models.Model):
     """ A model to store all commission sharing history."""
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(UserModel(), on_delete=models.CASCADE)
     level = models.IntegerField()
     percentage = models.DecimalField(max_digits=3, decimal_places=3)
@@ -150,3 +159,31 @@ class Commission(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(default=timezone.now)
 
+    def amount_rstrip(self):
+        return ("%f" % self.amount).rstrip('0').rstrip('.')
+
+
+class MarketManager:
+    invoice_status = InvoiceStatus()
+
+    def get_total_invoice_count(self):
+        # Returns the total number of paid invoices.
+        return Invoice.objects.filter(status=self.invoice_status.paid()).count()
+
+    def get_total_invoice_value(self):
+        # Returns the total value of all paid invoices.
+        invoice = Invoice.objects.aggregate(
+            value=Coalesce(Sum(F('total')), V(0.00))
+        )
+        return D(invoice['value'])
+
+    def get_total_commission_paid(self):
+        # Returns the total commission paid out to users.
+        commission = Commission.objects.aggregate(
+            total_commission=Coalesce(Sum(F('amount')), V(0.00))
+        )
+        return D(commission['total_commission'])
+
+    def get_total_marketplace_income(self):
+        # Returns the total income made in the marketplace. InvoiceTotal - TotalCommissionPaid
+        return self.get_total_invoice_value() - self.get_total_commission_paid()

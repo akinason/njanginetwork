@@ -1,0 +1,61 @@
+{% extends 'marketplace/base.html' %}
+{% load static i18n humanize %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+
+
+<!-- ##### Checkout Area End ##### -->
+<div class="checkout_area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12 ml-lg-auto">
+                <div class="cart-page-heading">
+                    <h5>{% trans 'my invoices'|title %}</h5>{{ user.get_full_name }}
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <!--<th>{% trans 'invoice #'|title %}</th>-->
+                            <th>{% trans 'date'|title %}</th>
+                            <th>{% trans 'invoice total'|title %}</th>
+                            <th>{% trans 'status'|title %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in invoice_list %}
+                        <tr>
+                            <!--<th scope="row"><h6><a href="{% url 'marketplace:invoice_detail' obj.pk %}">{{ obj.pk }}</a></h6></th>-->
+                            <th scope="row"><h6><a href="{% url 'marketplace:invoice_detail' obj.pk %}">{{ obj.created_on|date:'Y-M-d H:i' }}</a></h6></th>
+                            <th scope="row"><h6><a href="{% url 'marketplace:invoice_detail' obj.pk %}">{{ obj.total_rstrip|intcomma }}</a></h6></th>
+                            <th scope="row"><h6><a href="{% url 'marketplace:invoice_detail' obj.pk %}">{{ obj.status_rstrip }}</a></h6></th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if is_paginated and user_account_list %}
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                            <a href="{% url 'marketplace:invoice_list' %}?page={{ page_obj.previous_page_number }}">{% trans 'previous'|title %}</a>
+                        {% endif %}
+                        <span class="page-current">
+                            {% trans 'page'|title %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="{% url 'marketplace:invoice_list' %}?page={{ page_obj.next_page_number }}">{% trans 'next'|title %}</a>
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Checkout Area End ##### -->
+
+
+{% endblock %}

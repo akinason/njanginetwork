@@ -993,4 +993,29 @@ def send_signup_welcome_sms(user_id):
         return False
     return send_sms(to_number=to_number, body=_message)
 
+@app.task 
+def send_missed_commission_sms(user_id, amount, product_name):
+    amount = round(amount)
+    try:
+        user = UserModel().objects.get(pk=user_id)
+    except UserModel().DoesNotExist:
+        return False
 
+    params = {
+        'amount': amount, 'product_name': product_name
+    }
+    _message = _('MarketPlace Commssion Missed. \n'
+                'Amt: %(amount)s XAF\nPack: %(product_name)s \n'
+                'Buy this pack to avoid losses next time.'
+                 ) % params
+    to_number = ''
+    try:
+        if user.tel1:
+            to_number = user.tel1.as_international
+        elif user.tel2:
+            to_number = user.tel2.as_international
+        else:
+            return False
+    except Exception as e:
+        return False
+    return send_sms(to_number=to_number, body=_message)

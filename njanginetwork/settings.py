@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'mptt_graph.apps.MpttGraphConfig',
     'blog.apps.BlogConfig',
+    'administration.apps.AdministrationConfig',
 
 ]
 

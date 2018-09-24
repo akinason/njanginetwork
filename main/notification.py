@@ -18,6 +18,7 @@ class NotificationTypes:
         self._subscription_failed = 'subscription_failed'
         self._subscription_success = 'subscription_success'
         self._commission_received = 'commission_received'
+        self._missed_commission = 'missed_commission'
 
     def contribution_received(self):
         return self._contribution_received
@@ -48,6 +49,9 @@ class NotificationTypes:
 
     def commission_received(self):
         return self._commission_received
+
+    def missed_commission(self):
+        return self._missed_commission
 
 
 class NotificationManager:
@@ -210,6 +214,12 @@ class NotificationManager:
                     'purpose': purpose.replace("_", " ").capitalize(), 'amount': amount
                 }
             return NotificationManager().create(notification_type=purpose, user_id=user_id, text=self.text)
+
+        def missed_commission(self, user_id, level, amount, buyer_name, product_name):
+            amount = round(amount)
+            self.text = _('You missed a level %(level)s commission of %(amount)s XAF from %(buyer_name)s on the e-pack %(product_name)s because you have not yet purchased this pack.') % {
+                'amount': amount, 'level': level, 'buyer_name': buyer_name, 'product_name': product_name
+            }
 
     notification_type = NotificationTypes()
     templates = Templates()

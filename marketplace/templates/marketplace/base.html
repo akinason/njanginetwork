@@ -58,7 +58,7 @@
                             <li><a href="{% url 'marketplace:product_list' %}">{% trans 'shop'|capfirst %}</a></li>
                             <li><a>{% trans 'about'|title %}</a>
                                 <ul class="dropdown">
-                                    <li><a href="">{% trans 'How it works'|capfirst %}</a></li>
+                                    <li><a href="{% url 'marketplace:how_it_works' %}">{% trans 'How it works'|capfirst %}</a></li>
                                     <li><a href="{% url 'blog:index' %}">{% trans 'blog'|capfirst %}</a></li>
                                 </ul>
                             </li>
@@ -67,8 +67,11 @@
                                 <li><a>{% trans 'my account'|title %}</a>
                                     <ul class="dropdown">
                                         <li><a href="{% url 'njangi:dashboard' %}">{% trans 'dashboard'|capfirst %}</a></li>
-                                        <li><a href="{% url 'main:logout' %}">{% trans 'logout'|capfirst %}</a></li>
+                                        <li><a href="{% url 'njangi:load_or_withdraw_choice' action='withdraw' %}">{% trans 'withdraw earnings'|title %}</a></li>
+                                        <li><a href="{% url 'marketplace:commission_statement' %}">{% trans 'earning history'|title %}</a></li>
+                                        <li><a href="{% url 'marketplace:invoice_list' %}">{% trans 'my invoices'|title %}</a></li>
                                         <li><a href="{% url 'main:index' %}">{% trans 'njangi network'|title %}</a></li>
+                                        <li><a href="{% url 'main:logout' %}">{% trans 'logout'|capfirst %}</a></li>
                                     </ul>
                                 </li>
                             {% else %}
@@ -92,18 +95,11 @@
             <div class="header-meta d-flex clearfix justify-content-end">
             
                 <!-- Search Area -->
-                <!--<div class="search-area">-->
-                    <!--<form action="#" method="post">-->
-                        <!--<input type="search" name="search" id="headerSearch" placeholder="Type for search">-->
-                        <!--<button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>-->
-                    <!--</form>-->
-                <!--</div>-->
-                <!-- Cart Area -->
-
-                <div class="cart-area">
-                    <a href="#" id="essenceCartBtn">
-                        {% if user.is_authenticated %} {{ account_balance }}<span>xaf</span> {% else %} 0 <span>xaf</span>{% endif %}
-                    </a>
+                <div class="search-area">
+                    <form action="#">
+              
+                            Wallet: {{ account_balance }} XAF<input type="search"  >
+                    </form>
                 </div>
             </div>
         </div>

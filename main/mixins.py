@@ -12,3 +12,14 @@ class ContributionRequiredMixin(LoginRequiredMixin):
         if not request.user.has_contributed:
             return HttpResponseRedirect(reverse('njangi:signup_contribution_required'))
         return super().dispatch(request, *args, **kwargs)
+
+
+class AdminPermissionRequiredMixin(LoginRequiredMixin):
+    """
+    Verify that the current user is an admin.
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_admin:
+            return HttpResponseRedirect(reverse('njangi:dashboard'))
+        return super().dispatch(request, *args, **kwargs)

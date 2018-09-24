@@ -3,8 +3,11 @@ from django.utils.translation import ugettext_lazy as _
 
 from .models import InvoiceStatus, Invoice, InvoiceItem, Commission
 from main import notification
+from mailer import services as mailer_services
 from njangi.models import NSP
+from njanginetwork.celery import app
 from purse.models import MOMOPurpose, TransactionStatus, WalletTransDescription, WalletManager
+
 
 momo_purpose = MOMOPurpose()
 trans_status = TransactionStatus()
@@ -16,6 +19,7 @@ notification_type = notification.NotificationTypes()
 notification_manager = notification.NotificationManager()
 
 
+@app.task 
 def payment_complete_process(invoice_id, payment_reference=None, payment_method=None):
     """ Function called when payment is completed. """
     invoice = ""
@@ -67,71 +71,91 @@ def share_commission(invoice_id):
         amount = level_1_commission * invoice_total
         upline = pay_commission(
             purchaser=user, downline=user, level=1, percentage=level_1_commission, amount=amount, admin=admin,
-            product_name=product.name, invoice=invoice
+            product_name=product.name, invoice=invoice, product=product
         )
 
         # process level 2 commission
+        amount = level_2_commission * invoice_total
         if upline.is_admin:
+            if amount > 0:
+                commission_log = Commission(invoice=invoice, product=product, user=admin, level=2,
+                                            percentage=level_2_commission, amount=amount)
+                commission_log.save()
             return True
         else:
-            amount = level_2_commission * invoice_total
             upline = pay_commission(
                 purchaser=user, downline=upline, level=2, percentage=level_2_commission, amount=amount, admin=admin,
-                product_name=product.name, invoice=invoice
+                product_name=product.name, invoice=invoice, product=product
             )
 
         # process level 3 commission
+        amount = level_3_commission * invoice_total
         if upline.is_admin:
+            if amount > 0:
+                commission_log = Commission(invoice=invoice, product=product, user=admin, level=3,
+                                            percentage=level_3_commission, amount=amount)
+                commission_log.save()
             return True
         else:
-            amount = level_3_commission * invoice_total
             upline = pay_commission(
                 purchaser=user, downline=upline, level=3, percentage=level_3_commission, amount=amount, admin=admin,
-                product_name=product.name, invoice=invoice
+                product_name=product.name, invoice=invoice, product=product
             )
 
         # process level 4 commission
+        amount = level_4_commission * invoice_total
         if upline.is_admin:
+            if amount > 0:
+                commission_log = Commission(invoice=invoice, product=product, user=admin, level=4,
+                                            percentage=level_4_commission, amount=amount)
+                commission_log.save()
             return True
         else:
-            amount = level_4_commission * invoice_total
             upline = pay_commission(
                 purchaser=user, downline=upline, level=4, percentage=level_4_commission, amount=amount, admin=admin,
-                product_name=product.name, invoice=invoice
+                product_name=product.name, invoice=invoice, product=product
             )
 
         # process level 5 commission
+        amount = level_5_commission * invoice_total
         if upline.is_admin:
+            if amount > 0:
+                commission_log = Commission(invoice=invoice, product=product, user=admin, level=5,
+                                            percentage=level_5_commission, amount=amount)
+                commission_log.save()
             return True
         else:
-            amount = level_5_commission * invoice_total
             upline = pay_commission(
                 purchaser=user, downline=upline, level=5, percentage=level_5_commission, amount=amount, admin=admin,
-                product_name=product.name, invoice=invoice
+                product_name=product.name, invoice=invoice, product=product
             )
 
         # process level 6 commission
+        amount = level_6_commission * invoice_total
         if upline.is_admin:
+            if amount > 0:
+                commission_log = Commission(invoice=invoice, product=product, user=admin, level=6,
+                                            percentage=level_6_commission, amount=amount)
+                commission_log.save()
             return True
         else:
-            amount = level_6_commission * invoice_total
             upline = pay_commission(
                 purchaser=user, downline=upline, level=6, percentage=level_6_commission, amount=amount, admin=admin,
-                product_name=product.name, invoice=invoice
+                product_name=product.name, invoice=invoice, product=product
             )
 
     invoice.is_commission_paid = True
     invoice.save()
 
 
-def pay_commission(purchaser, downline, level, percentage, amount, product_name, admin, invoice):
+def pay_commission(purchaser, downline, level, percentage, amount, product_name, admin, invoice, product):
     """
         This function gets a downline, and searches for the upline(the person who invited the downline)
         and gives the commission to that person and returns that upline for the next computation/sharing.
         purchaser: The person who bought the package.
         downline: The downline depending on the level. Level 1 downline is the purchaser. Used to get the upline.
         level: The level the commission is directed to.
-        percentage: The percentage given the the upline.
+        percentage: The percentage given to the upline.
         amount: The amount given to the upline
         product_name: the name of the product purchased.
         admin: the admin user from whose account the amount has to be transferred
@@ -140,22 +164,55 @@ def pay_commission(purchaser, downline, level, percentage, amount, product_name,
         'username': purchaser.username, 'product_name': product_name
     }
     upline = ''
+    recipient = ''
     try:
         upline = UserModel().objects.get(pk=downline.sponsor)
     except:
-        upline = UserModel().objects.filter(is_admin=True).order_by('username')[:1].get()
+        upline = admin
+    
+    if upline.is_admin: 
+        recipient = upline
+    else:
+        if user_has_already_purchased_pack(user=upline, product=product):
+            # Verify if the user has already purchased the pack.
+            recipient = upline
+        else:
+            recipient = admin
+
+            # Inform the upline, he/she has missed a commission because he/she has not yet purchased the pack.
+            if amount > 0:
+                notification_manager.templates.missed_commission(
+                    user_id=upline.id, level=level, amount=amount, buyer_name=purchaser.username, product_name=product.name
+                )
+                # send an SMS
+                mailer_services.send_missed_commission_sms(
+                    user_id=upline.id, amount=amount, product_name=product.name
+                )
+
     if amount > 0:
         wallet_manager.transfer(
-            sender=admin, recipient=upline, amount=amount, information=information, nsp=_nsp.mtn(),
+            sender=admin, recipient=recipient, amount=amount, information=information, nsp=_nsp.mtn(),
             sender_description=trans_description.commission(), recipient_description=trans_description.commission(),
         )
 
+        # Create a notification on the user's dashboard.
         text = information + ' Amount: ' + str(round(amount)) + ' XAF.'
         notification_manager.create(
             user_id=upline.id, notification_type=notification_type.commission_received(), text=text
         )
 
-    # Keep track of it in the commission table.
-    commission_log = Commission(invoice=invoice, user=upline, level=level, percentage=percentage, amount=amount)
-    commission_log.save()
+        # Send an SMS to the user.
+
+        # Keep track of it in the commission table.
+        commission_log = Commission(invoice=invoice, product=product, user=recipient, level=level, percentage=percentage, amount=amount)
+        commission_log.save()
     return upline
+
+
+def user_has_already_purchased_pack(user, product):
+    """
+        This function verifies if the user has already purchased the specified pack. It returns true or false.
+    """
+    count = InvoiceItem.objects.filter(product=product, invoice__user=user, invoice__status=invoice_status.paid).count()
+
+    return True if count > 0 else False

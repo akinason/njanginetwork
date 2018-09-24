@@ -1,9 +1,18 @@
 from blog.models import MainCategory
 from main.core import NSP
 from njangi.models import NjangiTree, UserAccountManager
+from purse.models import WalletManager
 
+
+wallet_manager = WalletManager()
 account_manager = UserAccountManager()
 
+def get_user_balance(request):
+    user = request.user
+    if user.is_authenticated:
+        return wallet_manager.balance(user=user)
+    else:
+        return 0
 
 def get_user_node(request):
     if request.user.is_authenticated:
@@ -40,5 +49,6 @@ def njangi_context_processors(request):
         'user_account': get_user_account(request),
         'user_account_list': get_user_account_list(request),
         'main_category_list': MainCategory.objects.filter(is_published=True),
+        'account_balance': get_user_balance(request),
     }
     return context

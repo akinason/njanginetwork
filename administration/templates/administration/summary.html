@@ -1,0 +1,78 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags tz %}
+
+
+{% block content %}
+{% localtime on %}
+<!-- General statistics-->
+<div class="row-one">
+    <div class="col-md-4 widget">
+        <div class="stats-left ">
+            <h5>{% trans 'total'|capfirst %}</h5>
+            <h5>{% trans 'user balances'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ total_user_balance|intcomma }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-mdl">
+        <div class="stats-left">
+            <h5>{% trans 'total'|capfirst %}</h5>
+            <h5>{% trans 'admin balance'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ total_admin_balance|intcomma  }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-last">
+        <div class="stats-left">
+            <h5>{% trans "total"|capfirst %}</h5>
+            <h5>{% trans 'charge'|capfirst %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ total_charge|intcomma }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<div class="row">
+    <div class="clearfix"> </div>
+</div>
+<div class="row-two">
+    <div class="col-md-4 widget">
+        <div class="stats-left ">
+            <h5>{% trans 'total'|capfirst %}</h5>
+            <h5>{% trans 'paid invoices'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ total_invoice_count }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-mdl">
+        <div class="stats-left">
+            <h5>{% trans 'total commission'|capfirst %}</h5>
+            <h5>{% trans 'paid out '|capfirst %}</h5>
+        </div>
+        <div class="stats-right">
+            <h6>{{ total_commission_paid|intcomma }}</h6>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="col-md-4 widget states-last">
+        <div class="stats-left">
+            <h5>{% trans 'total'|capfirst %}</h5>
+            <h5>{% trans 'marketplace income'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h6>{{ marketplace_income|intcomma }}</h6>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<!--End General statistics-->
+{% endlocaltime %}
+{% endblock %}
