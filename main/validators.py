@@ -7,12 +7,12 @@ def validate_password(password):
         # lambda s: any(x.isupper() for x in s),  # must have at least one uppercase
         # lambda s: any(x.islower() for x in s),  # must have at least one lowercase
         # lambda s: any(x.isdigit() for x in s),  # must have at least one digit
-        lambda s: len(s) >= 5  # must be at least 5 characters
+        lambda s: len(s) >= 8  # must be at least 5 characters
     ]
-    if not all(rule(password) for rule in rules):
-        raise ValidationError(
-            _('Password must contain at least 5 characters'),
-        )
+    # if not all(rule(password) for rule in rules):
+    #     raise ValidationError(
+    #         _('Password must contain at least 8 characters'),
+    #     )
 
 
 class ValidatePassword:
@@ -30,8 +30,9 @@ class ValidatePassword:
     def validate(self, password, user=None):
         if not all(rule(password) for rule in self.rules):
             raise ValidationError(
-                _('Password must contain at least 5 characters'),
+                _('Password must contain at least 8 characters'),
             )
 
     def get_help_text(self):
-        return _('Password must contain at least 5 characters')
+        return ''
+        # return _('Password must contain at least 8 characters')

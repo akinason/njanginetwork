@@ -176,3 +176,12 @@ class ContactForm(forms.Form):
         required=True,
         widget=forms.Textarea
     )
+
+
+class PhonePasswordResetForm(forms.Form):
+    username = forms.CharField(label=_('username'), required=True, max_length=50)
+    phone_number = forms.IntegerField(label=_('phone number'), required=True)
+
+
+class PhonePasswordResetCodeForm(forms.Form):
+    code = forms.IntegerField(label=_('enter code'), required=True)

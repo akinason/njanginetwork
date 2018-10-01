@@ -18,7 +18,6 @@ from purse.models import MOMOPurpose, TransactionStatus, WalletTransDescription,
 from purse.lib import monetbil
 
 
-
 invoice_status = InvoiceStatus()
 payment_method = PaymentMethod()
 _nsp = NSP()
@@ -116,14 +115,22 @@ class CreateInvoiceView(LoginRequiredMixin, generic.View):
         invoice = self.model(user=request.user)
         invoice.save()
 
+        # compute the discount amount
+        total = product.price * quantity
+        discount_amount = 0
+
+        if product.allow_discount:
+            discount_amount = round(total * product.discount)
+
         invoice_item = InvoiceItem(
             invoice=invoice, product=product, quantity=quantity, price=product.price, amount=product.price * quantity,
-            discount=discount
+            discount=discount_amount
         )
         invoice_item.save()
 
-        # Update the total on the invoice.
-        invoice.total = product.price * quantity
+        # Update the totals on the invoice.
+        invoice.total = total
+        invoice.net_payable = total - discount_amount
         invoice.save()
 
         return HttpResponseRedirect(reverse('marketplace:invoice_detail', kwargs={'pk': invoice.pk}))
@@ -145,10 +152,12 @@ class InvoiceDetailView(LoginRequiredMixin, generic.TemplateView):
             invoice_items = InvoiceItem.objects.filter(invoice=invoice)
             context['invoice'] = invoice
             context['invoice_items'] = invoice_items
-            return context
-        except Exception as e:
+            context['discount_amount'] = invoice.total - invoice.net_payable
+        except Exception:
             # Return not found invoice
-            return context
+            pass
+
+        return context
 
     def get(self, request, *args, **kwargs):
         invoice_id = kwargs.get('pk')
@@ -185,7 +194,7 @@ class PaymentView(LoginRequiredMixin, generic.View):
             # do wallet processing
             information = _('Purchase invoice #') + invoice_id
             response = wallet_manager.purchase_payment(
-                user=request.user, amount=invoice.total, description=trans_description.purchase(),
+                user=request.user, amount=invoice.net_payable, description=trans_description.purchase(),
                 information=information
             )
             if response['status'] == trans_status.success():
@@ -199,7 +208,7 @@ class PaymentView(LoginRequiredMixin, generic.View):
             # 1. Create a mobile money monetbil payment request.
             tel = request.user.tel1.national_number if request.user.tel1 else request.user.tel2.national_number
             response = purse_services.request_momo_deposit(
-                phone_number=tel, amount=invoice.total, user_id=self.request.user.id,
+                phone_number=tel, amount=invoice.net_payable, user_id=self.request.user.id,
                 nsp=_nsp.mtn(), level=0, purpose=momo_purpose.market_purchase(), recipient_id=self.request.user.id,
                 charge=0.00, invoice_number=invoice_id
             )
@@ -216,7 +225,7 @@ class PaymentView(LoginRequiredMixin, generic.View):
             return_url = protocol + domain + path
 
             payment_url = monetbil.send_payment_widget_request(
-                amount=invoice.total, phone=tel, payment_ref=tracker_id, return_url=return_url
+                amount=invoice.net_payable, phone=tel, payment_ref=tracker_id, return_url=return_url
             )
 
             # 3. if payment request is successful, redirect the user to the payment widget.

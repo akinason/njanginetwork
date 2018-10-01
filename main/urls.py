@@ -2,7 +2,8 @@ from django.conf.urls import url
 from .views import (
     SignupView, IndexView, PasswordResetView, PasswordResetConfirmView, PasswordResetCompleteView,
     PasswordChangeView, PasswordChangeDoneView, LoginView, LogoutView, ProfileChangeView, ContactView,
-    UpdateAllNotificationsView, UpdateNotificationView
+    UpdateAllNotificationsView, UpdateNotificationView, PhonePasswordResetView, PhonePasswordResetCodeView,
+    PhonePasswordResetConfirmView
 )
 from django.contrib.auth import views as auth_views
 
@@ -20,6 +21,13 @@ urlpatterns = [
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset/done/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+    # reset password with phone number
+    url(r'^phone/password_reset/$', PhonePasswordResetView.as_view(), name='phone_password_reset'),
+    url(r'^phone/password_reset/code$', PhonePasswordResetCodeView.as_view(), name='phone_password_reset_code'),
+    url(r'^phone/reset$', PhonePasswordResetConfirmView.as_view(), name='phone_password_reset_confirm'),
+
+
     url(r'^dashboard/profile_change/$', ProfileChangeView.as_view(), name='profile_change'),
     url(r'^dashboard/notification/(?P<pk>[0-9]+)/update/$', UpdateNotificationView.as_view(),
         name='update_notification'),

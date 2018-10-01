@@ -1,21 +1,25 @@
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     LoginView as DefaultLoginView, PasswordResetView as DefaultPasswordResetView,
     PasswordResetConfirmView as DefaultPasswordConfirmView,
     PasswordResetCompleteView as DefaultPasswordResetCompleteView, PasswordChangeView as DefaultPasswordChangeView,
-    PasswordChangeDoneView as DefaultPasswordChangeDoneView, LogoutView as DefaultLogoutView
+    PasswordChangeDoneView as DefaultPasswordChangeDoneView, LogoutView as DefaultLogoutView, PasswordContextMixin
 )
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
 from mailer import services as mailer_services
 from main import website
-from main.forms import SignupForm, ProfileChangeForm, ContactForm
+from main.forms import (
+    SignupForm, ProfileChangeForm, ContactForm, PhonePasswordResetCodeForm, PhonePasswordResetForm
+)
 from main.mixins import ContributionRequiredMixin
 from main.models import LevelModel
 from main.notification import notification
@@ -49,7 +53,8 @@ class IndexView(generic.FormView):
         context['njangi_network'] = website.njangi_network()
         context['the_model'] = website.the_model()
         context['njangi_levels'] = LevelModel.objects.all().order_by('level')
-        context['level_1_contribution'] = LEVEL_CONTRIBUTIONS[1]
+        context['level_1_contribution'] = ("%f" % LEVEL_CONTRIBUTIONS[1]).rstrip('0').rstrip('.')
+
         return context
 
 
@@ -139,6 +144,133 @@ class PasswordChangeView(DefaultPasswordChangeView):
 
 class PasswordChangeDoneView(DefaultPasswordChangeDoneView):
     template_name = 'registration/password_change_done.html'
+
+
+class PhonePasswordResetView(PasswordContextMixin, generic.FormView):
+    template_name = 'registration/phone_password_reset_form.html'
+    success_url = reverse_lazy('main:phone_password_reset_code')
+    form_class = PhonePasswordResetForm
+    title = _('Mobile Password Reset')
+
+    def get(self, request, *args, **kwargs):
+
+        if 'reset_code' in request.session:
+            return HttpResponseRedirect(reverse('main:phone_password_reset_code'))
+
+        return super(PhonePasswordResetView, self).get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        phone_number = str(form.cleaned_data.get('phone_number'))
+        phone_number_is_valid = False
+        user = ''
+        tel1 = ''
+        tel2 = ''
+
+        try:
+            user = get_user_model().objects.get(username=username)
+        except get_user_model().DoesNotExist:
+            form.add_error('username', _('There is no account with this username.'))
+            return render(request=self.request, template_name=self.template_name, context={
+                'form': form, 'username': username, 'phone_number': phone_number, 'message': _('Invalid username')
+            })
+
+        # Geerate the code.
+        user.set_unique_random_tel1_code()
+        user.save()
+        code = user.tel1_verification_uuid
+
+        # Ensure that the phone number provided is linked to the account.
+        if user.tel1:
+            tel1 = user.tel1.as_national.replace(' ', '')
+            phone_number_is_valid = True if tel1 == phone_number else False
+
+        if user.tel2 and not phone_number_is_valid:
+            tel2 = user.tel2.as_national.replace(' ', '')
+            phone_number_is_valid = True if tel2 == phone_number else False
+
+        if phone_number_is_valid:
+            # Send sms
+            if 'reset_code' not in self.request.session:
+                mailer_services.send_sms(
+                    to_number='237' + phone_number,
+                    body=_('Njangi Network \n\nYour password reset code: %s') % code
+                )
+                self.request.session['reset_code'] = code
+                self.request.session['phone_number'] = phone_number
+                self.request.session['user_id'] = user.pk
+
+            return HttpResponseRedirect(reverse('main:phone_password_reset_code'))
+        else:
+            form.add_error('phone_number', _('This phone number is not associated to this account.'))
+            return render(request=self.request, template_name=self.template_name, context={
+                'form': form, 'username': username, 'phone_number': phone_number, 'message': _('Invalid phone number')
+            })
+
+
+class PhonePasswordResetCodeView(generic.FormView):
+    template_name = 'registration/phone_password_reset_code.html'
+    form_class = PhonePasswordResetCodeForm
+    success_url = reverse_lazy('main:phone_password_reset_confirm')
+
+    def get(self, request, *args, **kwargs):
+        if 'reset_code' not in request.session:
+            return HttpResponseRedirect(reverse('main:phone_password_reset'))
+
+        return super(PhonePasswordResetCodeView, self).get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        code = form.cleaned_data.get('code')
+
+        if str(code) == str(self.request.session['reset_code']):
+            self.request.session['validcode'] = True
+
+        else:
+            form.add_error('code', _('Wrong Code.'))
+            return render(request=self.request, template_name=self.template_name, context={'form': form})
+
+        return super(PhonePasswordResetCodeView, self).form_valid(form)
+
+
+class PhonePasswordResetConfirmView(generic.FormView):
+    template_name = 'registration/phone_password_reset_confirm.html'
+    form_class = SetPasswordForm
+    success_url = reverse_lazy('main:login')
+    user = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user = self.get_user(pk=request.session['user_id'])
+
+        if 'validcode' not in request.session or self.user is None:
+            return HttpResponseRedirect(reverse('main:phone_password_reset'))
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.user
+        return kwargs
+
+    def form_valid(self, form):
+        user = form.save()
+        del self.request.session['reset_code']
+        del self.request.session['user_id']
+        del self.request.session['phone_number']
+        del self.request.session['validcode']
+        login(self.request, user)
+
+        return super().form_valid(form)
+
+    def get_user(self, pk):
+        try:
+            user = get_user_model().objects.get(pk=pk)
+        except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
+            user = None
+        return user
+
+    def get_context_data(self, **kwargs):
+        context = super(PhonePasswordResetConfirmView, self).get_context_data(**kwargs)
+        context['validlink'] = True
+        return context
 
 
 class ContactView(generic.FormView):

@@ -72,6 +72,8 @@ class Product(models.Model):
     background_image = models.ImageField(upload_to=PRODUCT_IMAGE_URL, blank=True, null=True)
     is_trending = models.BooleanField(default=False)
     auto_add_to_invoice = models.BooleanField(default=False)
+    discount = models.DecimalField(_('discount rate'), default=0.00, decimal_places=3, max_digits=3)
+    allow_discount = models.BooleanField(_('allow discount'), default=False)
     created_on = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(default=timezone.now)
 
@@ -105,6 +107,7 @@ class Invoice(models.Model):
     invoice_status = InvoiceStatus()
 
     total = models.DecimalField(_('invoice total'), max_digits=10, decimal_places=3, default=0.00)
+    net_payable = models.DecimalField(_('net payable'), max_digits=10, decimal_places=3, default=0.00)
     user = models.ForeignKey(UserModel(), on_delete=models.CASCADE, related_name='invoice_owner', verbose_name=_('owner'))
     status = models.CharField(_('status'), choices=INVOICE_STATUS, default=invoice_status.draft(), max_length=255)
     is_paid = models.BooleanField(default=False)
