@@ -254,3 +254,12 @@ class CommissionStatementView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return Commission.objects.filter(user=self.request.user).order_by('-created_on')
+
+
+class MarketplaceSignupView(generic.RedirectView):
+
+    def get(self, request, *args, **kwargs):
+        request.session['marketplace'] = True
+        add_sponsor_id_to_session(request)
+        add_promoter_id_to_session(request)
+        return HttpResponseRedirect(reverse('main:signup'))

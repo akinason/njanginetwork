@@ -91,6 +91,8 @@ class SignupView(generic.CreateView):
         # Authenticate and login the user
         user_logged = authenticate(username=user.username, password=form.cleaned_data['password'])
         login(self.request, user_logged)
+        if 'marketplace' in self.request.session:
+            return HttpResponseRedirect(reverse('marketplace:index'))
         return super(SignupView, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):

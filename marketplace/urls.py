@@ -4,6 +4,7 @@ from .views import *
 app_name = 'marketplace'
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^signup$', MarketplaceSignupView.as_view(), name='signup'),
     url(r'^product/list', ProductListView.as_view(), name='product_list'),
     url(r'^product/(?P<pk>[0-9]+)/details', ProductDetailView.as_view(), name='product_details'),
     url(r'^invoice/create', CreateInvoiceView.as_view(), name='new_invoice'),

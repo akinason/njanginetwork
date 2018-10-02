@@ -31,7 +31,7 @@
                 {% endif %}
                 <div class="form-group">
                     <label for="referral_link">{% trans 'market place promotion link'|title %}</label>
-                    <input type="url" class="form-control" id="right_referral_link" value="{{ protocol }}{{ site_info.website }}/marketplace/?rid={{ user_node.get_right_downline.user.sponsor_id }}&pid={{ user.sponsor_id }}">
+                    <input type="url" class="form-control" id="right_referral_link" value="{{ protocol }}{{ site_info.website }}/marketplace/signup?rid={{ user_node.get_right_downline.user.sponsor_id }}&pid={{ user.sponsor_id }}">
                     <p class="help-block">{% trans 'Share this link to your loved ones so they can signup in your market place network.' %}</p>
                 </div>
             </form>
