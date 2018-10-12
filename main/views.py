@@ -300,14 +300,14 @@ class ContactView(generic.FormView):
         return super(ContactView, self).form_valid(form)
 
 
-class UpdateAllNotificationsView(ContributionRequiredMixin, generic.View):
+class UpdateAllNotificationsView(LoginRequiredMixin, generic.View):
 
     def get(self, request, *args, **kwargs):
         notification().mark_notifications_as_read(user_id=request.user.id)
         return HttpResponseRedirect(reverse_lazy('njangi:dashboard'))
 
 
-class UpdateNotificationView(ContributionRequiredMixin, generic.View):
+class UpdateNotificationView(LoginRequiredMixin, generic.View):
 
     def get(self, request, *args, **kwargs):
         notification_id = kwargs.get('pk')
