@@ -105,6 +105,14 @@ def process_transaction_update(tracker_id, status_code, server_response=None, uu
             # Proceed to process the transaction.
             if mm_transaction.purpose == momo_purpose.contribution() and mm_transaction.level and \
              mm_transaction.request_type == momo_request_type.deposit():
+                user = mm_transaction.user
+                if not user.is_in_network:
+                    sponsor = get_sponsor_using_sponsor_id(sponsor_id=user.sponsor)
+                    add_user_to_njangi_tree(user=user, sponsor=sponsor)
+                    create_user_levels(user=user)
+                    user.has_contributed = True
+                    user.save()
+
                 process_nsp_contribution.delay(mm_transaction.tracker_id)
             elif mm_transaction.purpose == momo_purpose.wallet_load():
                 process_wallet_load(
@@ -130,6 +138,8 @@ def process_transaction_update(tracker_id, status_code, server_response=None, uu
                 user.save()
                 process_nsp_contribution(mm_transaction.tracker_id)
             elif mm_transaction.purpose == momo_purpose.market_purchase():
+                mm_transaction.is_complete = True
+                mm_transaction.save()
                 market_services.payment_complete_process(invoice_id=mm_transaction.invoice_number)
 
         else:
