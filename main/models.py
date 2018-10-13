@@ -13,6 +13,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 GENDER_TYPES = (
     ('male', 'Male'),
     ('female', 'Female'),
+    ('other', 'other'),
 )
 
 TEL_MAX_LENGTH = 13

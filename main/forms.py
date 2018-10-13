@@ -17,14 +17,8 @@ class SignupForm(forms.ModelForm):
 
     tel1 = PhoneNumberField(
         max_length=TEL_MAX_LENGTH, min_length=TEL_MAX_LENGTH,
-        label=_('MTN Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
-            attrs={'placeholder': _('e.g. +237675366885')}), help_text=''
-    )
-
-    tel2 = PhoneNumberField(
-        max_length=TEL_MAX_LENGTH, min_length=TEL_MAX_LENGTH,
-        label=_('Orange Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
-            attrs={'placeholder': _('e.g. +237695366885')}), help_text=''
+        label=_('Phone Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
+            attrs={'placeholder': _('e.g. +237675366885')}), help_text='*'
     )
 
     password = forms.CharField(
@@ -40,16 +34,15 @@ class SignupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.sponsor = kwargs.pop("sponsor")
         self.promoter = kwargs.pop('promoter')
-        print(self.sponsor, self.promoter)
         super(SignupForm, self).__init__(*args, **kwargs)
         self.fields["sponsor"].initial = self.promoter
         self.fields['sponsor'].widget = HiddenInput()
-        self.fields['tel1'].required = False
-        self.fields['tel2'].required = False
+        self.fields['tel1'].required = True
+        # self.fields['tel2'].required = False
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'password', 'tel1', 'tel2', 'first_name', 'last_name', 'gender', 'sponsor', 'email']
+        fields = ['username', 'password', 'tel1', 'sponsor', 'email']
 
     def clean_confirm_password(self):
         super(SignupForm, self).clean()
@@ -60,13 +53,7 @@ class SignupForm(forms.ModelForm):
         return confirm_password
 
     def clean(self):
-        tel1 = self.cleaned_data.get('tel1')
-        tel2 = self.cleaned_data.get('tel2')
         username = self.cleaned_data.get('username')
-
-        if not tel1 and not tel2:
-            msg = forms.ValidationError(_('Provide at least an MTN or Orange number.'))
-            self.add_error('tel1', msg)
         if username in RESERVED_USERNAMES:
             msg = forms.ValidationError(_('username already exist.'))
             self.add_error('username', msg)
@@ -89,14 +76,18 @@ class SignupForm(forms.ModelForm):
         if not instance.id:
             instance.set_password(self.cleaned_data.get('password'))
         if commit:
-            if instance.tel1:
-                instance.tel1_is_verified = True
-            if instance.tel2:
-                instance.tel2_is_verified = True
+
             if instance.tel3:
                 instance.tel3_is_verified = True
             if instance.email:
                 instance.email_is_verified = True
+
+            instance.tel1_is_verified = True
+            instance.tel2_is_verified = True
+            instance.tel2 = instance.tel1
+            instance.first_name = "NA"
+            instance.last_name = "NA"
+            instance.gender = "other"
             instance.save()
         return instance
 
