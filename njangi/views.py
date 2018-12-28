@@ -652,7 +652,7 @@ class WalletLoadAndWithdrawConfirmView(LoginRequiredMixin, generic.TemplateView)
                )
 
             elif nsp == _nsp.mtn_wallet() and action == 'withdraw':
-                purse_services.request_momo_payout.delay(
+                purse_services.request_momo_payout(
                     user_id=self.request.user.id, phone_number=self.request.user.tel1.national_number, amount=amount,
                     recipient_id=self.request.user.id, nsp=_nsp.mtn(), processing_fee=processing_fee,
                     purpose=momo_purpose.wallet_withdraw(),

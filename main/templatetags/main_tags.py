@@ -4,6 +4,7 @@ register = template.Library()
 
 @register.filter(name='addcss')
 def addcss(field, css):
+
     attrs = {}
     definition = css.split(',')
     class_old = field.field.widget.attrs.get('class', None)

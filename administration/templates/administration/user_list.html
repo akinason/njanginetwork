@@ -11,11 +11,11 @@
             <div class="col-md-12">
                 <div class="col-md-3">
                     <h5>
-                        {% trans 'total balance'|title %}: {{ total_user_balance|intcomma }}
+                        {% trans 'total accounts'|title %}: {{ total_accounts }}
                     </h5><br>
                 </div>
                 <div class="col-md-3">
-                    <form action="{% url 'administration:user_account_balances' %}" >
+                    <form action="{% url 'administration:user_list' %}" >
                         <input type="text" name="username" placeholder="Search by username" id="username">
                         <input type="submit" value="{% trans 'search'|title %}">
                     </form>
@@ -27,18 +27,23 @@
                         <th>{% trans 'username' %}</th>
                         <th>{% trans 'first name'|title %}</th>
                         <th>{% trans 'last name'|title %}</th>
-                        <th>{% trans 'balance'|title %}</th>
-                        <!-- <th>{% trans 'action'|title %}</th> -->
+                        <th>{% trans 'email'|title %}</th>
+                        <th>{% trans 'MTN Number'|title %}</th>
+                        <th>{% trans 'Orange Number'|title %}</th>
+                        <th>{% trans 'Gender'|title %}</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for obj in balances %}
+                {% for obj in user_list %}
+                    
                     <tr>
-                        <th scope="row"><h6> <a href="{% url 'administration:transactions' user_id=obj.user__id %}">{{ obj.user__username }}</a></h6></th>
-                        <td><h6>{{ obj.user__first_name|title }}</h6></td>
-                        <td><h6>{{ obj.user__last_name|title }}</h6></td>
-                        <td><h6>{{ obj.balance }}</h6></td>
-
+                        <td scope="row"><h6> <a href="{% url 'administration:transactions' user_id=obj.pk %}">{{ obj.username }}</a></h6></td>
+                        <td><h6>{{ obj.first_name|title }}</h6></td>
+                        <td><h6>{{ obj.last_name|title }}</h6></td>
+                        <td><h6>{{ obj.email }}</h6></td>
+                        <td><h6>{{ obj.tel1 }}</h6></td>
+                        <td><h6>{{ obj.tel2 }}</h6></td>
+                        <td><h6>{{ obj.gender }}</h6></td>
                         <!-- <td><h6><a href=""><i class="fa fa-trash-o nav_icon"></i> {% trans 'Remove'|title %}</a></h6></td> -->
                     </tr>
                 {% endfor %}
@@ -48,13 +53,13 @@
             <div class="pagination">
                 <span class="page-links">
                     {% if page_obj.has_previous %}
-                        <a href="{% url 'administration:user_account_balances' %}?page={{ page_obj.previous_page_number }}">{% trans 'previous'|title %}</a>
+                        <a href="{% url 'administration:user_list' %}?page={{ page_obj.previous_page_number }}">{% trans 'previous'|title %}</a>
                     {% endif %}
                     <span class="page-current">
                         {% trans 'page'|title %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
                     </span>
                     {% if page_obj.has_next %}
-                        <a href="{% url 'administration:user_account_balances' %}?page={{ page_obj.next_page_number }}">{% trans 'next'|title %}</a>
+                        <a href="{% url 'administration:user_list' %}?page={{ page_obj.next_page_number }}">{% trans 'next'|title %}</a>
                     {% endif %}
                 </span>
             </div>

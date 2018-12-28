@@ -240,15 +240,19 @@ def recipient_can_receive_level_contribution(recipient, level, amount):
                             return False
                     else:
                         # if this happens, deactivate the user at that level and return False
-                        level_model.is_active = False
-                        level_model.save()
-                        mailer_services.send_level_deactivation_email.delay(
-                            user_id=recipient.id, level=_level, amount=amount
-                        )
-                        mailer_services.send_level_deactivation_sms.delay(
-                            user_id=recipient.id, level=_level, amount=amount
-                        )
-                        return False
+
+                        # Update: 20-11-2018: We disallow deactivating people whose contribution is due. This time
+                        # contribution does not expire., so simply return True
+
+                        # level_model.is_active = False
+                        # level_model.save()
+                        # mailer_services.send_level_deactivation_email.delay(
+                        #     user_id=recipient.id, level=_level, amount=amount
+                        # )
+                        # mailer_services.send_level_deactivation_sms.delay(
+                        #     user_id=recipient.id, level=_level, amount=amount
+                        # )
+                        return True
                 else:
                     return True
             except LevelModel.DoesNotExist:

@@ -1,0 +1,98 @@
+{% extends 'base_dashboard.html' %}
+{% load static i18n humanize njangi_tags tz %}
+
+
+{% block content %}
+{% localtime on %}
+
+<div class="row">
+    <div class="tables">
+        <div class="table-responsive bs-example widget-shadow">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <h5>
+                        {% trans 'username'|title %}: {{ transaction_user.username }}<br>
+                        {% trans 'first name'|title %}: {{ transaction_user.first_name }}<br>
+                        {% trans 'last name'|title %}: {{ transaction_user.last_name }}<br>
+                        {% trans 'gender'|title %}: {{ transaction_user.gender }}<br>
+                        {% trans 'date joined'|title %}: {{ transaction_user.date_joined }}<br>
+                        {% trans 'level'|title %}: {{ transaction_user.level }}<br>
+                         {% trans 'sponsor id'|title %}: {{ transaction_user.sponsor_id }}<br>
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        {% trans 'country'|title %}: {{ transaction_user.country.name }}<br>
+                        {% trans 'email'|title %}: {{ transaction_user.email }}<br>
+                        {% trans 'tel1'|title %}: {{ transaction_user.tel1 }}<br>
+                        {% trans 'tel2'|title %}: {{ transaction_user.tel2 }}<br>
+                        {% trans 'is active'|title %}: {{ transaction_user.is_active }}<br>
+                        {% trans 'is in network'|title %}: {{ transaction_user.is_in_network }}<br>
+                        {% trans 'allow automatic contribution'|title %}: {{ transaction_user.allow_automatic_contribution }}<br>
+
+                    </h5>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Date' %}</th>
+                        <th>{% trans 'description'|title %}</th>
+                        <th>{% trans 'amount'|title %}</th>
+                        <th>{% trans 'charge'|title %}</th>
+                        <th>{% trans 'status'|title %}</th>
+                        <th>{% trans 'information'|title %}</th>
+                        <th>{% trans 'reference'|title %}</th>
+                        <th>{% trans 'transaction code'|title %}</th>
+                        <th>{% trans 'sender'|title %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for obj in transactions %}
+                    
+                    <tr>
+                        <th scope="row"><h6>{{ obj.created_on }}</h6></th>
+                        <td><h6>{{ obj.description|title }}</h6></td>
+                        <td><h6>{{ obj.amount|title }}</h6></td>
+                        <td><h6>{{ obj.charge }}</h6></td>
+                        {% if obj.status == 'complete' %}
+                        <td><h5><span class="label label-success">{{ obj.status }}</span></h5></td>
+                        {% elif obj.status == 'failed' %}
+                        <td><h5><span class="label label-warning">{{ obj.status }}</span></h5></td>
+                        {% elif obj.status == 'pending' %}
+                        <td><h5><span class="label label-danger">{{ obj.status }}</span></h5></td>
+                        {% else %}
+                        <td><h5><span class="label label-danger">{{ obj.status }}</span></h5></td>
+                        {% endif %}
+                        <td><h6>{{ obj.information }}</h6></td>
+                        <td><h6>{{ obj.reference }}</h6></td>
+                        <td><h6>{{ obj.trans_code }}</h6></td>
+                        <td><h6>{{ obj.sender.username }}</h6></td>
+                        <!-- <td><h6><a href=""><i class="fa fa-trash-o nav_icon"></i> {% trans 'Remove'|title %}</a></h6></td> -->
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if is_paginated and transactions %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'administration:transactions' user_id=transaction_user.pk %}?page={{ page_obj.previous_page_number }}">{% trans 'previous'|title %}</a>
+                    {% endif %}
+                    <span class="page-current">
+                        {% trans 'page'|title %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'administration:transactions' user_id=transaction_user.pk %}?page={{ page_obj.next_page_number }}">{% trans 'next'|title %}</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+{% endlocaltime %}
+{% endblock %}

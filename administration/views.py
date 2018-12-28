@@ -53,3 +53,51 @@ class UserAccountBalancesView(AdminPermissionRequiredMixin, generic.ListView):
             pass
 
         return super(UserAccountBalancesView, self).get(request, *args, **kwargs)
+
+
+class UserListView(AdminPermissionRequiredMixin, generic.ListView):
+    model = UserModel()
+    context_object_name = 'user_list'
+    template_name = 'administration/user_list.html'
+    paginate_by = 20
+
+    def get_queryset(self):
+        username = self.request.GET.get('username')
+        if self.model.objects.filter(username=username).exists():
+            return self.model.objects.filter(username=username)
+        else:
+            return super(UserListView, self).get_queryset()
+
+
+class UserDetailView(AdminPermissionRequiredMixin, generic.DetailView):
+    model = UserModel()
+    context_object_name = 'member'
+    template_name = 'administration/user_details.html'
+
+
+class UserTransactionListView(AdminPermissionRequiredMixin, generic.ListView):
+
+    context_object_name = 'transactions'
+    template_name = 'administration/transactions.html'
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super(UserTransactionListView, self).get_context_data(**kwargs)
+        context['transaction_user'] = self.get_user()
+        return context
+
+    def get_user(self):
+        """
+        Get the user we want to get the list of transactions
+        """
+        id = self.kwargs.get('user_id')
+        if UserModel().objects.filter(pk=id).exists():
+            return UserModel().objects.filter(pk=id).get()
+        else:
+            return UserModel().objects.none()
+
+    def get_queryset(self):
+        if self.get_user():
+            return wallet_manager.transaction_list(user=self.get_user(), last_x_transactions=10000)
+        else:
+            return None

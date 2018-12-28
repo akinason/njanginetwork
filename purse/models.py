@@ -780,25 +780,25 @@ class WalletManager:
             }
             return response
 
-    def transaction_list(self, user, nsp, last_x_transactions=0):
+    def transaction_list(self, user, nsp=None, last_x_transactions=0):
         """
         :param user: The user whose transaction list is to be returned.
         :param nsp: The Network service provider.
         :param last_x_transactions: The number of transactions to return. defaults to DEFAULT_TRANSACTION_LIST_LIMIT
         :return: The list of transactions
         """
-        if nsp in NSP_LIST:
-            if last_x_transactions:
-                transaction_limit = int(last_x_transactions)
-            else:
-                transaction_limit = DEFAULT_TRANSACTION_LIST_LIMIT
 
+        if last_x_transactions:
+            transaction_limit = int(last_x_transactions)
+        else:
+            transaction_limit = DEFAULT_TRANSACTION_LIST_LIMIT
+
+        if nsp and nsp in NSP_LIST:
             return self.model.objects.filter(user=user, nsp=nsp).order_by(
                 '-created_on'
             )[:transaction_limit]
-
         else:
-            return self.model.objects.none()
+            return self.model.objects.filter(user=user).order_by('-created_on')[:transaction_limit]
 
     def get_account_balances(self, include_admin=False, user=None):
         """
@@ -817,7 +817,7 @@ class WalletManager:
         if not include_admin:
             balances = balances.filter(user__is_admin=False)
 
-        balances = balances.values('user', 'user__username', 'user__first_name', 'user__last_name').annotate(
+        balances = balances.values('user', 'user__username', 'user__first_name', 'user__last_name', 'user__id').annotate(
             balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
         ).order_by('-balance')
         
