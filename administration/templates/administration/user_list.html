@@ -31,6 +31,7 @@
                         <th>{% trans 'MTN Number'|title %}</th>
                         <th>{% trans 'Orange Number'|title %}</th>
                         <th>{% trans 'Gender'|title %}</th>
+                        <th>{% trans 'Date Joined'|title %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,6 +45,7 @@
                         <td><h6>{{ obj.tel1 }}</h6></td>
                         <td><h6>{{ obj.tel2 }}</h6></td>
                         <td><h6>{{ obj.gender }}</h6></td>
+                        <td><h6>{{ obj.date_joined }}</h6></td>
                         <!-- <td><h6><a href=""><i class="fa fa-trash-o nav_icon"></i> {% trans 'Remove'|title %}</a></h6></td> -->
                     </tr>
                 {% endfor %}
