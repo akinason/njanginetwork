@@ -188,10 +188,12 @@ def get_upline_to_pay_upgrade_contribution(user_id, level):
 
 
 def get_level_contribution_amount(level):
+
     # Returns the amount to contribute for a particular level
     try:
-        return LEVEL_CONTRIBUTIONS[level]
-    except Exception:
+        return LEVEL_CONTRIBUTIONS[int(level)]
+    except Exception as e:
+        print(e)
         return 2000
 
 
