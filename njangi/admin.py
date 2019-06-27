@@ -22,10 +22,15 @@ admin.site.register(
     ),
 )
 
-admin.site.register(LevelModel,
-                    list_display=('user', 'level', 'is_active', 'last_payment', 'next_payment',
-                                  'total_sent', 'total_received')
-                    )
+
+class LevelModelAdmin(admin.ModelAdmin):
+    model = LevelModel
+    search_fields = ('user__username', )
+    list_filter = ('user', 'level', 'is_active', 'last_payment', 'user__username')
+    list_display = ('user', 'level', 'is_active', 'last_payment', 'next_payment', 'total_sent', 'total_received')
+
+
+admin.site.register(LevelModel, LevelModelAdmin)
 
 admin.site.register(
     FailedOperations,

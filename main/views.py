@@ -196,7 +196,9 @@ class PhonePasswordResetView(PasswordContextMixin, generic.FormView):
             if 'reset_code' not in self.request.session:
                 mailer_services.send_sms(
                     to_number='237' + phone_number,
-                    body=_('Njangi Network \n\nYour password reset code: %s') % code
+                    body=_(
+                        'Njangi Network \n\nPlease enter the code below to reset your Njangi '
+                        'Network Account password  %s') % code
                 )
                 self.request.session['reset_code'] = code
                 self.request.session['phone_number'] = phone_number

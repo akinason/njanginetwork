@@ -109,9 +109,9 @@ WSGI_APPLICATION = 'njanginetwork.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'njangi',
-        'USER': 'viicha',
-        'PASSWORD': 'viicha',
+        'NAME': 'njanginetwork',
+        'USER': 'kinason',
+        'PASSWORD': 'panama245',
         'HOST': '127.0.0.1',
         'PORT': '5432',
         'CONN_MAX_AGE': 5,
@@ -208,7 +208,7 @@ SUPPORT_EMAIL = 'njanginetwork@gmail.com'
 #1s2u.com sms Configuration
 ONE_S_2_U_USERNAME = 'kinason42'
 ONE_S_2_U_PASSWORD = 'web54126'
-ONE_S_2_U_SEND_URL = 'https://1s2u.com/sms/sendsms/sendsms.asp'
+ONE_S_2_U_SEND_URL = 'https://api.1s2u.io/bulksms'
 
 # MTN Mobile Money API configuration by webshinobis.com
 # APIs return JSON response. params = {status, message, amount, phoneNumber, transactionId, transactionDate}

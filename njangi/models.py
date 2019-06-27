@@ -631,4 +631,6 @@ def get_njangi_level_contributions():
         contribution_dic[obj['level']] = obj['contribution_amount']
     return contribution_dic
 
+
 LEVEL_CONTRIBUTIONS = get_njangi_level_contributions()
+
