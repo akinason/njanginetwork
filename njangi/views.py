@@ -40,7 +40,7 @@ momo_purpose = MOMOPurpose()
 subscription_types = UserAccountSubscriptionType()
 
 
-class DashboardView(LoginRequiredMixin, generic.TemplateView):
+class DashboardView(ContributionRequiredMixin, generic.TemplateView):
     template_name = 'njangi/dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -75,14 +75,14 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class NetworkToolsView(generic.TemplateView):
+class NetworkToolsView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'njangi/network_tools.html'
 
     def get(self, request, *args, **kwargs):
         return super(NetworkToolsView, self).get(request, *args, **kwargs)
 
 
-class DashboardSignupView(LoginRequiredMixin, generic.CreateView):
+class DashboardSignupView(ContributionRequiredMixin, generic.CreateView):
     form_class = SignupForm
     template_name = 'njangi/new_registration.html'
     success_url = reverse_lazy("njangi:dashboard")

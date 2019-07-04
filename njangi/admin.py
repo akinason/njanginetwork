@@ -62,4 +62,5 @@ class RemunerationPlanAdmin(admin.ModelAdmin):
         'direct_commission', 'network_commission'
     )
 
+
 admin.site.register(RemunerationPlan, RemunerationPlanAdmin)
