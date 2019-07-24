@@ -144,12 +144,7 @@
 							<a href="#"><i class="fa fa-money nav_icon"></i> {% trans 'wallet'|capfirst %}<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
 								<li>
-									<!--<a href="media.html">{% trans 'account statement'|title %}</a>-->
-                                    <a href="#"><i class="fa fa-th-large nav_icon"></i> {% trans 'account statement'|title %}<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level collapse">
-                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.mtn %}">{% trans 'MTN Statement' %}</a></li>
-                                        <li><a href="{% url 'njangi:statement' nsp=nsp_.orange %}">{% trans 'Orange Statement'|title %}</a></li>
-                                    </ul>
+                                    <a href="{% url 'njangi:statement' %}"> {% trans 'account statement'|title %}</a>
 								</li>
                                 <li>
 									<a href="{% url 'njangi:load_or_withdraw_choice' action='load' %}">{% trans 'load'|capfirst %}</a>

@@ -194,6 +194,8 @@ def pay_commission(purchaser, downline, level, percentage, amount, product_name,
             sender=admin, recipient=recipient, amount=amount, information=information, nsp=_nsp.mtn(),
             sender_description=trans_description.commission(), recipient_description=trans_description.commission(),
         )
+        wallet_manager.reduce_balance(user=admin, available_balance=amount, force=True)
+        wallet_manager.increase_balance(user=recipient, available_balance=amount)
 
         # Create a notification on the user's dashboard.
         text = information + ' Amount: ' + str(round(amount)) + ' XAF.'

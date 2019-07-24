@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^network_tools/$', NetworkToolsView.as_view(), name='network_tools'),
     url(r'^new_registration/$', DashboardSignupView.as_view(), name='new_registration'),
     url(r'^wallet/(?P<nsp>[a-z]+)/statement/$', WalletTransactionListView.as_view(), name='statement'),
+    url(r'^wallet/statement/$', WalletTransactionListView.as_view(), name='statement'),
     url(r'^wallet/(?P<action>[a-z]+)/choice/$', WalletLoadAndWithdrawChoiceView.as_view(),
         name='load_or_withdraw_choice'),
     url(r'^wallet/(?P<nsp>[a-z_]+)/(?P<action>[a-z]+)/$', WalletLoadAndWithdrawView.as_view(),

@@ -431,12 +431,12 @@ class WalletTransactionListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'transaction_list'
 
     def get_queryset(self):
-        nsp = self.kwargs['nsp']
-        return wallet.transaction_list(user=self.request.user, nsp=nsp)
+        # nsp = self.kwargs['nsp']
+        return wallet.transaction_list(user=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(WalletTransactionListView, self).get_context_data(object_list=None, **kwargs)
-        nsp = self.kwargs['nsp']
+        nsp = self.kwargs.get('nsp', 'mtn')
         context['nsp'] = nsp
         balance = 0.00
         if nsp == _nsp.mtn():

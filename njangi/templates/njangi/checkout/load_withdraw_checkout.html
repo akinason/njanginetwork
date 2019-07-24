@@ -4,7 +4,7 @@
 {% block content %}
 <div class="form">
     <div class="grid_3 grid_5 widget-shadow">
-        <h3>{{ nsp|title }} {{ action|title }} |  {% trans 'wallet balance'|title %}: {{ balance }}</h3>
+        <h3>{{ action|title }} |  {% trans 'wallet balance'|title %}: {{ balance }}</h3>
         <div class="well">
             <form class="form-horizontal" action="{% url 'njangi:load_or_withdraw' nsp=nsp action=action %}" method="post">
                 {% csrf_token %}

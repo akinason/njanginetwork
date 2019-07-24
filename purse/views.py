@@ -48,7 +48,7 @@ def afknerdgsmtoolsview(request, *args, **kwargs):
 @method_decorator(csrf_exempt, name='dispatch')
 def monetbilpayoutnotificationview(request, *args, **kwargs):
     # Responsible for processing successful mobile money callback_url from monetbil.com
-    if request.method == "POST" or request.mothod == "GET":
+    if request.method == "POST" or request.method == "GET":
         uuid = None
         server_response = request.POST.get('message')
         success = request.POST.get('success')
@@ -70,7 +70,7 @@ def monetbilpayoutnotificationview(request, *args, **kwargs):
 @method_decorator(csrf_exempt, name='dispatch')
 def monetbilnotificationview(request, *args, **kwargs):
     # Responsible for processing successful mobile money callback_url from monetbil.com
-    if request.method == "POST" or request.mothod == "GET":
+    if request.method == "POST" or request.method == "GET":
         uuid = None
         server_response = request.POST.get('message')
         status = request.POST.get('status')

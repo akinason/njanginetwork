@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import WalletModel, MobileMoney
+from .models import WalletModel, MobileMoney, Balance
 # Register your models here.
 
 
@@ -26,5 +26,13 @@ class MobileMoneyAdmin(admin.ModelAdmin):
     )
 
 
+class BalanceAdmin(admin.ModelAdmin):
+    model = Balance
+    search_fields = ('user__username', )
+    list_filter = ('last_updated', )
+    list_display = ('user', 'available_balance', 'upgrade_balance', 'last_updated')
+
+
 admin.site.register(MobileMoney, MobileMoneyAdmin)
 admin.site.register(WalletModel, WalletModelAdmin)
+admin.site.register(Balance, BalanceAdmin)

@@ -13,11 +13,11 @@ from main.core import FailedOperationTypes, TransactionStatus
 from njangi.core import get_upline_to_pay_upgrade_contribution, get_contribution_beneficiaries
 from njangi.models import (
     LevelModel, FailedOperations, AccountPackage, UserAccountSubscriptionType, UserAccountManager, LEVEL_CONTRIBUTIONS,
-    WALLET_CONTRIBUTION_PROCESSING_FEE_RATE, NSP, CONTRIBUTION_INTERVAL_IN_DAYS, RemunerationPlan
+    WALLET_CONTRIBUTION_PROCESSING_FEE_RATES, NSP, CONTRIBUTION_INTERVAL_IN_DAYS, RemunerationPlan
 )
 from main.notification import notification
 from njanginetwork.celery import app
-from purse.models import WalletManager
+from purse.models import WalletManager, Balance
 from purse.models import (
     WalletTransStatus, WalletTransMessage, WalletTransDescription, MobileMoneyManager, MOMOPurpose,
     MMRequestType
@@ -161,6 +161,13 @@ def process_wallet_contribution(level, nsp, user_id, processing_fee=0.00):
     # 4 - Update status and send notifications
     update_status_and_send_notifications(beneficiaries=beneficiaries)
 
+    # 5 - Create upgrade contribution reserve in the account of the recipient \
+    #     and upgrade the user if the he/she is due for upgrade.
+    recipient = beneficiaries['recipient']['user']
+    level = beneficiaries['level']
+    amount_received = beneficiaries['recipient']['amount']
+    create_upgrade_contribution_reserves(recipient=recipient, level=level, amount_received=amount_received)
+
     return {'status': trans_status.success(), 'message': trans_message.success_message()}
 
 
@@ -261,6 +268,65 @@ def update_status_and_send_notifications(beneficiaries):
             )
 
 
+def create_upgrade_contribution_reserves(recipient, level, amount_received, upgrade_balance=0):
+
+    # Let's fetch the user again so we get the updated values.
+    recipient = UserModel().objects.get(pk=recipient.id)
+    current_level = recipient.level
+    upgrade_level = current_level + 1
+    contribution_received = D(amount_received)
+
+    # if current level is at 6, then there is no need for upgrading.
+    if current_level == 6:
+        return {"status": "success", "message": "user already at top level", "user": recipient.username}
+
+    # if the contribution is not for current_level, ignore this process. This avoids making reserves on contributions
+    # that are for lower levels which the user odds not to create a reserve for. This also ensures that users don't
+    # upgrade when they have no one to contribute to them for that level.
+    if current_level != level:
+        return {
+            "status": "success", "message": "the contribution is not for the current user's level",
+            "user": recipient.username
+        }
+
+    contribution_amount = LEVEL_CONTRIBUTIONS[upgrade_level]
+    charges = D(WALLET_CONTRIBUTION_PROCESSING_FEE_RATES[upgrade_level]) * contribution_amount
+    upgrade_required_balance = D(contribution_amount) + D(charges)
+
+    # Verify if the user's current upgrade balance is equal to upgrade required balance
+    balance, created = Balance.objects.get_or_create(user=recipient)
+    if upgrade_balance > 0:
+        current_upgrade_balance = upgrade_balance
+    else:
+        current_upgrade_balance = balance.upgrade_balance
+
+    if (current_upgrade_balance + contribution_received) >= upgrade_required_balance:
+        # pass the current_upgrade_balance to available balance and contribute.
+        balance.available_balance += balance.upgrade_balance
+        balance.upgrade_balance = 0
+        balance.save()
+
+        process_wallet_contribution.delay(
+            level=upgrade_level, nsp=service_provider.mtn_wallet(), user_id=recipient.id,
+            processing_fee=charges
+        )
+        return {
+            "status": "success", "message": "transaction processed successfully",
+            "user": recipient.username
+        }
+
+    else:
+        # Add the contribution received to reserves and conclude.
+        balance = recipient.balance
+        balance.available_balance -= contribution_received
+        balance.upgrade_balance += contribution_received
+        balance.save()
+        return {
+            "status": "success", "message": "transaction processed successfully. contribution added to reserves",
+            "user": recipient.username
+        }
+
+
 def process_wallet_withdraw(user_id, amount, nsp, tracker_id, charge=0.00):
     """
     Called after a callback is received from the Mobile Money provider.
@@ -292,10 +358,15 @@ def process_wallet_withdraw(user_id, amount, nsp, tracker_id, charge=0.00):
                 'tracker_id': tracker_id
             }
             # Change the status of the transaction from "pending" to "failed" in the user's wallet.
-            r = wallet_manager.update_status(
+            wallet_manager.update_status(
                 status=trans_status.complete(), tracker_id=mm_transaction.tracker_id
             )
 
+            # Update the user's balance to reflect the situation before the failed transaction.
+            total = mm_transaction.amount + mm_transaction.charge
+            wallet_manager.increase_balance(mm_transaction.user, available_balance=total)
+
+            # Send notifications.
             mailer_services.send_wallet_withdrawal_failed_email.delay(user_id=user_id,
                                                                       message=trans_message.failed_message(),
                                                                       status=trans_status.failed())
@@ -307,7 +378,7 @@ def process_wallet_withdraw(user_id, amount, nsp, tracker_id, charge=0.00):
             mm_transaction.save()
             return response
         else:
-            r = wallet_manager.update_status(
+            wallet_manager.update_status(
                 status=trans_status.complete(), tracker_id=mm_transaction.tracker_id
             )
             mailer_services.send_wallet_withdrawal_email.delay(
@@ -332,7 +403,7 @@ def process_wallet_withdraw(user_id, amount, nsp, tracker_id, charge=0.00):
 @app.task
 def process_wallet_load(user_id, amount, nsp, tracker_id, charge=0.00):
     # This function is called after a successful callback response is received from the MOMO API provider.
-    loading_amount = D(amount) + D(charge)
+    loading_amount = D(amount)
     user = UserModel().objects.get(pk=user_id)
     information = _('wallet load through %s mobile money') % nsp.upper()
 
@@ -500,7 +571,7 @@ def process_automatic_contributions():
         for obj in queryset:
             level = obj.level
             amount = LEVEL_CONTRIBUTIONS[level]
-            processing_fee = amount * WALLET_CONTRIBUTION_PROCESSING_FEE_RATE
+            processing_fee = amount * D(WALLET_CONTRIBUTION_PROCESSING_FEE_RATES[level])
             nsp = ''
             total = D(amount) + D(processing_fee)
             recipient = get_upline_to_pay_upgrade_contribution(user_id=obj.user.id, level=level)

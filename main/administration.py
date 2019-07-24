@@ -6,6 +6,8 @@ from django.contrib.auth import get_user_model
 from njangi.core import create_user_levels, add_user_to_njangi_tree
 from mailer import services as mailer_services
 from njangi.models import LevelModel
+from njangi import tasks
+from purse.models import Balance, WalletModel, Coalesce, Q, Sum, WalletTransStatus, D, V, F
 
 
 def create_admin_user(username, password):
@@ -94,3 +96,35 @@ def mass_increase_next_payment_duration(days):
         level.next_payment += datetime.timedelta(days=days)
         level.save()
     return levels.count()
+
+
+def mass_update_user_balances():
+    users = get_user_model().objects.all()
+    results = []
+    for user in users:
+        balance, created = Balance.objects.get_or_create(user=user)
+        if created:
+            trans_status = WalletTransStatus()
+            wallet = WalletModel.objects.filter(user=user).filter(
+                Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
+            )
+
+            wallet = wallet.aggregate(
+                balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
+            )
+            account_balance = D(wallet['balance'])
+            balance.available_balance = account_balance
+            balance.save()
+            results.append({"user": user.username, "balance": account_balance})
+    return results
+
+
+def mass_upgrade_users():
+    results = []
+    users = get_user_model().objects.filter(is_admin=False, is_in_network=True, level__gt=0).all()
+    for user in users:
+        res = tasks.create_upgrade_contribution_reserves(
+            recipient=user, level=user.level, amount_received=0, upgrade_balance=user.balance.available_balance
+        )
+        results.append(res)
+    return results

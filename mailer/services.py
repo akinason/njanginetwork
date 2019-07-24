@@ -91,7 +91,8 @@ def send_1s2u_mass_sms(to_numbers, body):
 @app.task
 def send_sms(to_number, body):
     response = send_1s2u_sms(to_number, body)
-    print(response)
+    # response = {"status_code": 200, "content": {}}
+
     return response
 
 

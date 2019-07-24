@@ -237,6 +237,15 @@ class WalletTransStatus:
         return self._failure()
 
 
+class Balance(models.Model):
+    user = models.OneToOneField(
+        get_user_model(), verbose_name=_('user'), on_delete=models.CASCADE, related_name='balance'
+    )
+    available_balance = models.DecimalField(_('available balance'), max_digits=10, decimal_places=2, default=0)
+    upgrade_balance = models.DecimalField(_('upgrade balance'), max_digits=10, decimal_places=2, default=0)
+    last_updated = models.DateTimeField(blank=True, null=True)
+
+
 class WalletModel(models.Model):
     trans_status = WalletTransStatus()
 
@@ -284,7 +293,6 @@ class WalletManager:
     def _load(self, user, amount, nsp, description, charge=0.00, tel=None, thirdparty_reference=None,
               information=None, trans_code=None, sender=None, status=None):
         # Funds the wallet of the specified user. Returns a dictionary response
-
         modified_charge = abs(charge) * -1
 
         wallet = self.model.objects.create(user=user, amount=amount, charge=modified_charge, nsp=nsp)
@@ -307,6 +315,11 @@ class WalletManager:
         if sender:
             wallet.sender = sender
         wallet.save()
+
+        # Update the user's balance
+        deposit_amount = D(abs(amount)) - D(abs(charge))
+        self.increase_balance(user, available_balance=deposit_amount)
+
         response = {
             'status':  self.trans_status.success(),
             'message': self.trans_message.success_message(),
@@ -363,6 +376,10 @@ class WalletManager:
             if sender:
                 wallet.sender = sender
             wallet.save()
+
+            # reduce the balance by the total
+            self.reduce_balance(user=user, available_balance=total)
+
             response = {
                 'status': self.trans_status.success(),
                 'message': self.trans_message.success_message(),
@@ -382,6 +399,7 @@ class WalletManager:
         # Does not Check to ensure the user has sufficient balance in his/her account.
         amount = D(amount)
         charge = D(charge)
+        total = amount + charge
         neg_amount = abs(amount) * -1
         neg_charge = abs(charge) * -1
         wallet = self.model.objects.create(user=user, amount=neg_amount, charge=neg_charge, nsp=nsp)
@@ -409,6 +427,10 @@ class WalletManager:
         if sender:
             wallet.sender = sender
         wallet.save()
+
+        # reduce the balance by the total
+        self.reduce_balance(user=user, available_balance=total, force=True)
+
         response = {
             'status': self.trans_status.success(),
             'message': self.trans_message.success_message(),
@@ -439,17 +461,22 @@ class WalletManager:
     def balance(self, user, nsp=None):
         trans_status = WalletTransStatus()
         # returns the wallet balance of the specified user.
-        wallet = self.model.objects.filter(user=user).filter(
-            Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
-        )
-
-        if nsp:
-            wallet = wallet.filter(nsp=nsp)
-
-        wallet = wallet.aggregate(
-            balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
-        )
-        balance = D(wallet['balance'])
+        # wallet = self.model.objects.filter(user=user).filter(
+        #     Q(status=trans_status.complete()) | Q(status=trans_status.success()) | Q(status=trans_status.pending())
+        # )
+        #
+        # if nsp:
+        #     wallet = wallet.filter(nsp=nsp)
+        #
+        # wallet = wallet.aggregate(
+        #     balance=Coalesce(Sum(F('amount')+F('charge')), V(0.00))
+        # )
+        # balance = D(wallet['balance'])
+        balance = 0
+        try:
+            balance = Balance.objects.get(user=user).available_balance
+        except Balance.DoesNotExist:
+            pass
         return balance
 
     def load(self, user, amount, nsp, description, charge=0.00, tel=None, thirdparty_reference=None,
@@ -515,7 +542,7 @@ class WalletManager:
     def pay_subscription(self, user, amount, charge=0.00):
 
         bal1 = self.balance(user, _nsp.mtn())
-        bal2 = self.balance(user, _nsp.orange())
+        bal2 = 0.00
         amount1 = 0.00
         amount2 = 0.00
         amt = D(abs(amount))
@@ -550,24 +577,23 @@ class WalletManager:
                     'status': self.trans_status.failed(), 'message': self.trans_message.failed_message()
                 }
 
-        if amount2 > 0:
-            information = _('Package Subscription through %s wallet by %s.') % (_nsp.orange().upper(), user.username)
-            response = self.transfer(
-                sender=user, recipient=recipient, amount=amount2, information=information, nsp=_nsp.orange(),
-                sender_description=self.trans_description.user_account_subscription(),
-                recipient_description=self.trans_description.user_account_subscription(),
-                trans_code=trans_code
-            )
+        # if amount2 > 0:
+        #     information = _('Package Subscription through %s wallet by %s.') % (_nsp.orange().upper(), user.username)
+        #     response = self.transfer(
+        #         sender=user, recipient=recipient, amount=amount2, information=information, nsp=_nsp.orange(),
+        #         sender_description=self.trans_description.user_account_subscription(),
+        #         recipient_description=self.trans_description.user_account_subscription(),
+        #         trans_code=trans_code
+        #     )
 
         return response
 
     def purchase_payment(self, user, amount, description, information, charge=0.00):
-        bal1 = self.balance(user, _nsp.mtn())
-        bal2 = self.balance(user, _nsp.orange())
+        bal1 = self.balance(user)
+        bal2 = 0.00
         amount1 = 0.00
         amount2 = 0.00
-        amt = D(abs(amount))
-        total = amt + D(charge)
+        total = D(abs(amount)) + D(charge)
 
         if bal1 >= total:
             amount1 = total
@@ -597,14 +623,13 @@ class WalletManager:
                     'status': self.trans_status.failed(), 'message': self.trans_message.failed_message()
                 }
 
-        if amount2 > 0:
-            response = self.transfer(
-                sender=user, recipient=recipient, amount=amount2, information=information, nsp=_nsp.orange(),
-                sender_description=description,
-                recipient_description=description,
-                trans_code=trans_code
-            )
-        print(user, recipient)
+        # if amount2 > 0:
+        #     response = self.transfer(
+        #         sender=user, recipient=recipient, amount=amount2, information=information, nsp=_nsp.orange(),
+        #         sender_description=description,
+        #         recipient_description=description,
+        #         trans_code=trans_code
+        #     )
         return response
 
     def contribute(self, beneficiaries, nsp, processing_fee):
@@ -779,6 +804,44 @@ class WalletManager:
                 'message': self.trans_message.failed_message()
             }
             return response
+
+    def _update_balance(self, user, available_balance, upgrade_balance=0, force=False):
+        balance, created = Balance.objects.get_or_create(user=user)
+
+        if (available_balance < 0 or upgrade_balance < 0) and force is False:
+            # If we are trying to reduce the user's balance check to ensure there is enough funds.
+            if balance.available_balance < abs(available_balance):
+                return {
+                    "success": False, "available_balance": balance.available_balance,
+                    "upgrade_balance": balance.upgrade_balance,  "message": _('Insufficient funds.')
+                }
+
+            if balance.upgrade_balance < abs(upgrade_balance):
+                return {
+                    "success": False, "available_balance": balance.available_balance,
+                    "upgrade_balance": balance.upgrade_balance,  "message": _('Insufficient funds.')
+                }
+
+        balance.available_balance += available_balance
+        balance.upgrade_balance += upgrade_balance
+        balance.last_updated = timezone.now()
+        balance.save()
+        return {
+                "success": True, "available_balance": balance.available_balance,
+                "upgrade_balance": balance.upgrade_balance,  "message": _('Transaction Successful')
+            }
+
+    def reduce_balance(self, user, available_balance, upgrade_balance=0, force=False):
+        # reduce the user's balance.
+        return self._update_balance(
+            user=user, available_balance=abs(available_balance) * -1, upgrade_balance=abs(upgrade_balance) * -1,
+            force=force
+        )
+
+    def increase_balance(self, user, available_balance, upgrade_balance=0):
+        return self._update_balance(
+            user=user, available_balance=abs(available_balance), upgrade_balance=abs(upgrade_balance)
+        )
 
     def transaction_list(self, user, nsp=None, last_x_transactions=0):
         """
@@ -1014,3 +1077,4 @@ class MobileMoneyManager:
                 return self.model.objects.none()
         except self.model.DoesNotExist:
             return self.model.objects.none()
+

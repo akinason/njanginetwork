@@ -47,7 +47,7 @@
             <h5>{% trans 'balance'|title %}</h5>
         </div>
         <div class="stats-right">
-            <h5>{{ wallet_balance }}</h5>
+            <h5>{{ user.balance.available_balance }}</h5>
         </div>
         <div class="clearfix"> </div>
     </div>
@@ -71,6 +71,21 @@
         </div>
         <div class="clearfix"> </div>
     </div>
+    <div class="clearfix"> </div>
+</div>
+
+<div class="row-two">
+    <div class="col-md-4 widget">
+        <div class="stats-left ">
+            <h5>{% trans 'Upgrade'|capfirst %}</h5>
+            <h5>{% trans 'reserve'|title %}</h5>
+        </div>
+        <div class="stats-right">
+            <h5>{{ user.balance.upgrade_balance }}</h5>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+
     <div class="clearfix"> </div>
 </div>
 <!--End General statistics-->

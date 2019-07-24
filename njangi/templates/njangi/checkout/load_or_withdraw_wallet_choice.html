@@ -5,20 +5,16 @@
 <div class="form">
     <div class="col-md-6">
         <div class="grid_3 grid_5 widget-shadow">
-            <h5 class="hdg">{% trans 'wallet'|title %} {{ action|title }}  |  {% trans 'select wallet'|title %}</h5>
+            <h5 class="hdg">{% trans 'wallet'|title %} {{ action|title }}  |  {% trans 'current balance'|title %} {{ user.balance.available_balance|intcomma }}</h5>
             <div class="well">
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-6">
                                 <a href="{% url 'njangi:load_or_withdraw' nsp=nsp_.mtn_wallet action=action %}" >
-                                    <p><button type="button" class="btn btn-primary " data-toggle="modal" >{% trans 'MTN Wallet' %}<br>{% trans 'balance'|title %}: {{ mtn_wallet_balance|intcomma }} </button></p>
+                                    <p><button type="button" class="btn btn-primary " data-toggle="modal" >{% trans 'Continue'|title %} </button></p>
                                 </a>
                         </div>
-                        <div class="col-sm-6">
-                                <a href="{% url 'njangi:load_or_withdraw' nsp=nsp_.orange_wallet action=action %}" >
-                                    <button type="button" class="btn btn-primary " data-toggle="modal">{% trans 'Orange Wallet' %}<br> {% trans 'balance'|title %}: {{ orange_wallet_balance|intcomma }} </button>
-                                </a>
-                        </div>
+
                     </div>
                 </form>
             </div>
