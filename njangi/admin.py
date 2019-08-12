@@ -20,6 +20,8 @@ admin.site.register(
     list_display_links=(
             'user',
     ),
+    search_fields=('user__username', 'parent_user__username'),
+    list_filter=('user__username', 'parent_user__username', 'parent')
 )
 
 
