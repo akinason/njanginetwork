@@ -77,6 +77,9 @@ class Product(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self):
         return self.name
 
@@ -118,6 +121,9 @@ class Invoice(models.Model):
     paid_on = models.DateTimeField(_('paid on'), blank=True, null=True)
     created_on = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ('id',)
 
     def __str__(self):
         return str(self.pk)

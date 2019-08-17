@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from main.core import TransactionStatus
 from main.notification import notification
@@ -67,9 +69,33 @@ def monetbilpayoutnotificationview(request, *args, **kwargs):
     return JsonResponse(data={'status': 'success', 'message': 'Thanks'})
 
 
+class MonetbilNotificationView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        uuid = None
+        server_response = request.data.get('message')
+        status = request.data.get('status')
+        tracker_id = request.data.get('payment_ref')
+        # transaction_id = request.data.get('transaction_id')
+
+        if status == "success":
+            status_code = 200
+        else:
+            status_code = 400
+
+        process_transaction_update(
+            tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response,
+            transaction_id=None
+        )
+
+        return Response({"message": "success"}, status=200)
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 def monetbilnotificationview(request, *args, **kwargs):
+    """Discontinued in favour of class based view. See above."""
     # Responsible for processing successful mobile money callback_url from monetbil.com
+    print(request.POST)
     if request.method == "POST" or request.method == "GET":
         uuid = None
         server_response = request.POST.get('message')
@@ -86,10 +112,13 @@ def monetbilnotificationview(request, *args, **kwargs):
             tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response,
             transaction_id=None
         )
+
     return JsonResponse(data={'status': 'success', 'message': 'Thanks'})
 
 
-def process_transaction_update(tracker_id, status_code, server_response=None, uuid=None, transaction_id=None):
+def process_transaction_update(
+    tracker_id, status_code, server_response=None, uuid=None, transaction_id=None, full_response=None
+):
 
     # Check to ensure the transaction actually originated from our servers
     if momo_manager.is_valid(tracker_id=tracker_id, uuid=uuid):

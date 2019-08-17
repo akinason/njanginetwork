@@ -110,6 +110,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'gender', 'sponsor']
     EMAIL_FIELD = 'email'
 
+    class Meta:
+        ordering = ('id',)
+
     def set_unique_random_tel1_code(self):
         while True:
             code = password = User.objects.make_random_password(length=6, allowed_chars='23456789')
