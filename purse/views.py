@@ -90,6 +90,25 @@ class MonetbilNotificationView(APIView):
 
         return Response({"message": "success"}, status=200)
 
+    def get(self, request, *args, **kwargs):
+        uuid = None
+        server_response = request.data.get('message')
+        status = request.data.get('status')
+        tracker_id = request.data.get('payment_ref')
+        # transaction_id = request.data.get('transaction_id')
+
+        if status == "success":
+            status_code = 200
+        else:
+            status_code = 400
+
+        process_transaction_update(
+            tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response,
+            transaction_id=None, full_response=request.data
+        )
+
+        return Response({"message": "success"}, status=200)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 def monetbilnotificationview(request, *args, **kwargs):
