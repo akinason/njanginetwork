@@ -88,7 +88,7 @@ class MonetbilNotificationView(APIView):
             transaction_id=None, full_response=request.data
         )
 
-        return Response({"message": "success"}, status=200)
+        return Response({"message": "success", "method": "POST"}, status=200)
 
     def get(self, request, *args, **kwargs):
         uuid = None
@@ -107,7 +107,7 @@ class MonetbilNotificationView(APIView):
             transaction_id=None, full_response=request.data
         )
 
-        return Response({"message": "success"}, status=200)
+        return Response({"message": "success", "method": "GET"}, status=200)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
