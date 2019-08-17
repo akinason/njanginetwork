@@ -220,6 +220,7 @@ def process_transaction_update(
         mm_transaction.message = uuid if uuid else "Null"
         mm_transaction.callback_status_code = status_code
         mm_transaction.is_complete = True
+        mm_transaction.callback_status_data = full_response
         mm_transaction.save()
 
 

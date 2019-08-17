@@ -32,6 +32,27 @@ def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
     return obj
 
 
+def get_sponsor_node_to_place_new_user(user):
+    """
+    This function exist because some users signup but do not contribute. In such cases, they are not added
+    to the Tree. So when a referral of theirs wants to contribute, it causes an error.
+
+    This function then gets an upline under whose network the new user will be placed.
+    :param user: The new user.
+    :return: The node under whom the new user should be placed.
+    """
+    from main.utils import get_sponsor_using_sponsor_id
+
+    sponsors_id = user.sponsor
+    while True:
+        sponsor = get_sponsor_using_sponsor_id(sponsor_id=sponsors_id)
+        if sponsor.is_admin:
+            return NjangiTree.objects.get(user=sponsor)
+        elif sponsor.is_in_network:
+            return NjangiTree.objects.get(user=sponsor)
+        sponsors_id = sponsor.sponsor
+
+
 def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
     # Adds the user to the Njangi Tree. It uses sponsor_pk to get a specific sponsor or user.sponsor otherwise.
     if sponsor_pk and not sponsor:
@@ -46,7 +67,11 @@ def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
         return tree_node
     else:
         # The Njangi Tree Node for the sponsor.
-        sponsor_node = NjangiTree.objects.filter(user=sponsor).get()
+        sponsor_node = ''
+        if sponsor.is_in_network:
+            sponsor_node = NjangiTree.objects.filter(user=sponsor).get()
+        else:
+            sponsor_node = get_sponsor_node_to_place_new_user(user=user)
 
         if sponsor_node.has_left_downline() and not sponsor_node.has_right_downline():
             # Add the new user to the right leg regardless of the value of 'side'
