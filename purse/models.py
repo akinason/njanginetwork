@@ -957,6 +957,7 @@ class MobileMoney(models.Model):
     charge = models.DecimalField(_('charge'), decimal_places=2, max_digits=10, default=0, blank=True, null=True)
     unique_id = models.CharField(_('api unique id'), max_length=20, blank=True)
     invoice_number = models.CharField(_('invoice number'), max_length=100, blank=True, null=True)
+    callback_response_data = models.TextField(blank=True, null=True)
 
 
 class MobileMoneyManager:
@@ -992,7 +993,7 @@ class MobileMoneyManager:
     def get_response(self, mm_request_id, response_status=None, response_code=None, message=None,
                      transaction_id=None, response_transaction_date=None, callback_response_date=None,
                      callback_status_code=None, user_auth=None, server_response=None, processing_status=None,
-                     unique_id=None, callback_server_response=None, is_complete=False
+                     unique_id=None, callback_server_response=None, is_complete=False, full_response=None
                      ):
         try:
             mm_transaction = self.model.objects.get(pk=mm_request_id)
@@ -1030,6 +1031,8 @@ class MobileMoneyManager:
                 mm_transaction.callback_server_response = callback_server_response
             if is_complete:
                 mm_transaction.is_complete = True
+            if full_response:
+                mm_transaction.callback_response_data = full_response
             mm_transaction.save()
             return mm_transaction
         except self.model.DoesNotExist:

@@ -85,7 +85,7 @@ class MonetbilNotificationView(APIView):
 
         process_transaction_update(
             tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response,
-            transaction_id=None
+            transaction_id=None, full_response=request.data
         )
 
         return Response({"message": "success"}, status=200)
@@ -110,7 +110,7 @@ def monetbilnotificationview(request, *args, **kwargs):
 
         process_transaction_update(
             tracker_id=tracker_id, uuid=uuid, status_code=status_code, server_response=server_response,
-            transaction_id=None
+            transaction_id=None, full_response=request.data
         )
 
     return JsonResponse(data={'status': 'success', 'message': 'Thanks'})
@@ -128,8 +128,9 @@ def process_transaction_update(
             response_status = trans_status.failed()
         mm_transaction = momo_manager.get_response(
             mm_request_id=transaction_id, callback_status_code=status_code, response_status=response_status,
-            callback_response_date=timezone.now(), callback_server_response=server_response
+            callback_response_date=timezone.now(), callback_server_response=server_response, full_response=full_response
         )
+
         if int(status_code) == 200 and not mm_transaction.is_complete:
             # Proceed to process the transaction.
             if mm_transaction.purpose == momo_purpose.contribution() and mm_transaction.level and \
