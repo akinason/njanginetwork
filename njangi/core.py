@@ -244,42 +244,43 @@ def recipient_can_receive_level_contribution(recipient, level, amount):
                     return False
                 elif not level_model.next_payment:
                     return False
-                elif level_model.next_payment < timezone.now():
-                    # if the user has allow_automatic_contribution set on, check if he/she has sufficient balance.
-                    if recipient.allow_automatic_contribution:
-                        from purse.models import WalletManager
-                        from main.core import NSP
-                        nsp = NSP()
-                        wallet = WalletManager()
-                        mtn_balance = wallet.balance(user=recipient, nsp=nsp.mtn())
-                        orange_balance = wallet.balance(user=recipient, nsp=nsp.orange())
-                        if mtn_balance > amount or orange_balance > amount:
-                            return True
-                        else:
-                            level_model.is_active = False
-                            level_model.save()
-                            mailer_services.send_level_deactivation_email.delay(
-                                user_id=recipient.id, level=_level, amount=amount
-                            )
-                            mailer_services.send_level_deactivation_sms.delay(
-                                user_id=recipient.id, level=_level, amount=amount
-                            )
-                            return False
-                    else:
-                        # if this happens, deactivate the user at that level and return False
-
-                        # Update: 20-11-2018: We disallow deactivating people whose contribution is due. This time
-                        # contribution does not expire., so simply return True
-
-                        # level_model.is_active = False
-                        # level_model.save()
-                        # mailer_services.send_level_deactivation_email.delay(
-                        #     user_id=recipient.id, level=_level, amount=amount
-                        # )
-                        # mailer_services.send_level_deactivation_sms.delay(
-                        #     user_id=recipient.id, level=_level, amount=amount
-                        # )
-                        return True
+                    """ We do not deactivate people again due to next payment date"""
+                    # elif level_model.next_payment < timezone.now():
+                    #     # if the user has allow_automatic_contribution set on, check if he/she has sufficient balance.
+                    #     if recipient.allow_automatic_contribution:
+                    #         from purse.models import WalletManager
+                    #         from main.core import NSP
+                    #         nsp = NSP()
+                    #         wallet = WalletManager()
+                    #         mtn_balance = wallet.balance(user=recipient, nsp=nsp.mtn())
+                    #         orange_balance = wallet.balance(user=recipient, nsp=nsp.orange())
+                    #         if mtn_balance > amount or orange_balance > amount:
+                    #             return True
+                    #         else:
+                    #             level_model.is_active = False
+                    #             level_model.save()
+                    #             mailer_services.send_level_deactivation_email.delay(
+                    #                 user_id=recipient.id, level=_level, amount=amount
+                    #             )
+                    #             mailer_services.send_level_deactivation_sms.delay(
+                    #                 user_id=recipient.id, level=_level, amount=amount
+                    #             )
+                    #             return False
+                    #     else:
+                    #         if this happens, deactivate the user at that level and return False
+                    #
+                    #         Update: 20-11-2018: We disallow deactivating people whose contribution is due. This time
+                    #         contribution does not expire., so simply return True
+                    #
+                    #         level_model.is_active = False
+                    #         level_model.save()
+                    #         mailer_services.send_level_deactivation_email.delay(
+                    #             user_id=recipient.id, level=_level, amount=amount
+                    #         )
+                    #         mailer_services.send_level_deactivation_sms.delay(
+                    #             user_id=recipient.id, level=_level, amount=amount
+                    #         )
+                    #         return True
                 else:
                     return True
             except LevelModel.DoesNotExist:
