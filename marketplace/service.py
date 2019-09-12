@@ -215,6 +215,6 @@ def user_has_already_purchased_pack(user, product):
     """
         This function verifies if the user has already purchased the specified pack. It returns true or false.
     """
-    count = InvoiceItem.objects.filter(product=product, invoice__user=user, invoice__status=invoice_status.paid).count()
+    count = InvoiceItem.objects.filter(product=product, invoice__user=user, invoice__status=invoice_status.paid()).count()
 
     return True if count > 0 else False

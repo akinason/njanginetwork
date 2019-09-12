@@ -244,7 +244,7 @@ def recipient_can_receive_level_contribution(recipient, level, amount):
                     return False
                 elif not level_model.next_payment:
                     return False
-                    """ We do not deactivate people again due to next payment date"""
+                    # We do not deactivate people again due to next payment date"""
                     # elif level_model.next_payment < timezone.now():
                     #     # if the user has allow_automatic_contribution set on, check if he/she has sufficient balance.
                     #     if recipient.allow_automatic_contribution:

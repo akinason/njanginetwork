@@ -209,9 +209,9 @@ class NjangiTree(MPTTModel):
             try:
                 return NjangiTree.objects.filter(parent_user=self.user, side=self.tree_side.right()).get()
             except (KeyError, NjangiTree.DoesNotExist):
-                return NjangiTree.objects.none().get()
+                return NjangiTree.objects.none()
         else:
-            return NjangiTree.objects.none().get()
+            return NjangiTree.objects.none()
 
     def get_downlines(self, limit=3, limit_output=False):
         """

@@ -129,7 +129,7 @@ class Invoice(models.Model):
         return str(self.pk)
 
     def total_rstrip(self):
-        return ("%f" % self.total ).rstrip('0').rstrip('.')
+        return ("%f" % self.total).rstrip('0').rstrip('.')
 
     def status_rstrip(self):
         return self.status.replace('_', ' ').capitalize()

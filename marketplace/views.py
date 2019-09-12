@@ -198,7 +198,7 @@ class PaymentView(LoginRequiredMixin, generic.View):
                 information=information
             )
             if response['status'] == trans_status.success():
-                market_services.payment_complete_process(invoice_id=invoice_id)
+                market_services.payment_complete_process(invoice_id=invoice_id, payment_method=method)
             else:
                 return HttpResponseRedirect(reverse(viewname='marketplace:invoice_detail', kwargs={'pk': invoice_id}))
 
