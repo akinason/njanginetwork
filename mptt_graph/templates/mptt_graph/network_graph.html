@@ -5,32 +5,46 @@
 <div class="forms">
     <div class="form-grids row widget-shadow" data-example-id="basic-forms">
         <div class="form-title">
-            {% if top_node.user == user %}
-                <h4>{% trans 'My Network'|title %} | {{ protocol }}{{ site_info.website }}/signup/?rid={{ top_node.user.sponsor_id }}</h4>
+            {% if user.is_in_network %}
+                    <h4>{% trans 'My Network'|title %} | {% trans 'Tip: Click on the downline to see more information about him/her'|title %}</h4>
             {% else %}
-                <h4>{% trans 'My Network'|title %} | {{ protocol }}{{ site_info.website }}/signup/?rid={{ top_node.user.sponsor_id }}&pid={{ user.sponsor_id }}</h4>
+                 <h4 style="color:red">{% trans 'You are not yet active in the Njangi Network Community'|title %}</h4>
             {% endif %}
         </div>
         <div class="form-body">
             <link rel="stylesheet" media="screen, projection" href="{% static 'mptt_graph/tree.css' %}" />
+            <p class="text-left">
+                {% if user.is_in_network %}
+                    {% trans 'Username:' %} {{top_node.user.username}}<br>
+                    {% trans 'Email:' %} {{top_node.user.email}}<br>
+                    {% trans 'Mobile:' %} {{top_node.user.tel1}}<br>
+                    {% if top_node.user == user %}
+                        {% trans 'Promotion Link'|title %}: {{ protocol }}{{ site_info.website }}/signup/?rid={{ top_node.user.sponsor_id }}
+                    {% else %}
+                        {% trans 'Promotion Link'|title %}: {{ protocol }}{{ site_info.website }}/signup/?rid={{ top_node.user.sponsor_id }}&pid={{ user.sponsor_id }}
+                    {% endif %}
+                {% endif %}
+            </p>
             <div class="text-center">
                 <div class="text-left" style="display:inline-block">
+
                     <div class="tree">
                         <ul>
                         {% recursetree nodes %}
                             <li>
                                 <h6>
                                 <a href="{% url 'mptt_graph:network_graph' user_id=node.user.id %}">
-                                    {{ node.user.id }} | {{ node.user.username }} |
-                                    {{ node.side }} |<br> 
-                                    {% if top_node.user.level < node.user.level %} 
-                                        <span style="color:rgb(0,255,0)">{% trans 'Lvl' %} {{ node.user.level }}</span> 
-                                    {% elif node.user.level == 0 %} 
-                                        <span style="color:rgb(255,0,0)">{% trans 'Lvl' %} {{ node.user.level }}</span>
+                                    {{ node.user.id }}|
+<!--                                    | {{ node.user.username }} |-->
+<!--                                    {{ node.side }} |<br> -->
+                                    {% if top_node.user.level < node.user.level %}
+                                        <span style="color:rgb(0,255,0)">{% trans 'L' %}{{ node.user.level }}</span>
+                                    {% elif node.user.level == 0 %}
+                                        <span style="color:rgb(255,0,0)">{% trans 'L' %}{{ node.user.level }}</span>
                                     {% else %}
-                                        <span style="color:rgb(0,0,255)">{% trans 'Lvl' %} {{ node.user.level }}</span>
-                                    {% endif %} |
-                                    {{ node.get_descendant_count }} | {{ node.user.sponsor }}
+                                        <span style="color:rgb(0,0,255)">{% trans 'L' %}{{ node.user.level }}</span>
+                                    {% endif %}|
+                                    {{ node.user.sponsor }}
                                 </a></h6>
                                 {% if not node.is_leaf_node %}
                                     <ul>
