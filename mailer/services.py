@@ -977,7 +977,7 @@ def send_signup_welcome_sms(user_id):
 
     params = {
         'username': user.username if user.username else _('Member'),
-        'promo_link': 'https://njanginetwork.com/?rid=%s'.format(user.sponsor_id)
+        'promo_link': 'https://njanginetwork.com/?rid=%s' % (user.sponsor_id,)
     }
     _message = _('Welcome %(username)s\n'
                  "Your Promo link: %(promo_link)s\n"
