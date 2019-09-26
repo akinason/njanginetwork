@@ -18,7 +18,7 @@
                     {% trans 'Username:' %} {{top_node.user.username}}<br>
                     {% trans 'Email:' %} {{top_node.user.email}}<br>
                     {% trans 'Mobile:' %} {{top_node.user.tel1}}<br>
-                    {% trans 'Side:' %} {{ top_node.side }}
+                    {% trans 'Side:' %} {{ top_node.side }}<br>
                     {% if top_node.user == user %}
                         {% trans 'Promotion Link'|title %}: {{ protocol }}{{ site_info.website }}/signup/?rid={{ top_node.user.sponsor_id }}
                     {% else %}
@@ -35,7 +35,7 @@
                             <li>
                                 <h6>
                                 <a href="{% url 'mptt_graph:network_graph' user_id=node.user.id %}">
-                                    {{ node.user.id }} | {{ node.user.username }} | {{ node.side }} |<br>
+                                    {{ node.user.id }} | {{ node.user.username }} | {{ node.get_descendant_count }} | {{ node.side }} |<br>
                                     {% if top_node.user.level < node.user.level %}
                                         <span style="color:rgb(0,255,0)">{% trans 'L' %}{{ node.user.level }}</span>
                                     {% elif node.user.level == 0 %}

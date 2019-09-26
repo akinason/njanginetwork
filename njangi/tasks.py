@@ -582,7 +582,7 @@ def process_automatic_contributions():
                 sender_tel = obj.user.tel2.national_number
             elif wallet.balance(user=obj.user, nsp=_nsp.mtn()) >= total:
                 nsp = _nsp.mtn_wallet()
-                sender_tel = obj.user.tel1.national_number
+                # sender_tel = obj.user.tel1.national_number
             else:  # Insufficient funds, send them failed mails/sms
                 mailer_services.send_auto_wallet_contribution_failed_email.delay(
                     user_id=obj.user.id, level=level, amount=amount
