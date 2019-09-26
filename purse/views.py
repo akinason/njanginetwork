@@ -115,7 +115,7 @@ class MonetbilNotificationView(APIView):
 def monetbilnotificationview(request, *args, **kwargs):
     """Discontinued in favour of class based view. See above."""
     # Responsible for processing successful mobile money callback_url from monetbil.com
-    print(request.POST)
+
     if request.method == "POST" or request.method == "GET":
         uuid = None
         server_response = request.POST.get('message')
@@ -155,6 +155,7 @@ def process_transaction_update(
             # Proceed to process the transaction.
             if mm_transaction.purpose == momo_purpose.contribution() and mm_transaction.level and \
              mm_transaction.request_type == momo_request_type.deposit():
+
                 user = mm_transaction.user
                 if not user.is_in_network:
                     add_user_to_njangi_tree(user=user)

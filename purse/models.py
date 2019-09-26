@@ -16,8 +16,8 @@ from main.models import TEL_MAX_LENGTH
 from njanginetwork import settings
 
 D = decimal.Decimal
-MTN_MOBILE_MONEY_PARTNER = 'AURBANPAY'
-ORANGE_MOBILE_MONEY_PARTNER = 'Extended Limits Inc'
+MTN_MOBILE_MONEY_PARTNER = 'MONETBIL'
+ORANGE_MOBILE_MONEY_PARTNER = 'MONETBIL'
 DEFAULT_TRANSACTION_LIST_LIMIT = 30
 _nsp = NSP()
 

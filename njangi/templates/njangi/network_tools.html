@@ -48,7 +48,7 @@
     function copyText(id) {
         var text = document.getElementById(id);
         text.select();
-        text.setSelectionRange(0, 99999);
+        text.setSelectionRange(0, 99999); // for mobile devices
         document.execCommand('copy')
         alert("Link Copied: " + text.value);
     }

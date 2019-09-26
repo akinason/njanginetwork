@@ -21,6 +21,9 @@ D = decimal.Decimal
 
 def _create_njangi_tree_node(user, sponsor, sponsor_node, side):
 
+    if sponsor != sponsor_node.user:
+        sponsor = sponsor_node.user
+        
     obj, created = NjangiTree.objects.get_or_create(
         user=user,
         side=side,
@@ -187,19 +190,46 @@ def get_upline_to_pay_upgrade_contribution(user_id, level):
                     # If the recipient is not active, then the contribution should go to anyone on his upline who is
                     # active as a user and active in the level.
                     recipient_node = NjangiTree.objects.filter(user=recipient).get()
-                    recipient_node_ancestors = recipient_node.get_ancestors(ascending=True).filter(
-                        Q(user__is_active=True, user__level__gte=_level) | Q(user__is_admin=True)
-                    )[:30]
-                    # Loop through the list of recipient's ancestors and return the ancestor who is active in the level.
-                    # NB: This will end up returning the admin if it gets to that level. The admin user is always active
-                    for ancestor_node in recipient_node_ancestors:
-                        ancestor_user = ancestor_node.user
+                    ancestors = recipient_node.get_ancestors(ascending=True)[:_level]  # Limit the queryset to the level.
+                    ancestor_count = ancestors.count()
+                    ancestor_dic = ancestors.values('id', 'user')  # Get a dictionary of the ancestors (id and user_id only).
+                    # step 2.1: Get the ancestor node to whom the contribution has to go to
+                    #         even if the user is inactive.
+                    node = {}
+                    if ancestor_count <= _level:
+                        node = ancestor_dic[ancestor_count - 1]
+                    elif ancestor_count > _level:
+                        node = ancestor_dic[_level - 1]
+
+                    user_id = node['user']  # Extract the user_id from the dictionary. This is the user to whom the
+                    # donation is suppose to go to
+
+                    # Step 2.2: Check if the user(recipient) is active.
+                    try:
+                        recipient = UserModel().objects.get(pk=user_id)
+                        # Check if the recipient is active in the current level and whether he is active at
+                        # all + user level >= current level.
                         if recipient_can_receive_level_contribution(
-                                recipient=ancestor_user, level=level, amount=get_level_contribution_amount(level)
+                                recipient=recipient, level=level, amount=get_level_contribution_amount(level)
                         ):
-                            return ancestor_user
+                            return recipient
                         else:
-                            pass
+                            recipient_node_ancestors = recipient_node.get_ancestors(ascending=True).filter(
+                                Q(user__is_active=True, user__level__gte=_level) | Q(user__is_admin=True)
+                            )[:30]
+                            # Loop through the list of recipient's ancestors and return the ancestor who is active
+                            # in the level. NB: This will end up returning the admin if it gets to that level.
+                            # The admin user is always active
+                            for ancestor_node in recipient_node_ancestors:
+                                ancestor_user = ancestor_node.user
+                                if recipient_can_receive_level_contribution(
+                                        recipient=ancestor_user, level=level, amount=get_level_contribution_amount(level)
+                                ):
+                                    return ancestor_user
+                                else:
+                                    pass
+                    except UserModel().DoesNotExist:
+                        return get_admin_users()[0]
             except UserModel().DoesNotExist:
                 return get_admin_users()[0]
             except LevelModel.DoesNotExist:
