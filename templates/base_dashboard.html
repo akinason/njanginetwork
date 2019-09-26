@@ -108,7 +108,7 @@
 							<a href="#"><i class="fa fa-th-large nav_icon"></i>{% trans 'contribute'|capfirst %} <span class="nav-badge">{{ wallet.balance }}</span> <span class="fa arrow"></span></a>
 
 							<ul class="nav nav-second-level collapse">
-								{% if user.level >= 0 %}
+								{% if user.level > 0 %}
                                 <li>
 									<a href="{% url 'njangi:contribution_checkout' level=1 %}">{% trans 'Level'|title %} 1</a>
 								</li>
