@@ -90,9 +90,8 @@ def send_1s2u_mass_sms(to_numbers, body):
 
 @app.task
 def send_sms(to_number, body):
-    # response = send_1s2u_sms(to_number, body)
+    response = send_1s2u_sms(to_number, body)
     # response = {"status_code": 200, "content": {}}
-    response = {}
 
     return response
 
@@ -977,12 +976,12 @@ def send_signup_welcome_sms(user_id):
         return False
 
     params = {
-        'username': user.username if user.username else _('Member')
+        'username': user.username if user.username else _('Member'),
+        'promo_link': 'https://njanginetwork.com/?rid=%s'.format(user.sponsor_id)
     }
-    _message = _('Hi %(username)s!\n'
-                 "Welcome to the network. Please be fast to do your first contribution so you don't "
-                 "miss to receive from your network.\n"
-                 "Thanks for Collaborating!"
+    _message = _('Welcome %(username)s\n'
+                 "Your Promo link: %(promo_link)s\n"
+                 "Thanks for Collaborating"
                  ) % params
     to_number = ''
     try:

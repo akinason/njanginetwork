@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from mailer import services as mailer_services
 from main.core import TransactionStatus
 from main.notification import notification
 from marketplace import service as market_services
@@ -181,6 +182,7 @@ def process_transaction_update(
                 if not user.is_in_network:
                     add_user_to_njangi_tree(user=user)
                     create_user_levels(user=user)
+                    mailer_services.send_signup_welcome_sms(user_id=user.id)
                 user.has_contributed = True
                 user.save()
                 process_nsp_contribution(mm_transaction.tracker_id)

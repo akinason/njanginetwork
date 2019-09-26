@@ -85,7 +85,7 @@ class SignupView(generic.CreateView):
         sponsor = get_sponsor(self.request)
         # add_user_to_njangi_tree(user=user, sponsor=sponsor)
         # create_user_levels(user=user)
-        mailer_services.send_signup_welcome_sms(user_id=user.id)
+        # mailer_services.send_signup_welcome_sms(user_id=user.id)
         mailer_services.send_signup_welcome_email(user_id=user.id)
 
         # Authenticate and login the user
