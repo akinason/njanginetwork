@@ -43,14 +43,14 @@ def get_sponsor_node_to_place_new_user(user):
     """
     from main.utils import get_sponsor_using_sponsor_id
 
-    sponsors_id = user.sponsor
+    sponsors_id = user.network_parent
     while True:
         sponsor = get_sponsor_using_sponsor_id(sponsor_id=sponsors_id)
         if sponsor.is_admin:
             return NjangiTree.objects.get(user=sponsor)
         elif sponsor.is_in_network:
             return NjangiTree.objects.get(user=sponsor)
-        sponsors_id = sponsor.sponsor
+        sponsors_id = sponsor.network_parent
 
 
 def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
@@ -59,7 +59,9 @@ def add_user_to_njangi_tree(user, side=None, sponsor=None, sponsor_pk=None):
         try:
             sponsor = UserModel().objects.get(pk=sponsor_pk)
         except (KeyError, UserModel().DoesNotExist):
-            sponsor = UserModel().objects.get(pk=user.sponsor)
+            sponsor = UserModel().objects.get(pk=user.network_parent)
+    elif not sponsor_pk and not sponsor:
+        sponsor = UserModel().objects.get(pk=user.network_parent)
 
     if user.is_admin:
         # add as a root node.

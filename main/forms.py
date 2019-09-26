@@ -37,12 +37,14 @@ class SignupForm(forms.ModelForm):
         super(SignupForm, self).__init__(*args, **kwargs)
         self.fields["sponsor"].initial = self.promoter
         self.fields['sponsor'].widget = HiddenInput()
+        self.fields["network_parent"].initial = self.sponsor
+        self.fields['network_parent'].widget = HiddenInput()
         self.fields['tel1'].required = True
         # self.fields['tel2'].required = False
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'password', 'tel1', 'sponsor', 'email']
+        fields = ['username', 'password', 'tel1', 'sponsor', 'email', 'network_parent']
 
     def clean_confirm_password(self):
         super(SignupForm, self).clean()

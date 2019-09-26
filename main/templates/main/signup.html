@@ -72,8 +72,11 @@
                         </div>
                     </div>
 
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                    {% endfor %}
 
-                    <div>{{ form.sponsor }}</div>
+<!--                    <div>{{ form.sponsor }}</div>-->
                     <div class="row">
                         <div class="form-group col-12" align="center">
                             {% trans 'by signing up, you agree to '|title %}

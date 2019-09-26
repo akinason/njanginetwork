@@ -135,10 +135,22 @@ def get_promoter_id_from_session(request):
 
 
 def get_sponsor(request):
+    """
+    This is the person under whom this new user will be placed in the network. In the case where the parameter
+    'pid' is not present in the signup url, then its the person who referred the current user.
+    :param request:
+    :return: the user under whom the current user will be placed in the network or the user who referred the current
+            user.
+    """
     return get_user_model().objects.filter(sponsor_id=get_sponsor_id_from_session(request)).get()
 
 
 def get_promoter(request):
+    """
+    This is the person who actually referred the user. This only exist if the url parameter "pid" is present.
+    :param request:
+    :return: the user who referred the current user.
+    """
     return get_user_model().objects.filter(sponsor_id=get_promoter_id_from_session(request)).get()
 
 

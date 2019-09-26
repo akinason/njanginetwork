@@ -156,8 +156,7 @@ def process_transaction_update(
              mm_transaction.request_type == momo_request_type.deposit():
                 user = mm_transaction.user
                 if not user.is_in_network:
-                    sponsor = get_sponsor_using_sponsor_id(sponsor_id=user.sponsor)
-                    add_user_to_njangi_tree(user=user, sponsor=sponsor)
+                    add_user_to_njangi_tree(user=user)
                     create_user_levels(user=user)
                     user.has_contributed = True
                     user.save()
@@ -180,8 +179,7 @@ def process_transaction_update(
                 # Process nsp contribution.
                 user = mm_transaction.user
                 if not user.is_in_network:
-                    sponsor = get_sponsor_using_sponsor_id(sponsor_id=user.sponsor)
-                    add_user_to_njangi_tree(user=user, sponsor=sponsor)
+                    add_user_to_njangi_tree(user=user)
                     create_user_levels(user=user)
                 user.has_contributed = True
                 user.save()

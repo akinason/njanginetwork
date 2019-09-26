@@ -68,6 +68,7 @@ class User(AbstractUser):
     )
     gender = models.CharField(_('gender'), choices=GENDER_TYPES, max_length=6, help_text='*')
     sponsor = models.PositiveIntegerField(_('sponsor'), blank=True, null=True, db_index=True)
+    network_parent = models.PositiveIntegerField(_('network parent'), blank=True, null=True, db_index=True)
 
     # Non Required fields. **********************
     email = models.EmailField(_('email address'), blank=True, null=True, default=None)
