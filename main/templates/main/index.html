@@ -43,6 +43,9 @@
 <div class="welcome d-flex justify-content-center flex-column">
     <div class="inner-wrapper mt-auto mb-auto">
         <h2 class="slide-in">{{ site_info.name }}</h2>
+         {% if not user.is_authenticated %}
+        <p class="slide-in"> {% trans "Welcome to" %} {{ promoter.username }}{% trans "'s network" %}</p>
+        {% endif %}
         <p class="slide-in">{% trans "Collaborating to alleviate poverty" %}</p>
         <div class="action-links slide-in">
           <a href="{% url 'main:signup' %}"  class="btn btn-primary btn-pill align-self-center mr-2"><i class="fa fa-signup mr-1"></i> {% trans "Signup Now"|title %}</a>
@@ -392,7 +395,7 @@
 </div>
 
 <!-- JavaScript -->
-<div id="fb-root"></div>
+<!--<div id="fb-root"></div>-->
 <script>(function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=1662270373824826"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

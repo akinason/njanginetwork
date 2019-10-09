@@ -10,6 +10,7 @@ from django.views import generic
 
 from .models import Product, Invoice, InvoiceItem, InvoiceStatus, PaymentMethod, ProductType, ProductImage, Commission
 from marketplace import service as market_services
+from main.mixins import AddReferralIDsToSession
 from main.utils import add_promoter_id_to_session, add_sponsor_id_to_session
 from njangi.models import NSP
 from njanginetwork import production_settings
@@ -27,7 +28,7 @@ trans_description = WalletTransDescription()
 wallet_manager = WalletManager()
 
 
-class IndexView(generic.TemplateView):
+class IndexView(AddReferralIDsToSession, generic.TemplateView):
     template_name = 'marketplace/index.html'
 
     def get_context_data(self, **kwargs):
@@ -48,12 +49,10 @@ class IndexView(generic.TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
-        add_sponsor_id_to_session(request)
-        add_promoter_id_to_session(request)
         return super(IndexView, self).get(request, *args, **kwargs)
 
 
-class ProductListView(generic.ListView):
+class ProductListView(AddReferralIDsToSession, generic.ListView):
     model = Product
     paginate_by = 10
     context_object_name = 'product_list'
@@ -69,7 +68,7 @@ class ProductListView(generic.ListView):
         return context
 
 
-class ProductDetailView(generic.DetailView):
+class ProductDetailView(AddReferralIDsToSession, generic.DetailView):
     model = Product
     context_object_name = 'product'
     template_name = 'marketplace/product_detail.html'
@@ -239,7 +238,7 @@ class PaymentView(LoginRequiredMixin, generic.View):
         return HttpResponseRedirect(reverse(viewname='marketplace:invoice_detail', kwargs={'pk': invoice_id}))
 
 
-class HowItWorksView(generic.TemplateView):
+class HowItWorksView(AddReferralIDsToSession, generic.TemplateView):
     template_name = 'marketplace/how_it_works.html'
 
     def get_context_data(self, **kwargs):
@@ -256,10 +255,8 @@ class CommissionStatementView(LoginRequiredMixin, generic.ListView):
         return Commission.objects.filter(user=self.request.user).order_by('-created_on')
 
 
-class MarketplaceSignupView(generic.RedirectView):
+class MarketplaceSignupView(AddReferralIDsToSession, generic.RedirectView):
 
     def get(self, request, *args, **kwargs):
         request.session['marketplace'] = True
-        add_sponsor_id_to_session(request)
-        add_promoter_id_to_session(request)
         return HttpResponseRedirect(reverse('main:signup'))

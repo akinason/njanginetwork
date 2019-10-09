@@ -20,7 +20,7 @@ from main import website
 from main.forms import (
     SignupForm, ProfileChangeForm, ContactForm, PhonePasswordResetCodeForm, PhonePasswordResetForm
 )
-from main.mixins import ContributionRequiredMixin
+from main.mixins import AddReferralIDsToSession
 from main.models import LevelModel
 from main.notification import notification
 from main.utils import add_sponsor_id_to_session, get_sponsor, get_promoter, add_promoter_id_to_session
@@ -29,7 +29,7 @@ from njangi.models import LEVEL_CONTRIBUTIONS
 from njanginetwork import settings
 
 
-class IndexView(generic.FormView):
+class IndexView(AddReferralIDsToSession, generic.FormView):
     template_name = 'main/index.html'
     form_class = SignupForm
 
@@ -43,8 +43,8 @@ class IndexView(generic.FormView):
         return kwargs
 
     def get(self, request, *args, **kwargs):
-        add_sponsor_id_to_session(request)
-        add_promoter_id_to_session(request)
+        # add_sponsor_id_to_session(request)
+        # add_promoter_id_to_session(request)
         return super(IndexView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -58,7 +58,7 @@ class IndexView(generic.FormView):
         return context
 
 
-class SignupView(generic.CreateView):
+class SignupView(AddReferralIDsToSession, generic.CreateView):
     template_name = 'main/signup.html'
     context_object_name = 'user'
     form_class = SignupForm
@@ -96,8 +96,6 @@ class SignupView(generic.CreateView):
         return super(SignupView, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):
-        add_sponsor_id_to_session(request)
-        add_promoter_id_to_session(request)
         return super(SignupView, self).get(request, *args, **kwargs)
 
 
@@ -116,7 +114,7 @@ class ProfileChangeView(LoginRequiredMixin, generic.UpdateView):
         return kwargs
 
 
-class LoginView(DefaultLoginView):
+class LoginView(AddReferralIDsToSession, DefaultLoginView):
     template_name = 'main/login.html'
     redirect_authenticated_user = True
 
@@ -277,7 +275,7 @@ class PhonePasswordResetConfirmView(generic.FormView):
         return context
 
 
-class ContactView(generic.FormView):
+class ContactView(AddReferralIDsToSession, generic.FormView):
     template_name = 'main/contact.html'
     form_class = ContactForm
     success_url = reverse_lazy('main:contact')
