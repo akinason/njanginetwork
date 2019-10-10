@@ -32,6 +32,7 @@ class AddReferralIDsToSession:
     Adds the promoter_id and sponsor_id to session if they exist on the url.
     """
     def dispatch(self, request, *args, **kwargs):
-        add_sponsor_id_to_session(request)
+
+        r = add_sponsor_id_to_session(request)
         add_promoter_id_to_session(request)
         return super().dispatch(request, *args, **kwargs)

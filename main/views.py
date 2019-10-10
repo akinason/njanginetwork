@@ -43,8 +43,9 @@ class IndexView(AddReferralIDsToSession, generic.FormView):
         return kwargs
 
     def get(self, request, *args, **kwargs):
-        # add_sponsor_id_to_session(request)
-        # add_promoter_id_to_session(request)
+        rid = request.GET.get('rid')
+        if rid:
+            return HttpResponseRedirect(reverse('main:signup'))
         return super(IndexView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
