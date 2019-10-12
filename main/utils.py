@@ -154,6 +154,11 @@ def get_promoter(request):
     return get_user_model().objects.filter(sponsor_id=get_promoter_id_from_session(request)).get()
 
 
+def get_network_parent(request):
+    """Returns the parent under whom or whose network the current user is placed."""
+    return get_user_model().objects.filter(id=request.user.network_parent).get()
+
+
 def get_sponsor_using_sponsor_id(sponsor_id):
     try:
         return get_user_model().objects.get(pk=sponsor_id)

@@ -18,7 +18,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title" style="color:blue" align="right">{{ user.username }} | <a href="{% url 'main:logout' %}">{% trans 'logout' %}</a></h5>
-                            <h5 class="card-text" style="">{{ nsp|upper }} Mobile Money | Level 1 Contribution</h5>
+                            <h6 class="card-text" style="">{% trans 'Level 1 Contribution' %} | {% blocktrans with np=network_parent.username pr=promoter.username %} <b>{{ pr }}</b> is placing you in <b>{{ np }}'s</b> network {% endblocktrans %}</h6>
                             <div class="row mb-2">
                                 <div class="col-12">
                                     <form method="post" action="{% url 'njangi:signup_contribution_checkout' nsp %}">

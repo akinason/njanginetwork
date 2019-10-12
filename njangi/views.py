@@ -17,7 +17,7 @@ from mailer import services as mailer_services
 from main.core import NSP
 from main.forms import SignupForm
 from main.mixins import ContributionRequiredMixin
-from main.utils import get_sponsor, get_promoter
+from main.utils import get_sponsor, get_promoter, get_network_parent
 from njangi.core import (
     add_user_to_njangi_tree, create_user_levels, get_upline_to_pay_upgrade_contribution, get_level_contribution_amount,
     get_processing_fee_rate
@@ -340,6 +340,8 @@ class NSPSignupContributionCheckoutView(LoginRequiredMixin, generic.TemplateView
         context['contribution_amount'] = amount
         context['processing_fee'] = processing_fee
         context['total'] = round(amount + processing_fee)
+        context['network_parent'] = get_network_parent(self.request)
+        context['promoter'] = get_promoter(self.request)
         return context
 
     def get(self, request, *args, **kwargs):
