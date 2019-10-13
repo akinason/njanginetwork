@@ -1,0 +1,296 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-12 12:49+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: models.py:157
+msgid "operation failed."
+msgstr ""
+
+#: models.py:158
+#, python-format
+msgid ""
+"%(user)s's wallet load by %(nsp)s, amount: %(amount)s , fees: %(charge)s, "
+"ref: %(reference)s "
+msgstr ""
+
+#: models.py:160
+msgid "operation successful"
+msgstr ""
+
+#: models.py:161
+msgid "insufficient balance"
+msgstr ""
+
+#: models.py:162
+#, python-format
+msgid "provide %(nsp)s phone number and/or verify your %(nsp)s phone number"
+msgstr ""
+
+#: models.py:163
+#, python-format
+msgid "you have %(nsp)s payments pending reception. please "
+msgstr ""
+
+#: models.py:165
+msgid "transaction pending processing"
+msgstr ""
+
+#: models.py:167
+msgid "transaction already treated and completed."
+msgstr ""
+
+#: models.py:168
+msgid "invalid transaction"
+msgstr ""
+
+#: models.py:169
+#, python-format
+msgid "not a %s transaction"
+msgstr ""
+
+#: models.py:170
+msgid "unauthenticated transaction."
+msgstr ""
+
+#: models.py:171
+#, python-format
+msgid "%(commission)s from %(username)s level %(level)s contribution."
+msgstr ""
+
+#: models.py:172
+#, python-format
+msgid "velocity reserve from %(username)s level %(level)s contribution."
+msgstr ""
+
+#: models.py:242 models.py:258 models.py:935
+msgid "user"
+msgstr ""
+
+#: models.py:244
+msgid "available balance"
+msgstr ""
+
+#: models.py:245
+msgid "upgrade balance"
+msgstr ""
+
+#: models.py:252
+msgid "description"
+msgstr ""
+
+#: models.py:253
+msgid "transaction information"
+msgstr ""
+
+#: models.py:254
+msgid "reference"
+msgstr ""
+
+#: models.py:255 models.py:941
+msgid "amount"
+msgstr ""
+
+#: models.py:256
+msgid "fees"
+msgstr ""
+
+#: models.py:257
+msgid "transaction status"
+msgstr ""
+
+#: models.py:259
+msgid "transaction code"
+msgstr ""
+
+#: models.py:260
+msgid "fund sender"
+msgstr ""
+
+#: models.py:263
+msgid "third party reference"
+msgstr ""
+
+#: models.py:264
+msgid "network service provider"
+msgstr ""
+
+#: models.py:265
+msgid "phone number"
+msgstr ""
+
+#: models.py:266 models.py:954
+msgid "tracker id"
+msgstr ""
+
+#: models.py:311 models.py:372 models.py:421
+#, python-format
+msgid " through %(nsp)s"
+msgstr ""
+
+#: models.py:568
+#, python-format
+msgid "Package Subscription through %s wallet."
+msgstr ""
+
+#: models.py:649
+#, python-format
+msgid "level %(level)s contribution received from %(username)s."
+msgstr ""
+
+#: models.py:662
+#, python-format
+msgid "level %(level)s direct commission received from %(username)s."
+msgstr ""
+
+#: models.py:675
+#, python-format
+msgid "level %(level)s velocity reserve received from %(username)s."
+msgstr ""
+
+#: models.py:688
+#, python-format
+msgid "level %(level)s company commission received from %(username)s."
+msgstr ""
+
+#: models.py:703
+#, python-format
+msgid "level %(level)s network commission received from %(username)s."
+msgstr ""
+
+#: models.py:712
+#, python-format
+msgid "level %(level)s contribution paid to %(recipient)s."
+msgstr ""
+
+#: models.py:816 models.py:822
+msgid "Insufficient funds."
+msgstr ""
+
+#: models.py:831
+msgid "Transaction Successful"
+msgstr ""
+
+#: models.py:929
+msgid "request status"
+msgstr ""
+
+#: models.py:930
+msgid "response status"
+msgstr ""
+
+#: models.py:931
+msgid "response code"
+msgstr ""
+
+#: models.py:932
+msgid "callback status code"
+msgstr ""
+
+#: models.py:933
+msgid "user authentication"
+msgstr ""
+
+#: models.py:934
+msgid "request type"
+msgstr ""
+
+#: models.py:937
+msgid "recipient"
+msgstr ""
+
+#: models.py:939
+msgid "NSP"
+msgstr ""
+
+#: models.py:940
+msgid "tel"
+msgstr ""
+
+#: models.py:942
+msgid "message"
+msgstr ""
+
+#: models.py:943
+msgid "Service Provider"
+msgstr ""
+
+#: models.py:944
+msgid "purpose"
+msgstr ""
+
+#: models.py:945
+msgid "server response"
+msgstr ""
+
+#: models.py:946
+msgid "callback server response"
+msgstr ""
+
+#: models.py:947
+msgid "transaction id"
+msgstr ""
+
+#: models.py:948
+msgid "request date"
+msgstr ""
+
+#: models.py:949
+msgid "response date"
+msgstr ""
+
+#: models.py:950
+msgid "processing status"
+msgstr ""
+
+#: models.py:951
+msgid "callback response date"
+msgstr ""
+
+#: models.py:952
+msgid "response tranx date"
+msgstr ""
+
+#: models.py:953
+msgid "unique verification UUID"
+msgstr ""
+
+#: models.py:955
+msgid "is complete"
+msgstr ""
+
+#: models.py:956
+msgid "level"
+msgstr ""
+
+#: models.py:957
+msgid "charge"
+msgstr ""
+
+#: models.py:958
+msgid "api unique id"
+msgstr ""
+
+#: models.py:959
+msgid "invoice number"
+msgstr ""
+
+#: services.py:68
+#, python-format
+msgid "Funds withdrawal though %s mobile money"
+msgstr ""

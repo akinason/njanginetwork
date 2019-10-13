@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model as UserModel
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
+# from administration.core import site_information
 from main.core import NSP
 from main.notification import notification
 from njanginetwork import settings
@@ -52,6 +53,14 @@ def request_momo_deposit(phone_number, amount, user_id, purpose, nsp, level, rec
 @app.task
 def request_momo_payout(phone_number, amount, user_id, purpose, nsp, recipient_id=None, processing_fee=0.00, level=None,
                         invoice_number=None):
+
+    # if not site_information.allow_withdrawal:
+    #     response = {
+    #         'status': trans_status.failed(),
+    #         'message': trans_message.failed_message(),
+    #         }
+    #     return response
+
     user = UserModel().objects.get(pk=user_id)
     recipient = None
 
