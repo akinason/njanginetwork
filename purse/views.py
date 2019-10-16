@@ -204,9 +204,14 @@ def process_transaction_update(
                     nsp=mm_transaction.nsp
                 )
                 if mm_transaction.purpose == momo_purpose.wallet_withdraw():
+                    """Update the status of the transaction"""
                     wallet_manager.update_status(
                         status=trans_status.failed(), tracker_id=mm_transaction.tracker_id
                     )
+
+                    """Update the account balance of the user."""
+                    amount = mm_transaction.amount + mm_transaction.charge
+                    wallet_manager.increase_balance(user=mm_transaction.user, available_balance=amount)
             else:
                 # the transaction is already marked as complete. Just pass.
                 pass

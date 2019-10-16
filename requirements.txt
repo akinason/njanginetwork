@@ -14,6 +14,7 @@ django-jet==1.0.7
 django-js-asset==0.1.1
 django-mptt==0.9.0
 django-phonenumber-field==1.3.0
+django-session-timeout==0.0.4
 django-tinymce==2.6.0
 django-twilio==0.8.0
 djangorestframework==3.7.7
@@ -29,6 +30,7 @@ oauth2client==4.1.2
 olefile==0.44
 phonenumberslite==8.8.8
 Pillow==4.3.0
+pkg-resources==0.0.0
 psycopg2==2.7.3.2
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
