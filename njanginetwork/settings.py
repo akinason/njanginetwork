@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tinymce',
+    'captcha',
+
     'main.apps.MainConfig',
     'mptt',
     'njangi.apps.NjangiConfig',
@@ -214,6 +216,10 @@ SUPPORT_EMAIL = 'njanginetwork@gmail.com'
 ONE_S_2_U_USERNAME = 'kinason42'
 ONE_S_2_U_PASSWORD = 'web54126'
 ONE_S_2_U_SEND_URL = 'https://api.1s2u.io/bulksms'
+
+RECAPTCHA_PUBLIC_KEY = '6Ldsar4UAAAAAPwZVvUDylqognmnGUL01dEZ5Ygi'
+RECAPTCHA_PRIVATE_KEY = '6Ldsar4UAAAAAGfvo9t5XvPopfOD2Dx0TNe7-6pI'
+RECAPTCHA_REQUIRED_SCORE = 0.85
 
 # MTN Mobile Money API configuration by webshinobis.com
 # APIs return JSON response. params = {status, message, amount, phoneNumber, transactionId, transactionDate}

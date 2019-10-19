@@ -2,6 +2,11 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.forms.widgets import HiddenInput
+from django.contrib.auth.forms import AuthenticationForm
+
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
+
 from main.models import TEL_MAX_LENGTH, RESERVED_USERNAMES
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field import widgets as phonenumber_widgets
@@ -30,6 +35,8 @@ class SignupForm(forms.ModelForm):
         error_messages={'no_match': _('Password does not match')},
         help_text=_('* min 8'), min_length=8
     )
+
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def __init__(self, *args, **kwargs):
         self.sponsor = kwargs.pop("sponsor")
@@ -92,6 +99,10 @@ class SignupForm(forms.ModelForm):
             instance.gender = "other"
             instance.save()
         return instance
+
+
+class LoginForm(AuthenticationForm):
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
 
 class ProfileChangeForm(forms.ModelForm):
@@ -169,6 +180,7 @@ class ContactForm(forms.Form):
         required=True,
         widget=forms.Textarea
     )
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
 
 class PhonePasswordResetForm(forms.Form):

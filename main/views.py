@@ -18,13 +18,12 @@ from django.views import generic
 from mailer import services as mailer_services
 from main import website
 from main.forms import (
-    SignupForm, ProfileChangeForm, ContactForm, PhonePasswordResetCodeForm, PhonePasswordResetForm
+    SignupForm, ProfileChangeForm, ContactForm, PhonePasswordResetCodeForm, PhonePasswordResetForm, LoginForm
 )
 from main.mixins import AddReferralIDsToSession
 from main.models import LevelModel
 from main.notification import notification
-from main.utils import add_sponsor_id_to_session, get_sponsor, get_promoter, add_promoter_id_to_session
-from njangi.core import add_user_to_njangi_tree, create_user_levels
+from main.utils import get_sponsor, get_promoter
 from njangi.models import LEVEL_CONTRIBUTIONS
 from njanginetwork import settings
 
@@ -116,6 +115,7 @@ class ProfileChangeView(LoginRequiredMixin, generic.UpdateView):
 
 
 class LoginView(AddReferralIDsToSession, DefaultLoginView):
+    form_class = LoginForm
     template_name = 'main/login.html'
     redirect_authenticated_user = True
 
