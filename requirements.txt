@@ -14,6 +14,7 @@ django-jet==1.0.7
 django-js-asset==0.1.1
 django-mptt==0.9.0
 django-phonenumber-field==1.3.0
+django-recaptcha==2.0.5
 django-session-timeout==0.0.4
 django-tinymce==2.6.0
 django-twilio==0.8.0
