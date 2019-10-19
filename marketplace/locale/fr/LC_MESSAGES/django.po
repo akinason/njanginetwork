@@ -1,0 +1,401 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-12 12:49+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: models.py:49
+msgid "name"
+msgstr ""
+
+#: models.py:50
+msgid "product type image"
+msgstr ""
+
+#: models.py:57
+msgid "product name"
+msgstr ""
+
+#: models.py:58
+msgid "product code"
+msgstr ""
+
+#: models.py:59 templates/marketplace/invoice.html:35
+msgid "description"
+msgstr ""
+
+#: models.py:60 models.py:144
+msgid "price"
+msgstr ""
+
+#: models.py:61
+msgid "company commission"
+msgstr ""
+
+#: models.py:62
+msgid "rating"
+msgstr ""
+
+#: models.py:63
+msgid "level 1 commission"
+msgstr ""
+
+#: models.py:64
+msgid "level 2 commission"
+msgstr ""
+
+#: models.py:65
+msgid "level 3 commission"
+msgstr ""
+
+#: models.py:66
+msgid "level 4 commission"
+msgstr ""
+
+#: models.py:67
+msgid "level 5 commission"
+msgstr ""
+
+#: models.py:68
+msgid "level 6 commission"
+msgstr ""
+
+#: models.py:71
+msgid "product type"
+msgstr ""
+
+#: models.py:75
+msgid "discount rate"
+msgstr ""
+
+#: models.py:76
+msgid "allow discount"
+msgstr ""
+
+#: models.py:102
+msgid "image"
+msgstr ""
+
+#: models.py:112 templates/marketplace/invoice_list.html:23
+msgid "invoice total"
+msgstr ""
+
+#: models.py:113
+msgid "net payable"
+msgstr ""
+
+#: models.py:114
+msgid "owner"
+msgstr ""
+
+#: models.py:115 templates/marketplace/invoice_list.html:24
+msgid "status"
+msgstr ""
+
+#: models.py:118
+msgid "payment reference"
+msgstr ""
+
+#: models.py:119
+msgid "payment method"
+msgstr ""
+
+#: models.py:121
+msgid "paid on"
+msgstr ""
+
+#: models.py:141
+msgid "product"
+msgstr ""
+
+#: models.py:143
+msgid "quantity"
+msgstr ""
+
+#: models.py:145
+msgid "discount"
+msgstr ""
+
+#: models.py:146 templates/marketplace/commission_statement.html:24
+msgid "amount"
+msgstr ""
+
+#: service.py:163
+#, python-format
+msgid "market commission from %(username)s on product %(product_name)s."
+msgstr ""
+
+#: templates/marketplace/base.html:44
+msgid "Market Place"
+msgstr ""
+
+#: templates/marketplace/base.html:58 templates/marketplace/shop.html:5
+msgid "shop"
+msgstr ""
+
+#: templates/marketplace/base.html:59
+msgid "about"
+msgstr ""
+
+#: templates/marketplace/base.html:61
+msgid "How it works"
+msgstr ""
+
+#: templates/marketplace/base.html:62
+msgid "blog"
+msgstr ""
+
+#: templates/marketplace/base.html:65
+msgid "contact"
+msgstr ""
+
+#: templates/marketplace/base.html:67 templates/marketplace/base.html:78
+msgid "my account"
+msgstr ""
+
+#: templates/marketplace/base.html:69
+msgid "dashboard"
+msgstr ""
+
+#: templates/marketplace/base.html:70
+msgid "withdraw earnings"
+msgstr ""
+
+#: templates/marketplace/base.html:71
+msgid "earning history"
+msgstr ""
+
+#: templates/marketplace/base.html:72
+#: templates/marketplace/invoice_list.html:15
+msgid "my invoices"
+msgstr ""
+
+#: templates/marketplace/base.html:73 templates/marketplace/base.html:82
+msgid "njangi network"
+msgstr ""
+
+#: templates/marketplace/base.html:74
+msgid "logout"
+msgstr ""
+
+#: templates/marketplace/base.html:80
+msgid "login"
+msgstr ""
+
+#: templates/marketplace/base.html:81
+msgid "signup"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:15
+msgid "Commission received"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:21
+#: templates/marketplace/invoice_list.html:21
+msgid "invoice #"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:22
+#: templates/marketplace/invoice_list.html:22
+msgid "date"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:23
+msgid "e-pack"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:25
+msgid "level"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:26
+msgid "user"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:45
+#: templates/marketplace/invoice_list.html:42
+msgid "previous"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:48
+#: templates/marketplace/invoice_list.html:45
+msgid "page"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:48
+#: templates/marketplace/invoice_list.html:45
+msgid "of"
+msgstr ""
+
+#: templates/marketplace/commission_statement.html:51
+#: templates/marketplace/invoice_list.html:48
+msgid "next"
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:5
+#: templates/marketplace/how_it_works.html:22
+msgid "how it works"
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:24
+msgid "Earn Amazing commissions on the Market Place. The procedure is simple:"
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:27
+msgid "Signup"
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:30
+msgid "Buy an e-pack"
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:31
+msgid "Pay with MTN or Orange or Express Union Mobile Money."
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:35
+msgid ""
+"Invite your network of friends to Signup and buy the e-pack you already "
+"purchased."
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:37
+msgid "You earn level 1 commission on the e-pack."
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:41
+msgid "They invite their friends who also signup and buy e-packs."
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:43
+msgid "You earn level 2 commission on the e-packs."
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:47
+msgid "And so on until level 6 commission."
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:49
+msgid ""
+"(Depending on the pack, commission amounts vary. Check product details for "
+"commission percentages.)"
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:53
+msgid ""
+"Withdraw your commissions anytime into your Orange or MTN Mobile Money "
+"Account."
+msgstr ""
+
+#: templates/marketplace/how_it_works.html:55
+msgid "(Your money is available immediately for withdrawal.)"
+msgstr ""
+
+#: templates/marketplace/index.html:16
+msgid "njangi market"
+msgstr ""
+
+#: templates/marketplace/index.html:17
+msgid "signup now"
+msgstr ""
+
+#: templates/marketplace/index.html:53
+msgid "trending"
+msgstr ""
+
+#: templates/marketplace/index.html:54
+msgid "view product"
+msgstr ""
+
+#: templates/marketplace/index.html:108
+#: templates/marketplace/product_detail.html:27
+#: templates/marketplace/product_detail.html:56
+#: templates/marketplace/shop.html:112
+msgid "buy"
+msgstr ""
+
+#: templates/marketplace/invoice.html:19
+msgid "Invoice #"
+msgstr ""
+
+#: templates/marketplace/invoice.html:35 templates/marketplace/invoice.html:41
+msgid "total"
+msgstr ""
+
+#: templates/marketplace/invoice.html:39
+msgid "subtotal"
+msgstr ""
+
+#: templates/marketplace/invoice.html:40
+msgid "shipping"
+msgstr ""
+
+#: templates/marketplace/invoice.html:40
+msgid "free"
+msgstr ""
+
+#: templates/marketplace/invoice.html:47
+msgid "pay with mobilemoney"
+msgstr ""
+
+#: templates/marketplace/invoice.html:48
+msgid "pay with balance"
+msgstr ""
+
+#: templates/marketplace/invoice.html:54
+msgid "Invoice paid"
+msgstr ""
+
+#: templates/marketplace/invoice.html:56
+msgid "confirm payment"
+msgstr ""
+
+#: templates/marketplace/product_detail.html:43
+msgid "level 1 comm"
+msgstr ""
+
+#: templates/marketplace/product_detail.html:44
+msgid "level 2 comm"
+msgstr ""
+
+#: templates/marketplace/product_detail.html:45
+msgid "level 3 comm"
+msgstr ""
+
+#: templates/marketplace/product_detail.html:46
+msgid "level 4 comm"
+msgstr ""
+
+#: templates/marketplace/product_detail.html:47
+msgid "level 5 comm"
+msgstr ""
+
+#: templates/marketplace/product_detail.html:48
+msgid "level 6 comm"
+msgstr ""
+
+#: templates/marketplace/shop.html:15
+msgid "njangi shop"
+msgstr ""
+
+#: templates/marketplace/shop.html:56
+msgid "products found"
+msgstr ""
+
+#: views.py:194
+msgid "Purchase invoice #"
+msgstr ""

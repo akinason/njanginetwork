@@ -1,0 +1,417 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-12 12:49+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: services.py:228
+msgid "Wallet Load Successful"
+msgstr ""
+
+#: services.py:240
+#, python-format
+msgid ""
+"You have successfully reloaded your %(nsp)s wallet with the sum of "
+"%(amount)s XOF. Processing fees: %(processing_fee)s XOF. New balance "
+"%(balance)s XOF."
+msgstr ""
+
+#: services.py:247
+msgid "Wallet Load Failed"
+msgstr ""
+
+#: services.py:259
+#, python-format
+msgid ""
+"Your request to reload your %(nsp)s wallet with the sum of %(amount)s XOF "
+"failed. Processing fees: %(processing_fee)s XOF. Wallet balance %(balance)s "
+"XOF."
+msgstr ""
+
+#: services.py:266
+msgid "Contribution Payment Successful"
+msgstr ""
+
+#: services.py:281
+#, python-format
+msgid ""
+"Your level %(level)s contribution to %(recipient)s of %(amount)s XOF through "
+"%(nsp)s was successful.Processing fees: %(processing_fee)s XOF. "
+msgstr ""
+
+#: services.py:288
+#, python-format
+msgid "Level %s Contribution Received"
+msgstr ""
+
+#: services.py:303
+#, python-format
+msgid ""
+"You have received %(amount)s as level %(level)s contribution from %(sender)s "
+"through %(nsp)s."
+msgstr ""
+
+#: services.py:310
+msgid "Withdrawal Successful"
+msgstr ""
+
+#: services.py:322
+#, python-format
+msgid ""
+"You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s "
+"wallet Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF."
+msgstr ""
+
+#: services.py:329
+msgid "Contribution Auto Withdrawal Successful"
+msgstr ""
+
+#: services.py:346
+#, python-format
+msgid ""
+"You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s "
+"wallet Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF. "
+"Contribution from  %(sender)s"
+msgstr ""
+
+#: services.py:354
+msgid "Withdrawal Failed"
+msgstr ""
+
+#: services.py:364
+#, python-format
+msgid "Your withdrawal request failed. Status: %(status)s, Reason: %(reason)s"
+msgstr ""
+
+#: services.py:370
+msgid "Phone Number Verification Needed"
+msgstr ""
+
+#: services.py:379
+#, python-format
+msgid ""
+"Your %(nsp)s phone number is not verified. Please verify it else you will "
+"not be able to receive any contributions."
+msgstr ""
+
+#: services.py:386
+#, python-format
+msgid "Level %(level)s contribution failed"
+msgstr ""
+
+#: services.py:395 services.py:411
+#, python-format
+msgid ""
+"Your level %(level)s contribution of %(amount)s XOF through %(nsp)s failed. "
+"We will automatically do a retry for a while for you."
+msgstr ""
+
+#: services.py:402
+#, python-format
+msgid "Level %(level)s wallet contribution failed"
+msgstr ""
+
+#: services.py:418
+#, python-format
+msgid "Level %(level)s contribution due reminder"
+msgstr ""
+
+#: services.py:428
+#, python-format
+msgid ""
+"Your level %(level)s contribution of %(amount)s XOF is due in %(duration)s. "
+"You will be deactivated from this level is this time elapses without you "
+"contributing.."
+msgstr ""
+
+#: services.py:433
+#, python-format
+msgid ""
+"Your level %(level)s contribution of %(amount)s XOF is has been due for "
+"%(duration)s. You are loosing contributions you ought to receive for this "
+"level."
+msgstr ""
+
+#: services.py:441
+#, python-format
+msgid "Level %(level)s deactivation notice"
+msgstr ""
+
+#: services.py:451
+#, python-format
+msgid ""
+"You have been deactivated in level %(level)s. You cannot receive "
+"contributions for this level  until you pay your past due level contribution "
+"of %(amount)s XOF."
+msgstr ""
+
+#: services.py:459
+#, python-format
+msgid "Level %(level)s auto wallet contribution failed"
+msgstr ""
+
+#: services.py:468
+#, python-format
+msgid ""
+"We could not process your level %(level)s contribution of %(amount)s XOF. "
+"Please ensure you have sufficient balance."
+msgstr ""
+
+#: services.py:475
+#, python-format
+msgid "Level %(level)s contribution pending"
+msgstr ""
+
+#: services.py:484
+#, python-format
+msgid ""
+"Your level %(level)s contribution of %(amount)s through %(nsp)s is pending "
+"processing. We will notify you as soon as we complete the process."
+msgstr ""
+
+#: services.py:491
+msgid "New Failed Operation"
+msgstr ""
+
+#: services.py:507
+msgid "Welcome to the Network!"
+msgstr ""
+
+#: services.py:514
+msgid ""
+"Welcome to the network. Please be fast to do your first contribution so you "
+"don't miss to receive from your network.Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:528
+#, python-format
+msgid "%s Package Deactivated"
+msgstr ""
+
+#: services.py:529
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Your subscription to the %(package_name)s package has been deactivated.\n"
+"Please visit the website and update your subscription.\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:538
+#, python-format
+msgid "%s Package Subscription Update Reminder"
+msgstr ""
+
+#: services.py:539
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Your subscription to the %(package_name)s package is coming due in "
+"%(duration)s.\n"
+"Please visit Njangi Network Website and update your subscription.\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:558 services.py:589 services.py:620 services.py:651
+#: services.py:678 services.py:710 services.py:741 services.py:770
+#: services.py:798 services.py:826 services.py:854 services.py:883
+#: services.py:920 services.py:950 services.py:979
+msgid "Member"
+msgstr ""
+
+#: services.py:562
+#, python-format
+msgid ""
+"Hello %(username)s! \n"
+"You have successfully reloaded your %(nsp)s wallet with the sum of "
+"%(amount)s XOF. Processing fees: %(processing_fee)s XOF. New balance "
+"%(balance)s XOF. Ref:%(transaction_id)s"
+msgstr ""
+
+#: services.py:591
+#, python-format
+msgid ""
+"Hello %(username)s! \n"
+"Your request to reload your %(nsp)s wallet with the sum of %(amount)s XOF "
+"failed.Processing fees: %(processing_fee)s XOF. Wallet balance %(balance)s "
+"XOF."
+msgstr ""
+
+#: services.py:622
+#, python-format
+msgid ""
+"Hello %(sender)s! \n"
+"Your level %(level)s contribution to %(recipient)s of %(amount)s XOF through "
+"%(nsp)s was successful.Processing fees: %(processing_fee)s XOF. "
+msgstr ""
+
+#: services.py:653
+#, python-format
+msgid ""
+"Hello %(recipient)s! \n"
+"You have received %(amount)s as level %(level)s contribution from %(sender)s "
+"through %(nsp)s."
+msgstr ""
+
+#: services.py:680
+#, python-format
+msgid ""
+"Hello %(username)s! \n"
+"You have successfully withdrawn the sum of %(amount)s XOF from your %(nsp)s "
+"wallet Processing fees: %(processing_fee)s XOF. New balance %(balance)s XOF."
+msgstr ""
+
+#: services.py:713
+#, python-format
+msgid ""
+"Hello %(username)s!\n"
+"Auto Wallet Contribution successful\n"
+"Amt: %(amount)s XOF\n"
+"Fees: %(processing_fee)s XOF\n"
+"Wallet: %(nsp)s\n"
+"Recipient: %(recipient)s\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:743
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Withdrawal Failed\n"
+"status: %(status)s\n"
+"%(message)s\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:772
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Please verify your %(nsp)s phone number.\n"
+"You will not be able to receive contributions directly in your %(nsp)s "
+"account if this is not done.\n"
+"Thanks for collaborating!"
+msgstr ""
+
+#: services.py:800 services.py:828
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Level %(level)s contribution through %(nsp)s Failed\n"
+"Amount: %(amount)s XOF\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:856
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Level %(level)s contribution through %(nsp)s is pending\n"
+"We will retry and notify you when its done.Amount: %(amount)s XOF\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:888
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Your level %(level)s contribution is due in %(duration)s. \n"
+"Amount: %(amount)s XOF\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:894
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"Your level %(level)s contribution has been due since %(duration)s. \n"
+"Amount: %(amount)s XOF\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:924
+#, python-format
+msgid ""
+"Hello %(username)s!\n"
+"You have been deactivated from level %(level)s as a result of your due "
+"contribution.\n"
+"Amount: %(amount)s XOF\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:952
+#, python-format
+msgid ""
+"Hi %(username)s!\n"
+"We tried processing your level %(level)s contribution but it failed.\n"
+"Please check your account balance\n"
+"Amount: %(amount)s XOF\n"
+"Thanks for Collaborating!"
+msgstr ""
+
+#: services.py:982
+#, python-format
+msgid ""
+"Welcome %(username)s\n"
+"Your Promo link: %(promo_link)s\n"
+"Thanks for Collaborating"
+msgstr ""
+
+#: services.py:1009
+#, python-format
+msgid ""
+"MarketPlace Commssion Missed. \n"
+"Amt: %(amount)s XAF\n"
+"Pack: %(product_name)s \n"
+"Buy this pack to avoid losses next time."
+msgstr ""
+
+#: templates/mailer/email.html:328
+msgid "hello"
+msgstr ""
+
+#: templates/mailer/email.html:421
+msgid "best regards"
+msgstr ""
+
+#: templates/mailer/email.html:514
+msgid "thanks for trusting"
+msgstr ""
+
+#: templates/mailer/email.html:568
+msgid "copyright"
+msgstr ""
+
+#: templates/mailer/email.html:568
+msgid "all"
+msgstr ""
+
+#: templates/mailer/email.html:568
+msgid "rights"
+msgstr ""
+
+#: templates/mailer/email.html:568
+msgid "reserved"
+msgstr ""
+
+#: templates/mailer/email.html:569
+msgid "If you have any questions please"
+msgstr ""
+
+#: templates/mailer/email.html:569
+msgid "contact us"
+msgstr ""

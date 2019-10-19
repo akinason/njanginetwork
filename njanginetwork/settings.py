@@ -60,6 +60,7 @@ MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'django.middleware.locale.LocaleMiddleware',
@@ -158,7 +159,11 @@ LANGUAGES = (
    ('fr', _('French')),
 )
 
+SESSION_EXPIRE_SECONDS = 300  # 30 mins
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+
 PHONENUMBER_DB_FORMAT = 'E164'
+
 PHONENUMBER_DEFAULT_REGION = 'CM'
 
 LANGUAGE_CODE = 'en-us'

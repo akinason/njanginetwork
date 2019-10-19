@@ -7,8 +7,8 @@ from main.models import LevelModel, Notification
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
     model = get_user_model()
-    search_fields = ('username', 'email', 'sponsor_id', 'sponsor')
-    list_filter = ('sponsor', 'date_joined', 'level', 'id')
+    search_fields = ('username', 'email', 'sponsor_id', 'sponsor', 'tel1')
+    list_filter = ('sponsor', 'date_joined', 'level', 'id', 'sponsor_id')
     list_display = (
         'id', 'username', 'level', 'first_name', 'last_name', 'email', 'sponsor_id', 'network_parent', 'sponsor', 'is_admin', 'tel1',
         'tel2', 'tel3', 'date_joined',

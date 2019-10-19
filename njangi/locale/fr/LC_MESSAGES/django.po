@@ -1,0 +1,786 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-12 12:49+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: forms.py:6 models.py:324
+#: templates/njangi/checkout/contribution_checkout.html:12
+#: templates/njangi/checkout/nsp_checkout_confirm.html:16
+#: templates/njangi/dashboard.html:100
+#: templates/njangi/premium/user_account_list.html:44
+msgid "level"
+msgstr ""
+
+#: forms.py:7 models.py:115
+#: templates/njangi/checkout/contribution_checkout.html:18
+#: templates/njangi/checkout/nsp_checkout_confirm.html:22
+#: templates/njangi/dashboard.html:104
+msgid "recipient"
+msgstr ""
+
+#: forms.py:8 forms.py:32 models.py:361
+#: templates/njangi/checkout/contribution_checkout.html:24
+#: templates/njangi/checkout/load_or_withdraw_confirm.html:13
+#: templates/njangi/checkout/load_withdraw_checkout.html:13
+#: templates/njangi/checkout/nsp_checkout_confirm.html:29
+#: templates/njangi/dashboard.html:105 templates/njangi/statement.html:15
+msgid "amount"
+msgstr ""
+
+#: forms.py:9 templates/njangi/checkout/load_or_withdraw_confirm.html:19
+#: templates/njangi/checkout/nsp_checkout_confirm.html:35
+msgid "processing fee"
+msgstr ""
+
+#: forms.py:10 templates/njangi/checkout/load_or_withdraw_confirm.html:25
+#: templates/njangi/checkout/nsp_checkout_confirm.html:41
+#: templates/njangi/dashboard.html:11 templates/njangi/dashboard.html:56
+#: templates/njangi/dashboard.html:66
+msgid "total"
+msgstr ""
+
+#: models.py:55 templates/njangi/premium/user_account_list.html:41
+msgid "MTN"
+msgstr ""
+
+#: models.py:56 templates/njangi/premium/user_account_list.html:42
+msgid "Orange"
+msgstr ""
+
+#: models.py:57 templates/njangi/checkout/contribution_checkout.html:42
+msgid "MTN Wallet"
+msgstr ""
+
+#: models.py:58 templates/njangi/checkout/contribution_checkout.html:49
+msgid "Orange Wallet"
+msgstr ""
+
+#: models.py:100
+msgid "tracker id"
+msgstr ""
+
+#: models.py:110
+msgid "user"
+msgstr ""
+
+#: models.py:111
+msgid "njangi level"
+msgstr ""
+
+#: models.py:113
+msgid "last payment date"
+msgstr ""
+
+#: models.py:114
+msgid "next payment date"
+msgstr ""
+
+#: models.py:132
+msgid "child user"
+msgstr ""
+
+#: models.py:134
+msgid "parent user"
+msgstr ""
+
+#: models.py:135
+msgid "position side"
+msgstr ""
+
+#: models.py:325
+msgid "contribution amount"
+msgstr ""
+
+#: models.py:326
+msgid "downlines"
+msgstr ""
+
+#: models.py:327
+msgid "recipient amount"
+msgstr ""
+
+#: models.py:328
+msgid "company commission"
+msgstr ""
+
+#: models.py:329
+msgid "direct commission"
+msgstr ""
+
+#: models.py:330
+msgid "velocity reserve"
+msgstr ""
+
+#: models.py:331
+msgid "network commission"
+msgstr ""
+
+#: models.py:338
+msgid "package name"
+msgstr ""
+
+#: models.py:339 models.py:353
+#: templates/njangi/premium/package_subscription.html:26
+#: templates/njangi/premium/user_account_packages.html:23
+msgid "account limits"
+msgstr ""
+
+#: models.py:340
+msgid "monthly subscription"
+msgstr ""
+
+#: models.py:341
+msgid "annual subscription"
+msgstr ""
+
+#: models.py:342
+msgid "monthly subscription duration"
+msgstr ""
+
+#: models.py:343
+msgid "annual subscription duration"
+msgstr ""
+
+#: models.py:345
+msgid "rank"
+msgstr ""
+
+#: models.py:346
+msgid "is default"
+msgstr ""
+
+#: models.py:354
+msgid "related users"
+msgstr ""
+
+#: models.py:356
+msgid "account manager"
+msgstr ""
+
+#: models.py:358
+msgid "last payment"
+msgstr ""
+
+#: models.py:359
+msgid "next payment"
+msgstr ""
+
+#: models.py:362 templates/njangi/dashboard.html:108
+#: templates/njangi/premium/user_account_list.html:43
+#: templates/njangi/statement.html:17
+msgid "status"
+msgstr ""
+
+#: models.py:363
+msgid "is active"
+msgstr ""
+
+#: models.py:364
+msgid "auto renewal"
+msgstr ""
+
+#: models.py:365
+msgid "created on"
+msgstr ""
+
+#: models.py:381
+msgid "This user account has already been added to a list."
+msgstr ""
+
+#: models.py:403
+msgid "User Account added successfully."
+msgstr ""
+
+#: models.py:416
+msgid "Invalid user account Id supplied."
+msgstr ""
+
+#: models.py:429 views.py:792 views.py:798
+msgid "Account added successfully."
+msgstr ""
+
+#: models.py:435
+msgid "User not added. Account Limits reached."
+msgstr ""
+
+#: tasks.py:91
+#, python-format
+msgid "cash deposit through %s mobile money."
+msgstr ""
+
+#: tasks.py:408
+#, python-format
+msgid "wallet load through %s mobile money"
+msgstr ""
+
+#: tasks.py:520 tasks.py:723
+#, python-format
+msgid "%(day)s day(s) %(hour)s hour(s)"
+msgstr ""
+
+#: tasks.py:686
+#, python-format
+msgid "%(package_name)s package subscription through %(nsp)s by %(username)s."
+msgstr ""
+
+#: templates/njangi/checkout/base_signup_contribution.html:10
+msgid "Welcome to Njangi Network"
+msgstr ""
+
+#: templates/njangi/checkout/contribution_checkout.html:8
+msgid "contribution information"
+msgstr ""
+
+#: templates/njangi/checkout/contribution_checkout.html:35
+msgid "select the method of payment"
+msgstr ""
+
+#: templates/njangi/checkout/contribution_checkout.html:42
+#: templates/njangi/checkout/contribution_checkout.html:49
+#: templates/njangi/dashboard.html:47 templates/njangi/statement.html:9
+msgid "balance"
+msgstr ""
+
+#: templates/njangi/checkout/contribution_checkout.html:59
+msgid "MTN Mobile Money"
+msgstr ""
+
+#: templates/njangi/checkout/contribution_checkout.html:64
+msgid "Orange Mobile Money"
+msgstr ""
+
+#: templates/njangi/checkout/contribution_done.html:9
+msgid "confirmation!!"
+msgstr ""
+
+#: templates/njangi/checkout/contribution_done.html:13
+msgid ""
+"Your contribution is been processed. Use F5 to refresh and check your "
+"notifications to get the status."
+msgstr ""
+
+#: templates/njangi/checkout/contribution_done.html:14
+msgid ""
+"If you did not use your wallet, check your phone to approve the mobile money "
+"cash out request"
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_confirm.html:7
+#: templates/njangi/checkout/nsp_checkout_confirm.html:7
+msgid "Confirmation"
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_confirm.html:33
+#: templates/njangi/checkout/nsp_checkout_confirm.html:50
+msgid "Confirm"
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_confirm.html:37
+#: templates/njangi/checkout/load_withdraw_checkout.html:25
+#: templates/njangi/checkout/nsp_checkout_confirm.html:54
+msgid "Cancel"
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_done.html:9
+#: templates/njangi/checkout/payment_done.html:9
+#: templates/njangi/checkout/signup_contribution_done.html:9
+msgid "Payment Completed!!"
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_done.html:14
+#: templates/njangi/checkout/payment_done.html:14
+#: templates/njangi/checkout/signup_contribution_done.html:14
+msgid "Use F5 to refresh and check your notifications to get the status."
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_wallet_choice.html:8
+#: templates/njangi/dashboard.html:46
+msgid "wallet"
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_wallet_choice.html:8
+msgid "current balance"
+msgstr ""
+
+#: templates/njangi/checkout/load_or_withdraw_wallet_choice.html:14
+#: templates/njangi/checkout/signup_contribution_checkout.html:62
+msgid "Continue"
+msgstr ""
+
+#: templates/njangi/checkout/load_withdraw_checkout.html:7
+msgid "wallet balance"
+msgstr ""
+
+#: templates/njangi/checkout/load_withdraw_checkout.html:21
+msgid "submit"
+msgstr ""
+
+#: templates/njangi/checkout/notification.html:21
+#: templates/njangi/checkout/signup_contribution_checkout.html:20
+msgid "logout"
+msgstr ""
+
+#: templates/njangi/checkout/notification.html:26
+msgid "Start All Over"
+msgstr ""
+
+#: templates/njangi/checkout/nsp_checkout_confirm.html:7
+msgid "mobile money"
+msgstr ""
+
+#: templates/njangi/checkout/nsp_checkout_confirm.html:12
+msgid "NB: Normal Mobile Money Cash Out charges apply."
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:21
+msgid "Level 1 Contribution"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:21
+#, python-format
+msgid " <b>%(pr)s</b> is placing you in <b>%(np)s's</b> network "
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:28
+msgid "Amount"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:38
+msgid "Processing fee"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:47
+msgid "Total"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:57
+msgid "NB: Normal Mobile Money Cashout charges apply"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:57
+msgid "A mobile Money Cashout request will be sent to"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:58
+msgid "NA"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:59
+msgid "edit phone number"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_checkout.html:63
+msgid "Cancel Operation"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_notification.html:21
+msgid "Logout"
+msgstr ""
+
+#: templates/njangi/checkout/signup_contribution_notification.html:23
+msgid "or continue to marketplace"
+msgstr ""
+
+#: templates/njangi/dashboard.html:12 templates/njangi/dashboard.html:22
+#: templates/njangi/network_tools.html:19
+msgid "network members"
+msgstr ""
+
+#: templates/njangi/dashboard.html:21
+msgid "my"
+msgstr ""
+
+#: templates/njangi/dashboard.html:31
+msgid "today's"
+msgstr ""
+
+#: templates/njangi/dashboard.html:32
+msgid "new members"
+msgstr ""
+
+#: templates/njangi/dashboard.html:57
+msgid "contributed"
+msgstr ""
+
+#: templates/njangi/dashboard.html:67
+msgid "received"
+msgstr ""
+
+#: templates/njangi/dashboard.html:80
+msgid "Upgrade"
+msgstr ""
+
+#: templates/njangi/dashboard.html:81
+msgid "reserve"
+msgstr ""
+
+#: templates/njangi/dashboard.html:96
+msgid "njangi levels"
+msgstr ""
+
+#: templates/njangi/dashboard.html:101
+msgid "contribution"
+msgstr ""
+
+#: templates/njangi/dashboard.html:102
+msgid "last contribution"
+msgstr ""
+
+#: templates/njangi/dashboard.html:103
+msgid "next contribution"
+msgstr ""
+
+#: templates/njangi/dashboard.html:106
+msgid "total contribution"
+msgstr ""
+
+#: templates/njangi/dashboard.html:107
+msgid "total received"
+msgstr ""
+
+#: templates/njangi/dashboard.html:109
+#: templates/njangi/premium/user_account_list.html:45
+msgid "action"
+msgstr ""
+
+#: templates/njangi/dashboard.html:124
+msgid "active"
+msgstr ""
+
+#: templates/njangi/dashboard.html:126
+msgid "inactive"
+msgstr ""
+
+#: templates/njangi/dashboard.html:128
+msgid "contribute"
+msgstr ""
+
+#: templates/njangi/network_tools.html:10
+msgid "network promotion tools & statistics"
+msgstr ""
+
+#: templates/njangi/network_tools.html:12
+msgid "You are not yet active in the Njangi Network Community"
+msgstr ""
+
+#: templates/njangi/network_tools.html:19
+msgid "my promotion link"
+msgstr ""
+
+#: templates/njangi/network_tools.html:21
+msgid ""
+"Share this link to your loved ones so they can signup under your network. "
+"(Left or Right. Automatically placed by the system)"
+msgstr ""
+
+#: templates/njangi/network_tools.html:25
+msgid "left promotion link"
+msgstr ""
+
+#: templates/njangi/network_tools.html:25
+msgid "left network members"
+msgstr ""
+
+#: templates/njangi/network_tools.html:27
+msgid ""
+"Share this link to your loved ones so they can signup under your left "
+"network."
+msgstr ""
+
+#: templates/njangi/network_tools.html:32
+msgid "right promotion link"
+msgstr ""
+
+#: templates/njangi/network_tools.html:32
+msgid "right network members"
+msgstr ""
+
+#: templates/njangi/network_tools.html:34
+msgid ""
+"Share this link to your loved ones so they can signup under your right "
+"network."
+msgstr ""
+
+#: templates/njangi/network_tools.html:38
+msgid "market place promotion link"
+msgstr ""
+
+#: templates/njangi/network_tools.html:40
+msgid ""
+"Share this link to your loved ones so they can signup in your market place "
+"network."
+msgstr ""
+
+#: templates/njangi/new_registration.html:9
+msgid "new registration"
+msgstr ""
+
+#: templates/njangi/new_registration.html:14
+msgid "Please fix the following errors"
+msgstr ""
+
+#: templates/njangi/new_registration.html:29
+msgid "personal information"
+msgstr ""
+
+#: templates/njangi/new_registration.html:99
+msgid "login information"
+msgstr ""
+
+#: templates/njangi/premium/add_user_account.html:12
+msgid "Enter username and password"
+msgstr ""
+
+#: templates/njangi/premium/add_user_account.html:45
+msgid "add"
+msgstr ""
+
+#: templates/njangi/premium/package_subscription.html:8
+msgid "Package Subscription"
+msgstr ""
+
+#: templates/njangi/premium/package_subscription.html:29
+#: templates/njangi/premium/user_account_packages.html:25
+msgid "month"
+msgstr ""
+
+#: templates/njangi/premium/package_subscription.html:31
+#: templates/njangi/premium/user_account_packages.html:26
+msgid "year"
+msgstr ""
+
+#: templates/njangi/premium/package_subscription.html:38
+msgid "Confirm Subscription"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:17
+msgid "Add New Account"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:18
+msgid "update subscription"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:23
+msgid "package"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:29
+msgid "package expiry"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:37
+msgid "username"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:38
+msgid "first name"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:39
+msgid "last name"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:40
+msgid "email"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:64
+msgid "Remove"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:73
+#: templates/njangi/statement.html:52
+msgid "previous"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:76
+#: templates/njangi/statement.html:55
+msgid "page"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:76
+#: templates/njangi/statement.html:55
+msgid "of"
+msgstr ""
+
+#: templates/njangi/premium/user_account_list.html:79
+#: templates/njangi/statement.html:58
+msgid "next"
+msgstr ""
+
+#: templates/njangi/premium/user_account_packages.html:8
+msgid "our user account packages"
+msgstr ""
+
+#: templates/njangi/premium/user_account_packages.html:10
+msgid "Subscribe to any of the packages below to increase your limits."
+msgstr ""
+
+#: templates/njangi/premium/user_account_packages.html:11
+msgid ""
+"If you have an active package, subscribe to the same or a bigger pack and "
+"your due date will simply be extended"
+msgstr ""
+
+#: templates/njangi/premium/user_account_packages.html:30
+msgid "Monthly"
+msgstr ""
+
+#: templates/njangi/premium/user_account_packages.html:31
+msgid "Annually"
+msgstr ""
+
+#: templates/njangi/statement.html:9
+msgid "wallet statement"
+msgstr ""
+
+#: templates/njangi/statement.html:13
+msgid "date"
+msgstr ""
+
+#: templates/njangi/statement.html:14
+msgid "description"
+msgstr ""
+
+#: templates/njangi/statement.html:16
+msgid "charge"
+msgstr ""
+
+#: templates/njangi/statement.html:18
+msgid "information"
+msgstr ""
+
+#: templates/njangi/statement.html:19
+msgid "reference"
+msgstr ""
+
+#: templates/njangi/statement.html:20
+msgid "transaction code "
+msgstr ""
+
+#: templates/njangi/statement.html:21
+msgid "sender"
+msgstr ""
+
+#: views.py:150
+#, python-format
+msgid ""
+"We will send you a request of %(total)s to your %(nsp)s mobile number "
+"%(tel)s through our partner %(partner)s. Please confirm the operation on "
+"your mobile phone so we can process your contribution."
+msgstr ""
+
+#: views.py:154
+#, python-format
+msgid ""
+"We will withdraw the sum of %(total)s from your %(nsp)s to contribute. "
+"Confirm the operation so we can process your contribution."
+msgstr ""
+
+#: views.py:215 views.py:244
+msgid "Something went wrong please start all over."
+msgstr ""
+
+#: views.py:220 views.py:249 views.py:287 views.py:294 views.py:386
+#: views.py:410
+#, python-format
+msgid "Please provide or verify your %(nsp)s number."
+msgstr ""
+
+#: views.py:254 views.py:264 views.py:299 views.py:305 views.py:516
+#: views.py:632
+#, python-format
+msgid "Insufficient funds in your %(nsp)s."
+msgstr ""
+
+#: views.py:273 views.py:310
+msgid "Invalid request."
+msgstr ""
+
+#: views.py:353
+msgid "Sorry the URL you requested was not found on this server"
+msgstr ""
+
+#: views.py:387 views.py:411
+msgid "Phone number required"
+msgstr ""
+
+#: views.py:424
+msgid ""
+"We are still processing your request. If it has been more that 5 minutes, "
+"please start all over."
+msgstr ""
+
+#: views.py:500 views.py:530 views.py:589 views.py:621
+#, python-format
+msgid "Unknown Network service provider %(nsp)s."
+msgstr ""
+
+#: views.py:506
+#, python-format
+msgid "Invalid Amount %(amount)s. Amounts must be greater than zero."
+msgstr ""
+
+#: views.py:511 views.py:536 views.py:595 views.py:627
+#, python-format
+msgid "Invalid action %(action)s."
+msgstr ""
+
+#: views.py:541 views.py:546 views.py:600 views.py:605 views.py:637
+#: views.py:642
+#, python-format
+msgid "Invalid or unverified %(nsp)s phone number."
+msgstr ""
+
+#: views.py:710
+#, python-format
+msgid "Your %(nsp)s %(action)s is been processed."
+msgstr ""
+
+#: views.py:770
+msgid "Username and password incorrect."
+msgstr ""
+
+#: views.py:773
+msgid "This user has already been added to a list."
+msgstr ""
+
+#: views.py:795
+msgid "Account not added. Check your subscription package."
+msgstr ""
+
+#: views.py:854
+msgid "Package Not Found"
+msgstr ""
+
+#: views.py:880 views.py:884 views.py:891
+msgid "Invalid subscription. Please choose a subscription from the list"
+msgstr ""
+
+#: views.py:910
+msgid "Subscription completed Successfully."
+msgstr ""
+
+#: views.py:922
+msgid "Please add the current user to your list of user accounts."
+msgstr ""
+
+#: views.py:927
+msgid "Package does not exist."
+msgstr ""

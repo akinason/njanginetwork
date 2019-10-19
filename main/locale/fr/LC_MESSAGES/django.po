@@ -1,0 +1,885 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-12 12:49+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: context_processors.py:15
+msgid "NNetwork"
+msgstr ""
+
+#: context_processors.py:16 templates/main/index.html:77
+msgid "Njangi Network"
+msgstr ""
+
+#: forms.py:13 forms.py:99
+msgid "Password must be greater than 8 characters"
+msgstr ""
+
+#: forms.py:14 forms.py:100
+msgid "Password does not match."
+msgstr ""
+
+#: forms.py:15 forms.py:101
+msgid "Current Password is invalid."
+msgstr ""
+
+#: forms.py:20
+msgid "Phone Number"
+msgstr ""
+
+#: forms.py:21 forms.py:107
+msgid "e.g. +237675366885"
+msgstr ""
+
+#: forms.py:25
+msgid "Password"
+msgstr ""
+
+#: forms.py:26 forms.py:31
+msgid "* min 8"
+msgstr ""
+
+#: forms.py:29
+msgid "Confirm Password"
+msgstr ""
+
+#: forms.py:30
+msgid "Password does not match"
+msgstr ""
+
+#: forms.py:60
+msgid "username already exist."
+msgstr ""
+
+#: forms.py:68 forms.py:141
+msgid "Email already exist."
+msgstr ""
+
+#: forms.py:106
+msgid "MTN Number"
+msgstr ""
+
+#: forms.py:112
+msgid "Orange Number"
+msgstr ""
+
+#: forms.py:113
+msgid "e.g. +237695366885"
+msgstr ""
+
+#: forms.py:133
+msgid "Provide at least an MTN or Orange number."
+msgstr ""
+
+#: forms.py:165
+msgid "full name"
+msgstr ""
+
+#: forms.py:166
+msgid "email"
+msgstr ""
+
+#: forms.py:168
+msgid "message"
+msgstr ""
+
+#: forms.py:175 models.py:54
+msgid "username"
+msgstr ""
+
+#: forms.py:176
+msgid "phone number"
+msgstr ""
+
+#: forms.py:180
+msgid "enter code"
+msgstr ""
+
+#: models.py:22
+msgid "Yes"
+msgstr ""
+
+#: models.py:23
+msgid "No"
+msgstr ""
+
+#: models.py:57
+msgid "*"
+msgstr ""
+
+#: models.py:60
+msgid "A user with that username already exists."
+msgstr ""
+
+#: models.py:64
+msgid "first name"
+msgstr ""
+
+#: models.py:67
+msgid "last name"
+msgstr ""
+
+#: models.py:69
+msgid "gender"
+msgstr ""
+
+#: models.py:70
+msgid "sponsor"
+msgstr ""
+
+#: models.py:71
+msgid "network parent"
+msgstr ""
+
+#: models.py:74
+msgid "email address"
+msgstr ""
+
+#: models.py:75
+msgid "staff status"
+msgstr ""
+
+#: models.py:76
+msgid "is active"
+msgstr ""
+
+#: models.py:78
+msgid "country"
+msgstr ""
+
+#: models.py:79
+msgid "date joined"
+msgstr ""
+
+#: models.py:80
+msgid "MTN number"
+msgstr ""
+
+#: models.py:81
+msgid "Orange number"
+msgstr ""
+
+#: models.py:82
+msgid "Nexttel number"
+msgstr ""
+
+#: models.py:82
+msgid "optional"
+msgstr ""
+
+#: models.py:83
+msgid "user account id"
+msgstr ""
+
+#: models.py:86
+msgid "profile picture"
+msgstr ""
+
+#: models.py:89 models.py:153
+msgid "level"
+msgstr ""
+
+#: models.py:91
+msgid "allow automatic contributions"
+msgstr ""
+
+#: models.py:147
+msgid "active"
+msgstr ""
+
+#: models.py:149
+msgid "inactive"
+msgstr ""
+
+#: models.py:154
+msgid "downlines"
+msgstr ""
+
+#: models.py:155
+msgid "cumm. downlines"
+msgstr ""
+
+#: models.py:156
+msgid "contribution"
+msgstr ""
+
+#: models.py:157
+msgid "receipts"
+msgstr ""
+
+#: models.py:158
+msgid "cumm. receipts"
+msgstr ""
+
+#: models.py:159
+msgid "cumm. contribution"
+msgstr ""
+
+#: models.py:160
+msgid "monthly profit"
+msgstr ""
+
+#: models.py:161
+msgid "upgrade after"
+msgstr ""
+
+#: models.py:165
+msgid "notification type"
+msgstr ""
+
+#: models.py:167
+msgid "notification"
+msgstr ""
+
+#: models.py:168
+msgid "notification link"
+msgstr ""
+
+#: models.py:169
+msgid "is read"
+msgstr ""
+
+#: models.py:170
+msgid "creation date"
+msgstr ""
+
+#: models.py:171
+msgid "read on"
+msgstr ""
+
+#: notification.py:146
+#, python-format
+msgid "Your level %(level)s contribution of %(amount)s  was unsuccessful."
+msgstr ""
+
+#: notification.py:155
+#, python-format
+msgid ""
+"Your %(nsp)s withdrawal of %(amount)s was not successful. Please try again."
+msgstr ""
+
+#: notification.py:166
+#, python-format
+msgid ""
+"Your %(purpose)s of %(amount)s through %(nsp)s was not successful. Please "
+"try again"
+msgstr ""
+
+#: notification.py:170
+#, python-format
+msgid "Your %(purpose)s of %(amount)s was not successful. Please try again."
+msgstr ""
+
+#: notification.py:178
+#, python-format
+msgid "Your %(purpose)s of %(amount)s through %(nsp)s was successful."
+msgstr ""
+
+#: notification.py:182
+#, python-format
+msgid "Your %(purpose)s of %(amount)s was successful."
+msgstr ""
+
+#: notification.py:188
+#, python-format
+msgid ""
+"%(commission_type)s from %(username)s level %(level)s contribution. Amount: "
+"%(amount)s XAF"
+msgstr ""
+
+#: notification.py:198
+#, python-format
+msgid ""
+"You have received %(amount)s as level %(level)s contribution from "
+"%(username)s."
+msgstr ""
+
+#: notification.py:208
+#, python-format
+msgid ""
+"Your %(purpose)s of %(amount)s through %(nsp)s is in process. Thanks for "
+"contributing."
+msgstr ""
+
+#: notification.py:213
+#, python-format
+msgid "Your %(purpose)s of %(amount)s is in process. Thanks for contributing."
+msgstr ""
+
+#: notification.py:220
+#, python-format
+msgid ""
+"You missed a level %(level)s commission of %(amount)s XAF from "
+"%(buyer_name)s on the e-pack %(product_name)s because you have not yet "
+"purchased this pack."
+msgstr ""
+
+#: templates/main/contact.html:8
+msgid "Contact Us"
+msgstr ""
+
+#: templates/main/contact.html:51 templates/main/signup.html:70
+#: templates/registration/password_reset_confirm.html:32
+#: templates/registration/password_reset_form.html:26
+#: templates/registration/phone_password_reset_code.html:26
+#: templates/registration/phone_password_reset_confirm.html:32
+#: templates/registration/phone_password_reset_form.html:30
+msgid "submit"
+msgstr ""
+
+#: templates/main/index.html:10
+msgid "Welcome to Njangi Network"
+msgstr ""
+
+#: templates/main/index.html:47 templates/main/signup.html:10
+msgid "Welcome to"
+msgstr ""
+
+#: templates/main/index.html:47 templates/main/signup.html:10
+msgid "'s network"
+msgstr ""
+
+#: templates/main/index.html:49
+msgid "Collaborating to alleviate poverty"
+msgstr ""
+
+#: templates/main/index.html:51
+msgid "Signup Now"
+msgstr ""
+
+#: templates/main/index.html:53 templates/main/index.html:127
+#: templates/registration/password_reset_complete.html:28
+msgid "dashboard"
+msgstr ""
+
+#: templates/main/index.html:55
+msgid "login Now"
+msgstr ""
+
+#: templates/main/index.html:57
+msgid "Market Place"
+msgstr ""
+
+#: templates/main/index.html:58
+msgid "Learn More"
+msgstr ""
+
+#: templates/main/index.html:76 templates/main/index.html:107
+#: templates/registration/password_reset_complete.html:10
+msgid "njangi network"
+msgstr ""
+
+#: templates/main/index.html:86
+msgid "home"
+msgstr ""
+
+#: templates/main/index.html:91
+msgid "market place"
+msgstr ""
+
+#: templates/main/index.html:96 templates/main/signup.html:8
+msgid "signup"
+msgstr ""
+
+#: templates/main/index.html:102
+msgid "about"
+msgstr ""
+
+#: templates/main/index.html:106
+msgid "the problem"
+msgstr ""
+
+#: templates/main/index.html:108
+msgid "the model"
+msgstr ""
+
+#: templates/main/index.html:113
+msgid "contact"
+msgstr ""
+
+#: templates/main/index.html:118
+msgid "blog"
+msgstr ""
+
+#: templates/main/index.html:131 templates/main/login.html:46
+#: templates/main/signup.html:89
+#: templates/registration/password_reset_complete.html:32
+msgid "login"
+msgstr ""
+
+#: templates/main/index.html:159
+msgid "Uniqueness"
+msgstr ""
+
+#: templates/main/index.html:168
+msgid "What is Njangi Network?"
+msgstr ""
+
+#: templates/main/index.html:169
+msgid ""
+"Njangi Network is a collaboration platform where people contribute money "
+"among themselves in a network without the need to worry about who they are "
+"contributing to or who they are receiving from."
+msgstr ""
+
+#: templates/main/index.html:175
+msgid "Peer 2 Peer Contribution"
+msgstr ""
+
+#: templates/main/index.html:176
+msgid ""
+"Contributions are passed from the sender to recipients immediately. Which "
+"means"
+msgstr ""
+
+#: templates/main/index.html:176
+msgid "Frs contributed is equal to"
+msgstr ""
+
+#: templates/main/index.html:176
+msgid "Frs received by the other network members."
+msgstr ""
+
+#: templates/main/index.html:185
+msgid "Direct Reception"
+msgstr ""
+
+#: templates/main/index.html:186
+msgid ""
+"All contributions are sent directly into the recipient's wallet. Nothing to "
+"do, just seat back, relax and let Njangi Network handle it for you."
+msgstr ""
+
+#: templates/main/index.html:192
+msgid "Start Small, Start with"
+msgstr ""
+
+#: templates/main/index.html:193
+msgid "Unlike the ordinary Njangi, everyone starts here with"
+msgstr ""
+
+#: templates/main/index.html:193
+msgid ""
+"Frs and they never have to go somewhere to look for money to contribute "
+"again. They contribute from what they receive."
+msgstr ""
+
+#: templates/main/index.html:201
+msgid "Everything through Mobile Money"
+msgstr ""
+
+#: templates/main/index.html:202
+msgid ""
+"All contributions are done through Mobile money services. MTN Mobile Money "
+"and Orange Money. Just contribute with what you feel comfortable with."
+msgstr ""
+
+#: templates/main/index.html:208
+msgid "Automatic Contribution"
+msgstr ""
+
+#: templates/main/index.html:209
+msgid ""
+"Do you think you can forget to contribute on time? Njangi Network got you "
+"covered. Just reload your wallet and activate <em><b>automatic contribution</"
+"b></em>. I will take over and do it for you."
+msgstr ""
+
+#: templates/main/index.html:224
+msgid "What can it be?"
+msgstr ""
+
+#: templates/main/index.html:233
+msgid "A Back to school scheme"
+msgstr ""
+
+#: templates/main/index.html:234
+msgid ""
+"Educating a child is the best gift a parent can give a child. But entails "
+"huge financial obligations. Njangi Network solves the problem. Signup each "
+"child, manage their accounts and watch them grow with time. Send them to "
+"school stress free!! "
+msgstr ""
+
+#: templates/main/index.html:243
+msgid "A Retirement Fund"
+msgstr ""
+
+#: templates/main/index.html:244
+msgid ""
+"Njangi Network is the platform to join, collaborate and get monthly cash "
+"flow. Its a retirement scheme for everyone. Contributions are done every 30 "
+"days, so you get to receive contributions for a particular level at least "
+"every 30 days. "
+msgstr ""
+
+#: templates/main/index.html:253
+msgid "An Investment Platform"
+msgstr ""
+
+#: templates/main/index.html:254
+msgid ""
+"What about those big plans, investments, projects etc? Is finance the reason "
+"why they have not started? Join the collaboration!! Build the money you need "
+"with time. It's realisable... Just begin!! And remember to upgrade and stay "
+"active."
+msgstr ""
+
+#: templates/main/index.html:279
+msgid "How does it work?"
+msgstr ""
+
+#: templates/main/index.html:282
+msgid "Signup"
+msgstr ""
+
+#: templates/main/index.html:283
+msgid "Contribute the initial"
+msgstr ""
+
+#: templates/main/index.html:283
+msgid " Frs to a fellow Network Member"
+msgstr ""
+
+#: templates/main/index.html:284
+msgid "Get 2 people to signup and join the collaboration"
+msgstr ""
+
+#: templates/main/index.html:285
+msgid "Remember to stay active and upgrade on time"
+msgstr ""
+
+#: templates/main/index.html:286
+msgid "Get more people to benefit from direct commission"
+msgstr ""
+
+#: templates/main/index.html:287
+msgid "Tell your network members to do the same 5 things above"
+msgstr ""
+
+#: templates/main/index.html:305
+msgid "Contribution Means"
+msgstr ""
+
+#: templates/main/index.html:306
+msgid "All contribution done with mobile money services."
+msgstr ""
+
+#: templates/main/index.html:318
+msgid "MTN Mobile Money"
+msgstr ""
+
+#: templates/main/index.html:330
+msgid "Orange Money"
+msgstr ""
+
+#: templates/main/index.html:343
+msgid "Read the Docs"
+msgstr ""
+
+#: templates/main/index.html:344
+msgid ""
+"Make sure you check out the documentation and learn more about how the "
+"system works and how to collaborate in it."
+msgstr ""
+
+#: templates/main/index.html:346
+msgid "Download Document"
+msgstr ""
+
+#: templates/main/index.html:359
+msgid "get involved!!"
+msgstr ""
+
+#: templates/main/index.html:360
+msgid "What are you waiting for?"
+msgstr ""
+
+#: templates/main/index.html:361
+msgid "Go ahead and signup!"
+msgstr ""
+
+#: templates/main/index.html:362
+msgid "Can't wait to see you collaborating in the network! If you like"
+msgstr ""
+
+#: templates/main/index.html:362
+msgid "make sure you share it with your friends too!"
+msgstr ""
+
+#: templates/main/login.html:8
+msgid "Login"
+msgstr ""
+
+#: templates/main/login.html:22
+msgid "The username and password you entered do not match."
+msgstr ""
+
+#: templates/main/login.html:50 templates/main/signup.html:92
+msgid "forgotten your password?"
+msgstr ""
+
+#: templates/main/login.html:50 templates/main/signup.html:92
+msgid "reset"
+msgstr ""
+
+#: templates/main/signup.html:11
+msgid ""
+"Signup and enjoy the awesomeness of the Njangi Network. Fast, Reliable, "
+"Trusted ..."
+msgstr ""
+
+#: templates/main/signup.html:22
+msgid "Please fix the following errors"
+msgstr ""
+
+#: templates/main/signup.html:82
+msgid "by signing up, you agree to "
+msgstr ""
+
+#: templates/main/signup.html:83
+msgid "terms and conditions"
+msgstr ""
+
+#: templates/main/signup.html:84
+msgid "of Njangi Network"
+msgstr ""
+
+#: templates/main/signup.html:89
+msgid "already have an account?"
+msgstr ""
+
+#: templates/registration/password_change_done.html:13
+msgid "password change successful"
+msgstr ""
+
+#: templates/registration/password_change_form.html:9
+msgid "password change"
+msgstr ""
+
+#: templates/registration/password_change_form.html:16
+msgid "Please correct the error below."
+msgstr ""
+
+#: templates/registration/password_change_form.html:16
+msgid "Please correct the errors below."
+msgstr ""
+
+#: templates/registration/password_reset_complete.html:58
+msgid "Your password has been set. You may go ahead and"
+msgstr ""
+
+#: templates/registration/password_reset_complete.html:58
+msgid "sign in"
+msgstr ""
+
+#: templates/registration/password_reset_complete.html:58
+msgid "now"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:9
+msgid "Password Reset-"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:41
+#: templates/registration/phone_password_reset_confirm.html:41
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+
+#: templates/registration/password_reset_done.html:9
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: templates/registration/password_reset_done.html:10
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: templates/registration/password_reset_form.html:9
+#: templates/registration/phone_password_reset_code.html:9
+#: templates/registration/phone_password_reset_confirm.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: templates/registration/password_reset_form.html:10
+msgid ""
+"Please enter your email address below and submit, we will send you a reset "
+"link."
+msgstr ""
+
+#: templates/registration/password_reset_form.html:29
+#: templates/registration/phone_password_reset_code.html:29
+#: templates/registration/phone_password_reset_form.html:33
+msgid "or"
+msgstr ""
+
+#: templates/registration/password_reset_form.html:29
+msgid "Reset with phone number"
+msgstr ""
+
+#: templates/registration/phone_password_reset_code.html:10
+msgid "Please enter the code sent to "
+msgstr ""
+
+#: templates/registration/phone_password_reset_code.html:10
+msgid " Be patient, it can take up to 30 minutes."
+msgstr ""
+
+#: templates/registration/phone_password_reset_code.html:29
+#: templates/registration/phone_password_reset_form.html:33
+msgid "Reset with email"
+msgstr ""
+
+#: templates/registration/phone_password_reset_form.html:9
+msgid "Phone Password Reset"
+msgstr ""
+
+#: templates/registration/phone_password_reset_form.html:10
+msgid ""
+"Please enter your username and phone number below then submit, we will send "
+"you a reset code."
+msgstr ""
+
+#: templates/registration/profile_change.html:9
+msgid "personal profile update"
+msgstr ""
+
+#: templates/registration/profile_change.html:13
+msgid "personal information"
+msgstr ""
+
+#: templates/registration/profile_change.html:68
+#: templates/registration/profile_change.html:90
+#: templates/registration/profile_change.html:112
+#: templates/registration/profile_change.html:134
+msgid "verified"
+msgstr ""
+
+#: templates/registration/profile_change.html:70
+#: templates/registration/profile_change.html:92
+#: templates/registration/profile_change.html:114
+#: templates/registration/profile_change.html:136
+msgid "unverified"
+msgstr ""
+
+#: templates/registration/profile_change.html:71
+#: templates/registration/profile_change.html:93
+#: templates/registration/profile_change.html:115
+#: templates/registration/profile_change.html:137
+msgid "verify"
+msgstr ""
+
+#: templates/registration/profile_change.html:170
+msgid "language settings"
+msgstr ""
+
+#: templates/registration/profile_change.html:191
+msgid "set"
+msgstr ""
+
+#: validators.py:33
+msgid "Password must contain at least 8 characters"
+msgstr ""
+
+#: views.py:154
+msgid "Mobile Password Reset"
+msgstr ""
+
+#: views.py:174
+msgid "There is no account with this username."
+msgstr ""
+
+#: views.py:176
+msgid "Invalid username"
+msgstr ""
+
+#: views.py:199
+#, python-format
+msgid ""
+"Njangi Network \n"
+"\n"
+"Please enter the code below to reset your Njangi Network Account password  %s"
+msgstr ""
+
+#: views.py:208
+msgid "This phone number is not associated to this account."
+msgstr ""
+
+#: views.py:210
+msgid "Invalid phone number"
+msgstr ""
+
+#: views.py:232
+msgid "Wrong Code."
+msgstr ""
+
+#: views.py:298
+msgid "Thanks for contacting, we will get back to you as soon as possible."
+msgstr ""
+
+#: website.py:6
+msgid ""
+"Many people have joined what is locally known as “njangi” where people "
+"contribute a fixed amount of money at regular intervals and hand it to one "
+"member in the group. This usually occurs in a cycle of people who know "
+"themselves.<p>If there are 10 people contributing 10000CFA every month (a "
+"total of 100, 000 CFA) and handing it over to the one person, it will take "
+"10 months for the cycle to complete and everyone will go home at the end of "
+"the day with a total of 100000 CFA which is the equivalence of the total "
+"contribution made within the period of 10 months. (i.e. 10,000 x 10 = 100, "
+"000 CFAF). </p>Usually, people don’t want to involve those people they know "
+"nothing about them because they are not sure as to whether the person will "
+"complete the cycle. Sometimes, it’s lack of an administrator to administer "
+"all these people in such a way that people do not have to fear others."
+msgstr ""
+
+#: website.py:22
+msgid ""
+"Njangi network is a web based application which aims to solve this problem. "
+"It comes to provide an administrative system where people can join the "
+"network and contribute without knowing each other. <p>The system manages all "
+"the administration of the contributions but does not manage the funds. Funds "
+"are transferred from the contributor to the recipient directly using mobile "
+"money services such as MTN Mobile Money, Orange Money. </p>It provides a "
+"system where contributions are done to the same person every 30 days. The "
+"system checks in the network and gets the mobile account to which "
+"contributions are to be done and after the amount is transferred, the "
+"recipient receives it instantly."
+msgstr ""
+
+#: website.py:36
+msgid ""
+"The system  positions network members in levels. At sign-up, everyone is at "
+"level zero (0), after contributing 2000 XOF to your level 1 upline member, "
+"you move to level 1 and there you are required to get just 2 people to join "
+"the network. <p>These two people sign-up and do their first contributions of "
+"2000 XOF to you in other to move to level 1. The model is explained in the "
+"table below:</p><a href='https://docs.google.com/spreadsheets/"
+"d/1NzG6jpBapoFxcAGupP814yOffwAPmg7hcUQn1nqvn0M/edit?usp=sharing' "
+"target='_blank'>Njangi Network Analysis</a><br>NB: It should be noted that "
+"the only amount one ever starts contribution with is 2000 XOF and he/she "
+"never has to increase the amount again but rather contributes from the "
+"contributions he/she receives. <p>This is based on everyone getting 2 "
+"persons to join the network (if you have more than 2 the system will place "
+"them under your  downline network members)</p>"
+msgstr ""
