@@ -102,7 +102,7 @@ class SignupForm(forms.ModelForm):
 
 
 class LoginForm(AuthenticationForm):
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
+    pass
 
 
 class ProfileChangeForm(forms.ModelForm):

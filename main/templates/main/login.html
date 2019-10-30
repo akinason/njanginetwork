@@ -41,12 +41,6 @@
                                 <span class="help-block with-errors">{{ form.password.errors|safe }}</span>
                             </div>
                         </div>
-                        <div class="form-group col-12 ">
-                                <label for="{{ form.captcha.id_for_label }}" class="col-form-label">{{ form.captcha.label }}</label>
-                                {{ form.captcha.help_text }}
-                                {{ form.captcha|addcss:'form-control' }}
-                                <span class="help-block with-errors">{{ form.captcha.errors }}</span>
-                            </div>
                         <div class="row">
                             <div class="form-group col-md-2">
                                 <input class="btn btn-primary btn-pill d-flex ml-auto mr-auto" type="submit" value="{% trans 'login'|title %}">
