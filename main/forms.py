@@ -111,7 +111,7 @@ class ProfileChangeForm(forms.ModelForm):
         ('no_match', _('Password does not match.')),
         ('invalid', _('Current Password is invalid.')),
     )
-
+    
     tel1 = PhoneNumberField(
         max_length=TEL_MAX_LENGTH, min_length=TEL_MAX_LENGTH,
         label=_('MTN Number'), widget=phonenumber_widgets.PhoneNumberInternationalFallbackWidget(
