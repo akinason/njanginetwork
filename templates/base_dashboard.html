@@ -82,7 +82,7 @@
 						<li class="">
 							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'switch user'|title %}<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
-								{% for obj in user_account_list %}
+								{% for obj in user_account_list|slice:":5" %}
                                 <li>
 									<a href="{% url 'njangi:switch_user' user_id=obj.id %}"><i class="fa fa-user nav_icon"></i>{{ obj.username|upper }}</a>
 								</li>
@@ -94,7 +94,7 @@
 								{% else %}
 									<li><a href=""><i class="fa fa-arrow-up nav_icon"></i>{% trans 'increase your limits'|title %}</a></li>
 								{% endif %}
-								<li><a href="{% url 'njangi:user_account_packages' %}"><i class="fa fa-share nav_icon"></i>{% trans 'update subscription'|title %}</a></li>
+<!--								<li><a href="{% url 'njangi:user_account_packages' %}"><i class="fa fa-share nav_icon"></i>{% trans 'update subscription'|title %}</a></li>-->
 								<li><a href="{% url 'njangi:user_account_list' %}"><i class="fa fa-random nav_icon"></i>{% trans 'manage accounts'|title %}</a></li>
 
 							</ul>

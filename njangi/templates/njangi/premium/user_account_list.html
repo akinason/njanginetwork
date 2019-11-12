@@ -15,7 +15,7 @@
         <div class="table-responsive bs-example widget-shadow">
             <h5>
                 <a href="{% url 'njangi:add_user_account' %}"><span class="label label-primary">{% trans 'Add New Account'|title %}</span></a>
-                <a href="{% url 'njangi:user_account_packages' %}"><span class="label label-primary">{% trans 'update subscription'|title %}</span></a>
+<!--                <a href="{% url 'njangi:user_account_packages' %}"><span class="label label-primary">{% trans 'update subscription'|title %}</span></a>-->
             </h5><hr>
             <div class="col-md-12">
                 <div class="col-md-3">
@@ -48,7 +48,7 @@
                 <tbody>
                 {% for obj in user_account_list %}
                     <tr>
-                        <th scope="row"><h6>{{ obj.username }}</h6></th>
+                        <th scope="row"><h6><a href="{% url 'njangi:switch_user' obj.id %}">{{ obj.username }}</a></h6></th>
                         <td><h6>{{ obj.first_name|title }}</h6></td>
                         <td><h6>{{ obj.last_name|title }}</h6></td>
                         <td><h6>{{ obj.email|safe }}</h6></td>
