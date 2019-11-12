@@ -11,6 +11,10 @@ class ContributionRequiredMixin(LoginRequiredMixin):
     """
 
     def dispatch(self, request, *args, **kwargs):
+        super(ContributionRequiredMixin, self).dispatch(request, *args, **kwargs)
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+
         if not request.user.has_contributed:
             return HttpResponseRedirect(reverse('njangi:signup_contribution_required'))
         return super().dispatch(request, *args, **kwargs)
