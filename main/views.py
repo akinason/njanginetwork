@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from django.views import generic
 
 from mailer import services as mailer_services
@@ -175,6 +176,14 @@ class PhonePasswordResetView(PasswordContextMixin, generic.FormView):
             return render(request=self.request, template_name=self.template_name, context={
                 'form': form, 'username': username, 'phone_number': phone_number, 'message': _('Invalid username')
             })
+        can_reset_password_with_phone_number = user.can_reset_password_with_phone_number()
+        if can_reset_password_with_phone_number['status']:
+            pass
+        else:
+            form.add_error('username', can_reset_password_with_phone_number.get('message'))
+            return render(request=self.request, template_name=self.template_name, context={
+                'form': form, 'username': username, 'phone_number': phone_number, 'message': _('Invalid username')
+            })
 
         # Geerate the code.
         user.set_unique_random_tel1_code()
@@ -259,6 +268,9 @@ class PhonePasswordResetConfirmView(generic.FormView):
         del self.request.session['user_id']
         del self.request.session['phone_number']
         del self.request.session['validcode']
+        """save the last password reset date."""
+        user.last_phone_password_reset = timezone.now()
+        user.save()
         login(self.request, user)
 
         return super().form_valid(form)

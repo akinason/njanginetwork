@@ -1,5 +1,5 @@
 import uuid
-import random
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager as DefaultUserManager
 from django.contrib.auth.validators import ASCIIUsernameValidator, UnicodeUsernameValidator
@@ -104,6 +104,7 @@ class User(AbstractUser):
 
     has_contributed = models.BooleanField(default=False)
     is_in_network = models.BooleanField(default=False)
+    last_phone_password_reset = models.DateTimeField(blank=True, null=True)
 
     object = UserManager()
 
@@ -141,6 +142,26 @@ class User(AbstractUser):
             if not User.objects.filter(sponsor_id=code).exists():
                 self.sponsor_id = code
                 break
+
+    def can_reset_password_with_phone_number(self):
+        """Users have 7 days before they can reset their passwords again using their phone number."""
+        duration_to_wait = 7  # days
+        last_phone_password_reset = self.last_phone_password_reset
+        if not last_phone_password_reset:
+            return {'status': True, 'message': ''}
+
+        duration = timezone.now() - last_phone_password_reset
+        duration_left = (timedelta(days=duration_to_wait) - duration) + timedelta(days=1)
+        message_duration_left = duration_left + timedelta(days=1)
+
+        if duration_left.days <= 0:
+            return {'status': True, 'message': ''}
+
+        return {
+            'status': False,
+            'message': _(f'You can only change your password with phone number after {message_duration_left.days} days'
+                         f' from today.')
+        }
 
     def status(self):
         if self.is_active:
