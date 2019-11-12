@@ -160,8 +160,8 @@ class User(AbstractUser):
         return {
             'status': False,
             'message': _(
-                f'You can only change your password with phone number after {message_duration_left.days} days from today.'
-            )
+                'You can only change your password with phone number after %(duration)s days from today.'
+            ) % {'duration': message_duration_left}
         }
 
     def status(self):
