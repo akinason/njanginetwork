@@ -3,6 +3,10 @@ from njanginetwork import BASE_DIR
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse_lazy
 import environment
+import configparser
+
+config = configparser.ConfigParser()
+config.read(os.path.join(BASE_DIR, 'config.ini'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -19,6 +23,7 @@ INSTALLED_APPS = [
     'captcha',
 
     'main.apps.MainConfig',
+    'feedback.apps.FeedbackConfig',
     'mptt',
     'njangi.apps.NjangiConfig',
     'purse.apps.PurseConfig',
@@ -108,10 +113,13 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
 
-ugettext = lambda s: s
+
+def ugettext(s): return s
+
+
 LANGUAGES = (
-   ('en', _('English')),
-   ('fr', _('French')),
+    ('en', _('English')),
+    ('fr', _('French')),
 )
 
 SESSION_EXPIRE_SECONDS = 300  # 30 mins
@@ -139,8 +147,8 @@ USE_TZ = True
 
 MOMO_CHECKOUT_URL = 'https://api.webshinobis.com/api/v1/momo/checkout'
 MOMO_PAYMENT_URL = 'https://api.webshinobis.com/api/v1/momo/pay'
-MOMO_AUTH_EMAIL ='kinason42@gmail.com'
-MOMO_AUTH_PASSWORD = 'scoolingS245@XM'
+MOMO_AUTH_EMAIL = config.get('PAYMENT_GATEWAY', 'MOMO_AUTH_EMAIL')
+MOMO_AUTH_PASSWORD = config.get('PAYMENT_GATEWAY', 'MOMO_AUTH_PASSWORD')
 
 # ORANGE MONEY API Configurations
 ORANGE_MONEY_CHECKOUT_URL = ''
@@ -150,8 +158,7 @@ ORANGE_MONEY_AUTH_PASSWORD = ''
 
 AFKANERD_MOMO_URL = 'https://gsmtools.afkanerd.com/api/'
 AFKANERD_BASE_CALLBACK_URL = 'https://njanginetwork.com/purse/gsmtools/afkanerd/api/momo/'
-AFKANERD_AUTH_SID = 'mDP5FOpcVI9oM8c2T6Yr2XKkVMGUWQyw'
-AFKANERD_AUTH_EMAIL = 'njanginetwork@gmail.com'
+AFKANERD_AUTH_SID = config.get('PAYMENT_GATEWAY', 'AFKANERD_AUTH_SID')
+AFKANERD_AUTH_EMAIL = config.get('PAYMENT_GATEWAY', 'AFKANERD_AUTH_EMAIL')
 
 # END=========================================================
-

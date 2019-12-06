@@ -3,7 +3,7 @@ from .base import *
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'qibts7+4ws=xwy3%s2sku2g_^vuooodqzy_l%x9c5qj0n=$k$i'
+SECRET_KEY = config.get('NJANGINETWORK', 'SECRET_KEY')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'cm.localhost', 'localhost', 'e21c2aab.ngrok.io']
 
@@ -14,10 +14,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'njanginetwork',
-        'USER': 'kinason',
-        'PASSWORD': 'panama245',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'USER': config.get('DATABASE_DEV', 'DB_USERNAME'),
+        'PASSWORD': config.get('DATABASE_DEV', 'DB_PASSWORD'),
+        'HOST': config.get('DATABASE_DEV', 'DB_HOST'),
+        'PORT': config.get('DATABASE_DEV', 'DB_PORT'),
         'CONN_MAX_AGE': 5,
     }
 }
@@ -38,16 +38,16 @@ DEFAULT_FROM_EMAIL = 'njanginetwork@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'njanginetwork@gmail.com'
-EMAIL_HOST_PASSWORD = 'panama245@'
+EMAIL_HOST_PASSWORD = config.get('EMAIL', 'EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 ADMIN_EMAIL = 'njanginetwork@gmail.com'
 CONTACT_EMAIL = 'njanginetwork@gmail.com'
 SUPPORT_EMAIL = 'njanginetwork@gmail.com'
 
 # sms configurations (www.1s2u.com)
-ONE_S_2_U_USERNAME = 'kinason42'
-ONE_S_2_U_PASSWORD = 'web54126'
-ONE_S_2_U_SEND_URL = 'https://api.1s2u.io/bulksms'
+ONE_S_2_U_USERNAME = config.get('SMS', 'ONE_S_2_U_USERNAME')
+ONE_S_2_U_PASSWORD = config.get('SMS', 'ONE_S_2_U_PASSWORD')
+ONE_S_2_U_SEND_URL = config.get('SMS', 'ONE_S_2_U_SEND_URL')
 
 # REDIS related settings
 REDIS_HOST = 'localhost'
@@ -56,12 +56,12 @@ BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
-RECAPTCHA_PUBLIC_KEY = '6Ldsar4UAAAAAPwZVvUDylqognmnGUL01dEZ5Ygi'
-RECAPTCHA_PRIVATE_KEY = '6Ldsar4UAAAAAGfvo9t5XvPopfOD2Dx0TNe7-6pI'
-RECAPTCHA_REQUIRED_SCORE = 0.85
+RECAPTCHA_PUBLIC_KEY = config.get('RECAPTCHA', 'RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config.get('RECAPTCHA', 'RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_REQUIRED_SCORE = config.get('RECAPTCHA', 'RECAPTCHA_REQUIRED_SCORE')
 
 if DEBUG:
-    INSTALLED_APPS += ['debug_toolbar',]
+    INSTALLED_APPS += ['debug_toolbar', ]
     INTERNAL_IPS = ['localhost', '127.0.0.1']
     # MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware',]
     DEBUG_TOOLBAR_PANELS = [
