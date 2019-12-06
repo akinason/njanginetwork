@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from tinymce.models import HTMLField
 
 
 RESPONSE_TYPE = (
@@ -13,6 +14,7 @@ RESPONSE_TYPE = (
 class Feedback(models.Model):
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'))
+    note = HTMLField(_('note'), blank=True, null=True)
     start_date = models.DateTimeField(verbose_name=_('Start Date'))
     end_date = models.DateTimeField(verbose_name=_('End Date'))
     is_active = models.BooleanField(default=False)
@@ -36,7 +38,7 @@ class Question(models.Model):
 
 class Response(models.Model):
     question_id = models.ForeignKey(
-        Question, on_delete=models.SET_NULL, verbose_name=_("Question ID"))
+        Question, on_delete=models.CASCADE, verbose_name=_("Question ID"))
     response = models.CharField(max_length=300, verbose_name=_('Response'))
     user_id = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, verbose_name=_("User ID"))
