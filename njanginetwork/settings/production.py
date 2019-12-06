@@ -5,7 +5,8 @@ DEBUG = False
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'qibts7+4ws=xwy3%s2sku2g_^vuooodqzy_l%x9c5qj0n=$k$i'
 
-ALLOWED_HOSTS = ['104.236.225.69', 'www.njanginetwork.com', 'njanginetwork.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['104.236.225.69', 'www.njanginetwork.com',
+                 'njanginetwork.com', '127.0.0.1', 'localhost']
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -14,10 +15,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'njangi',
-        'USER': 'mihma',
-        'PASSWORD': 'mihmaworld',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'USER': config.get('DATABASE_PRO', 'DB_USERNAME'),
+        'PASSWORD': config.get('DATABASE_PRO', 'DB_PASSWORD'),
+        'HOST': config.get('DATABASE_PRO', 'DB_HOST'),
+        'PORT': config.get('DATABASE_PRO', 'DB_PORT'),
     }
 }
 
@@ -38,20 +39,20 @@ DEFAULT_FROM_EMAIL = 'njanginetwork@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'njanginetwork@gmail.com'
-EMAIL_HOST_PASSWORD = 'panama245@'
+EMAIL_HOST_PASSWORD = config.get('EMAIL', 'EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 ADMIN_EMAIL = 'njanginetwork@gmail.com'
 CONTACT_EMAIL = 'njanginetwork@gmail.com'
 SUPPORT_EMAIL = 'njanginetwork@gmail.com'
 
 # sms configurations (www.1s2u.com)
-ONE_S_2_U_USERNAME = 'kinason42'
-ONE_S_2_U_PASSWORD = 'web54126'
-ONE_S_2_U_SEND_URL = 'https://api.1s2u.io/bulksms'
+ONE_S_2_U_USERNAME = config.get('SMS', 'ONE_S_2_U_USERNAME')
+ONE_S_2_U_PASSWORD = config.get('SMS', 'ONE_S_2_U_PASSWORD')
+ONE_S_2_U_SEND_URL = config.get('SMS', 'ONE_S_2_U_SEND_URL')
 
 # CELERY related settings
 CELERY_BROKER_URL = 'amqp://localhost'
 
-RECAPTCHA_PUBLIC_KEY = '6Ldsar4UAAAAAPwZVvUDylqognmnGUL01dEZ5Ygi'
-RECAPTCHA_PRIVATE_KEY = '6Ldsar4UAAAAAGfvo9t5XvPopfOD2Dx0TNe7-6pI'
-RECAPTCHA_REQUIRED_SCORE = 0.85
+RECAPTCHA_PUBLIC_KEY = config.get('RECAPTCHA', 'RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config.get('RECAPTCHA', 'RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_REQUIRED_SCORE = config.get('RECAPTCHA', 'RECAPTCHA_REQUIRED_SCORE')
