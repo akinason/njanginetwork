@@ -7,14 +7,16 @@ from tinymce.models import HTMLField
 
 RESPONSE_TYPE = (
     (1, _('Yes or No')),
-    (2, _('Textfield'))
+    (2, _('Textfield')),
+    (3, _('Single Checkbox Select')),
+    (4, _('Multiple Checkbox Select'))
 )
 
 
 class Feedback(models.Model):
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'))
-    note = HTMLField(_('note'), blank=True, null=True)
+    note = models.TextField(_('note'), blank=True, null=True)
     start_date = models.DateTimeField(verbose_name=_('Start Date'))
     end_date = models.DateTimeField(verbose_name=_('End Date'))
     is_active = models.BooleanField(default=False)
@@ -23,7 +25,7 @@ class Feedback(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Feedback({self.title}-{self.is_active}-{self.start_date}-{self.end_date})"
+        return f"Feedback({self.title}-is_active({self.is_active})-start({self.start_date})-end({self.end_date}))"
 
 
 class Question(models.Model):
@@ -33,7 +35,7 @@ class Question(models.Model):
     response_type = models.IntegerField(choices=RESPONSE_TYPE)
 
     def __str__(self):
-        return f"Question({self.title}-{self.feedback_id}-{self.response_type})"
+        return f"Question({self.title}-{self.response_type})"
 
 
 class Response(models.Model):
@@ -45,4 +47,4 @@ class Response(models.Model):
     response_date = models.DateTimeField(verbose_name=_('Response Date'))
 
     def __str__(self):
-        return f"Response({self.question_id}-{self.response}-{self.user_id}-{self.response_date})"
+        return f"Response({self.response}-user({self.user_id})-{self.response_date})"

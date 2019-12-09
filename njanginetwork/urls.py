@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^', include('main.urls')),
     url(r'^dashboard/', include('njangi.urls')),
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+    url(r'^jet/dashboard/', include('jet.dashboard.urls',
+                                    'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^admin/', admin.site.urls),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url('^graph/', include('mptt_graph.urls')),
@@ -30,6 +31,7 @@ urlpatterns = [
     url(r'^blog/', include('blog.urls')),
     url('^marketplace/', include('marketplace.urls')),
     url('^dashboard/administration/', include('administration.urls')),
+    url('^feedback/', include('feedback.urls')),
 ]
 
 if settings.DEBUG:
@@ -39,4 +41,5 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

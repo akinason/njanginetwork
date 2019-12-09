@@ -110,25 +110,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for user_level in user_levels %}
+                    {% for user_level in user_levels %}
                     <tr>
                         <th scope="row">{{ user_level.level }}</th>
                         <td>{% level_contribution user_level.level %}</td>
-                        <td><h6>{{ user_level.last_payment|date:'Y-M-d H:i' }}</h6></td>
-                        <td><h6>{{ user_level.next_payment|date:'Y-M-d H:i'}}</h6></td>
+                        <td>
+                            <h6>{{ user_level.last_payment|date:'Y-M-d H:i' }}</h6>
+                        </td>
+                        <td>
+                            <h6>{{ user_level.next_payment|date:'Y-M-d H:i'}}</h6>
+                        </td>
                         <td>{{ user_level.recipient.get_username }}</td>
                         <td>{{ user_level.amount|intcomma }}</td>
                         <td>{{ user_level.total_sent |intcomma }}</td>
                         <td>{{ user_level.total_received |intcomma }}</td>
                         {% if user_level.is_active %}
-                            <td><span class="label label-success">{% trans 'active'|capfirst %}</span></td>
+                        <td><span class="label label-success">{% trans 'active'|capfirst %}</span></td>
                         {% else %}
-                            <td><span class="label label-danger">{% trans 'inactive'|capfirst %}</span></td>
+                        <td><span class="label label-danger">{% trans 'inactive'|capfirst %}</span></td>
                         {% endif %}
                         <!--<td><h5><a href="{% url 'njangi:contribution_checkout' level=user_level.level %}"><span class="label label-info">{% trans 'contribute'|capfirst %}</span></a></h5></td>-->
 
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

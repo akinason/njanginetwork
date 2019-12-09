@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Feedback</title>
+
+  <link rel="stylesheet" href="{% static 'feedback_form/css/feedback_form.css' %}">
+
+<body>
+  {% if request.user.is_authenticated %}
+  <div id="feedback_container">
+    <div class="feedback_form">
+      <h1 id="feedback_title"></h1>
+      <p id="feedback_note"></p>
+
+      <form method="POST" id="feedback_form" action="{{ request.build_absolute_uri }}">
+        <a href='#' id="close"><i class='fa fa-times'></i></a>
+        {% csrf_token %}
+        <input type="hidden" id="user_id" name="user_id" value="{{request.user.id}}" />
+
+      </form>
+
+      <a href='#' id="close"><i class='fa fa-times'></i>Close</a>
+    </div>
+
+    <div id="form_close">
+      <img src="{% static 'feedback_form/img/snowman-new2.gif' %}" />
+    </div>
+
+  </div>
+  {% endif %}
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <script src="{% static 'feedback_form/js/feedback_form.js' %}"></script>
+</body>
+
+</html>

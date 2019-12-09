@@ -1,50 +1,63 @@
 <!DOCTYPE HTML>
 {% load static i18n humanize njangi_tags %}
 <html>
-<head>
-<title>{% trans 'dashboard'|capfirst %}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content=" " />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- Bootstrap Core CSS -->
-<link href="{% static 'njangi_network/css/bootstrap.css' %}" rel='stylesheet' type='text/css' />
-<!-- Custom CSS -->
-<link href="{% static 'njangi_network/css/style.css' %}" rel='stylesheet' type='text/css' />
-<!-- font CSS -->
-<!-- font-awesome icons -->
-<link href="{% static 'njangi_network/css/font-awesome.css' %}" rel="stylesheet">
-<!-- //font-awesome icons -->
- <!-- js-->
-<script src="{% static 'njangi_network/js/jquery-1.11.1.min.js' %}"></script>
-<script src="{% static 'js/modernizr.custom.js' %}"></script>
-<!--webfonts-->
-<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-<!--//webfonts-->
-<!--animate-->
-<link href="{% static 'njangi_network/css/animate.css' %}" rel="stylesheet" type="text/css" media="all">
-<script src="{% static 'njangi_network/js/wow.min.js' %}"></script>
-	<script>
-		 new WOW().init();
-	</script>
-<!--//end-animate-->
 
-<!-- Metis Menu -->
-<script src="{% static 'njangi_network/js/metisMenu.min.js' %}"></script>
-<script src="{% static 'njangi_network/js/custom.js' %}"></script>
-<link href="{% static 'njangi_network/css/custom.css' %}" rel="stylesheet">
-<!--//Metis Menu -->
+<head>
+	<title>{% trans 'dashboard'|capfirst %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content=" " />
+	<script type="application/x-javascript">
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+	<!-- Bootstrap Core CSS -->
+	<link href="{% static 'njangi_network/css/bootstrap.css' %}" rel='stylesheet' type='text/css' />
+	<!-- Custom CSS -->
+	<link href="{% static 'njangi_network/css/style.css' %}" rel='stylesheet' type='text/css' />
+	<link href="{% static 'feedback_form/css/feedback_form.css' %}" rel='stylesheet' type='text/css' />
+	<!-- font CSS -->
+	<!-- font-awesome icons -->
+	<link href="{% static 'njangi_network/css/font-awesome.css' %}" rel="stylesheet">
+	<!-- //font-awesome icons -->
+	<!-- js-->
+	<script src="{% static 'njangi_network/js/jquery-1.11.1.min.js' %}"></script>
+	<script src="{% static 'js/modernizr.custom.js' %}"></script>
+	<!--webfonts-->
+	<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic'
+		rel='stylesheet' type='text/css'>
+	<!--//webfonts-->
+	<!--animate-->
+	<link href="{% static 'njangi_network/css/animate.css' %}" rel="stylesheet" type="text/css" media="all">
+	<script src="{% static 'njangi_network/js/wow.min.js' %}"></script>
+	<script>
+		new WOW().init();
+	</script>
+	<!--//end-animate-->
+
+	<!-- Metis Menu -->
+	<script src="{% static 'njangi_network/js/metisMenu.min.js' %}"></script>
+	<script src="{% static 'njangi_network/js/custom.js' %}"></script>
+	<link href="{% static 'njangi_network/css/custom.css' %}" rel="stylesheet">
+	<!--//Metis Menu -->
 	<!--Start of Tawk.to Script-->
 	<script type="text/javascript">
-	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-	(function(){
-	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-	s1.async=true;
-	s1.src='https://embed.tawk.to/5b8062e5f31d0f771d841f08/default';
-	s1.charset='UTF-8';
-	s1.setAttribute('crossorigin','*');
-	s0.parentNode.insertBefore(s1,s0);
-	})();
+		var Tawk_API = Tawk_API || {},
+			Tawk_LoadStart = new Date();
+		(function () {
+			var s1 = document.createElement("script"),
+				s0 = document.getElementsByTagName("script")[0];
+			s1.async = true;
+			s1.src = 'https://embed.tawk.to/5b8062e5f31d0f771d841f08/default';
+			s1.charset = 'UTF-8';
+			s1.setAttribute('crossorigin', '*');
+			s0.parentNode.insertBefore(s1, s0);
+		})();
 	</script>
 	<!--End of Tawk.to Script-->
 </head>
@@ -53,25 +66,33 @@
 	<div class="main-content">
 		<!--left-fixed -navigation-->
 		<div class=" sidebar" role="navigation">
-            <div class="navbar-collapse">
+			<div class="navbar-collapse">
 				<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
 					<ul class="nav" id="side-menu">
 						<li>
-							<a href="{% url 'njangi:dashboard' %}" class="active"><i class="fa fa-home nav_icon"></i>{% trans 'dashboard'|capfirst %}</a>
+							<a href="{% url 'njangi:dashboard' %}" class="active"><i
+									class="fa fa-home nav_icon"></i>{% trans 'dashboard'|capfirst %}</a>
 						</li>
 						<li>
-							<a href="{% url 'marketplace:index' %}" class="active"><i class="fa fa-home nav_icon"></i>{% trans 'market place'|title %}</a>
+							<a href="{% url 'marketplace:index' %}" class="active"><i
+									class="fa fa-home nav_icon"></i>{% trans 'market place'|title %}</a>
 						</li>
 
 
 						{% if user.is_admin %}
 						<li class="">
-							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'Administration'|title %}<span class="fa arrow"></span></a>
+							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'Administration'|title %}<span
+									class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
-								<li><a href="{% url 'administration:summary' %}"><i class="fa fa-share nav_icon"></i>{% trans 'njangi network summary'|title %}</a></li>
+								<li><a href="{% url 'administration:summary' %}"><i
+											class="fa fa-share nav_icon"></i>{% trans 'njangi network summary'|title %}</a>
+								</li>
 								<!--<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'User Accounts'|title %}</a></li>-->
-								<li><a href="{% url 'administration:user_account_balances' %}"><i class="fa fa-random nav_icon"></i>{% trans 'User Account Balances'|title %}</a></li>
-								<li><a href="{% url 'administration:user_list' %}"><i class="fa fa-random nav_icon"></i>{% trans 'User List'|title %}</a></li>
+								<li><a href="{% url 'administration:user_account_balances' %}"><i
+											class="fa fa-random nav_icon"></i>{% trans 'User Account Balances'|title %}</a>
+								</li>
+								<li><a href="{% url 'administration:user_list' %}"><i
+											class="fa fa-random nav_icon"></i>{% trans 'User List'|title %}</a></li>
 								<!--<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'Send SMS'|title %}</a></li>-->
 								<!--<li><a href=""><i class="fa fa-random nav_icon"></i>{% trans 'Send Email'|title %}</a></li>-->
 								<!---->
@@ -80,102 +101,125 @@
 						{% endif %}
 
 						<li class="">
-							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'switch user'|title %}<span class="fa arrow"></span></a>
+							<a href=""><i class="fa fa-users nav_icon"></i> {% trans 'switch user'|title %}<span
+									class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
 								{% for obj in user_account_list|slice:":5" %}
-                                <li>
-									<a href="{% url 'njangi:switch_user' user_id=obj.id %}"><i class="fa fa-user nav_icon"></i>{{ obj.username|upper }}</a>
+								<li>
+									<a href="{% url 'njangi:switch_user' user_id=obj.id %}"><i
+											class="fa fa-user nav_icon"></i>{{ obj.username|upper }}</a>
 								</li>
 								{% endfor %}
 								{% if not user_account %}
-									<li><a href="{% url 'njangi:add_user_account' %}"><i class="fa fa-plus-square-o nav_icon"></i>{% trans 'add user account'|title %}</a></li>
+								<li><a href="{% url 'njangi:add_user_account' %}"><i
+											class="fa fa-plus-square-o nav_icon"></i>{% trans 'add user account'|title %}</a>
+								</li>
 								{% elif use_account_list|length < user_account.limit %}
-									<li><a href="{% url 'njangi:add_user_account' %}"><i class="fa fa-plus-square-o nav_icon"></i>{% trans 'add another user'|title %}</a></li>
+								<li><a href="{% url 'njangi:add_user_account' %}"><i
+											class="fa fa-plus-square-o nav_icon"></i>{% trans 'add another user'|title %}</a>
+								</li>
 								{% else %}
-									<li><a href=""><i class="fa fa-arrow-up nav_icon"></i>{% trans 'increase your limits'|title %}</a></li>
+								<li><a href=""><i
+											class="fa fa-arrow-up nav_icon"></i>{% trans 'increase your limits'|title %}</a>
+								</li>
 								{% endif %}
-<!--								<li><a href="{% url 'njangi:user_account_packages' %}"><i class="fa fa-share nav_icon"></i>{% trans 'update subscription'|title %}</a></li>-->
-								<li><a href="{% url 'njangi:user_account_list' %}"><i class="fa fa-random nav_icon"></i>{% trans 'manage accounts'|title %}</a></li>
+								<!--								<li><a href="{% url 'njangi:user_account_packages' %}"><i class="fa fa-share nav_icon"></i>{% trans 'update subscription'|title %}</a></li>-->
+								<li><a href="{% url 'njangi:user_account_list' %}"><i
+											class="fa fa-random nav_icon"></i>{% trans 'manage accounts'|title %}</a>
+								</li>
 
 							</ul>
 
 						</li>
-                        <li>
+						<li>
 							<!--<a href="index.html" class="active"><i class="fa fa-table nav_icon"></i>{% trans 'genealogy'|capfirst %}</a>-->
 						</li>
 						<li>
 
-							<a href="#"><i class="fa fa-th-large nav_icon"></i>{% trans 'contribute'|capfirst %} <span class="nav-badge">{{ wallet.balance }}</span> <span class="fa arrow"></span></a>
+							<a href="#"><i class="fa fa-th-large nav_icon"></i>{% trans 'contribute'|capfirst %} <span
+									class="nav-badge">{{ wallet.balance }}</span> <span class="fa arrow"></span></a>
 
 							<ul class="nav nav-second-level collapse">
 								{% if user.level > 0 %}
-                                <li>
-									<a href="{% url 'njangi:contribution_checkout' level=1 %}">{% trans 'Level'|title %} 1</a>
+								<li>
+									<a href="{% url 'njangi:contribution_checkout' level=1 %}">{% trans 'Level'|title %}
+										1</a>
 								</li>
 								{% endif %}
 								{% if user.level >= 1 %}
 								<li>
-									<a href="{% url 'njangi:contribution_checkout' level=2 %}">{% trans 'Level'|title %} 2</a>
+									<a href="{% url 'njangi:contribution_checkout' level=2 %}">{% trans 'Level'|title %}
+										2</a>
 								</li>
 								{% endif %}
 								{% if user.level >= 2 %}
-                                <li>
-									<a href="{% url 'njangi:contribution_checkout' level=3 %}">{% trans 'Level'|title %} 3</a>
+								<li>
+									<a href="{% url 'njangi:contribution_checkout' level=3 %}">{% trans 'Level'|title %}
+										3</a>
 								</li>
 								{% endif  %}
 								{% if user.level >= 3 %}
-                                <li>
-									<a href="{% url 'njangi:contribution_checkout' level=4 %}">{% trans 'Level'|title %} 4</a>
+								<li>
+									<a href="{% url 'njangi:contribution_checkout' level=4 %}">{% trans 'Level'|title %}
+										4</a>
 								</li>
 								{% endif %}
 								{% if user.level >= 4 %}
-                                <li>
-									<a href="{% url 'njangi:contribution_checkout' level=5 %}">{% trans 'Level'|title %} 5</a>
+								<li>
+									<a href="{% url 'njangi:contribution_checkout' level=5 %}">{% trans 'Level'|title %}
+										5</a>
 								</li>
 								{% endif %}
 								{% if user.level >= 5 %}
-                                <li>
-									<a href="{% url 'njangi:contribution_checkout' level=6 %}">{% trans 'Level'|title %} 6</a>
+								<li>
+									<a href="{% url 'njangi:contribution_checkout' level=6 %}">{% trans 'Level'|title %}
+										6</a>
 								</li>
 								{% endif %}
 							</ul>
 						</li>
 						<li class="">
-							<a href="#"><i class="fa fa-money nav_icon"></i> {% trans 'wallet'|capfirst %}<span class="fa arrow"></span></a>
+							<a href="#"><i class="fa fa-money nav_icon"></i> {% trans 'wallet'|capfirst %}<span
+									class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
 								<li>
-                                    <a href="{% url 'njangi:statement' %}"> {% trans 'account statement'|title %}</a>
+									<a href="{% url 'njangi:statement' %}"> {% trans 'account statement'|title %}</a>
 								</li>
-                                <li>
-									<a href="{% url 'njangi:load_or_withdraw_choice' action='load' %}">{% trans 'load'|capfirst %}</a>
+								<li>
+									<a
+										href="{% url 'njangi:load_or_withdraw_choice' action='load' %}">{% trans 'load'|capfirst %}</a>
 								</li>
-                                <li>
-                                    <a href="{% url 'njangi:load_or_withdraw_choice' action='withdraw' %}">{% trans 'withdraw'|capfirst %}</a>
+								<li>
+									<a
+										href="{% url 'njangi:load_or_withdraw_choice' action='withdraw' %}">{% trans 'withdraw'|capfirst %}</a>
 								</li>
 							</ul>
 							<!-- /nav-second-level -->
 						</li>
 						<li>
-							<a href="{% url 'mptt_graph:network_graph' user_id=user.id %}" class="active"><i class="fa fa-sitemap nav_icon"></i>{% trans 'my network'|title %}</a>
+							<a href="{% url 'mptt_graph:network_graph' user_id=user.id %}" class="active"><i
+									class="fa fa-sitemap nav_icon"></i>{% trans 'my network'|title %}</a>
 						</li>
 
-                        <li>
-							<a href="#"><i class="fa fa-cogs nav_icon"></i>{% trans 'settings'|capfirst %} <span class="fa arrow"></span></a>
+						<li>
+							<a href="#"><i class="fa fa-cogs nav_icon"></i>{% trans 'settings'|capfirst %} <span
+									class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
-                                <li>
+								<li>
 									<a href="{% url 'njangi:network_tools' %}">{% trans 'network tools'|title %}</a>
 								</li>
 								<li>
-									<a href="{% url 'njangi:new_registration' %}">{% trans 'new registration'|title %}</a>
+									<a
+										href="{% url 'njangi:new_registration' %}">{% trans 'new registration'|title %}</a>
 								</li>
-                                <li>
+								<li>
 									<a href="{% url 'main:profile_change' %}">{% trans 'profile'|capfirst %}</a>
 								</li>
 
-                                <li>
+								<li>
 									<a href="{% url 'main:password_change' %}">{% trans 'change password'|title %}</a>
 								</li>
-                                <li>
+								<li>
 									<a href="{% url 'main:logout' %}">{% trans 'logout'|title %}</a>
 								</li>
 								<li>
@@ -207,16 +251,17 @@
 				<div class="clearfix"> </div>
 			</div>
 			<div class="header-right">
-				<div class="profile_details_left"><!--notifications of menu start -->
+				<div class="profile_details_left">
+					<!--notifications of menu start -->
 					<ul class="nofitications-dropdown">
 						<li class="dropdown head-dpdn">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 								<i class="fa fa-bell"></i>
 								{% if unread_notification_count > 0 %}
-									<span class="badge blue">{{ unread_notification_count }}</span>
+								<span class="badge blue">{{ unread_notification_count }}</span>
 								{% endif %}
 							</a>
-							<ul class="dropdown-menu" >
+							<ul class="dropdown-menu">
 								<li>
 									<div class="notification_header">
 										<a href="{% url 'main:update_all_notifications' %}">{% csrf_token %}
@@ -229,24 +274,24 @@
 										{% for notification in notification_list %}
 										<li>
 											<a href="{% url 'main:update_notification' notification.id %}">
-											<div class="notification_desc">
-												<p>
-													{% if notification.is_read %}
+												<div class="notification_desc">
+													<p>
+														{% if notification.is_read %}
 														{{ notification.text|capfirst }}
-													{% else %}
+														{% else %}
 														<b>{{ notification.text|capfirst }}</b>
-													{% endif %}
-												</p>
-												<p><span>{{ notification.created_on|naturaltime }}</span></p>
-											</div>
-											<div class="clearfix"></div>
+														{% endif %}
+													</p>
+													<p><span>{{ notification.created_on|naturaltime }}</span></p>
+												</div>
+												<div class="clearfix"></div>
 											</a>
 										</li>
 
 										{% endfor %}
 									</ul>
 								</li>
-								 <li>
+								<li>
 									<div class="notification_bottom">
 										<!--<a href="#">{% trans 'See all notifications' %}</a>-->
 									</div>
@@ -277,14 +322,16 @@
 							<ul class="dropdown-menu drp-mnu">
 
 								{% for language in languages %}
-									<li>
-									  <form action="{% url 'set_language' %}" method="post" id="form_{{ language.code }}" style="display:inline!important;">
-									  {% csrf_token %}
+								<li>
+									<form action="{% url 'set_language' %}" method="post" id="form_{{ language.code }}"
+										style="display:inline!important;">
+										{% csrf_token %}
 										<input name="next" type="hidden" value="{{ redirect_to }}" />
 										<input name="language" type="hidden" value="{{ language.code }}" />
-									  </form>
-										<button class="btn btn-default" type="submit" form="form_{{ language.code }}" value="Submit">{{ language.name_local|title }}</button>
-									</li>
+									</form>
+									<button class="btn btn-default" type="submit" form="form_{{ language.code }}"
+										value="Submit">{{ language.name_local|title }}</button>
+								</li>
 								{% endfor %}
 
 							</ul>
@@ -308,9 +355,12 @@
 							</a>
 							<ul class="dropdown-menu drp-mnu">
 								<!--<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>-->
-								<li> <a href="{% url 'main:profile_change' %}"><i class="fa fa-user"></i> {% trans "Profile"|title %}</a> </li>
-								<li> <a href="{% url 'main:logout' %}"><i class="fa fa-sign-out"></i>{% trans "logout"|title %}</a> </li>
-								<li><a href="{% url 'main:index' %}"><i class="fa fa-sign-out"></i>{% trans "website"|title %}</a></li>
+								<li> <a href="{% url 'main:profile_change' %}"><i class="fa fa-user"></i>
+										{% trans "Profile"|title %}</a> </li>
+								<li> <a href="{% url 'main:logout' %}"><i
+											class="fa fa-sign-out"></i>{% trans "logout"|title %}</a> </li>
+								<li><a href="{% url 'main:index' %}"><i
+											class="fa fa-sign-out"></i>{% trans "website"|title %}</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -336,45 +386,78 @@
 			<div class="clearfix"> </div>
 		</div>
 		<!-- //header-ends -->
-        <div id="page-wrapper">
-            <div class="main-page">
-        {% block content %}
+		<div id="page-wrapper">
+			<div class="main-page">
+				{% block content %}
 
-        {% endblock %} <!--End block content -->
-            </div>
-        </div>
+				{% endblock %}
+				<!--End block content -->
+			</div>
+		</div>
 
 		<div class="footer">
-		   <p>&copy; {% now 'Y' %}  All Rights Reserved <a href="{{ protocol }}://{{ site_info.website }}" target="_blank">{{ site_info.name }}</a></p>
+			<p>&copy; {% now 'Y' %} All Rights Reserved <a href="{{ protocol }}://{{ site_info.website }}"
+					target="_blank">{{ site_info.name }}</a></p>
 		</div>
-        <!--//footer-->
+		<!--//footer-->
+
+		<!-- Feedback form -->
+		{% if request.user.is_authenticated %}
+		<div id="feedback_container">
+			<div class="feedback_form">
+				<h1 id="feedback_title"></h1>
+				<p id="feedback_note"></p>
+
+				<form method="POST" id="feedback_form">
+					{% csrf_token %}
+					<input type="hidden" id="user_id" name="user_id" value="{{request.user.id}}" />
+
+				</form>
+
+				<a href='#' id="close"><i class='fa fa-times'></i></a>
+			</div>
+
+			<div id="form_close">
+				<img src="{% static 'feedback_form/img/snowman.gif' %}" />
+			</div>
+
+		</div>
+		{% endif %}
 	</div>
 	<!-- Classie -->
-		<script src="{% static 'njangi_network/js/classie.js' %}"></script>
-		<script>
-			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
-				showLeftPush = document.getElementById( 'showLeftPush' ),
-				body = document.body;
+	<script src="{% static 'njangi_network/js/classie.js' %}"></script>
+	<script>
+		var menuLeft = document.getElementById('cbp-spmenu-s1'),
+			showLeftPush = document.getElementById('showLeftPush'),
+			body = document.body;
 
-			showLeftPush.onclick = function() {
-				classie.toggle( this, 'active' );
-				classie.toggle( body, 'cbp-spmenu-push-toright' );
-				classie.toggle( menuLeft, 'cbp-spmenu-open' );
-				disableOther( 'showLeftPush' );
-			};
+		showLeftPush.onclick = function () {
+			classie.toggle(this, 'active');
+			classie.toggle(body, 'cbp-spmenu-push-toright');
+			classie.toggle(menuLeft, 'cbp-spmenu-open');
+			disableOther('showLeftPush');
+		};
 
 
-			function disableOther( button ) {
-				if( button !== 'showLeftPush' ) {
-					classie.toggle( showLeftPush, 'disabled' );
-				}
+		function disableOther(button) {
+			if (button !== 'showLeftPush') {
+				classie.toggle(showLeftPush, 'disabled');
 			}
-		</script>
+		}
+	</script>
 	<!--scrolling js-->
 	<script src="{% static 'njangi_network/js/jquery.nicescroll.js' %}"></script>
 	<script src="{% static 'njangi_network/js/scripts.js' %}"></script>
 	<!--//scrolling js-->
 	<!-- Bootstrap Core JavaScript -->
-   <script src="{% static 'njangi_network/js/bootstrap.js' %}"> </script>
+	<script src="{% static 'njangi_network/js/bootstrap.js' %}"> </script>
+
+	<!-- Jquery cdn -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+	<!-- Custom Js -->
+	<script src="{% static 'feedback_form/js/feedback_form.js' %}"> </script>
 </body>
+
 </html>

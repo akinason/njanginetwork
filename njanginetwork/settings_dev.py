@@ -91,6 +91,7 @@ TEMPLATES = [
                 'njangi.context_processors.njangi_context_processors',
                 'main.context_processors.main_context_processors',
                 'django.template.context_processors.media',
+                'feedback.context_processor.post_feedback_response',
             ],
         },
     },
@@ -155,10 +156,13 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
 
-ugettext = lambda s: s
+
+def ugettext(s): return s
+
+
 LANGUAGES = (
-   ('en', _('English')),
-   ('fr', _('French')),
+    ('en', _('English')),
+    ('fr', _('French')),
 )
 
 SESSION_EXPIRE_SECONDS = 300  # 30 mins
@@ -212,7 +216,7 @@ ADMIN_EMAIL = 'njanginetwork@gmail.com'
 CONTACT_EMAIL = 'njanginetwork@gmail.com'
 SUPPORT_EMAIL = 'njanginetwork@gmail.com'
 
-#1s2u.com sms Configuration
+# 1s2u.com sms Configuration
 ONE_S_2_U_USERNAME = 'kinason42'
 ONE_S_2_U_PASSWORD = 'web54126'
 ONE_S_2_U_SEND_URL = 'https://api.1s2u.io/bulksms'
@@ -240,18 +244,18 @@ BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
-#*******************************
+# *******************************
 # Twilio Configurations
-#*******************************
+# *******************************
 
-TWILIO_ACCOUNT_SID ='AC31b924ed5ed23f93f3a66ae17ad86690'
+TWILIO_ACCOUNT_SID = 'AC31b924ed5ed23f93f3a66ae17ad86690'
 TWILIO_AUTH_TOKEN = 'b0f9c38904c0ad7fb8a126e75e3b019f'
 TWILIO_PHONE_NUMBER = '+14154293468'
 TWILIO_VERIFIED_NUMBER = '+237675397307'
 
 
-if DEBUG==False:
-    INSTALLED_APPS += ['debug_toolbar',]
+if DEBUG == False:
+    INSTALLED_APPS += ['debug_toolbar', ]
     INTERNAL_IPS = ['localhost', '127.0.0.1']
     # MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware',]
     DEBUG_TOOLBAR_PANELS = [
