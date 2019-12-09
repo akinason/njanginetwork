@@ -1,0 +1,77 @@
+#cbp-spmenu-s1 {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)),
+    url(http://www.baltana.com/files/wallpapers-5/Christmas-Background-HD-Wallpaper-16305.jpg) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: right !important;
+}
+
+/* Nav Logo */
+body
+  > div.main-content
+  > div.sticky-header.header-section
+  > div.header-left
+  > div.logo {
+  background: none !important;
+}
+
+body
+  div.main-content
+  div.sticky-header.header-section
+  div.header-left
+  div.logo
+  h1,
+body
+  div.main-content
+  div.sticky-header.header-section
+  div.header-left
+  div.logo
+  span {
+  color: black;
+}
+
+/* Summary */
+div.stats-left {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
+    url("../images/x-mas-bg.jpg") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: right !important;
+}
+
+div.stats-right h5,
+div.stats-right h6 {
+  color: white !important;
+}
+
+/* Christmas Card */
+.christmas-gift {
+  height: 150px !important;
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),
+    url("https://gallery.yopriceville.com/var/albums/Free-Clipart-Pictures/Christmas-PNG/Christmas_Gifts_PNG_Clipart_Image.png?m=1441853701") !important;
+  background-size: contain !important;
+  /* background-repeat: no-repeat !important; */
+  background-position: right !important;
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.christmas-gift .x-mas-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-95%, -50%);
+  -webkit-transform: translate(-95%, -50%);
+  -moz-transform: translate(-95%, -50%);
+  -ms-transform: translate(-95%, -50%);
+  -o-transform: translate(-95%, -50%);
+  padding: 10px;
+  color: white;
+}
+
+.christmas-gift h1 {
+  font-family: "Anton", sans-serif !important;
+  margin-bottom: 18px;
+  width: 100%;
+  border-bottom: 1px solid white;
+}
