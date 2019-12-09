@@ -1,0 +1,147 @@
+.h5,
+h5,
+.fa,
+h3 {
+  color: #3f0d0a !important;
+}
+
+p,
+#typography > div.container > div > div > div.card.mb-8 > div.card-body > ol {
+  color: #56150f !important;
+}
+
+/* Loader before Welcome */
+.loader .page-loader {
+  background-color: #b08122 !important;
+}
+
+/* Welcome */
+.welcome {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)),
+    url("../images/x-mas-bg.jpg") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+.welcome::after,
+.welcome::before {
+  background: none;
+}
+
+.welcome .inner-wrapper h2,
+.welcome .inner-wrapper p {
+  color: white !important;
+}
+
+.welcome .inner-wrapper > .action-links a {
+  background-color: #55140f00 !important;
+  border: 2px solid #b08122 !important;
+}
+
+.welcome .inner-wrapper .action-links a:hover {
+  background-color: #b08122 !important;
+  color: white !important;
+  box-shadow: none;
+}
+
+/* Content Section */
+.navbar {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)),
+    url("../images/x-mas-bg.jpg") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+.navbar-collapse a,
+.navbar-collapse button {
+  background: none !important;
+  border: none !important;
+  margin: 0 5px !important;
+  border-radius: 5px !important;
+  -webkit-border-radius: 5px !important;
+  -moz-border-radius: 5px !important;
+  -ms-border-radius: 5px !important;
+  -o-border-radius: 5px !important;
+}
+
+.navbar-collapse ul:nth-child(2) a:hover,
+.navbar-collapse ul:first-child a:hover,
+.navbar-collapse ul:last-child button:hover {
+  background-color: #b08122 !important;
+}
+
+/* Cards Backgrounds */
+#our-values > div,
+footer {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)),
+    url("../images/x-mas-bg.jpg") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+#our-values > div > h3 {
+  color: white !important;
+}
+
+.card-title {
+  color: #3f0d0a !important;
+}
+
+.card .card-text {
+  color: #56150f !important;
+}
+
+/* Read The Doc */
+#documentation > div > div > a > button,
+#typography
+  > div.footer-cta.bg-dark
+  > div
+  > div
+  > div.share.d-table.ml-auto.mr-auto.mt-5
+  a {
+  background-color: #b08122 !important;
+  color: white !important;
+  border: none !important;
+}
+
+#documentation > div > div > a > button *,
+#typography
+  > div.footer-cta.bg-dark
+  > div
+  > div
+  > div.share.d-table.ml-auto.mr-auto.mt-5
+  * {
+  color: white !important;
+}
+
+/* Login Page and Sign Page */
+.signup-page {
+  height: calc(100% - 158px) !important;
+}
+.login-page {
+  height: calc(100vh - 158px) !important;
+}
+
+#signup
+  > div.example.col-lg-8.col-md-10.ml-auto.mr-auto
+  > div
+  > div
+  > form
+  > div:nth-child(5)
+  > div.form-group.col-md-2
+  > input,
+#signup
+  > div.example.col-lg-8.col-md-10.ml-auto.mr-auto
+  > div
+  > div
+  > form
+  > div:nth-child(2)
+  > div.form-group.col-lg-6.col-md-12.col-sm-12
+  > div:nth-child(7)
+  > input {
+  background-color: #b08122 !important;
+  color: white !important;
+  border: none !important;
+}

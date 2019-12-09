@@ -7,3 +7,7 @@ venv/
 .vscode/
 __pycahe__/
 test.py
+celerybeat-schedule
+celerybeat.pid
+service.log
+tests.txt
