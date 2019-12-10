@@ -4,7 +4,6 @@ window.onload = () => {
     var $my_form = $("#feedback_form");
     var values = [];
 
-
     $.ajax({
         type: "GET",
         url: "/feedback/",
@@ -60,6 +59,13 @@ window.onload = () => {
                     values.push(data);
                 });
             });
+
+            document.querySelector(".feedback_form").style.display = "block";
+
+            // adding the textarea height of the last element of the feedback form
+            var last_textarea_div = document.querySelectorAll("#feedback_form .form_input");
+            var last_textarea = last_textarea_div[Object.keys(last_textarea_div)[Object.keys(last_textarea_div).length - 1]];
+            last_textarea.querySelector('textarea').style.height = "150px";
         },
         error: (xhr, errmsg, err) => {
             console.log("error");
@@ -98,10 +104,15 @@ window.onload = () => {
     console.log(close);
     close_form.addEventListener('click', e => {
         $form_container.fadeOut();
+        console.log("close");
+        open_form.classList.add('show');
+        open_form.classList.remove('hide');
     });
 
     open_form.addEventListener('click', e => {
         $form_container.fadeIn();
+        console.log("open");
+        open_form.classList.add('hide');
+        open_form.classList.remove('show');
     });
-
 }

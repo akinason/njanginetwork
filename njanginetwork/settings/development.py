@@ -79,3 +79,5 @@ if DEBUG:
         'debug_toolbar.panels.redirects.RedirectsPanel',
     ]
     SHOW_TOOLBAR_CALLBACK = True
+
+ALLOWED_HOSTS = ['127.0.0.1', 'cm.localhost', 'localhost', '336900f3.ngrok.io']

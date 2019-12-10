@@ -1,16 +1,4 @@
-/* * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: #a9c3c3;
-} */
-
-/* TODO: CLEAR THE "VALUE" VARIABLE ON MY AJAX POST JS SCRIPT. */
 #feedback_container {
-  font-size: 17px;
   position: fixed;
   bottom: 10px;
   right: 20px;
@@ -18,20 +6,21 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+  z-index: 200;
 }
 
 #feedback_container {
   /* position: relative; */
 }
 
-.feedback_container,
+#feedback_container,
 .feedback_form {
   width: 420px;
 }
 
 .feedback_form {
   border: none;
-  width: 420px;
+  display: none;
   position: relative;
   top: 25px;
   right: -10px;
@@ -48,8 +37,8 @@ body {
 
 .feedback_form h1 {
   color: #F2B33F;
-  margin-bottom: 10px;
-  font-size: 25px;
+  margin-bottom: 23px;
+  font-size: 28px;
 }
 
 .feedback_form p {
@@ -104,9 +93,6 @@ body {
   outline: none;
 }
 
-.feedback_form.animate {
-  /* background: red; */
-}
 
 #form_close {
   z-index: 100;
@@ -147,4 +133,150 @@ body {
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
+}
+
+
+/* media query */
+@media(max-width:800px) {
+
+  #feedback_container,
+  .feedback_form {
+    width: 360px;
+  }
+
+  .feedback_form h1 {
+    font-size: 23px;
+    margin-bottom: 20px;
+  }
+
+  .feedback_form p {
+    font-size: 14px;
+  }
+
+  .feedback_form label,
+  .feedback_form textarea {
+    /* font-size: 0.5rem; */
+  }
+
+  .feedback_form textarea {
+    padding: 5px 5px;
+    line-height: 1.0;
+    width: 100%;
+    height: 70px;
+    font-size: 14px;
+  }
+
+  .feedback_form label {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .feedback_form .form_input {
+    margin-bottom: 15px;
+  }
+
+  .feedback_form button {
+    padding: 5px 10px;
+  }
+
+}
+
+@media(max-width:450px) {
+
+  #feedback_container {
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    bottom: unset;
+    left: unset;
+    right: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .feedback_form {
+    margin: unset;
+    top: unset;
+    left: unset;
+    right: unset;
+    width: 100%;
+    height: 100%;
+    border-radius: unset;
+    -webkit-border-radius: unset;
+    -moz-border-radius: unset;
+    -ms-border-radius: unset;
+    -o-border-radius: unset;
+  }
+
+  .feedback_form h1 {
+    font-size: 23px;
+    margin-bottom: 20px;
+  }
+
+  .feedback_form p {
+    font-size: 14px;
+  }
+
+  .feedback_form label,
+  .feedback_form textarea {
+    /* font-size: 0.5rem; */
+  }
+
+  .feedback_form textarea {
+    padding: 5px 5px;
+    line-height: 1.0;
+    width: 100%;
+    height: 70px;
+    font-size: 14px;
+  }
+
+  .feedback_form .form_input:last-child textarea {
+    height: 150px;
+    border: 1px solid red;
+  }
+
+  .feedback_form label {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .feedback_form .form_input {
+    margin-bottom: 8px;
+  }
+
+  .feedback_form form {
+    margin: 8px auto 5px auto;
+  }
+
+  .feedback_form button {
+    padding: 5px 10px;
+  }
+
+  #form_close {
+    display: none;
+  }
+
+  #form_close img {
+    width: 50px;
+  }
+
+  #feedback_container #close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+  }
+
+  #feedback_container #form_close.show {
+    display: flex !important;
+    position: fixed !important;
+    top: unset !important;
+    bottom: 5px !important;
+    right: 5px !important;
+  }
+
+  #feedback_container #form_close.hide {
+    display: none;
+  }
+
 }
