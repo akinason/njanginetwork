@@ -161,17 +161,20 @@ footer {
   max-height: 80vh !important;
   max-height: calc(100% - 158px) !important;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
   grid-gap: 10px;
   align-items: center;
-  grid-template-areas: "login x-mas";
+  grid-template-areas: 
+  "x-mas"
+  "login";
 }
 
 .login-wrapper {
   grid-area: login;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .col-md-6 {
     -ms-flex: 0 0 50% !important;
     flex: 0 0 100% !important;
@@ -182,7 +185,7 @@ footer {
     flex: none !important;
     max-width: none !important;
   }
-}
+} */
 
 @media (max-width: 800px) {
   .login-page {
@@ -234,7 +237,7 @@ footer {
   box-shadow: none !important;
 }
 .christmas-gift {
-  box-shadow: -10px 10px 6px -6px black;
+  /* box-shadow: -10px 10px 6px -6px black; */
   max-height: fit-content !important;
   min-height: 150px !important;
   background: linear-gradient(
