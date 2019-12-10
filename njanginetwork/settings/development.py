@@ -5,7 +5,8 @@ DEBUG = True
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config.get('NJANGINETWORK', 'SECRET_KEY')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'cm.localhost', 'localhost', 'e21c2aab.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.1', 'cm.localhost',
+                 'localhost', '0e1869c7.ngrok.io']
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

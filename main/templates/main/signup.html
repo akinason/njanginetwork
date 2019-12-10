@@ -1,106 +1,157 @@
-{% extends "base_website.html" %}
-{% load static i18n humanize njangi_tags main_tags %}
-
-{% block content %}
+{% extends "base_website.html" %} 
+{% load static i18n humanize njangi_tags main_tags %} {% block content %}
 
 <div id="signup" class="bg-white signup-page">
+  <div class="christmas-gift">
+    <div class="x-mas-wrapper">
+      <h3>Christmas Gift - 100,000 XAF</h3>
+      <h5>
+        We are sharing 100,000 XAF as X-MAS & New Year Gift to members who have
+        made it and will make it to Level 5 and above by 31st Dec 2019, 11:59pm.
+        Njangi Network Cares About You.
+      </h5>
+    </div>
+  </div>
+  <div class="login-wrapper">
     <div class="section-title col-lg-8 col-md-10 ml-auto mr-auto py-5">
-        <h2 class="text-center mb-4">{% trans 'signup'|title %} </h2>
-        <p class="text-center">
-            {% trans "Welcome to" %} {{ promoter.username }}{% trans "'s network" %}<br>
-            {% trans 'Signup and enjoy the awesomeness of the Njangi Network. Fast, Reliable, Trusted ...' %}
-        </p>
+      <h2 class="text-center mb-4">{% trans 'signup'|title %}</h2>
+      <p class="text-center">
+        {% trans "Welcome to" %} {{ promoter.username }}{% trans "'s network" %}<br />
+        {% trans 'Signup and enjoy the awesomeness of the Njangi Network. Fast, Reliable, Trusted ...' %}
+      </p>
     </div>
     <div class="example col-lg-8 col-md-10 ml-auto mr-auto">
-        <div class="row mb-5">
-            <div class="col-md-12">
-                <form  action="{% url 'main:signup' %}" method="post">{% csrf_token %}
-                    {% if form.errors %}
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <div class="alert alert-danger" role="alert">
-                                <h5>{% trans "Please fix the following errors" %}</h5>
-                                <ul>
-                                    {% for field in form %}
-                                      {% if field.errors %}
-                                        {% for error in field.errors %}
-                                          <li><a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a></li>
-                                        {% endfor %}
-                                      {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                    <div class="row">
-                        <div class="form-group col-3"></div>
-                        <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                            <div class="form-group col-12">
-                                <label for="{{ form.tel1.id_for_label }}" class="col-form-label">{{ form.tel1.label }}</label>
-                                {{ form.tel1.help_text }}
-                                {{ form.tel1|addcss:'form-control' }}
-                                <span class="help-block with-errors">{{ form.tel1.errors }}</span>
-                            </div>
-                            <div class="form-group col-12">
-                                <label for="{{ form.username.id_for_label }}" class="col-form-label">{{ form.username.label }}</label>
-                                {{ form.username.help_text }}
-                                {{ form.username|addcss:'form-control' }}
-                                <span class="help-block with-errors">{{ form.username.errors }}</span>
-                            </div>
-                            <div class="form-group col-12">
-                                <label for="{{ form.password.id_for_label }}" class="col-form-label">{{ form.password.label }}</label>
-                                 ({{ form.password.help_text }})
-                                {{ form.password|addcss:'form-control' }}
-                                <span class="help-block with-errors">{{ form.password.errors }}</span>
-                            </div>
-                            <div class="form-group col-12">
-                                <label for="{{ form.confirm_password.id_for_label }}" class="col-form-label">{{ form.confirm_password.label }}</label>
-                                 ({{ form.confirm_password.help_text }})
-                                {{ form.confirm_password|addcss:'form-control' }}
-                                <span class="help-block with-errors">{{ form.confirm_password.errors }}</span>
-                            </div>
-                            <div class="form-group col-12 ">
-                                <label for="{{ form.email.id_for_label }}" class="col-form-label">{{ form.email.label }}</label>
-                                {{ form.email.help_text }}
-                                {{ form.email|addcss:'form-control' }}
-                                <span class="help-block with-errors">{{ form.email.errors }}</span>
-                            </div>
-                            <div class="form-group col-12 ">
-                                <label for="{{ form.captcha.id_for_label }}" class="col-form-label">{{ form.captcha.label }}</label>
-                                {{ form.captcha.help_text }}
-                                {{ form.captcha|addcss:'form-control' }}
-                                <span class="help-block with-errors">{{ form.captcha.errors }}</span>
-                            </div>
-                            <div class="form-group col-12">
-                                <input class="btn btn-primary btn-pill d-flex ml-auto mr-auto" type="submit" value="{% trans 'submit'|title %}">
-                            </div>
-                        </div>
-                    </div>
-
-                    {% for hidden_field in form.hidden_fields %}
-                        {{ hidden_field }}
-                    {% endfor %}
-
-<!--                    <div>{{ form.sponsor }}</div>-->
-                    <div class="row">
-                        <div class="form-group col-12" align="center">
-                            {% trans 'by signing up, you agree to '|title %}
-                            <a href="#">{% trans 'terms and conditions'|title %}</a>
-                            {% trans 'of Njangi Network'|title %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 col-lg-6" align="center">
-                            {% trans "already have an account?"|title %}<a href="{% url 'main:login' %}"> {% trans "login"|title %}</a>
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6" align="center">
-                            {% trans "forgotten your password?"|title %}<a href="{% url 'main:password_reset' %}"> {% trans "reset"|title %}</a>
-                        </div>
-                    </div>
-                </form>
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <form action="{% url 'main:signup' %}" method="post">
+            {% csrf_token %} {% if form.errors %}
+            <div class="row">
+              <div class="form-group col-md-12">
+                <div class="alert alert-danger" role="alert">
+                  <h5>{% trans "Please fix the following errors" %}</h5>
+                  <ul>
+                    {% for field in form %} {% if field.errors %} {% for error in field.errors %}
+                    <li>
+                      <a href="#id_{{ field.name }}" class="error"
+                        >{{ error|escape }}</a
+                      >
+                    </li>
+                    {% endfor %} {% endif %} {% endfor %}
+                  </ul>
+                </div>
+              </div>
             </div>
+            {% endif %}
+            <div class="row">
+              <div class="form-group col-3"></div>
+              <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="form-group col-12">
+                  <label
+                    for="{{ form.tel1.id_for_label }}"
+                    class="col-form-label"
+                    >{{ form.tel1.label }}</label
+                  >
+                  {{ form.tel1.help_text }} {{ form.tel1|addcss:'form-control'}}
+                  <span class="help-block with-errors"
+                    >{{ form.tel1.errors }}</span
+                  >
+                </div>
+                <div class="form-group col-12">
+                  <label
+                    for="{{ form.username.id_for_label }}"
+                    class="col-form-label"
+                    >{{ form.username.label }}</label
+                  >
+                  {{ form.username.help_text }} {{ form.username|addcss:'form-control' }}
+                  <span class="help-block with-errors"
+                    >{{ form.username.errors }}</span
+                  >
+                </div>
+                <div class="form-group col-12">
+                  <label
+                    for="{{ form.password.id_for_label }}"
+                    class="col-form-label"
+                    >{{ form.password.label }}</label
+                  >
+                  ({{ form.password.help_text }}) {{ form.password|addcss:'form-control' }}
+                  <span class="help-block with-errors"
+                    >{{ form.password.errors }}</span
+                  >
+                </div>
+                <div class="form-group col-12">
+                  <label
+                    for="{{ form.confirm_password.id_for_label }}"
+                    class="col-form-label"
+                    >{{ form.confirm_password.label }}</label
+                  >
+                  ({{ form.confirm_password.help_text }}) {{ form.confirm_password|addcss:'form-control' }}
+                  <span class="help-block with-errors"
+                    >{{ form.confirm_password.errors }}</span
+                  >
+                </div>
+                <div class="form-group col-12 ">
+                  <label
+                    for="{{ form.email.id_for_label }}"
+                    class="col-form-label"
+                    >{{ form.email.label }}</label
+                  >
+                  {{ form.email.help_text }} {{ form.email|addcss:'form-control' }}
+                  <span class="help-block with-errors"
+                    >{{ form.email.errors }}</span
+                  >
+                </div>
+                <div class="form-group col-12 ">
+                  <label
+                    for="{{ form.captcha.id_for_label }}"
+                    class="col-form-label"
+                    >{{ form.captcha.label }}</label
+                  >
+                  {{ form.captcha.help_text }} {{ form.captcha|addcss:'form-control' }}
+                  <span class="help-block with-errors"
+                    >{{ form.captcha.errors }}</span
+                  >
+                </div>
+                <div class="form-group col-12">
+                  <input
+                    class="btn btn-primary btn-pill d-flex ml-auto mr-auto"
+                    type="submit"
+                    value="{% trans 'submit'|title %}"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {% for hidden_field in form.hidden_fields %} {{ hidden_field }} {% endfor %}
+
+            <!--                    <div>{{ form.sponsor }}</div>-->
+            <div class="row">
+              <div class="form-group col-12" align="center">
+                {% trans 'by signing up, you agree to '|title %}
+                <a href="#">{% trans 'terms and conditions'|title %}</a>
+                {% trans 'of Njangi Network'|title %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6 col-lg-6" align="center">
+                {% trans "already have an account?"|title %}<a
+                  href="{% url 'main:login' %}"
+                >
+                  {% trans "login"|title %}</a
+                >
+              </div>
+              <div class="form-group col-md-6 col-lg-6" align="center">
+                {% trans "forgotten your password?"|title %}<a
+                  href="{% url 'main:password_reset' %}"
+                >
+                  {% trans "reset"|title %}</a
+                >
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</div> <!-- End Content -->
+  </div>
+</div>
+<!-- End Content -->
 {% endblock %}
