@@ -23,7 +23,8 @@ class Feedback(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Feedback({self.title}-{self.is_active}-{self.start_date}-{self.end_date})"
+        # return f"Feedback({self.title}-{self.is_active}-{self.start_date}-{self.end_date})"
+        return self.title
 
 
 class Question(models.Model):
@@ -33,7 +34,8 @@ class Question(models.Model):
     response_type = models.IntegerField(choices=RESPONSE_TYPE)
 
     def __str__(self):
-        return f"Question({self.title}-{self.feedback_id}-{self.response_type})"
+        # return f"Question({self.title}-{self.feedback_id}-{self.response_type})"
+        return self.title 
 
 
 class Response(models.Model):
@@ -45,4 +47,5 @@ class Response(models.Model):
     response_date = models.DateTimeField(verbose_name=_('Response Date'))
 
     def __str__(self):
-        return f"Response({self.question_id}-{self.response}-{self.user_id}-{self.response_date})"
+        # return f"Response({self.question_id}-{self.response}-{self.user_id}-{self.response_date})"
+        return self.response
