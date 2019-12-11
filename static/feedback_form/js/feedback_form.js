@@ -104,6 +104,8 @@ console.log(close);
 close_form.addEventListener('click', e => {
     console.log("close");
     $form_container.fadeOut();
+    close_form.classList.remove('show');
+    close_form.classList.add('hide');
 
     if (window.innerWidth < 451) {
         close_form.classList.add('hide');
@@ -116,11 +118,22 @@ close_form.addEventListener('click', e => {
 open_form.addEventListener('click', e => {
     console.log("open");
     $form_container.fadeIn();
+    close_form.classList.remove('hide');
+    close_form.classList.add('show');
 
     if (window.innerWidth < 451) {
         close_form.classList.remove('hide');
         close_form.classList.add('show');
         open_form.classList.add('hide');
         open_form.classList.remove('show');
+    }
+});
+
+window.addEventListener('resize', e => {
+    if (e.srcElement.innerWidth < 451) {
+        $form_container.fadeIn();
+    } else {
+        close_form.classList.remove('hide');
+        open_form.classList.remove('hide');
     }
 });
