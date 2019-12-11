@@ -25,7 +25,8 @@ class Feedback(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Feedback({self.title}-is_active({self.is_active})-start({self.start_date})-end({self.end_date}))"
+        # return f"Feedback({self.title}-{self.is_active}-{self.start_date}-{self.end_date})"
+        return self.title
 
 
 class Question(models.Model):

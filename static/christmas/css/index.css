@@ -116,12 +116,86 @@ footer {
   color: white !important;
 }
 
-/* Login Page and Sign Page */
+/* Sign Page */
 .signup-page {
   height: calc(100% - 158px) !important;
 }
+
+#signup
+  > div.login-wrapper
+  > div.example.col-lg-8.col-md-10.ml-auto.mr-auto
+  > div
+  > div
+  > form
+  > div:nth-child(2)
+  > div.form-group.col-lg-6.col-md-12.col-sm-12 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (min-width: 992px) {
+  .col-lg-6 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  #signup
+    > div.login-wrapper
+    > div.example.col-lg-8.col-md-10.ml-auto.mr-auto
+    > div
+    > div
+    > form
+    > div:nth-child(2)
+    > div.form-group.col-lg-6.col-md-12.col-sm-12 {
+    grid-template-columns: none !important;
+  }
+  .christmas-gift .x-mas-wrapper {
+    width: 100% !important;
+  }
+}
+/* Login Page */
 .login-page {
-  height: calc(100vh - 158px) !important;
+  max-height: 80vh !important;
+  max-height: calc(100% - 158px) !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  align-items: center;
+  grid-template-areas: "login x-mas";
+}
+
+.login-wrapper {
+  grid-area: login;
+}
+
+@media (min-width: 768px) {
+  .col-md-6 {
+    -ms-flex: 0 0 50% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .col-md-4 {
+    -ms-flex: none !important;
+    flex: none !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .login-page {
+    grid-template-columns: 1fr;
+    grid-auto-rows: repeat(2, 1fr);
+    grid-template-areas:
+      "x-mas"
+      "login";
+  }
+
+  .christmas-gift {
+    box-shadow: none !important;
+  }
 }
 
 #signup
@@ -144,4 +218,54 @@ footer {
   background-color: #b08122 !important;
   color: white !important;
   border: none !important;
+}
+
+#signup
+  > div.login-wrapper
+  > div.section-title.col-lg-8.col-md-10.ml-auto.mr-auto.py-5 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 0 !important;
+}
+
+/* Christmas Card */
+.signup-page > .christmas-gift {
+  box-shadow: none !important;
+}
+.christmas-gift {
+  box-shadow: -10px 10px 6px -6px black;
+  max-height: fit-content !important;
+  min-height: 150px !important;
+  background: linear-gradient(
+      to right,
+      rgba(42, 42, 42, 0.6),
+      rgba(39, 39, 39, 0.6)
+    ),
+    url("../images/gift.png") no-repeat !important;
+  background-size: cover !important;
+  background-position: right !important;
+  grid-area: x-mas;
+}
+
+.christmas-gift .x-mas-wrapper {
+  width: 80%;
+  padding: 10px;
+  text-shadow: 4px 2px 4px #000000;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.christmas-gift h3 {
+  font-family: "Anton", sans-serif !important;
+  margin-bottom: 18px;
+  color: rgb(255, 255, 255) !important;
+  border-bottom: 1px solid white;
+  font-size: 23px !important;
+}
+
+.christmas-gift h5 {
+  font-weight: bold;
+  color: rgb(255, 255, 255) !important;
+  font-size: 15px !important;
 }
