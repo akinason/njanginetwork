@@ -60,9 +60,6 @@ def post_feedback_response(request):
                 return JsonResponse(json_results, safe=False)
 
             elif request.GET.get('action') == 'get':
-                questions = models.Question.objects.filter(
-                    feedback_id=active_feedback.id).order_by('order').all()
-                print(questions, "##############")
                 response_data = {
                     'question': question_list,
                     'feeback': feedback_data
