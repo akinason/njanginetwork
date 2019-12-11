@@ -20,7 +20,7 @@ def post_feedback_response(request):
 
         if feedback_expired == False:
             questions = models.Question.objects.filter(
-                feedback_id=active_feedback.id).all()
+                feedback_id=active_feedback.id).order_by('order').all()
             feedback = active_feedback
 
             # data to be sent to front-end onload event
@@ -60,8 +60,9 @@ def post_feedback_response(request):
                 return JsonResponse(json_results, safe=False)
 
             elif request.GET.get('action') == 'get':
-                test = models.Question.objects.filter(
-                    feedback_id=active_feedback.id).values('id', 'title')
+                questions = models.Question.objects.filter(
+                    feedback_id=active_feedback.id).order_by('order').all()
+                print(questions, "##############")
                 response_data = {
                     'question': question_list,
                     'feeback': feedback_data

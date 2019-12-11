@@ -2,6 +2,7 @@
   position: fixed;
   bottom: 10px;
   right: 20px;
+  height: 590px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -9,18 +10,21 @@
   z-index: 200;
 }
 
-#feedback_container {
-  /* position: relative; */
-}
-
 #feedback_container,
 .feedback_form {
   width: 420px;
 }
 
+#feedback_form {
+  /* overflow: auto; */
+}
+
 .feedback_form {
   border: none;
   display: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
   position: relative;
   top: 25px;
   right: -10px;
@@ -116,10 +120,9 @@
 
 #feedback_container #close {
   text-decoration: none;
-  display: block;
   position: absolute;
-  top: -15px;
-  right: -5px;
+  top: 10px;
+  right: 30px;
   color: rgba(0, 0, 0, 0.7);
   background: #F2B33F;
   padding: 20px;
@@ -263,8 +266,18 @@
 
   #feedback_container #close {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 4px;
+    right: 20px;
+  }
+
+  #feedback_container #close.hide {
+    display: none;
+  }
+
+  #feedback_container #close.show {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
   #feedback_container #form_close.show {
@@ -272,7 +285,7 @@
     position: fixed !important;
     top: unset !important;
     bottom: 5px !important;
-    right: 5px !important;
+    right: 20px !important;
   }
 
   #feedback_container #form_close.hide {

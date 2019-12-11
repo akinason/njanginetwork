@@ -32,6 +32,7 @@ class Question(models.Model):
     feedback_id = models.ForeignKey(
         Feedback, on_delete=models.CASCADE, verbose_name=_('Feedback ID'))
     title = models.CharField(max_length=200, verbose_name=_('Question'))
+    order = models.IntegerField(verbose_name=_('order'))
     response_type = models.IntegerField(choices=RESPONSE_TYPE)
 
     def __str__(self):
