@@ -1,5 +1,6 @@
 import decimal
 import requests
+import time 
 
 from django.contrib.auth import get_user_model as UserModel
 from django.utils.translation import ugettext_lazy as _
@@ -12,7 +13,7 @@ from njanginetwork import settings
 from njanginetwork.celery import app
 from purse.models import (
     TransactionStatus, WalletTransMessage, MobileMoneyManager, MMRequestType, MOMOAPIProvider, WalletManager,
-    WalletTransDescription
+    WalletTransDescription, MOMOPurpose
 )
 from purse.lib import monetbil
 
@@ -89,6 +90,9 @@ def request_momo_payout(phone_number, amount, user_id, purpose, nsp, recipient_i
         'status': trans_status.success(),
         'message': trans_message.success_message(),
         'tracker_id': payment_log.tracker_id, 'transactionId': payment_log.id}
+    
+    # Create a background task to check for the status of the transaction after a while.
+    verify_and_complete_pending_payouts.delay(tracker_id=payment_log.tracker_id)
     return response
 
 
@@ -195,3 +199,42 @@ def get_afkanerd_callback_url(uuid):
     url = '%(base_url)s%(uuid)s/' % {'base_url': settings.AFKANERD_BASE_CALLBACK_URL, 'uuid': uuid}
     return url
 
+
+@app.task
+def verify_and_complete_pending_payouts(tracker_id):
+    """If a transaction is still pending after 5 minutes, it means it failed and did not receive a callback"""
+    duration = 5 * 60
+    time.sleep(duration) # 5 minutes.
+    purpose = MOMOPurpose()
+    mm_transaction = mm_manager.get_mm_transaction(tracker_id=tracker_id)
+
+    if (
+        not mm_transaction.is_complete 
+        and mm_transaction.request_status == trans_status.processing() 
+        and mm_transaction.purpose == purpose.wallet_withdraw()
+    ):
+        # First mark the failed transaction as complete.
+        mm_transaction.response_status = trans_status.failed()
+        mm_transaction.request_status = trans_status.complete()
+        mm_transaction.callback_response_date = timezone.now()
+        mm_transaction.callback_server_response = 'Manual processing by background task.'
+        mm_transaction.is_complete = True
+        mm_transaction.save()
+
+        # Insert a failure notification.
+        notification().templates.transaction_failed(
+            user_id=mm_transaction.user.id, purpose=mm_transaction.purpose, amount=mm_transaction.amount,
+            nsp=mm_transaction.nsp
+        )
+
+        """Update the status of the transaction"""
+        wallet_manager.update_status(
+            status=trans_status.failed(), tracker_id=mm_transaction.tracker_id
+        )
+
+        """Update the account balance of the user."""
+        amount = mm_transaction.amount + mm_transaction.charge
+        wallet_manager.increase_balance(user=mm_transaction.user, available_balance=amount)
+        return True 
+    else:
+        return False 
