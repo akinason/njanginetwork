@@ -101,3 +101,12 @@ class UserTransactionListView(AdminPermissionRequiredMixin, generic.ListView):
             return wallet_manager.transaction_list(user=self.get_user(), last_x_transactions=10000)
         else:
             return None
+
+
+# Remuneration views
+
+class RemunerationList(AdminPermissionRequiredMixin, generic.TemplateView):
+    template_name = "remuneration/index.html"
+
+
+remuneration_list = RemunerationList.as_view()
