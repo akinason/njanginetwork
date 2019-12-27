@@ -8,7 +8,7 @@ from marketplace.models import MarketManager
 from purse.models import WalletManager
 from administration.models import Remuneration, Beneficiary
 from administration.forms import RemunerationForm
-from njanginetwork.celery import app
+from administration import task
 
 wallet_manager = WalletManager()
 market_manager = MarketManager()
@@ -111,12 +111,10 @@ class UserTransactionListView(AdminPermissionRequiredMixin, generic.ListView):
 
 
 # Remuneration views
-
 class RemunerationList(AdminPermissionRequiredMixin, generic.TemplateView):
     model = Remuneration
     queryset = Remuneration.objects.all()
     template_name = "remuneration/index.html"
-    # create_beneficiary_list.delay()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -131,46 +129,14 @@ class RemunerationCreate(AdminPermissionRequiredMixin, generic.CreateView):
     model = Remuneration
     form_class = RemunerationForm
     template_name = "remuneration/renumeration_create.html"
-    beneficiary_list = []
 
     def get_success_url(self):
-        # for beneficiary in self.beneficiary_list:
-        new_beneficiary = Beneficiary.objects.create(
-            remuneration=Remuneration.objects.get(id=1), user=self.beneficiary_list[0][0], amount=100, user_level=4)
         return reverse('administration:remuneration_list')
 
     def form_valid(self, form):
-        allocated_amount = form.cleaned_data['allocated_amount']
-        levels_involved_amount = []
-
-        levels_data = [form.cleaned_data['level_1'],
-                       form.cleaned_data['level_2'], form.cleaned_data['level_3'], form.cleaned_data['level_4'], form.cleaned_data['level_5'], form.cleaned_data['level_6']]
-
-        for index, level_data in enumerate(levels_data):
-            if level_data > 0:
-                amount = allocated_amount * levels_data[index]
-                levels_involved_amount.append([index + 1, amount])
-
-        beneficiary_list = []
-
-        for beneficiary_level in levels_involved_amount:
-            beneficiary = UserModel().objects.filter(
-                level=beneficiary_level[0])
-
-            # arrangement... [beneficiary, level, amount]
-            beneficiary_list.append(
-                [beneficiary, beneficiary_level[0], beneficiary_level[-1]])
-
-        # Reodering the beneficiary list in the format... [beneficiary, level, amount]
-        ordered_beneficiary_list = []
-
-        for beneficiary in beneficiary_list:
-            for beneficiaries in beneficiary[0]:
-                ordered_beneficiary_list.append(
-                    [beneficiaries, beneficiary[1], beneficiary[-1]])
-
-        # this is a testing phase
-        self.beneficiary_list = ordered_beneficiary_list
+        # assigning background task for creating beneficiaries...
+        remuneration = form.save(commit=True)
+        task.create_beneficiaries.delay(remuneration.id)
 
         return super(RemunerationCreate, self).form_valid(form)
 
@@ -191,6 +157,13 @@ class RemunerationUpdate(AdminPermissionRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse('administration:remuneration_list')
 
+    def form_valid(self, form):
+        # assigning background task for creating beneficiaries...
+        remuneration = form.save(commit=True)
+        task.create_beneficiaries.delay(remuneration.id)
+
+        return super(RemunerationUpdate, self).form_valid(form)
+
 
 remuneration_update = RemunerationUpdate.as_view()
 
@@ -204,8 +177,14 @@ class BeneficiaryList(AdminPermissionRequiredMixin, generic.ListView):
         remuneration_id = self.kwargs.get('remuneration_id')
         beneficiaries = Beneficiary.objects.filter(
             remuneration__id=remuneration_id)
-        print(beneficiaries)
         return beneficiaries
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        remuneration = get_object_or_404(
+            Remuneration, pk=self.kwargs.get('remuneration_id'))
+        context['remuneration'] = remuneration
+        return context
 
 
 beneficiary_list = BeneficiaryList.as_view()

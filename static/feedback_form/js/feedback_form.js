@@ -1,3 +1,4 @@
+var form_main_container = document.getElementById('feedback_container');
 var $form_container = $('.feedback_form');
 var $my_form = $("#feedback_form");
 var values = [];
@@ -106,6 +107,9 @@ close_form.addEventListener('click', e => {
     close_form.classList.remove('show');
     close_form.classList.add('hide');
 
+    form_main_container.style.height = 'unset';
+    form_main_container.style.width = 'unset';
+
     if (window.innerWidth < 451) {
         close_form.classList.add('hide');
         close_form.classList.remove('show');
@@ -132,6 +136,9 @@ window.addEventListener('resize', e => {
     if (e.srcElement.innerWidth < 451) {
         $form_container.fadeIn();
     } else {
+        form_main_container.style.height = 'unset';
+        form_main_container.style.width = 'unset';
+
         close_form.classList.remove('hide');
         open_form.classList.remove('hide');
     }

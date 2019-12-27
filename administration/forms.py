@@ -1,8 +1,23 @@
 from django import forms
-from . import models
+from administration import models
 
 
 class RemunerationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['level_1'] = forms.DecimalField(initial=0.00,
+                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
+        self.fields['level_2'] = forms.DecimalField(initial=0.00,
+                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
+        self.fields['level_3'] = forms.DecimalField(initial=0.00,
+                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
+        self.fields['level_4'] = forms.DecimalField(initial=0.00,
+                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
+        self.fields['level_5'] = forms.DecimalField(initial=0.00,
+                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
+        self.fields['level_6'] = forms.DecimalField(initial=0.00,
+                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
+
     class Meta:
         model = models.Remuneration
         exclude = ['is_paid', 'status']
@@ -10,87 +25,20 @@ class RemunerationForm(forms.ModelForm):
             'purpose': forms.Textarea(),
         }
 
-    def clean_level_1(self):
-        level_1 = self.cleaned_data['level_1']
-
-        if level_1 > 1:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-        elif level_1 < 0:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-
-        return level_1
-
-    def clean_level_2(self):
-        level_2 = self.cleaned_data['level_2']
-
-        if level_2 > 1:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-        elif level_2 < 0:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-
-        return level_2
-
-    def clean_level_3(self):
-        level_3 = self.cleaned_data['level_3']
-
-        if level_3 > 1:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-        elif level_3 < 0:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-
-        return level_3
-
-    def clean_level_4(self):
-        level_4 = self.cleaned_data['level_4']
-
-        if level_4 > 1:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-        elif level_4 < 0:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-
-        return level_4
-
-    def clean_level_5(self):
-        level_5 = self.cleaned_data['level_5']
-
-        if level_5 > 1:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-        elif level_5 < 0:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-
-        return level_5
-
-    def clean_level_6(self):
-        level_6 = self.cleaned_data['level_6']
-
-        if level_6 > 1:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-        elif level_6 < 0:
-            raise forms.ValidationError(
-                "remuneration ratio lies in range(0,1)")
-
-        return level_6
-
     def clean(self):
-        level_1 = self.cleaned_data['level_1']
-        level_2 = self.cleaned_data['level_2']
-        level_3 = self.cleaned_data['level_3']
-        level_4 = self.cleaned_data['level_4']
-        level_5 = self.cleaned_data['level_5']
-        level_6 = self.cleaned_data['level_6']
+        levels = [self.cleaned_data['level_1'], self.cleaned_data['level_2'], self.cleaned_data['level_3'],
+                  self.cleaned_data['level_4'], self.cleaned_data['level_5'], self.cleaned_data['level_6']]
+        total_ratio = 0
 
-        total_ratio = level_1 + level_2 + level_3 + level_4 + level_5 + level_6
+        for level in levels:
+            if level > 1:
+                raise forms.ValidationError(
+                    "remuneration ratio lies in range(0,1)")
+            elif level < 0:
+                raise forms.ValidationError(
+                    "remuneration ratio lies in range(0,1)")
+            else:
+                total_ratio += level
 
         if total_ratio != 1:
             raise forms.ValidationError(

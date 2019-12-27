@@ -35,6 +35,8 @@ class Remuneration(models.Model):
     status = models.CharField(_("status"), max_length=20,
                               choices=RENUMERATION_STATUS, default=RENUMERATION_STATUS[0][0])
 
+    created_on = models.DateTimeField(_('creation date'), auto_now_add=True)
+
     def __str__(self):
         return f"Remuneration({self.allocated_amount}-{self.is_paid}-{self.status})"
 

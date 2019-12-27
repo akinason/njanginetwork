@@ -5,7 +5,9 @@
 {% block content %}
 
 <div class="beneficiary_list">
-    <a href="">Generate List</a>
+    {% if remuneration.status != 'PAID' %}
+    <a href="#">Generate List</a>
+    {% endif %}
     <br>
     <br>
     {% for beneficiary in beneficiaries  %}
