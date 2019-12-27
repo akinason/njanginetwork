@@ -375,14 +375,15 @@
 						</li>
 					</ul>
 				</div>
-				<div class="profile_details ">
+				<div class="profile_details" style="margin-top: 13px;">
 					<ul>
-						<li class="dropdown profile_details_drop visible-lg-block">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<li class="profile_details_drop visible-lg-block">
+							<a href="https://t.me/joinchat/C9nk9BVB4BJ9W0pbS7kBAw" target="_blank">
 								<div class="profile_img">
 									<div class="user-name">
-										<p>{% trans 'service number'|title %}</p>
-										<span>{{ site_info.contact_numbers }}</span>
+										<p style="color: #5682a3; font-weight: bold;">
+											{% trans 'Join Support Group'|title %}</p>
+										<span style="color: #5682a3; font-weight: bold;">Telegram</span>
 									</div>
 									<div class="clearfix"></div>
 								</div>
@@ -396,84 +397,85 @@
 			<div class="clearfix"> </div>
 		</div>
 		<!-- //header-ends -->
-        <div id="page-wrapper">
-            <div class="main-page">
-			<div class="christmas-gift">
-				<div class="x-mas-wrapper">
-					<h1>Christmas Gift - 100,000 XAF </h1>
-				<h3>We are sharing 100,000 XAF as X-MAS & New Year Gift to members who have made it and will make it to Level 5  and above by 31st Dec 2019, 11:59pm. Njangi Network Cares About You.</h3>
+		<div id="page-wrapper">
+			<div class="main-page">
+				<div class="christmas-gift">
+					<div class="x-mas-wrapper">
+						<h1>{% trans "Christmas Gift - 100,000 XAF"|title %}</h1>
+						<h3>{% trans "We are sharing 100,000 XAF as X-MAS & New Year Gift to members who have made it and will make it to Level 5  and above by 31st Dec 2019, 11:59pm. Njangi Network Cares About You."|title %}
+						</h3>
+					</div>
 				</div>
-			</div>
-			{% block content %}
+				{% block content %}
 
-			{% endblock %}
-			<!--End block content -->
-		</div>
-
-		<div class="footer">
-			<p>&copy; {% now 'Y' %} All Rights Reserved <a href="{{ protocol }}://{{ site_info.website }}"
-					target="_blank">{{ site_info.name }}</a></p>
-		</div>
-		<!--//footer-->
-
-		<!-- Feedback form -->
-		{% if request.user.is_authenticated %}
-		<div id="feedback_container">
-			<div class="feedback_form">
-				<h1 id="feedback_title"></h1>
-				<p id="feedback_note"></p>
-
-				<form method="POST" id="feedback_form">
-					{% csrf_token %}
-					<input type="hidden" id="user_id" name="user_id" value="{{request.user.id}}" />
-
-				</form>
-
+				{% endblock %}
+				<!--End block content -->
 			</div>
 
-			<a href='#' id="close"><i class='fa fa-times'></i></a>
-
-			<div id="form_close">
-				<img src="{% static 'feedback_form/img/snowman.gif' %}" />
+			<div class="footer">
+				<p>&copy; {% now 'Y' %} All Rights Reserved <a href="{{ protocol }}://{{ site_info.website }}"
+						target="_blank">{{ site_info.name }}</a></p>
 			</div>
+			<!--//footer-->
 
+			<!-- Feedback form -->
+			{% if request.user.is_authenticated %}
+			<div id="feedback_container">
+				<div class="feedback_form">
+					<h1 id="feedback_title"></h1>
+					<p id="feedback_note"></p>
+
+					<form method="POST" id="feedback_form">
+						{% csrf_token %}
+						<input type="hidden" id="user_id" name="user_id" value="{{request.user.id}}" />
+
+					</form>
+
+				</div>
+
+				<a href='#' id="close"><i class='fa fa-times'></i></a>
+
+				<div id="form_close">
+					<img src="{% static 'feedback_form/img/snowman.gif' %}" />
+				</div>
+
+			</div>
+			{% endif %}
 		</div>
-		{% endif %}
-	</div>
-	<!-- Classie -->
-	<script src="{% static 'njangi_network/js/classie.js' %}"></script>
-	<script>
-		var menuLeft = document.getElementById('cbp-spmenu-s1'),
-			showLeftPush = document.getElementById('showLeftPush'),
-			body = document.body;
+		<!-- Classie -->
+		<script src="{% static 'njangi_network/js/classie.js' %}"></script>
+		<script>
+			var menuLeft = document.getElementById('cbp-spmenu-s1'),
+				showLeftPush = document.getElementById('showLeftPush'),
+				body = document.body;
 
-		showLeftPush.onclick = function () {
-			classie.toggle(this, 'active');
-			classie.toggle(body, 'cbp-spmenu-push-toright');
-			classie.toggle(menuLeft, 'cbp-spmenu-open');
-			disableOther('showLeftPush');
-		};
+			showLeftPush.onclick = function () {
+				classie.toggle(this, 'active');
+				classie.toggle(body, 'cbp-spmenu-push-toright');
+				classie.toggle(menuLeft, 'cbp-spmenu-open');
+				disableOther('showLeftPush');
+			};
 
 
-		function disableOther(button) {
-			if (button !== 'showLeftPush') {
-				classie.toggle(showLeftPush, 'disabled');
+			function disableOther(button) {
+				if (button !== 'showLeftPush') {
+					classie.toggle(showLeftPush, 'disabled');
+				}
 			}
-		}
-	</script>
-	<!--scrolling js-->
-	<script src="{% static 'njangi_network/js/jquery.nicescroll.js' %}"></script>
-	<script src="{% static 'njangi_network/js/scripts.js' %}"></script>
-	<!--//scrolling js-->
-	<!-- Bootstrap Core JavaScript -->
-	<script src="{% static 'njangi_network/js/bootstrap.js' %}"> </script>
+		</script>
+		<!--scrolling js-->
+		<script src="{% static 'njangi_network/js/jquery.nicescroll.js' %}"></script>
+		<script src="{% static 'njangi_network/js/scripts.js' %}"></script>
+		<!--//scrolling js-->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="{% static 'njangi_network/js/bootstrap.js' %}"> </script>
 
-	<!-- Jquery cdn -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<!-- Jquery cdn -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-	<!-- Custom Js -->
-	<script src="{% static 'feedback_form/js/feedback_form.js' %}"> </script>
+		<!-- Custom Js -->
+		<script src="{% static 'feedback_form/js/feedback_form.js' %}"> </script>
 </body>
 
 </html>
