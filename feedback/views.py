@@ -65,3 +65,6 @@ def post_feedback_response(request):
                     'feeback': feedback_data
                 }
                 return JsonResponse(response_data)
+
+    elif(active_feedback == None):
+        pass

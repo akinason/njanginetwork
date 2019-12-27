@@ -16,16 +16,19 @@ def create_beneficiaries(remuneration_id):
         if level_data > 0:
             amount = remuneration.allocated_amount * levels_data[index]
             levels_involved_and_amount.append([index + 1, amount])
-    remuneration = remuneration
+
     beneficiary_list = []
 
     for beneficiary_level in levels_involved_and_amount:
+        beneficiary_count = UserModel().objects.filter(
+            level=beneficiary_level[0]).count()
+        share_per_person = round(beneficiary_level[1] / beneficiary_count, 0)
         beneficiary = UserModel().objects.filter(
             level=beneficiary_level[0])
 
-        # arrangement... [beneficiary, level, amount]
+        # arrangement... [beneficiary, level, share_per_person]
         beneficiary_list.append(
-            [beneficiary, beneficiary_level[0], beneficiary_level[-1]])
+            [beneficiary, beneficiary_level[0], share_per_person])
 
     # Reodering the beneficiary list in the format... [beneficiary, level, amount]
     ordered_beneficiary_list = []
