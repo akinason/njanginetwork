@@ -48,5 +48,8 @@ class Beneficiary(models.Model):
     payment_date = models.DateTimeField(
         _("payment_date"), blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = 'Beneficiaries'
+
     def __str__(self):
         return f"Beneficiary({self.user.username}-{self.amount}-{self.is_paid})"

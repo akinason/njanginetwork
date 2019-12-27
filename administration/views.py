@@ -131,19 +131,46 @@ class RemunerationCreate(AdminPermissionRequiredMixin, generic.CreateView):
     model = Remuneration
     form_class = RemunerationForm
     template_name = "remuneration/renumeration_create.html"
+    beneficiary_list = []
 
     def get_success_url(self):
+        # for beneficiary in self.beneficiary_list:
+        new_beneficiary = Beneficiary.objects.create(
+            remuneration=Remuneration.objects.get(id=1), user=self.beneficiary_list[0][0], amount=100, user_level=4)
         return reverse('administration:remuneration_list')
 
     def form_valid(self, form):
-        request = self.request
         allocated_amount = form.cleaned_data['allocated_amount']
-        level_1 = form.cleaned_data['level_1']
-        level_2 = form.cleaned_data['level_2']
-        level_3 = form.cleaned_data['level_3']
-        level_4 = form.cleaned_data['level_4']
-        level_5 = form.cleaned_data['level_5']
-        level_6 = form.cleaned_data['level_6']
+        levels_involved_amount = []
+
+        levels_data = [form.cleaned_data['level_1'],
+                       form.cleaned_data['level_2'], form.cleaned_data['level_3'], form.cleaned_data['level_4'], form.cleaned_data['level_5'], form.cleaned_data['level_6']]
+
+        for index, level_data in enumerate(levels_data):
+            if level_data > 0:
+                amount = allocated_amount * levels_data[index]
+                levels_involved_amount.append([index + 1, amount])
+
+        beneficiary_list = []
+
+        for beneficiary_level in levels_involved_amount:
+            beneficiary = UserModel().objects.filter(
+                level=beneficiary_level[0])
+
+            # arrangement... [beneficiary, level, amount]
+            beneficiary_list.append(
+                [beneficiary, beneficiary_level[0], beneficiary_level[-1]])
+
+        # Reodering the beneficiary list in the format... [beneficiary, level, amount]
+        ordered_beneficiary_list = []
+
+        for beneficiary in beneficiary_list:
+            for beneficiaries in beneficiary[0]:
+                ordered_beneficiary_list.append(
+                    [beneficiaries, beneficiary[1], beneficiary[-1]])
+
+        # this is a testing phase
+        self.beneficiary_list = ordered_beneficiary_list
 
         return super(RemunerationCreate, self).form_valid(form)
 
@@ -158,12 +185,7 @@ class RemunerationUpdate(AdminPermissionRequiredMixin, generic.UpdateView):
 
     def get_object(self, *args, **kwargs):
         remuneration_id = self.kwargs.get('remuneration_id')
-
-        try:
-            remuneration = Remuneration.objects.get(id=remuneration_id)
-        except Remuneration.DoesNotExist:
-            raise Http404("Remuneration not found")
-
+        remuneration = get_object_or_404(Remuneration, pk=remuneration_id)
         return remuneration
 
     def get_success_url(self):
@@ -184,12 +206,6 @@ class BeneficiaryList(AdminPermissionRequiredMixin, generic.ListView):
             remuneration__id=remuneration_id)
         print(beneficiaries)
         return beneficiaries
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(BeneficiaryList, self).get_context_data(
-            *args, **kwargs)
-        print(context)
-        return context
 
 
 beneficiary_list = BeneficiaryList.as_view()
