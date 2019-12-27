@@ -100,7 +100,6 @@ $my_form.on("submit", e => {
 // controlling the feedback form gift open and close on viewpoint 450px
 var close_form = document.getElementById("close");
 var open_form = document.getElementById("form_close");
-console.log(close);
 close_form.addEventListener('click', e => {
     console.log("close");
     $form_container.fadeOut();

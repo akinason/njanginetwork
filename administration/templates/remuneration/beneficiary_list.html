@@ -1,0 +1,19 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="beneficiary_list">
+    <br>
+    <br>
+    {% for beneficiary in beneficiaries  %}
+    <div>
+        <p>{{ beneficiary.amount }}</p>
+        <p>{{ beneficiary.status }}</p>
+        <p>{{ beneficiary.remuneration.purpose }}</p>
+    </div> <br>
+    {% endfor %}
+</div>
+
+{% endblock %}

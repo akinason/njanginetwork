@@ -1,1 +1,22 @@
 {% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="remuneration_list">
+    <a href="{% url 'administration:remuneration_create' %}">New Remuneration</a>
+    <br>
+    <br>
+    {% for remuneration in remunerations  %}
+    <div>
+        <a
+            href="{% url 'administration:beneficiary_list' remuneration_id=remuneration.id %}">{{ remuneration.purpose }}</a>
+        <p>{{ remuneration.allocated_amount }}</p>
+        <p>{{ remuneration.status }}</p>
+        <a href="{% url 'administration:remuneration_update' remuneration_id=remuneration.id %}">Edit</a>
+    </div> <br>
+    {% endfor %}
+</div>
+
+{% endblock %}
