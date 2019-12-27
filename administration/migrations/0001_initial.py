@@ -15,48 +15,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Beneficiary',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='amount')),
-                ('user_level', models.IntegerField(verbose_name='user_level')),
-                ('is_paid', models.BooleanField(default=False, verbose_name='is_paid')),
-                ('payment_date', models.DateTimeField(blank=True, null=True, verbose_name='payment_date')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Remuneration',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('allocated_amount', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='allocated_amount')),
-                ('level_1', models.DecimalField(decimal_places=2, max_digits=3, verbose_name='level_1')),
-                ('level_2', models.DecimalField(decimal_places=2, max_digits=3, verbose_name='level_2')),
-                ('level_3', models.DecimalField(decimal_places=2, max_digits=3, verbose_name='level_3')),
-                ('level_4', models.DecimalField(decimal_places=2, max_digits=3, verbose_name='level_4')),
-                ('level_5', models.DecimalField(decimal_places=2, max_digits=3, verbose_name='level_5')),
-                ('level_6', models.DecimalField(decimal_places=2, max_digits=3, verbose_name='level_6')),
-                ('purpose', models.CharField(max_length=200, verbose_name='purpose')),
-                ('is_paid', models.BooleanField(default=False, verbose_name='is_paid')),
-                ('status', models.CharField(choices=[('DRAFT', 'DRAFT'), ('GENERATED', 'GENERATED'), ('PAID', 'PAID'), ('PARTIALLY_PAID', 'PARTIALLY_PAID')], default='DRAFT', max_length=20, verbose_name='status')),
-            ],
-        ),
-        migrations.CreateModel(
             name='SiteInformation',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('allow_withdrawal', models.BooleanField(default=True)),
                 ('allow_deposit', models.BooleanField(default=True)),
                 ('is_default', models.BooleanField(default=False)),
             ],
         ),
-        migrations.AddField(
-            model_name='beneficiary',
-            name='remuneration',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='administration.Remuneration'),
-        ),
-        migrations.AddField(
-            model_name='beneficiary',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
+
     ]

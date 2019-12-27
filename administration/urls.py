@@ -19,5 +19,6 @@ urlpatterns = [
         remuneration_update, name="remuneration_update"),
     url(r"^remuneration/(?P<remuneration_id>[0-9]+)/beneficiary_list/$",
         beneficiary_list, name="beneficiary_list"),
-    # url(r"^remuneration/(?P<remuneration_id>[0-9]+)/transfer_funds/$", name="remuneration_funds_transfer"),
+    url(r"^remuneration/(?P<remuneration_id>[0-9]+)/transfer_funds/$",
+        name="remuneration_funds_transfer"),
 ]

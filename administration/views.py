@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model as UserModel
 from main.mixins import AdminPermissionRequiredMixin
 from marketplace.models import MarketManager
 from purse.models import WalletManager
-from administration.models import Remuneration, Beneficiary
+from administration.models import Remuneration, Beneficiary, remuneration_status
 from administration.forms import RemunerationForm
 from administration import task
 
@@ -158,9 +158,18 @@ class RemunerationUpdate(AdminPermissionRequiredMixin, generic.UpdateView):
         return reverse('administration:remuneration_list')
 
     def form_valid(self, form):
-        # assigning background task for creating beneficiaries...
-        remuneration = form.save(commit=True)
-        task.create_beneficiaries.delay(remuneration.id)
+        # deleting all the old beneficiaries related to this remuneration
+        remuneration_id = self.kwargs.get('remuneration_id')
+        remuneration = get_object_or_404(Remuneration, pk=remuneration_id)
+
+        if remuneration == remuneration_status.draft() or remuneration == remuneration_status.generated():
+            old_beneficiaries = Beneficiary.objects.filter(
+                remuneration=remuneration)
+            old_beneficiaries.delete()
+
+            # assigning background task for creating beneficiaries...
+            remuneration = form.save(commit=True)
+            task.create_beneficiaries.delay(remuneration.id)
 
         return super(RemunerationUpdate, self).form_valid(form)
 

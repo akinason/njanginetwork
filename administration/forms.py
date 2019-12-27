@@ -5,18 +5,9 @@ from administration import models
 class RemunerationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['level_1'] = forms.DecimalField(initial=0.00,
-                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
-        self.fields['level_2'] = forms.DecimalField(initial=0.00,
-                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
-        self.fields['level_3'] = forms.DecimalField(initial=0.00,
-                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
-        self.fields['level_4'] = forms.DecimalField(initial=0.00,
-                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
-        self.fields['level_5'] = forms.DecimalField(initial=0.00,
-                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
-        self.fields['level_6'] = forms.DecimalField(initial=0.00,
-                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
+        for level in range(6):
+            self.fields[f'level_{level + 1}'] = forms.DecimalField(initial=0.00,
+                                                                   widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
 
     class Meta:
         model = models.Remuneration

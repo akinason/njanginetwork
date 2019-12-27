@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model as UserModel
 
 from njanginetwork.celery import app as celery_app
-from .models import Beneficiary, Remuneration
+from .models import Beneficiary, Remuneration, remuneration_status
 
 # generating the beneficiary list on a backgroud task from a "remuneration create form"
 @celery_app.task
@@ -43,7 +43,7 @@ def create_beneficiaries(remuneration_id):
     print("DONE CREATING THE BENEFICIARIES")
 
     # changing remuneration status to "GENERATED"
-    remuneration.status = 'GENERATED'
+    remuneration.status = remuneration_status.generated()
     remuneration.save()
 
     return {"status": True}

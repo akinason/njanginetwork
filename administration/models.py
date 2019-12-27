@@ -11,12 +11,36 @@ class SiteInformation(models.Model):
     is_default = models.BooleanField(default=False)
 
 
-RENUMERATION_STATUS = (
+REMUNERATION_STATUS = (
     ('DRAFT', _('DRAFT')),
     ('GENERATED', _('GENERATED')),
     ('PAID', _('PAID')),
     ('PARTIALLY_PAID', _('PARTIALLY_PAID'))
 )
+
+
+class RemunerationStatus:
+
+    def __init__(self):
+        self._draft = 'DRAFT'
+        self._generated = 'GENERATED'
+        self._paid = 'PAID'
+        self._partially_paid = 'PARTIALLY_PAID'
+
+    def draft(self):
+        return self._draft
+
+    def generated(self):
+        return self._generated
+
+    def paid(self):
+        return self._paid
+
+    def partially_paid(self):
+        return self._partially_paid
+
+
+remuneration_status = RemunerationStatus()
 
 # Remuneration Models
 
@@ -30,10 +54,12 @@ class Remuneration(models.Model):
     level_4 = models.DecimalField(_("level_4"), decimal_places=2, max_digits=3)
     level_5 = models.DecimalField(_("level_5"), decimal_places=2, max_digits=3)
     level_6 = models.DecimalField(_("level_6"), decimal_places=2, max_digits=3)
+    title = models.CharField(_('title'), max_length=25)
+    source_account = models.ForeignKey(UserModel(), on_delete=models.CASCADE)
     purpose = models.CharField(_("purpose"), max_length=200)
     is_paid = models.BooleanField(_("is_paid"), default=False)
     status = models.CharField(_("status"), max_length=20,
-                              choices=RENUMERATION_STATUS, default=RENUMERATION_STATUS[0][0])
+                              choices=REMUNERATION_STATUS, default=REMUNERATION_STATUS[0][0])
 
     created_on = models.DateTimeField(_('creation date'), auto_now_add=True)
 
@@ -49,6 +75,8 @@ class Beneficiary(models.Model):
     is_paid = models.BooleanField(_("is_paid"), default=False)
     payment_date = models.DateTimeField(
         _("payment_date"), blank=True, null=True)
+
+    created_on = models.DateTimeField(_('creation date'), auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Beneficiaries'
