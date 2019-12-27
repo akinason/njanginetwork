@@ -112,15 +112,6 @@ class UserTransactionListView(AdminPermissionRequiredMixin, generic.ListView):
 
 # Remuneration views
 
-# @app.task
-# def create_beneficiary_list(users, remuneration_id, *args, **kwargs):
-#     for user in users:
-#         try:
-#             renumeration = Remuneration.objects.
-#         renumeration = Remuneration.
-#         new_beneficiary = Beneficiary()
-
-
 class RemunerationList(AdminPermissionRequiredMixin, generic.TemplateView):
     model = Remuneration
     queryset = Remuneration.objects.all()
@@ -146,8 +137,14 @@ class RemunerationCreate(AdminPermissionRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         request = self.request
-        print(form.cleaned_data)
-        # form.save(commit=True)
+        allocated_amount = form.cleaned_data['allocated_amount']
+        level_1 = form.cleaned_data['level_1']
+        level_2 = form.cleaned_data['level_2']
+        level_3 = form.cleaned_data['level_3']
+        level_4 = form.cleaned_data['level_4']
+        level_5 = form.cleaned_data['level_5']
+        level_6 = form.cleaned_data['level_6']
+
         return super(RemunerationCreate, self).form_valid(form)
 
 
