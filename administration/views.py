@@ -1,14 +1,14 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import Http404
-from django.views import generic
 from django.contrib.auth import get_user_model as UserModel
+from django.http import Http404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.views import generic
 
-from main.mixins import AdminPermissionRequiredMixin
-from marketplace.models import MarketManager
-from purse.models import WalletManager
 from administration.models import Remuneration, Beneficiary, remuneration_status
 from administration.forms import RemunerationForm
 from administration import task
+from main.mixins import AdminPermissionRequiredMixin
+from marketplace.models import MarketManager
+from purse.models import WalletManager
 
 wallet_manager = WalletManager()
 market_manager = MarketManager()
@@ -162,7 +162,7 @@ class RemunerationUpdate(AdminPermissionRequiredMixin, generic.UpdateView):
         remuneration_id = self.kwargs.get('remuneration_id')
         remuneration = get_object_or_404(Remuneration, pk=remuneration_id)
 
-        if remuneration == remuneration_status.draft() or remuneration == remuneration_status.generated():
+        if remuneration != remuneration_status.paid() or remuneration != remuneration_status.partially_paid():
             old_beneficiaries = Beneficiary.objects.filter(
                 remuneration=remuneration)
             old_beneficiaries.delete()

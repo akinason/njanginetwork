@@ -1,5 +1,9 @@
-from django.shortcuts import get_object_or_404
+
+from decimal import Decimal as D
+import math
+
 from django.contrib.auth import get_user_model as UserModel
+from django.shortcuts import get_object_or_404
 
 from njanginetwork.celery import app as celery_app
 from .models import Beneficiary, Remuneration, remuneration_status
@@ -14,7 +18,7 @@ def create_beneficiaries(remuneration_id):
 
     for index, level_data in enumerate(levels_data):
         if level_data > 0:
-            amount = remuneration.allocated_amount * levels_data[index]
+            amount = remuneration.allocated_amount * D(levels_data[index])
             levels_involved_and_amount.append([index + 1, amount])
 
     beneficiary_list = []
@@ -22,7 +26,7 @@ def create_beneficiaries(remuneration_id):
     for beneficiary_level in levels_involved_and_amount:
         beneficiary_count = UserModel().objects.filter(
             level=beneficiary_level[0]).count()
-        share_per_person = round(beneficiary_level[1] / beneficiary_count, 0)
+        share_per_person = math.floor(beneficiary_level[1] / beneficiary_count)
         beneficiary = UserModel().objects.filter(
             level=beneficiary_level[0])
 
@@ -39,6 +43,7 @@ def create_beneficiaries(remuneration_id):
                 [beneficiaries, beneficiary[1], beneficiary[-1]])
 
     print("CREATING THE LIST BENEFICIARIES")
+
     for beneficiary in ordered_beneficiary_list:
         new_beneficiairy = Beneficiary.objects.create(
             remuneration=remuneration, user=beneficiary[0], amount=beneficiary[-1], user_level=beneficiary[1])
