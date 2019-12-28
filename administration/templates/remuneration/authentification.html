@@ -1,0 +1,25 @@
+{% extends 'base_dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="beneficiary_list">
+    {% if remuneration.status != remuneration_status.paid or remuneration.status != remuneration_status.partially_paid %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <!-- transfering funds -->
+        <form method="post" action="">
+            {% csrf_token %}
+            <input type="hidden" name="remuneration_id" value="{{ remuneration.id }}">
+            <label for="id_password">password</label>
+            <input type="password" name='password' id="id_password">
+            <button type="submit">Confirm Payment</button>
+            <a href="{% url 'administration:beneficiary_list' remuneration_id=remuneration.id %}"></a>
+        </form>
+
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model as UserModel
 from django.http import Http404
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views import generic
+from django.contrib.auth import authenticate
+from django.contrib import messages
 
 from administration.models import Remuneration, Beneficiary, remuneration_status
 from administration.forms import RemunerationForm
@@ -9,6 +11,8 @@ from administration import task
 from main.mixins import AdminPermissionRequiredMixin
 from marketplace.models import MarketManager
 from purse.models import WalletManager
+from administration.service import pay_remunerations
+
 
 wallet_manager = WalletManager()
 market_manager = MarketManager()
@@ -111,16 +115,11 @@ class UserTransactionListView(AdminPermissionRequiredMixin, generic.ListView):
 
 
 # Remuneration views
-class RemunerationList(AdminPermissionRequiredMixin, generic.TemplateView):
+class RemunerationList(AdminPermissionRequiredMixin, generic.ListView):
     model = Remuneration
     queryset = Remuneration.objects.all()
     template_name = "remuneration/index.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['remunerations'] = self.queryset
-        return context
-
+    context_object_name = 'remunerations'
 
 remuneration_list = RemunerationList.as_view()
 
@@ -193,7 +192,41 @@ class BeneficiaryList(AdminPermissionRequiredMixin, generic.ListView):
         remuneration = get_object_or_404(
             Remuneration, pk=self.kwargs.get('remuneration_id'))
         context['remuneration'] = remuneration
+        context['remuneration_status'] = remuneration_status
+        return context
+    
+
+beneficiary_list = BeneficiaryList.as_view()
+
+
+class TransferFundsConfirmView(AdminPermissionRequiredMixin, generic.View):
+    template_name = 'remuneration/authentification.html'
+    
+    def get(self, request, *args, **kwargs):
+        request = self.request
+        context = self.get_context_object(*args, **kwargs)
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        remuneration_id = request.POST['remuneration_id']
+        user = authenticate(username=request.user.username, password=request.POST['password'])
+        
+        if not user or user != request.user:
+            messages.add_message(request=request, level=messages.INFO, message="Sorry, you are not allowed to perform this operation")
+            return redirect('administration:remuneration_funds_transfer_confirmation', remuneration_id=remuneration_id)
+        
+        else:
+            pay_remunerations(remuneration_id)
+            messages.add_message(request=request, level=messages.INFO, message="Remuneration is being processsed")
+            return redirect('administration:remuneration_list')
+    
+    def get_context_object(self, *args, **kwargs):
+        context = {}
+        remuneration = get_object_or_404(
+            Remuneration, pk=self.kwargs.get('remuneration_id'))
+        context['remuneration'] = remuneration
+        context['remuneration_status'] = remuneration_status
         return context
 
 
-beneficiary_list = BeneficiaryList.as_view()
+transfer_funds_confirm = TransferFundsConfirmView.as_view()

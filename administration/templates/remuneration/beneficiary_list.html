@@ -5,20 +5,20 @@
 {% block content %}
 
 <div class="beneficiary_list">
-    {% if remuneration.status != 'PAID' %}
-    <a href="#">Generate List</a>
-    {% endif %}
-    <br>
-    <br>
-    {% for beneficiary in beneficiaries  %}
-    <div>
-        <p>{{ beneficiary.amount }}</p>
-        <p>{{ beneficiary.status }}</p>
-        <p>{{ beneficiary.remuneration.purpose }}</p>
-    </div> <br>
-    {% endfor %}
+    {% if remuneration.status != remuneration_status.paid or remuneration.status != remuneration_status.partially_paid %}
 
-    {% include 'remuneration/transfer_funds.html' %}
+        {% for beneficiary in beneficiaries  %}
+        <div>
+            <p>{{ beneficiary.amount }}</p>
+            <p>{{ beneficiary.status }}</p>
+            <p>{{ beneficiary.remuneration.purpose }}</p>
+        </div> <br>
+        {% endfor %}
+
+        <!-- transfering funds confirmation -->
+        <a href="{% url 'administration:remuneration_funds_transfer_confirmation' remuneration_id=remuneration.id %}">Transfer Funds</a>
+
+    {% endif %}
 </div>
 
 {% endblock %}

@@ -1,6 +1,6 @@
 from njanginetwork import celery_app as app
 
-from administration.models import Beneficiary, Remuneration
+from administration.models import Beneficiary, Remuneration, remuneration_status
 from mailer.services import send_sms, send_email
 from main.notification import NotificationManager
 from main.core import TransactionStatus, NSP
@@ -68,12 +68,20 @@ def pay_remunerations(remuneration_id):
         return {'status': trans_status.failed(), 'message': res['message']}
 
     """Multi Threading will be used here."""
+    # change remuneration status to PARTIALLY_PAID
+    remuneration.status = remuneration_status.partially_paid()
+    remuneration.save()
+    
     beneficiary_list = []
     for beneficiary in beneficiaries:
         if not beneficiary.is_paid and beneficiary.amount > 0:
             _beneficiary = _pay_remuneration(beneficiary, title)
             beneficiary_list.append(_beneficiary)
-
+    
+    # change remuneration status to PAID
+    remuneration.status = remuneration_status.paid()
+    remuneration.save()
+    
     return {'status': trans_status.success(), 'message': 'Operation Successful', 'beneficiaries': beneficiary_list}
 
 

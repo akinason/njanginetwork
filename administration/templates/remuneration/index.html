@@ -4,6 +4,13 @@
 
 {% block content %}
 
+
+{% for message in messages %}
+    <p>{{ message }}</p>
+{% endfor %}
+
+<br>
+
 <div class="remuneration_list">
     <a href="{% url 'administration:remuneration_create' %}">New Remuneration</a>
     <br>
