@@ -64,7 +64,8 @@ class Remuneration(models.Model):
     created_on = models.DateTimeField(_('creation date'), auto_now_add=True)
 
     def __str__(self):
-        return f"Remuneration({self.allocated_amount}-{self.is_paid}-{self.status})"
+        # return f"Remuneration({self.allocated_amount}-{self.is_paid}-{self.status})"
+        return self.title
 
 
 class Beneficiary(models.Model):
@@ -82,4 +83,5 @@ class Beneficiary(models.Model):
         verbose_name_plural = 'Beneficiaries'
 
     def __str__(self):
-        return f"Beneficiary({self.user.username}-{self.amount}-{self.is_paid})"
+        # return f"Beneficiary({self.user.username}-{self.amount}-{self.is_paid})"
+        return self.user.username

@@ -37,7 +37,8 @@ class Question(models.Model):
     response_type = models.IntegerField(choices=RESPONSE_TYPE)
 
     def __str__(self):
-        return f"Question({self.title}-{self.response_type})"
+        # return f"Question({self.title}-{self.response_type})"
+        return self.title
 
 
 class Response(models.Model):
@@ -49,4 +50,5 @@ class Response(models.Model):
     response_date = models.DateTimeField(verbose_name=_('Response Date'))
 
     def __str__(self):
-        return f"Response({self.response}-user({self.user_id})-{self.response_date})"
+        # return f"Response({self.response}-user({self.user_id})-{self.response_date})"
+        return self.response
