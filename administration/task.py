@@ -24,11 +24,9 @@ def create_beneficiaries(remuneration_id):
     beneficiary_list = []
 
     for beneficiary_level in levels_involved_and_amount:
-        beneficiary_count = UserModel().objects.filter(
-            level=beneficiary_level[0]).count()
+        beneficiary_count = UserModel().objects.filter(is_admin=False, level=beneficiary_level[0]).count()
         share_per_person = math.floor(beneficiary_level[1] / beneficiary_count)
-        beneficiary = UserModel().objects.filter(
-            level=beneficiary_level[0])
+        beneficiary = UserModel().objects.filter(is_admin=False, level=beneficiary_level[0])
 
         # arrangement... [beneficiary, level, share_per_person]
         beneficiary_list.append(
