@@ -59,7 +59,7 @@ def pay_remunerations(remuneration_id):
         }
 
     """Payout the money from the source_account """
-    description = f"{title}  sent to {beneficiaries.count()} users."
+    description = "{title}  sent to {count} users.".format(title=title, count=beneficiaries.count())
     res = wallet_manager.pay(
         user=source_account, amount=allocated_amount, nsp=nsp.mtn_wallet(),
         description=description
