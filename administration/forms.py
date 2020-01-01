@@ -7,7 +7,8 @@ class RemunerationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for level in range(6):
-            self.fields[f'level_{level + 1}'] = forms.DecimalField(initial=0.00,
+            _level = 'level_%s'.format(level)
+            self.fields[_level] = forms.DecimalField(initial=0.00,
                                                                    widget=forms.NumberInput(attrs={'max': 1, 'min': 0, 'step': 0.01}))
 
     class Meta:
