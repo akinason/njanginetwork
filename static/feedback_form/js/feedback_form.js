@@ -2,69 +2,188 @@ var form_main_container = document.getElementById('feedback_container');
 var $form_container = $('.feedback_form');
 var $my_form = $("#feedback_form");
 var values = [];
+var checkbox_data = {
+    question_id: null,
+    response: [],
+    multiple: true
+};
 
 $.ajax({
     type: "GET",
     url: "/feedback/",
     data: {
         user_id: $("#user_id").val(),
-        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-        action: "get"
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
     },
-    success: (json) => {
+    success: (data) => {
         console.log("success");
-        console.log(json);
+        console.log(data);
 
-        // loading html with data
-        json.question.forEach((question) => {
-            var question_container = document.createElement('div');
-            var question_html = document.createElement('textarea');
-            var question_label = document.createElement('label');
-            var name = 'question_id_' + question.id;
+        if (data.status === false) {
+            console.log("User have not yet submitted");
 
-            question_container.setAttribute('class', 'form_input');
-            question_label.innerHTML = question.title;
-            question_html.setAttribute('name', name);
-            question_html.setAttribute('id', question.id);
-            question_html.setAttribute('maxlength', "300");
+            // loading html with data
+            data.question.forEach((question) => {
+                var question_container = document.createElement('div');
+                var question_label = document.createElement('label');
 
-            question_container.appendChild(question_label);
-            question_container.appendChild(question_html);
+                question_container.setAttribute('class', 'form_input');
+                question_label.innerHTML = question.title;
+                question_container.appendChild(question_label);
 
-            // appending created html to form
-            document.getElementById("feedback_form").appendChild(question_container);
-        });
+                switch (question.data_type) {
+                    case 'TEXT':
+                        var question_html = document.createElement('input');
+                        question_html.setAttribute('type', 'text');
+                        question_html.setAttribute('maxlength', "300");
+                        question_html.setAttribute('class', "input_text");
+                        break;
+                    case 'TEXTAREA':
+                        var question_html = document.createElement('textarea');
+                        question_html.setAttribute('maxlength', "300");
+                        question_html.setAttribute('class', "input_textarea");
+                        break;
+                    case 'OPTION':
+                        if (question.multiple === false) {
+                            var question_html = document.createElement('select');
+                            question_html.setAttribute('class', "input_select");
+                            question_html.setAttribute('required', 'required');
+                            var default_option = document.createElement('option');
+                            default_option.innerHTML = "Select an option"
+                            question_html.appendChild(default_option);
+                            question.option_list.forEach(option => {
+                                var option_html = document.createElement('option')
+                                option_html.setAttribute('value', option)
+                                option_html.innerHTML = option;
+                                question_html.appendChild(option_html);
+                            });
+                        } else if (question.multiple === true) {
+                            var multiple_option = "IS_SET";
+                            question.option_list.forEach((option, index) => {
+                                var question_html = document.createElement('input');
+                                question_html.setAttribute('type', 'checkbox');
+                                var option_label = document.createElement('label');
+                                option_label.innerHTML = option;
 
-        // creating submit button
-        var btn = document.createElement('button');
-        btn.setAttribute('type', 'submit');
-        btn.innerHTML = "Submit";
+                                question_html.setAttribute('name', `question_id_${question.id}`);
+                                question_html.setAttribute('value', option);
+                                question_html.setAttribute('class', "input_checkbox");
+                                question_html.setAttribute('id', `${question.id}__${index}`);
 
-        // appending created html to form
-        document.getElementById("feedback_title").innerHTML = json[Object.keys(json)[Object.keys(json).length - 1]][0];
-        document.getElementById("feedback_note").innerHTML = json[Object.keys(json)[Object.keys(json).length - 1]][1];
-        document.getElementById("feedback_form").appendChild(btn);
+                                question_container.appendChild(question_html);
+                                question_container.appendChild(option_label);
+                            })
+                        }
 
-        $form_container.addClass("js_create");
+                }
 
-        var textareas = document.querySelectorAll("#feedback_form textarea");
+                if (typeof multiple_option == 'undefined') {
+                    question_html.setAttribute('name', `question_id_${question.id}`);
+                    question_html.setAttribute('id', question.id);
+                    question_html.setAttribute('required', 'required');
 
-        textareas.forEach((text) => {
-            text.addEventListener("change", (e) => {
-                var data = {
-                    question_id: e.target.getAttribute("id"),
-                    response: e.target.value
-                };
-                values.push(data);
+                    question_container.appendChild(question_html);
+                }
+
+                // appending created html to form
+                document.getElementById("feedback_form").appendChild(question_container);
             });
-        });
 
-        document.querySelector(".feedback_form").style.display = "block";
+            // creating submit button
+            var btn = document.createElement('button');
+            btn.setAttribute('type', 'submit');
+            btn.innerHTML = "Submit";
+            document.getElementById("feedback_form").appendChild(btn);
 
-        // adding the textarea height of the last element of the feedback form
-        var last_textarea_div = document.querySelectorAll("#feedback_form .form_input");
-        var last_textarea = last_textarea_div[Object.keys(last_textarea_div)[Object.keys(last_textarea_div).length - 1]];
-        last_textarea.querySelector('textarea').style.height = "150px";
+            // adding event listeners to all element
+            var input_text = document.querySelectorAll("#feedback_form input[type='text']");
+            var input_checkbox = document.querySelectorAll("#feedback_form input[type='checkbox']");
+            var input_select = document.querySelectorAll("#feedback_form select");
+            var input_textareas = document.querySelectorAll("#feedback_form textarea");
+            var data = {}
+
+            input_text.forEach(input => {
+                input.addEventListener('change', e => {
+                    data = {
+                        question_id: e.target.getAttribute("id"),
+                        response: e.target.value,
+                        multiple: false
+                    };
+                    values.push(data);
+                })
+            });
+
+            document.querySelector('#feedback_form').addEventListener('click', e => {
+                if (e.target.type == 'checkbox') {
+                    if (e.target.hasAttribute('checked')) {
+                        e.target.removeAttribute('checked');
+
+                        values.forEach(value => {
+                            if (value.question_id == e.target.getAttribute('id').split("__")[0]) {
+                                value.response = value.response.filter(val => {
+                                    return val !== e.target.value
+                                })
+                            }
+                        })
+
+                    } else {
+                        e.target.setAttribute('checked', 'checked')
+                        checkbox_data.question_id = e.target.getAttribute("id").split("__")[0];
+
+                        checkbox_data.response.push(e.target.value);
+
+                        let exists = false
+                        values.forEach(value => {
+                            if (value.question_id == e.target.getAttribute('id').split("__")[0]) {
+                                if (!value.response.includes(e.target.value)) {
+                                    value.response.push(e.target.value);
+                                }
+                                exists = true;
+                            }
+                        })
+
+                        if (!exists) {
+                            values.push(checkbox_data);
+                        }
+                    }
+                }
+            })
+
+            input_select.forEach(select => {
+                select.addEventListener('change', e => {
+                    data = {
+                        question_id: e.target.getAttribute("id"),
+                        response: e.target.value,
+                        multiple: false
+                    };
+                    values.push(data);
+                })
+            })
+
+
+            input_textareas.forEach(text => {
+                text.addEventListener("change", (e) => {
+                    data = {
+                        question_id: e.target.getAttribute("id"),
+                        response: e.target.value,
+                        multiple: false
+                    };
+                    values.push(data);
+                });
+            });
+
+            document.querySelector(".feedback_form").style.display = "block";
+
+            // adding the textarea height of the last element of the feedback form
+            var last_textarea_div = document.querySelectorAll("#feedback_form .form_input");
+            var last_textarea = last_textarea_div[Object.keys(last_textarea_div)[Object.keys(last_textarea_div).length - 1]];
+            last_textarea.querySelector('textarea').style.height = "150px";
+
+        } else {
+            console.log("User have submitted");
+            form_main_container.style.display = 'none';
+        }
+
     },
     error: (xhr, errmsg, err) => {
         console.log("error");
@@ -74,28 +193,36 @@ $.ajax({
 
 $my_form.on("submit", e => {
     e.preventDefault();
+
     $.ajax({
         type: "POST",
         url: "/feedback/",
         data: {
             user_id: $("#user_id").val(),
             response: JSON.stringify(values),
-            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-            action: "post"
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
         },
         success: (json) => {
             console.log("success");
             console.log(json);
             values = [];
-            document.getElementById("feedback_form").reset();
         },
         error: (xhr, errmsg, err) => {
             console.log("error");
             console.log(xhr.status + ": " + xhr.responseText);
             values = [];
-            document.getElementById("feedback_form").reset();
         }
     });
+    e.target.reset();
+    e.target.querySelectorAll("#feedback_form input[type='checkbox']").forEach(check => {
+        if (check.hasAttribute('checked')) {
+            check.removeAttribute('checked');
+        }
+    });
+    form_main_container.style.display = 'none';
+
+    // invoke sweet alert
+    formApproved();
 });
 
 // controlling the feedback form gift open and close on viewpoint 450px
@@ -143,3 +270,14 @@ window.addEventListener('resize', e => {
         open_form.classList.remove('hide');
     }
 });
+
+
+// sweet alert js
+const formApproved = () => {
+    swal({
+        text: "Thanks for your collabouration",
+        icon: "success",
+        button: false,
+        timer: 3000
+    })
+}

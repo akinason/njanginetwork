@@ -6,3 +6,4 @@ from . import models
 admin.site.register(models.Feedback)
 admin.site.register(models.Question)
 admin.site.register(models.Response)
+admin.site.register(models.QuestionOptionTable)

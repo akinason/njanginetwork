@@ -5,11 +5,10 @@ from django.utils import timezone
 from tinymce.models import HTMLField
 
 
-RESPONSE_TYPE = (
-    (1, _('Yes or No')),
-    (2, _('Textfield')),
-    (3, _('Single Checkbox Select')),
-    (4, _('Multiple Checkbox Select'))
+DATA_TYPE = (
+    ('OPTION', _('OPTION')),
+    ('TEXT', _('TEXT')),
+    ('TEXTAREA', _('TEXTAREA'))
 )
 
 
@@ -29,15 +28,25 @@ class Feedback(models.Model):
         return self.title
 
 
+class QuestionOptionTable(models.Model):
+    value = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.value
+
+
 class Question(models.Model):
     feedback_id = models.ForeignKey(
         Feedback, on_delete=models.CASCADE, verbose_name=_('Feedback ID'))
     title = models.CharField(max_length=200, verbose_name=_('Question'))
     order = models.IntegerField(verbose_name=_('order'))
-    response_type = models.IntegerField(choices=RESPONSE_TYPE)
+    data_type = models.CharField(max_length=20, choices=DATA_TYPE)
+    option_list = models.ManyToManyField(
+        QuestionOptionTable, blank=True)
+    multiple = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Question({self.title}-{self.response_type})"
+        return f"Question({self.title}-{self.order})"
 
 
 class Response(models.Model):
