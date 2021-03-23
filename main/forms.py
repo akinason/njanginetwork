@@ -36,7 +36,7 @@ class SignupForm(forms.ModelForm):
         help_text=_('* min 8'), min_length=8
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
+    # captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def __init__(self, *args, **kwargs):
         self.sponsor = kwargs.pop("sponsor")
