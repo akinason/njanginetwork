@@ -72,7 +72,7 @@ TEMPLATES = [
                 'njangi.context_processors.njangi_context_processors',
                 'main.context_processors.main_context_processors',
                 'django.template.context_processors.media',
-                'feedback.context_processor.post_feedback_response',
+                # 'feedback.context_processor.post_feedback_response',
             ],
         },
     },
